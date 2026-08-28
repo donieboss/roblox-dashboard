@@ -5,124 +5,167 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rich Server Detector</title>
+<title>Blox Fruits • Rich Server Finder</title>
 
 <style>
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-    background:
-        radial-gradient(circle at top, #12351f 0%, #090b0a 45%);
-    color: white;
     min-height: 100vh;
+    color: white;
+    background:
+        radial-gradient(circle at 50% -10%, #164d2c 0%, transparent 40%),
+        #070908;
 }
+
+/* HEADER */
 
 .header {
     text-align: center;
-    padding: 35px 15px 20px;
+    padding: 45px 15px 25px;
 }
 
-.header h1 {
-    font-size: 32px;
+.logo {
+    font-size: 42px;
     font-weight: 900;
+    letter-spacing: -2px;
 }
 
-.header p {
-    color: #8d9a91;
-    margin-top: 8px;
+.logo span {
+    color: #38e878;
 }
 
-.status {
-    width: fit-content;
-    margin: 18px auto;
-    padding: 8px 15px;
-    border-radius: 20px;
-    background: #102719;
-    border: 1px solid #1d5b32;
-    color: #6cff91;
-    font-size: 13px;
-    font-weight: bold;
-}
-
-.controls {
-    max-width: 900px;
-    margin: 0 auto 15px;
-    padding: 0 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-}
-
-.server-count {
-    color: #8d9a91;
+.subtitle {
+    color: #849089;
+    margin-top: 10px;
     font-size: 14px;
 }
 
+.live {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 18px;
+    padding: 8px 14px;
+    border-radius: 30px;
+    background: #0d2416;
+    border: 1px solid #1d6736;
+    color: #61ff91;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #39e875;
+    box-shadow: 0 0 10px #39e875;
+}
+
+/* CONTROLS */
+
+.controls {
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 0 15px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.count {
+    color: #87928b;
+    font-size: 13px;
+}
+
 .refresh {
-    background: #20c968;
-    color: #001b0b;
-    border: none;
-    padding: 10px 17px;
-    border-radius: 8px;
-    font-weight: 800;
+    border: 0;
+    border-radius: 9px;
+    padding: 11px 17px;
+    background: #2bdd6d;
+    color: #001609;
+    font-weight: 900;
     cursor: pointer;
+    transition: .2s;
 }
 
 .refresh:hover {
-    background: #38e47e;
+    transform: translateY(-2px);
+    background: #52ed89;
+    box-shadow: 0 8px 25px rgba(43,221,109,.2);
 }
 
+/* SERVER LIST */
+
 #serverList {
-    max-width: 900px;
+    max-width: 950px;
     margin: auto;
-    padding: 5px 15px 40px;
+    padding: 0 15px 50px;
 }
+
+/* CARD */
 
 .server {
     position: relative;
-    background: linear-gradient(
-        145deg,
-        #151b17,
-        #0e1210
-    );
+    overflow: hidden;
+    margin-bottom: 17px;
+    padding: 22px;
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(25,34,29,.98),
+            rgba(11,15,13,.98)
+        );
 
     border: 1px solid #26352c;
-    border-radius: 14px;
-    padding: 22px;
-    margin: 15px 0;
 
     box-shadow:
-        0 8px 30px rgba(0,0,0,.35);
+        0 12px 35px rgba(0,0,0,.35);
 
     transition: .2s;
 }
 
-.server:hover {
-    transform: translateY(-2px);
-    border-color: #2fd66d;
+.server::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: #35e875;
 }
 
-.rich {
-    border-color: #1f9d4e;
+.server:hover {
+    transform: translateY(-3px);
+    border-color: #35e875;
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.45),
+        0 0 25px rgba(53,232,117,.07);
 }
+
+/* BADGE */
 
 .badge {
     display: inline-block;
-    background: #123820;
-    color: #61ff8b;
-    border: 1px solid #247442;
-    border-radius: 20px;
     padding: 6px 10px;
-    font-size: 11px;
+    border-radius: 20px;
+    background: #102b1a;
+    border: 1px solid #1e6637;
+    color: #61ff91;
+    font-size: 10px;
     font-weight: 900;
-    margin-bottom: 13px;
+    margin-bottom: 15px;
 }
+
+/* TOP */
 
 .server-top {
     display: flex;
@@ -132,120 +175,176 @@ body {
 }
 
 .server-title {
-    font-size: 18px;
+    font-size: 19px;
     font-weight: 900;
 }
 
 .players {
-    color: #6cff91;
+    color: #65ff94;
+    font-size: 17px;
     font-weight: 900;
-    font-size: 16px;
-    white-space: nowrap;
 }
 
-.value {
-    margin-top: 13px;
-    font-size: 25px;
-    font-weight: 900;
-    color: #ffd95a;
+/* VALUE */
+
+.value-box {
+    margin-top: 18px;
+    padding: 15px;
+    border-radius: 11px;
+    background: #0b100d;
+    border: 1px solid #1c2921;
 }
 
 .value-label {
-    color: #88958d;
-    font-size: 11px;
+    color: #79857e;
+    font-size: 10px;
     text-transform: uppercase;
-    margin-bottom: 2px;
+    font-weight: bold;
 }
 
-.rich-message {
-    margin-top: 13px;
+.value {
+    margin-top: 4px;
+    color: #ffd75a;
+    font-size: 27px;
+    font-weight: 900;
+}
+
+/* FULL SERVER */
+
+.full {
+    margin-top: 12px;
     padding: 10px 12px;
-    border-radius: 8px;
-    background: #102719;
-    color: #6cff91;
-    font-weight: 800;
+    border-radius: 9px;
+    background: #102b1a;
+    color: #63ff91;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+/* STATS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 13px;
+}
+
+.stat {
+    padding: 11px;
+    background: #0b100d;
+    border: 1px solid #1a251e;
+    border-radius: 9px;
+}
+
+.stat-label {
+    color: #6e7972;
+    font-size: 10px;
+}
+
+.stat-value {
+    margin-top: 4px;
+    color: #dce4df;
+    font-weight: bold;
     font-size: 13px;
 }
 
+/* SERVER ID */
+
 .server-id {
-    margin-top: 15px;
-    padding: 11px;
-    background: #090c0a;
-    border-radius: 8px;
-    color: #929d96;
-    font-size: 12px;
+    margin-top: 13px;
+    padding: 12px;
+    background: #080b09;
+    border-radius: 9px;
+    border: 1px solid #151d18;
+}
+
+.server-id-label {
+    color: #68736c;
+    font-size: 10px;
+    margin-bottom: 5px;
+}
+
+.server-id-value {
+    color: #aeb8b2;
+    font-size: 11px;
     word-break: break-all;
 }
 
-.server-id span {
-    color: white;
-}
-
-.info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 13px;
-    color: #9ba69f;
-    font-size: 13px;
-}
+/* JOIN */
 
 .join {
     width: 100%;
-    margin-top: 17px;
-    background: #25d366;
-    color: #001b0b;
-    border: none;
-    border-radius: 9px;
-    padding: 13px;
-    cursor: pointer;
-    font-weight: 900;
+    margin-top: 16px;
+    padding: 14px;
+    border: 0;
+    border-radius: 10px;
+
+    background: #2bdd6d;
+    color: #001609;
+
     font-size: 14px;
+    font-weight: 900;
+
+    cursor: pointer;
+    transition: .2s;
 }
 
 .join:hover {
-    background: #42e77c;
+    background: #52ed89;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(43,221,109,.2);
 }
 
-.loading,
-.error {
+/* LOADING */
+
+.loading {
     text-align: center;
-    padding: 45px 20px;
-    color: #a5afa9;
+    padding: 55px 20px;
+    color: #8a958e;
 }
 
-.error {
-    color: #ff7777;
+.spinner {
+    width: 30px;
+    height: 30px;
+    margin: 0 auto 15px;
+    border: 3px solid #1b2920;
+    border-top-color: #3be875;
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
 }
 
-.empty {
-    text-align: center;
-    padding: 50px 20px;
-    color: #909a94;
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
+
+/* MOBILE */
 
 @media (max-width: 600px) {
 
-    .header h1 {
-        font-size: 25px;
-    }
-
-    .server-top {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .players {
-        font-size: 15px;
+    .logo {
+        font-size: 32px;
     }
 
     .controls {
-        align-items: stretch;
         flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
     }
 
     .refresh {
         width: 100%;
+    }
+
+    .server-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
     }
 }
 </style>
@@ -255,20 +354,25 @@ body {
 
 <div class="header">
 
-    <h1>💎 Rich Server Detector</h1>
+    <div class="logo">
+        Blox <span>Rich Finder</span>
+    </div>
 
-    <p>Find busy Roblox servers and join them instantly</p>
+    <div class="subtitle">
+        Find busy Roblox servers instantly
+    </div>
 
-    <div class="status">
-        🟢 LIVE SERVER SCANNER
+    <div class="live">
+        <span class="dot"></span>
+        LIVE SERVER SCANNER
     </div>
 
 </div>
 
 <div class="controls">
 
-    <div class="server-count" id="serverCount">
-        Scanning servers...
+    <div class="count" id="serverCount">
+        🔄 Scanning servers...
     </div>
 
     <button class="refresh" onclick="loadServers()">
@@ -280,7 +384,11 @@ body {
 <div id="serverList">
 
     <div class="loading">
-        🔄 Finding rich servers...
+
+        <div class="spinner"></div>
+
+        Finding rich servers...
+
     </div>
 
 </div>
@@ -293,38 +401,32 @@ const WORKER_URL =
 const PLACE_ID =
     "920587237";
 
-/*
- * Only show servers with 20+
- * players.
- */
 const MIN_PLAYERS = 20;
 
 
 /*
- * Calculate a simple server value.
+ * Dashboard value.
  *
- * More players = higher value.
- *
- * This is a dashboard score,
- * not an actual Roblox item/value.
+ * This is a server score based
+ * on player count/fullness.
  */
 function calculateValue(server) {
 
-    const playing =
+    const players =
         Number(server.playing || 0);
 
-    const maxPlayers =
+    const max =
         Number(server.maxPlayers || 0);
 
-    if (!maxPlayers) {
-        return playing;
+    if (!max) {
+        return players.toFixed(2);
     }
 
     const fullness =
-        playing / maxPlayers;
+        players / max;
 
     return (
-        playing * 0.08 +
+        players * 0.08 +
         fullness * 5
     ).toFixed(2);
 }
@@ -342,11 +444,15 @@ async function loadServers() {
         document.getElementById("serverCount");
 
     count.textContent =
-        "🔄 Scanning...";
+        "🔄 Scanning servers...";
 
     list.innerHTML = `
         <div class="loading">
-            🔄 Finding rich Roblox servers...
+
+            <div class="spinner"></div>
+
+            Finding rich Roblox servers...
+
         </div>
     `;
 
@@ -375,66 +481,51 @@ async function loadServers() {
 
 
         /*
-         * Keep only 20+ player servers.
+         * Only 20+ player servers.
          */
         let servers =
-            allServers.filter(server => {
-
-                return Number(
-                    server.playing || 0
-                ) >= MIN_PLAYERS;
-
-            });
+            allServers.filter(server =>
+                Number(server.playing || 0)
+                >= MIN_PLAYERS
+            );
 
 
         /*
-         * Sort:
-         *
-         * 1. Most players
-         * 2. Highest value
+         * Highest player count first.
          */
-        servers.sort((a, b) => {
-
-            const playerDifference =
-                Number(b.playing || 0) -
-                Number(a.playing || 0);
-
-            if (playerDifference !== 0) {
-                return playerDifference;
-            }
-
-            return calculateValue(b) -
-                   calculateValue(a);
-
-        });
+        servers.sort((a, b) =>
+            Number(b.playing || 0)
+            -
+            Number(a.playing || 0)
+        );
 
 
         count.textContent =
             `🟢 ${servers.length} rich servers found`;
 
 
-        /*
-         * No servers.
-         */
         if (servers.length === 0) {
 
             list.innerHTML = `
-                <div class="empty">
+                <div class="loading">
 
                     ⚠️ No 20+ player servers
-                    were returned right now.
+                    found right now.
 
                     <br><br>
 
                     Worker returned
-                    <strong>
-                        ${allServers.length}
-                    </strong>
+                    ${allServers.length}
                     servers.
 
                     <br><br>
 
-                    Try scanning again.
+                    <button
+                        class="refresh"
+                        onclick="loadServers()"
+                    >
+                        🔄 Scan Again
+                    </button>
 
                 </div>
             `;
@@ -443,15 +534,12 @@ async function loadServers() {
         }
 
 
-        /*
-         * Create cards.
-         */
         list.innerHTML = "";
 
 
         servers.forEach((server, index) => {
 
-            const playing =
+            const players =
                 Number(server.playing || 0);
 
             const maxPlayers =
@@ -459,27 +547,23 @@ async function loadServers() {
 
             const ping =
                 server.ping !== undefined
-                    ? Math.round(
-                        Number(server.ping)
-                      )
-                    : null;
+                    ? Math.round(Number(server.ping))
+                    : "N/A";
 
             const fps =
                 server.fps !== undefined
-                    ? Math.round(
-                        Number(server.fps)
-                      )
-                    : null;
+                    ? Math.round(Number(server.fps))
+                    : "N/A";
 
             const value =
                 calculateValue(server);
 
 
-            const div =
+            const card =
                 document.createElement("div");
 
-            div.className =
-                "server rich";
+            card.className =
+                "server";
 
 
             /*
@@ -493,12 +577,12 @@ async function loadServers() {
 
             badge.textContent =
                 index === 0
-                    ? "🔥 BEST RICH SERVER"
+                    ? "🔥 BEST SERVER"
                     : "🟢 RICH SERVER DETECTED";
 
 
             /*
-             * Top section.
+             * Header.
              */
             const top =
                 document.createElement("div");
@@ -514,21 +598,21 @@ async function loadServers() {
                 "server-title";
 
             title.textContent =
-                `🎮 Roblox Server #${index + 1}`;
+                `🎮 Server #${index + 1}`;
 
 
-            const players =
+            const playerText =
                 document.createElement("div");
 
-            players.className =
+            playerText.className =
                 "players";
 
-            players.textContent =
-                `👥 ${playing}/${maxPlayers}`;
+            playerText.textContent =
+                `👥 ${players}/${maxPlayers}`;
 
 
             top.appendChild(title);
-            top.appendChild(players);
+            top.appendChild(playerText);
 
 
             /*
@@ -538,135 +622,154 @@ async function loadServers() {
                 document.createElement("div");
 
             valueBox.className =
-                "value";
+                "value-box";
 
             valueBox.innerHTML = `
                 <div class="value-label">
                     Server Value
                 </div>
-                💎 ${value}
+
+                <div class="value">
+                    💎 ${value}
+                </div>
             `;
 
 
             /*
-             * Rich message.
+             * Full server.
              */
-            const message =
+            const full =
                 document.createElement("div");
 
-            message.className =
-                "rich-message";
+            full.className =
+                "full";
 
-            message.textContent =
-                playing >= maxPlayers
-                    ? "🔥 FULL SERVER DETECTED!"
-                    : "🟢 Rich Server Detected!";
+            full.textContent =
+                players >= maxPlayers
+                    ? "🔥 SERVER IS FULL"
+                    : "🟢 Rich Server Detected";
+
+
+            /*
+             * Stats.
+             */
+            const stats =
+                document.createElement("div");
+
+            stats.className =
+                "stats";
+
+
+            stats.innerHTML = `
+
+                <div class="stat">
+
+                    <div class="stat-label">
+                        PLAYERS
+                    </div>
+
+                    <div class="stat-value">
+                        👥 ${players}
+                    </div>
+
+                </div>
+
+                <div class="stat">
+
+                    <div class="stat-label">
+                        PING
+                    </div>
+
+                    <div class="stat-value">
+                        📡 ${ping} ms
+                    </div>
+
+                </div>
+
+                <div class="stat">
+
+                    <div class="stat-label">
+                        FPS
+                    </div>
+
+                    <div class="stat-value">
+                        ⚡ ${fps}
+                    </div>
+
+                </div>
+
+            `;
 
 
             /*
              * Server ID.
              */
-            const id =
+            const idBox =
                 document.createElement("div");
 
-            id.className =
+            idBox.className =
                 "server-id";
 
-            id.innerHTML =
-                `Server ID:<br><span></span>`;
+            idBox.innerHTML = `
 
-            id.querySelector("span")
-                .textContent =
-                    server.id || "Unknown";
+                <div class="server-id-label">
+                    SERVER ID
+                </div>
 
+                <div class="server-id-value"></div>
 
-            /*
-             * Performance info.
-             */
-            const info =
-                document.createElement("div");
-
-            info.className =
-                "info";
-
-
-            const pingText =
-                ping !== null
-                    ? `📡 Ping: ${ping} ms`
-                    : "📡 Ping: N/A";
-
-
-            const fpsText =
-                fps !== null
-                    ? `⚡ FPS: ${fps}`
-                    : "⚡ FPS: N/A";
-
-
-            info.innerHTML = `
-                <span>${pingText}</span>
-                <span>${fpsText}</span>
-                <span>👥 ${playing} players</span>
             `;
 
+            idBox.querySelector(
+                ".server-id-value"
+            ).textContent =
+                server.id || "Unknown";
+
 
             /*
-             * Join button.
+             * Join.
              */
-            const button =
+            const join =
                 document.createElement("button");
 
-            button.className =
+            join.className =
                 "join";
 
-            button.textContent =
-                "🚀 JOIN SERVER";
+            join.textContent =
+                "🚀 JOIN THIS SERVER";
 
 
-            button.addEventListener(
-                "click",
-                () => {
-
-                    joinServer(
-                        server.id
-                    );
-
-                }
-            );
+            join.onclick = () =>
+                joinServer(server.id);
 
 
             /*
              * Build card.
              */
-            div.appendChild(badge);
-            div.appendChild(top);
-            div.appendChild(valueBox);
-            div.appendChild(message);
-            div.appendChild(id);
-            div.appendChild(info);
-            div.appendChild(button);
+            card.appendChild(badge);
+            card.appendChild(top);
+            card.appendChild(valueBox);
+            card.appendChild(full);
+            card.appendChild(stats);
+            card.appendChild(idBox);
+            card.appendChild(join);
 
-            list.appendChild(div);
+            list.appendChild(card);
 
         });
 
-
     } catch (error) {
 
-        console.error(
-            "Server loading error:",
-            error
-        );
-
+        console.error(error);
 
         count.textContent =
             "❌ Scanner error";
 
-
         list.innerHTML = `
 
-            <div class="error">
+            <div class="loading">
 
-                ❌ Could not load Roblox servers.
+                ❌ Could not load servers.
 
                 <br><br>
 
@@ -691,39 +794,35 @@ async function loadServers() {
 
 
 /*
- * Join a specific Roblox server.
+ * Join Roblox server.
  */
 function joinServer(serverId) {
 
     if (!serverId) {
 
-        alert(
-            "Server ID is missing."
-        );
+        alert("Server ID is missing.");
 
         return;
 
     }
 
-
-    const robloxLink =
+    const link =
         `roblox://placeId=${PLACE_ID}&gameInstanceId=${encodeURIComponent(serverId)}`;
 
-
     window.location.href =
-        robloxLink;
+        link;
 
 }
 
 
 /*
- * Initial scan.
+ * First scan.
  */
 loadServers();
 
 
 /*
- * Automatically scan every 30 seconds.
+ * Automatically rescan every 30 seconds.
  */
 setInterval(
     loadServers,
