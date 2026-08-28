@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roblox Dashboard</title>
+<title>Roblox Rich Server Finder</title>
 
 <style>
 * {
@@ -14,22 +16,21 @@
 }
 
 body {
-    background: #08090d;
+    background: #090b10;
     color: white;
 }
 
 .sidebar {
     position: fixed;
-    left: 0;
-    top: 0;
-    width: 220px;
+    width: 230px;
     height: 100vh;
-    background: #0d0f14;
+    background: #0e1117;
+    border-right: 1px solid #252a33;
     padding: 25px 15px;
 }
 
 .logo {
-    font-size: 22px;
+    font-size: 23px;
     font-weight: bold;
     padding: 10px 15px 30px;
 }
@@ -38,102 +39,154 @@ body {
     color: #00ff88;
 }
 
-.menu a {
-    display: block;
-    color: #aaa;
-    text-decoration: none;
-    padding: 13px 15px;
-    margin-bottom: 5px;
-    border-radius: 10px;
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
 }
 
-.menu a:hover {
-    background: #171b23;
+.nav a {
+    color: #999;
+    text-decoration: none;
+    padding: 13px 15px;
+    border-radius: 9px;
+}
+
+.nav a:hover,
+.nav a.active {
+    background: #181d26;
     color: white;
 }
 
 .main {
-    margin-left: 220px;
+    margin-left: 230px;
     padding: 35px;
+    max-width: 1100px;
 }
 
-.card,
-.panel {
-    background: #101219;
-    border: 1px solid #242832;
-    border-radius: 16px;
-    padding: 22px;
-    margin-bottom: 20px;
+.header {
+    margin-bottom: 25px;
 }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
+.header h1 {
+    font-size: 30px;
 }
 
-.green {
-    color: #00ff88;
+.header p {
+    color: #858b98;
+    margin-top: 8px;
 }
 
-.settings-box {
-    background: #151820;
-    border: 1px solid #2a303b;
+.search-box {
+    background: #10141b;
+    border: 1px solid #252b35;
     border-radius: 14px;
-    padding: 22px;
+    padding: 20px;
+    margin-bottom: 25px;
 }
 
-.field {
-    margin-bottom: 20px;
+.search-box input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 9px;
+    border: 1px solid #303640;
+    background: #080a0e;
+    color: white;
+    outline: none;
 }
 
-label {
-    display: block;
-    margin-bottom: 8px;
+.server {
+    background: #17191f;
+    border: 1px solid #30343d;
+    border-left: 4px solid #3b82f6;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 14px;
+}
+
+.server-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.server-title h2 {
+    font-size: 18px;
+}
+
+.rich {
+    background: #00ff88;
+    color: #06100a;
+    padding: 5px 9px;
+    border-radius: 6px;
+    font-size: 12px;
     font-weight: bold;
 }
 
-input[type="text"],
-input[type="number"] {
-    width: 100%;
-    padding: 13px;
-    background: #08090d;
-    border: 1px solid #343944;
-    border-radius: 8px;
-    color: white;
+.info {
+    color: #bbb;
+    line-height: 1.8;
 }
 
-.toggle {
-    margin: 15px 0;
+.value {
+    color: #00ff88;
+    font-weight: bold;
+}
+
+.server-id {
+    background: #252833;
+    color: #ddd;
+    display: inline-block;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.players {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.player {
+    background: #20232b;
+    border: 1px solid #30343d;
+    border-radius: 7px;
+    padding: 8px 11px;
+    font-size: 13px;
+}
+
+.actions {
+    margin-top: 15px;
 }
 
 button {
-    border: 0;
-    border-radius: 10px;
-    padding: 13px 18px;
-    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 16px;
+    font-weight: bold;
     cursor: pointer;
-    font-weight: bold;
 }
 
-.save-btn {
+.join {
     background: #00ff88;
-    color: #07100b;
+    color: #06100a;
 }
 
-.reset-btn {
-    background: #242a35;
+.copy {
+    background: #292e38;
     color: white;
-    margin-left: 8px;
+    margin-left: 7px;
 }
 
-#saveMessage {
-    color: #00ff88;
-    margin-left: 12px;
-    font-weight: bold;
+button:hover {
+    opacity: 0.85;
 }
 
-@media (max-width: 700px) {
+@media(max-width:700px) {
     .sidebar {
         width: 70px;
     }
@@ -142,253 +195,119 @@ button {
         margin-left: 70px;
         padding: 20px;
     }
-
-    .cards {
-        grid-template-columns: 1fr;
-    }
 }
 </style>
+
 </head>
 
 <body>
 
 <aside class="sidebar">
+    <div class="logo">ROB<span>LOX</span></div>
 
-    <div class="logo">
-        RO<span>BLOX</span>
-    </div>
-
-    <nav class="menu">
-        <a href="#dashboard">📊 Dashboard</a>
-        <a href="#games">🎮 Games</a>
-        <a href="#servers">🟢 Servers</a>
-        <a href="#settings">⚙️ Settings</a>
-    </nav>
+```
+<nav class="nav">
+    <a href="#" class="active">📊 Dashboard</a>
+    <a href="#servers">🟢 Servers</a>
+    <a href="#settings">⚙️ Settings</a>
+</nav>
+```
 
 </aside>
 
 <main class="main">
 
-<section id="dashboard">
+```
+<div class="header">
+    <h1>🎯 Rich Server Finder</h1>
+    <p>Adopt Me server dashboard</p>
+</div>
 
-    <h1>Dashboard</h1>
+<div class="search-box">
+    <input
+        id="search"
+        type="text"
+        placeholder="Search player or server ID..."
+        oninput="searchServers()">
+</div>
 
-    <p style="color:#858a96; margin-top:8px;">
-        Roblox server finder
-    </p>
+<section id="servers">
 
-    <div class="cards">
-
-        <div class="card">
-            <small>Robux</small>
-            <h2 class="green">25,430</h2>
+    <div class="server">
+        <div class="server-title">
+            <h2>🐶 Rich Server Detected!</h2>
+            <span class="rich">RICH SERVER</span>
         </div>
 
-        <div class="card">
-            <small>Friends</small>
-            <h2>128</h2>
+        <div class="info">
+            <b>Game:</b> Adopt Me!<br>
+            <b>Server ID:</b>
+            <span class="server-id">
+                DEMO-SERVER-001
+            </span>
         </div>
 
-        <div class="card">
-            <small>Games</small>
-            <h2>24</h2>
+        <div class="players">
+            <div class="player">
+                👤 PlayerOne —
+                <span class="value">4.95 Value</span>
+            </div>
+
+            <div class="player">
+                👤 PlayerTwo —
+                <span class="value">2.39 Value</span>
+            </div>
         </div>
 
-        <div class="card">
-            <small>Status</small>
-            <h2 class="green">Online</h2>
-        </div>
+        <div class="actions">
+            <button class="join" onclick="joinGame()">
+                🎮 Join Server
+            </button>
 
+            <button class="copy" onclick="copyID('DEMO-SERVER-001')">
+                📋 Copy ID
+            </button>
+        </div>
     </div>
 
 </section>
-
-<section class="panel" id="games">
-
-    <h2>🎮 Adopt Me!</h2>
-
-    <p style="margin-top:10px;">
-        Open the official Roblox Adopt Me game page.
-    </p>
-
-    <button
-        class="save-btn"
-        type="button"
-        onclick="openAdoptMe()">
-        🎮 Open Adopt Me!
-    </button>
-
-</section>
-
-<section class="panel" id="servers">
-
-    <h2>🟢 Games</h2>
-
-    <p style="margin-top:15px;">🐶 Adopt Me! — Available</p>
-    <p style="margin-top:10px;">⚔️ Blade Ball — Available</p>
-    <p style="margin-top:10px;">🔪 Murder Mystery 2 — Available</p>
-
-</section>
-
-<section class="panel" id="settings">
-
-    <h2>⚙️ Settings</h2>
-
-    <div class="settings-box">
-
-        <div class="field">
-
-            <label>Discord webhook</label>
-
-            <input
-                type="text"
-                id="webhook"
-                placeholder="https://discord.com/api/webhooks/...">
-
-        </div>
-
-        <div class="field">
-
-            <label>Min value</label>
-
-            <input
-                type="number"
-                id="minValue"
-                value="3"
-                min="0">
-
-        </div>
-
-        <div class="field">
-
-            <label>Min item value</label>
-
-            <input
-                type="number"
-                id="minItemValue"
-                value="0.01"
-                min="0">
-
-        </div>
-
-        <div class="toggle">
-            <label>
-                <input type="checkbox" id="skipUnchat">
-                Skip unchat­table
-            </label>
-        </div>
-
-        <div class="toggle">
-            <label>
-                <input type="checkbox" id="skipMobile">
-                Skip mobile
-            </label>
-        </div>
-
-        <div class="toggle">
-            <label>
-                <input type="checkbox" id="psnLinked">
-                PSN Linked
-            </label>
-        </div>
-
-        <button
-            type="button"
-            class="save-btn"
-            id="saveSettingsBtn">
-            💾 Save Settings
-        </button>
-
-        <button
-            type="button"
-            class="reset-btn"
-            id="resetSettingsBtn">
-            ↺ Reset
-        </button>
-
-        <span id="saveMessage"></span>
-
-    </div>
-
-</section>
+```
 
 </main>
 
 <script>
 
-function openAdoptMe() {
-    window.open(
-        "https://www.roblox.com/games/920587237/Adopt-Me",
-        "_blank"
-    );
+function joinGame() {
+    alert("Join Server button works!");
 }
 
-function saveSettings() {
-
-    const settings = {
-        webhook: document.getElementById("webhook").value,
-        minValue: document.getElementById("minValue").value,
-        minItemValue: document.getElementById("minItemValue").value,
-        skipUnchat: document.getElementById("skipUnchat").checked,
-        skipMobile: document.getElementById("skipMobile").checked,
-        psnLinked: document.getElementById("psnLinked").checked
-    };
-
-    localStorage.setItem(
-        "adoptMeSettings",
-        JSON.stringify(settings)
-    );
-
-    document.getElementById("saveMessage").textContent =
-        "✓ Settings saved!";
-
+function copyID(id) {
+    navigator.clipboard.writeText(id)
+        .then(function() {
+            alert("Server ID copied!");
+        })
+        .catch(function() {
+            alert("Could not copy the ID.");
+        });
 }
 
-function loadSettings() {
+function searchServers() {
+    const search =
+        document.getElementById("search").value.toLowerCase();
 
-    const saved =
-        localStorage.getItem("adoptMeSettings");
+    const servers =
+        document.querySelectorAll(".server");
 
-    if (!saved) return;
+    servers.forEach(function(server) {
+        const text = server.innerText.toLowerCase();
 
-    const settings =
-        JSON.parse(saved);
-
-    document.getElementById("webhook").value =
-        settings.webhook || "";
-
-    document.getElementById("minValue").value =
-        settings.minValue || "3";
-
-    document.getElementById("minItemValue").value =
-        settings.minItemValue || "0.01";
-
-    document.getElementById("skipUnchat").checked =
-        settings.skipUnchat === true;
-
-    document.getElementById("skipMobile").checked =
-        settings.skipMobile === true;
-
-    document.getElementById("psnLinked").checked =
-        settings.psnLinked === true;
-}
-
-document
-    .getElementById("saveSettingsBtn")
-    .addEventListener("click", saveSettings);
-
-document
-    .getElementById("resetSettingsBtn")
-    .addEventListener("click", function() {
-
-        localStorage.removeItem("adoptMeSettings");
-        location.reload();
-
+        server.style.display =
+            text.includes(search) ? "block" : "none";
     });
-
-loadSettings();
+}
 
 </script>
 
 </body>
 </html>
+
