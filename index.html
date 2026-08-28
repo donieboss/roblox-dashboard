@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,10 +41,15 @@ header p {
     padding: 0 20px;
 }
 
-.top-card {
+.top-card,
+.server-card,
+.empty {
     background: #111827;
     border: 1px solid #263044;
     border-radius: 16px;
+}
+
+.top-card {
     padding: 25px;
     margin-bottom: 25px;
 }
@@ -92,9 +98,6 @@ button {
 }
 
 .server-card {
-    background: #111827;
-    border: 1px solid #263044;
-    border-radius: 16px;
     padding: 22px;
 }
 
@@ -151,8 +154,12 @@ button {
     text-align: center;
     color: #8f9bb3;
     padding: 40px;
-    background: #111827;
-    border-radius: 16px;
+}
+
+.loading {
+    text-align: center;
+    color: #8f9bb3;
+    padding: 40px;
 }
 
 .note {
@@ -199,11 +206,15 @@ button {
         </div>
 
         <p class="note">
-            Servers below your selected value will be hidden.
+            Only servers supplied by the configured server source are displayed.
         </p>
     </div>
 
-    <div id="serverList" class="server-list"></div>
+    <div id="serverList" class="server-list">
+        <div class="loading">
+            🔄 Loading servers...
+        </div>
+    </div>
 
     <div id="empty" class="empty">
         ❌ No high-value servers found.
@@ -213,63 +224,102 @@ button {
 
 <script>
 
-/*
-==================================================
-ADOPT ME PLACE
-==================================================
-*/
-
 const PLACE_ID = "920587237";
 
-
 /*
-==================================================
-SERVER DATA
-==================================================
+ * IMPORTANT:
+ *
+ * GitHub Pages cannot directly discover Roblox server
+ * instances and determine which ones are "rich".
+ *
+ * Put your own legitimate server-data API here.
+ *
+ * The API should return JSON like:
+ *
+ * {
+ *   "servers": [
+ *     {
+ *       "player": "@Trader",
+ *       "value": 4.95,
+ *       "game": "Adopt Me",
+ *       "serverId": "REAL_SERVER_INSTANCE_ID"
+ *     }
+ *   ]
+ * }
+ *
+ * Leave this empty until your API is ready.
+ */
 
-Replace the example serverId values with REAL
-Roblox server instance IDs from your legitimate
-server data source.
-*/
+const SERVER_API_URL = "";
 
-const servers = [
 
-    {
-        player: "@PlayerOne",
-        value: 3.80,
-        game: "Adopt Me",
-        serverId: "example-server-001"
-    },
+/* ================================
+   LOAD SERVER DATA
+================================ */
 
-    {
-        player: "@RichTrader",
-        value: 4.95,
-        game: "Adopt Me",
-        serverId: "example-server-002"
-    },
+async function loadServers() {
 
-    {
-        player: "@TradingKing",
-        value: 2.75,
-        game: "Adopt Me",
-        serverId: "example-server-003"
-    },
+    const list = document.getElementById("serverList");
+    const empty = document.getElementById("empty");
 
-    {
-        player: "@PetCollector",
-        value: 2.10,
-        game: "Adopt Me",
-        serverId: "example-server-004"
+    list.innerHTML = `
+        <div class="loading">
+            🔄 Loading real server data...
+        </div>
+    `;
+
+    empty.style.display = "none";
+
+    if (!SERVER_API_URL) {
+
+        list.innerHTML = `
+            <div class="loading">
+                ⚠️ Server API is not configured yet.
+                <br><br>
+                Add your legitimate server-data API URL
+                to <strong>SERVER_API_URL</strong>.
+            </div>
+        `;
+
+        return;
     }
 
-];
+    try {
+
+        const response = await fetch(SERVER_API_URL);
+
+        if (!response.ok) {
+            throw new Error("Server API request failed.");
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data.servers)) {
+            throw new Error("Invalid server data.");
+        }
+
+        window.servers = data.servers;
+
+        findServers();
+
+    } catch (error) {
+
+        console.error(error);
+
+        list.innerHTML = `
+            <div class="loading">
+                ❌ Could not load server data.
+                <br><br>
+                Check your server API.
+            </div>
+        `;
+    }
+}
 
 
-/*
-==================================================
-FIND SERVERS
-==================================================
-*/
+/* ================================
+   FILTER SERVERS
+================================ */
 
 function findServers() {
 
@@ -277,7 +327,7 @@ function findServers() {
         document.getElementById("minimumValue");
 
     const minimum =
-        parseFloat(input.value) || 2.00;
+        parseFloat(input.value) || 0;
 
     const list =
         document.getElementById("serverList");
@@ -285,12 +335,22 @@ function findServers() {
     const empty =
         document.getElementById("empty");
 
+    const servers =
+        Array.isArray(window.servers)
+            ? window.servers
+            : [];
+
     list.innerHTML = "";
 
     const filtered =
         servers
-        .filter(server => server.value >= minimum)
-        .sort((a, b) => b.value - a.value);
+        .filter(server =>
+            Number(server.value) >= minimum &&
+            server.serverId
+        )
+        .sort((a, b) =>
+            Number(b.value) - Number(a.value)
+        );
 
     if (filtered.length === 0) {
 
@@ -301,7 +361,6 @@ function findServers() {
 
     empty.style.display = "none";
 
-
     filtered.forEach(server => {
 
         const card =
@@ -309,31 +368,43 @@ function findServers() {
 
         card.className = "server-card";
 
+        const player =
+            escapeHTML(server.player || "Unknown");
+
+        const game =
+            escapeHTML(server.game || "Adopt Me");
+
+        const serverId =
+            escapeHTML(server.serverId);
+
+        const value =
+            Number(server.value || 0).toFixed(2);
+
         card.innerHTML = `
 
             <div class="player">
-                👤 ${server.player}
+                👤 ${player}
 
                 <span class="value">
-                    ${server.value.toFixed(2)} Value
+                    ${value} Value
                 </span>
             </div>
 
             <div class="status">
-                🟢 Rich Server Detected!
+                🟢 Server Available
             </div>
 
             <div class="details">
 
                 🎮 Game:
-                <strong>${server.game}</strong>
+                <strong>${game}</strong>
 
                 <br>
 
                 🆔 Server ID:
 
                 <div class="server-id">
-                    ${server.serverId}
+                    ${serverId}
                 </div>
 
             </div>
@@ -341,46 +412,30 @@ function findServers() {
             <button
                 type="button"
                 class="join"
-                onclick="joinRobloxServer('${server.serverId}')"
+                onclick="joinRobloxServer('${escapeJS(server.serverId)}')"
             >
                 🚀 JOIN SERVER
             </button>
-
         `;
 
         list.appendChild(card);
 
     });
-
 }
 
 
-/*
-==================================================
-JOIN ROBLOX SERVER
-==================================================
-*/
+/* ================================
+   JOIN ROBLOX SERVER
+================================ */
 
 function joinRobloxServer(serverId) {
 
-    if (
-        !serverId ||
-        serverId.startsWith("example-")
-    ) {
+    if (!serverId) {
 
-        alert(
-            "⚠️ This is an example server.\n\n" +
-            "Add a real Roblox server instance ID " +
-            "before using JOIN SERVER."
-        );
+        alert("No valid server ID was supplied.");
 
         return;
     }
-
-
-    /*
-    Roblox application deep link
-    */
 
     const robloxLink =
         "roblox://placeId=" +
@@ -388,25 +443,42 @@ function joinRobloxServer(serverId) {
         "&gameInstanceId=" +
         encodeURIComponent(serverId);
 
-
-    /*
-    Try opening Roblox
-    */
-
     window.location.href = robloxLink;
-
 }
 
 
-/*
-==================================================
-LOAD SERVERS
-==================================================
-*/
+/* ================================
+   SECURITY HELPERS
+================================ */
 
-findServers();
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function escapeJS(value) {
+
+    return String(value)
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'");
+}
+
+
+/* ================================
+   START
+================================ */
+
+window.servers = [];
+
+loadServers();
 
 </script>
 
 </body>
 </html>
+```
