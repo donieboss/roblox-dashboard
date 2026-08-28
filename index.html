@@ -1,607 +1,327 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>DONIE Gaming Dashboard</title>
-
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Inter,Arial,sans-serif;
-}
-
-body{
-  min-height:100vh;
-  color:white;
-  background:
-    radial-gradient(circle at top left,#202b68 0%,transparent 35%),
-    radial-gradient(circle at top right,#3b145e 0%,transparent 30%),
-    #070a14;
-}
-
-header{
-  padding:35px 20px 25px;
-  text-align:center;
-  background:rgba(10,15,35,.75);
-  border-bottom:1px solid rgba(255,255,255,.08);
-  backdrop-filter:blur(15px);
-}
-
-.logo{
-  font-size:42px;
-  font-weight:900;
-  letter-spacing:-2px;
-}
-
-.subtitle{
-  margin-top:8px;
-  color:#9ca9d8;
-}
-
-.games{
-  max-width:1200px;
-  margin:25px auto 10px;
-  padding:0 20px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-}
-
-.game-btn{
-  border:1px solid rgba(255,255,255,.1);
-  background:rgba(18,25,52,.8);
-  color:white;
-  padding:18px;
-  border-radius:18px;
-  cursor:pointer;
-  font-size:17px;
-  font-weight:800;
-  transition:.2s;
-}
-
-.game-btn:hover{
-  transform:translateY(-3px);
-  border-color:#6675ff;
-}
-
-.game-btn.active{
-  background:linear-gradient(135deg,#5865f2,#7c3aed);
-  border-color:#8c97ff;
-  box-shadow:0 10px 30px rgba(88,101,242,.25);
-}
-
-.game-icon{
-  display:block;
-  font-size:28px;
-  margin-bottom:7px;
-}
-
-.stats{
-  max-width:1200px;
-  margin:20px auto;
-  padding:0 20px;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-}
-
-.stat{
-  padding:20px;
-  border-radius:18px;
-  background:rgba(16,23,48,.8);
-  border:1px solid rgba(255,255,255,.08);
-  box-shadow:0 10px 30px rgba(0,0,0,.2);
-}
-
-.stat-title{
-  color:#8e9ac2;
-  font-size:13px;
-  text-transform:uppercase;
-  font-weight:700;
-}
-
-.stat-value{
-  display:block;
-  margin-top:7px;
-  font-size:27px;
-  font-weight:900;
-}
-
-.controls{
-  max-width:1200px;
-  margin:25px auto 15px;
-  padding:0 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.controls h2{
-  font-size:24px;
-}
-
-.refresh{
-  border:0;
-  background:#5865f2;
-  color:white;
-  padding:12px 20px;
-  border-radius:12px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.refresh:hover{
-  background:#4752c4;
-}
-
-.container{
-  max-width:1200px;
-  margin:auto;
-  padding:0 20px 50px;
-}
-
-.server{
-  position:relative;
-  overflow:hidden;
-  margin-bottom:16px;
-  padding:22px;
-  border-radius:20px;
-  background:
-    linear-gradient(145deg,rgba(22,30,65,.95),rgba(10,15,34,.95));
-  border:1px solid rgba(104,120,255,.18);
-  box-shadow:0 15px 40px rgba(0,0,0,.25);
-  transition:.2s;
-}
-
-.server:hover{
-  transform:translateY(-3px);
-  border-color:#6675ff;
-  box-shadow:0 20px 50px rgba(88,101,242,.15);
-}
-
-.server::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:3px;
-  background:linear-gradient(90deg,#5865f2,#a855f7,#22d3ee);
-}
-
-.server-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:15px;
-}
-
-.server-name{
-  font-size:21px;
-  font-weight:900;
-}
-
-.status{
-  display:inline-block;
-  margin-top:8px;
-  color:#4ade80;
-  font-size:13px;
-  font-weight:800;
-}
-
-.score{
-  text-align:right;
-}
-
-.score-number{
-  color:#ffd84d;
-  font-size:28px;
-  font-weight:900;
-}
-
-.score-label{
-  color:#8994b7;
-  font-size:11px;
-}
-
-.info{
-  margin-top:20px;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-}
-
-.box{
-  background:rgba(5,9,22,.65);
-  border:1px solid rgba(255,255,255,.05);
-  border-radius:13px;
-  padding:13px;
-}
-
-.box span{
-  color:#7f8bad;
-  font-size:11px;
-  display:block;
-  text-transform:uppercase;
-  font-weight:700;
-}
-
-.box b{
-  display:block;
-  margin-top:5px;
-  font-size:15px;
-}
-
-.join{
-  width:100%;
-  margin-top:16px;
-  border:0;
-  border-radius:12px;
-  padding:14px;
-  background:linear-gradient(135deg,#22c55e,#16a34a);
-  color:white;
-  font-size:15px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.join:hover{
-  filter:brightness(1.1);
-  transform:translateY(-1px);
-}
-
-.loading,
-.empty,
-.error{
-  text-align:center;
-  padding:60px 20px;
-  color:#8f9bc1;
-}
-
-.error{
-  color:#f87171;
-}
-
-.footer{
-  text-align:center;
-  padding:25px;
-  color:#66708e;
-  font-size:12px;
-}
-
-@media(max-width:800px){
-  .games{
-    grid-template-columns:1fr;
-  }
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .info{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
-
-@media(max-width:500px){
-  .logo{
-    font-size:32px;
-  }
-
-  .stats{
-    grid-template-columns:1fr;
-  }
-
-  .info{
-    grid-template-columns:1fr 1fr;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-  <div class="logo">🔥 DONIE DASHBOARD</div>
-  <div class="subtitle">
-    Roblox Server Finder • Live public server data
-  </div>
-</header>
-
-<div class="games">
-
-  <button class="game-btn active" onclick="selectGame('adoptme')" id="btn-adoptme">
-    <span class="game-icon">🐶</span>
-    Adopt Me
-  </button>
-
-  <button class="game-btn" onclick="selectGame('bladeball')" id="btn-bladeball">
-    <span class="game-icon">⚔️</span>
-    Blade Ball
-  </button>
-
-  <button class="game-btn" onclick="selectGame('mm2')" id="btn-mm2">
-    <span class="game-icon">🔪</span>
-    Murder Mystery 2
-  </button>
-
-</div>
-
-<section class="stats">
-
-  <div class="stat">
-    <span class="stat-title">Servers Found</span>
-    <span class="stat-value" id="serverCount">0</span>
-  </div>
-
-  <div class="stat">
-    <span class="stat-title">Total Players</span>
-    <span class="stat-value" id="totalPlayers">0</span>
-  </div>
-
-  <div class="stat">
-    <span class="stat-title">Best Server</span>
-    <span class="stat-value" id="bestScore">0</span>
-  </div>
-
-  <div class="stat">
-    <span class="stat-title">Game</span>
-    <span class="stat-value" id="currentGame">Adopt Me</span>
-  </div>
-
-</section>
-
-<div class="controls">
-
-  <h2 id="serverTitle">🐶 Adopt Me Servers</h2>
-
-  <button class="refresh" onclick="loadServers()">
-    🔄 Refresh
-  </button>
-
-</div>
-
-<div class="container" id="serverList">
-  <div class="loading">
-    🔎 Scanning servers...
-  </div>
-</div>
-
-<div class="footer">
-  DONIE Dashboard • Public Roblox server data
-</div>
-
-<script>
-
-const WORKER_URL =
-  "PASTE_YOUR_WORKER_URL_HERE";
+const DEFAULT_GAME = "adoptme";
 
 const GAMES = {
-
-  adoptme:{
-    name:"Adopt Me",
-    icon:"🐶",
-    placeId:"920587237"
+  adoptme: {
+    name: "Adopt Me",
+    placeId: "920587237",
+    emoji: "🐶"
   },
 
-  bladeball:{
-    name:"Blade Ball",
-    icon:"⚔️",
-    placeId:"13772394625"
+  bladeball: {
+    name: "Blade Ball",
+    placeId: "13772394625",
+    emoji: "⚔️"
   },
 
-  mm2:{
-    name:"Murder Mystery 2",
-    icon:"🔪",
-    placeId:"142823291"
+  mm2: {
+    name: "Murder Mystery 2",
+    placeId: "142823291",
+    emoji: "🔪"
   }
-
 };
 
-let currentGame="adoptme";
+/*
+  IMPORTANT:
+  Put your NEW Discord webhook below.
+  Never put this webhook in index.html.
+*/
+const DISCORD_WEBHOOK = "PASTE_NEW_WEBHOOK_HERE";
 
-function selectGame(game){
+const MIN_PLAYERS = 20;
+const MAX_PAGES = 5;
 
-  currentGame=game;
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+  "Cache-Control": "no-store"
+};
 
-  document.querySelectorAll(".game-btn")
-    .forEach(btn=>btn.classList.remove("active"));
-
-  document
-    .getElementById("btn-"+game)
-    .classList.add("active");
-
-  document.getElementById("currentGame").innerText =
-    GAMES[game].name;
-
-  document.getElementById("serverTitle").innerText =
-    GAMES[game].icon+" "+GAMES[game].name+" Servers";
-
-  loadServers();
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data, null, 2), {
+    status,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      ...corsHeaders
+    }
+  });
 }
 
-async function loadServers(){
+function scoreServer(server) {
+  const players = server.playing || 0;
+  const maxPlayers = server.maxPlayers || 1;
 
-  const list=document.getElementById("serverList");
+  const occupancy = players / maxPlayers;
 
-  list.innerHTML=
-    '<div class="loading">🔎 Scanning '+GAMES[currentGame].name+' servers...</div>';
+  let score = occupancy * 70;
 
-  try{
-
-    const placeId=GAMES[currentGame].placeId;
-
-    const response=await fetch(
-      WORKER_URL+
-      "/servers?placeId="+
-      encodeURIComponent(placeId)
-    );
-
-    if(!response.ok){
-      throw new Error("Worker returned "+response.status);
-    }
-
-    const json=await response.json();
-
-    if(!json.success){
-      throw new Error(json.error || "Worker error");
-    }
-
-    const servers=json.data || [];
-
-    document.getElementById("serverCount").innerText=
-      servers.length;
-
-    const totalPlayers=servers.reduce(
-      (total,server)=>
-        total+(server.playing||0),
-      0
-    );
-
-    document.getElementById("totalPlayers").innerText=
-      totalPlayers;
-
-    document.getElementById("bestScore").innerText=
-      servers.length ? servers[0].score : "0";
-
-    list.innerHTML="";
-
-    if(!servers.length){
-
-      list.innerHTML=
-        '<div class="empty">😭 No public servers found right now.</div>';
-
-      return;
-    }
-
-    servers.forEach(server=>{
-
-      const card=document.createElement("div");
-
-      card.className="server";
-
-      card.innerHTML=`
-
-        <div class="server-top">
-
-          <div>
-
-            <div class="server-name">
-              ${GAMES[currentGame].icon}
-              ${GAMES[currentGame].name}
-            </div>
-
-            <div class="status">
-              🟢 PUBLIC SERVER
-            </div>
-
-          </div>
-
-          <div class="score">
-
-            <div class="score-number">
-              ${server.score}
-            </div>
-
-            <div class="score-label">
-              SERVER SCORE
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="info">
-
-          <div class="box">
-            <span>Players</span>
-            <b>
-              ${server.playing}/${server.maxPlayers}
-            </b>
-          </div>
-
-          <div class="box">
-            <span>Ping</span>
-            <b>
-              ${server.ping ?? "N/A"} ms
-            </b>
-          </div>
-
-          <div class="box">
-            <span>FPS</span>
-            <b>
-              ${server.fps ?? "N/A"}
-            </b>
-          </div>
-
-          <div class="box">
-            <span>Server ID</span>
-            <b style="font-size:9px;word-break:break-all">
-              ${server.id}
-            </b>
-          </div>
-
-        </div>
-
-        <button
-          class="join"
-          onclick="joinServer('${server.joinUrl}')">
-
-          🚀 JOIN THIS SERVER
-
-        </button>
-
-      `;
-
-      list.appendChild(card);
-
-    });
-
-  }catch(error){
-
-    console.error(error);
-
-    list.innerHTML=`
-
-      <div class="error">
-
-        ❌ Failed to load servers.
-
-        <br><br>
-
-        <small>
-          ${error.message}
-        </small>
-
-      </div>
-
-    `;
-
+  if (typeof server.ping === "number") {
+    if (server.ping <= 60) score += 20;
+    else if (server.ping <= 100) score += 15;
+    else if (server.ping <= 150) score += 10;
+    else score += 5;
   }
 
+  if (typeof server.fps === "number") {
+    if (server.fps >= 55) score += 10;
+    else if (server.fps >= 40) score += 7;
+    else score += 3;
+  }
+
+  return Math.round(score * 100) / 100;
 }
 
-function joinServer(url){
+async function getServers(placeId) {
+  const servers = new Map();
+  let cursor = "";
 
-  window.open(
-    url,
-    "_blank"
-  );
+  for (let page = 0; page < MAX_PAGES; page++) {
+    let api =
+      `https://games.roblox.com/v1/games/${placeId}/servers/Public` +
+      `?sortOrder=Desc&limit=100`;
 
+    if (cursor) {
+      api += `&cursor=${encodeURIComponent(cursor)}`;
+    }
+
+    const response = await fetch(api);
+
+    if (!response.ok) {
+      throw new Error(`Roblox API returned ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    for (const server of result.data || []) {
+      if (!server.id) continue;
+
+      if ((server.playing || 0) < MIN_PLAYERS) continue;
+
+      servers.set(server.id, {
+        id: server.id,
+        playing: server.playing || 0,
+        maxPlayers: server.maxPlayers || 0,
+        ping:
+          typeof server.ping === "number"
+            ? server.ping
+            : null,
+        fps:
+          typeof server.fps === "number"
+            ? server.fps
+            : null
+      });
+    }
+
+    cursor = result.nextPageCursor || "";
+
+    if (!cursor) break;
+  }
+
+  return [...servers.values()]
+    .map(server => ({
+      ...server,
+      score: scoreServer(server)
+    }))
+    .sort((a, b) => {
+      if (b.score !== a.score) {
+        return b.score - a.score;
+      }
+
+      return b.playing - a.playing;
+    });
 }
 
-loadServers();
+function getJoinUrl(placeId, serverId) {
+  return `https://www.roblox.com/games/start?placeId=${placeId}&gameInstanceId=${encodeURIComponent(serverId)}`;
+}
 
-setInterval(
-  loadServers,
-  30000
-);
+async function sendDiscord(game, server) {
+  if (
+    !DISCORD_WEBHOOK ||
+    DISCORD_WEBHOOK === "PASTE_NEW_WEBHOOK_HERE"
+  ) {
+    return;
+  }
 
-</script>
+  const joinUrl = getJoinUrl(game.placeId, server.id);
 
-</body>
-</html>
+  const payload = {
+    username: "DONIE Rich Finder",
+
+    embeds: [
+      {
+        title: `${game.emoji} ${game.name} Server Detected`,
+        description:
+          "🟢 **Qualifying server detected by DONIE Rich Finder!**",
+
+        color: 5793266,
+
+        fields: [
+          {
+            name: "👥 Players",
+            value: `${server.playing}/${server.maxPlayers}`,
+            inline: true
+          },
+
+          {
+            name: "📶 Ping",
+            value:
+              server.ping === null
+                ? "N/A"
+                : `${server.ping} ms`,
+            inline: true
+          },
+
+          {
+            name: "⚡ FPS",
+            value:
+              server.fps === null
+                ? "N/A"
+                : `${server.fps}`,
+            inline: true
+          },
+
+          {
+            name: "💎 Server Score",
+            value: `${server.score}`,
+            inline: true
+          },
+
+          {
+            name: "🎮 Game",
+            value: game.name,
+            inline: true
+          },
+
+          {
+            name: "🆔 Server ID",
+            value: `\`${server.id}\``,
+            inline: false
+          }
+        ],
+
+        url: joinUrl,
+
+        footer: {
+          text: "DONIE Rich Finder"
+        },
+
+        timestamp: new Date().toISOString()
+      }
+    ]
+  };
+
+  try {
+    await fetch(DISCORD_WEBHOOK, {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify(payload)
+    });
+  } catch (error) {
+    console.error("Discord webhook error:", error);
+  }
+}
+
+export default {
+  async fetch(request) {
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders
+      });
+    }
+
+    const url = new URL(request.url);
+
+    if (
+      url.pathname === "/" ||
+      url.pathname === "/health"
+    ) {
+      return json({
+        online: true,
+        service: "DONIE Rich Finder",
+        games: GAMES
+      });
+    }
+
+    if (url.pathname === "/servers") {
+      const gameKey =
+        url.searchParams.get("game") ||
+        DEFAULT_GAME;
+
+      const game = GAMES[gameKey];
+
+      if (!game) {
+        return json(
+          {
+            success: false,
+            error:
+              "Unknown game. Use adoptme, bladeball, or mm2."
+          },
+          400
+        );
+      }
+
+      try {
+        const servers = await getServers(
+          game.placeId
+        );
+
+        /*
+          Send the best qualifying server to Discord.
+          The dashboard can refresh without exposing
+          the webhook.
+        */
+        if (servers.length > 0) {
+          await sendDiscord(
+            game,
+            servers[0]
+          );
+        }
+
+        return json({
+          success: true,
+
+          game: {
+            key: gameKey,
+            name: game.name,
+            emoji: game.emoji,
+            placeId: game.placeId
+          },
+
+          count: servers.length,
+
+          data: servers.map(server => ({
+            ...server,
+            joinUrl: getJoinUrl(
+              game.placeId,
+              server.id
+            )
+          }))
+        });
+
+      } catch (error) {
+        return json(
+          {
+            success: false,
+            error: error.message,
+            data: []
+          },
+          502
+        );
+      }
+    }
+
+    return json(
+      {
+        success: false,
+        error: "Endpoint not found."
+      },
+      404
+    );
+  }
+};
