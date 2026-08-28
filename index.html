@@ -1,695 +1,358 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DONIE</title>
+<title>DONIE Rich Finder</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
-body {
-    min-height: 100vh;
-    color: white;
-    background:
-        radial-gradient(circle at 50% -10%, #164d2c 0%, transparent 40%),
-        #070908;
+body{
+  background:#0b1020;
+  color:white;
+  min-height:100vh;
 }
 
-.header {
-    text-align: center;
-    padding: 45px 15px 25px;
+header{
+  padding:25px;
+  text-align:center;
+  background:linear-gradient(135deg,#111936,#182653);
+  border-bottom:1px solid #2d3b6b;
 }
 
-.logo {
-    font-size: 42px;
-    font-weight: 900;
-    letter-spacing: -2px;
+header h1{
+  font-size:32px;
 }
 
-.logo span {
-    color: #38e878;
+header p{
+  color:#9fb3ff;
+  margin-top:8px;
 }
 
-.subtitle {
-    color: #849089;
-    margin-top: 10px;
-    font-size: 14px;
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:18px;
+  padding:25px;
+  max-width:1200px;
+  margin:auto;
 }
 
-.live {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    margin-top: 18px;
-    padding: 8px 14px;
-    border-radius: 30px;
-    background: #0d2416;
-    border: 1px solid #1d6736;
-    color: #61ff91;
-    font-size: 12px;
-    font-weight: bold;
+.stat{
+  background:#121a33;
+  border:1px solid #26345f;
+  border-radius:15px;
+  padding:20px;
 }
 
-.dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #39e875;
-    box-shadow: 0 0 10px #39e875;
+.stat h3{
+  color:#9fb3ff;
+  font-size:14px;
 }
 
-.controls {
-    max-width: 950px;
-    margin: 0 auto;
-    padding: 0 15px 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.stat b{
+  display:block;
+  font-size:28px;
+  margin-top:8px;
 }
 
-.count {
-    color: #87928b;
-    font-size: 13px;
+.controls{
+  max-width:1200px;
+  margin:auto;
+  padding:0 25px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.refresh {
-    border: 0;
-    border-radius: 9px;
-    padding: 11px 17px;
-    background: #2bdd6d;
-    color: #001609;
-    font-weight: 900;
-    cursor: pointer;
-    transition: .2s;
+button{
+  background:#5865F2;
+  color:white;
+  border:none;
+  padding:12px 22px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:15px;
+  font-weight:bold;
 }
 
-.refresh:hover {
-    transform: translateY(-2px);
-    background: #52ed89;
-    box-shadow: 0 8px 25px rgba(43,221,109,.2);
+button:hover{
+  background:#4752c4;
 }
 
-#serverList {
-    max-width: 950px;
-    margin: auto;
-    padding: 0 15px 50px;
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:0 25px 40px;
 }
 
-.server {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 17px;
-    padding: 22px;
-    border-radius: 16px;
-    background:
-        linear-gradient(
-            145deg,
-            rgba(25,34,29,.98),
-            rgba(11,15,13,.98)
-        );
-    border: 1px solid #26352c;
-    box-shadow: 0 12px 35px rgba(0,0,0,.35);
-    transition: .2s;
+.server{
+  background:#121a33;
+  border:1px solid #26345f;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:16px;
+  transition:.2s;
 }
 
-.server::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 4px;
-    height: 100%;
-    background: #35e875;
+.server:hover{
+  transform:translateY(-2px);
+  border-color:#5865F2;
 }
 
-.server:hover {
-    transform: translateY(-3px);
-    border-color: #35e875;
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.badge {
-    display: inline-block;
-    padding: 6px 10px;
-    border-radius: 20px;
-    background: #102b1a;
-    border: 1px solid #1e6637;
-    color: #61ff91;
-    font-size: 10px;
-    font-weight: 900;
-    margin-bottom: 15px;
+.value{
+  color:#ffd54a;
+  font-size:24px;
+  font-weight:bold;
 }
 
-.server-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
+.rich{
+  color:#4ade80;
+  font-weight:bold;
+  margin-top:8px;
 }
 
-.server-title {
-    font-size: 19px;
-    font-weight: 900;
+.info{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:12px;
+  margin-top:18px;
 }
 
-.players {
-    color: #65ff94;
-    font-size: 17px;
-    font-weight: 900;
+.box{
+  background:#0c1226;
+  padding:12px;
+  border-radius:10px;
 }
 
-.value-box {
-    margin-top: 18px;
-    padding: 15px;
-    border-radius: 11px;
-    background: #0b100d;
-    border: 1px solid #1c2921;
+.box span{
+  color:#9ca3af;
+  font-size:12px;
 }
 
-.value-label {
-    color: #79857e;
-    font-size: 10px;
-    text-transform: uppercase;
-    font-weight: bold;
+.box b{
+  display:block;
+  margin-top:4px;
 }
 
-.value {
-    margin-top: 4px;
-    color: #ffd75a;
-    font-size: 27px;
-    font-weight: 900;
+.join{
+  margin-top:16px;
+  width:100%;
+  background:#22c55e;
 }
 
-.full {
-    margin-top: 12px;
-    padding: 10px 12px;
-    border-radius: 9px;
-    background: #102b1a;
-    color: #63ff91;
-    font-size: 12px;
-    font-weight: 900;
+.join:hover{
+  background:#16a34a;
 }
 
-.stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 13px;
+.loading{
+  text-align:center;
+  padding:50px;
+  color:#9fb3ff;
 }
 
-.stat {
-    padding: 11px;
-    background: #0b100d;
-    border: 1px solid #1a251e;
-    border-radius: 9px;
-}
-
-.stat-label {
-    color: #6e7972;
-    font-size: 10px;
-}
-
-.stat-value {
-    margin-top: 4px;
-    color: #dce4df;
-    font-weight: bold;
-    font-size: 13px;
-}
-
-.server-id {
-    margin-top: 13px;
-    padding: 12px;
-    background: #080b09;
-    border-radius: 9px;
-    border: 1px solid #151d18;
-}
-
-.server-id-label {
-    color: #68736c;
-    font-size: 10px;
-    margin-bottom: 5px;
-}
-
-.server-id-value {
-    color: #aeb8b2;
-    font-size: 11px;
-    word-break: break-all;
-}
-
-.join {
-    width: 100%;
-    margin-top: 16px;
-    padding: 14px;
-    border: 0;
-    border-radius: 10px;
-    background: #2bdd6d;
-    color: #001609;
-    font-size: 14px;
-    font-weight: 900;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.join:hover {
-    background: #52ed89;
-    transform: translateY(-1px);
-}
-
-.loading {
-    text-align: center;
-    padding: 55px 20px;
-    color: #8a958e;
-}
-
-.spinner {
-    width: 30px;
-    height: 30px;
-    margin: 0 auto 15px;
-    border: 3px solid #1b2920;
-    border-top-color: #3be875;
-    border-radius: 50%;
-    animation: spin .8s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@media (max-width: 600px) {
-    .logo {
-        font-size: 32px;
-    }
-
-    .controls {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-    }
-
-    .refresh {
-        width: 100%;
-    }
-
-    .server-top {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .stats {
-        grid-template-columns: 1fr;
-    }
+.empty{
+  text-align:center;
+  padding:50px;
+  color:#9ca3af;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
+<header>
+  <h1>💎 DONIE Rich Finder</h1>
+  <p>Find the best Adopt Me rich servers instantly</p>
+</header>
 
-    <div class="logo">
-        <span>DONIE</span>
-    </div>
+<section class="stats">
 
-    <div class="subtitle">
-        Find busy Roblox servers instantly
-    </div>
-
-    <div class="live">
-        <span class="dot"></span>
-        LIVE SERVER SCANNER
-    </div>
-
+<div class="stat">
+<h3>Servers Found</h3>
+<b id="serverCount">0</b>
 </div>
+
+<div class="stat">
+<h3>Best Players</h3>
+<b id="bestPlayers">0</b>
+</div>
+
+<div class="stat">
+<h3>Highest Value</h3>
+<b id="highestValue">0</b>
+</div>
+
+</section>
 
 <div class="controls">
-
-    <div class="count" id="serverCount">
-        🔄 Scanning servers...
-    </div>
-
-    <button class="refresh" onclick="loadServers()">
-        🔄 Scan Servers
-    </button>
-
+  <h2>🟢 Rich Servers</h2>
+  <button onclick="loadServers()">🔄 Refresh</button>
 </div>
 
-<div id="serverList">
-
-    <div class="loading">
-        <div class="spinner"></div>
-        Finding rich servers...
-    </div>
-
+<div class="container" id="serverList">
+<div class="loading">Loading servers...</div>
 </div>
 
 <script>
 
-const WORKER_URL =
-    "https://red-mouse-29f4.redonekowaithe1.workers.dev";
+const WORKER_URL="PASTE_YOUR_WORKER_URL_HERE";
+const PLACE_ID="920587237";
 
-const PLACE_ID =
-    "920587237";
+async function loadServers(){
 
-const MIN_PLAYERS = 20;
+const list=document.getElementById("serverList");
 
-function calculateValue(server) {
+list.innerHTML='<div class="loading">Scanning rich servers...</div>';
 
-    const players =
-        Number(server.playing || 0);
+try{
 
-    const max =
-        Number(server.maxPlayers || 0);
+const res=await fetch(
+WORKER_URL+"/servers?placeId="+PLACE_ID
+);
 
-    if (!max) {
-        return players.toFixed(2);
-    }
+const json=await res.json();
 
-    const fullness =
-        players / max;
+const servers=json.data||[];
 
-    return (
-        players * 0.08 +
-        fullness * 5
-    ).toFixed(2);
+document.getElementById("serverCount").innerText=servers.length;
+
+if(servers.length>0){
+
+document.getElementById("bestPlayers").innerText=
+servers[0].playing+"/"+servers[0].maxPlayers;
+
+document.getElementById("highestValue").innerText=
+servers[0].value;
+
+}else{
+
+document.getElementById("bestPlayers").innerText="0";
+document.getElementById("highestValue").innerText="0";
+
 }
 
-async function loadServers() {
+list.innerHTML="";
 
-    const list =
-        document.getElementById("serverList");
+if(servers.length===0){
 
-    const count =
-        document.getElementById("serverCount");
+list.innerHTML='<div class="empty">No rich servers found 😭</div>';
 
-    count.textContent =
-        "🔄 Scanning servers...";
+return;
 
-    list.innerHTML = `
-        <div class="loading">
-            <div class="spinner"></div>
-            Finding rich Roblox servers...
-        </div>
-    `;
-
-    try {
-
-        const response =
-            await fetch(
-                `${WORKER_URL}/servers?placeId=${PLACE_ID}`
-            );
-
-        if (!response.ok) {
-            throw new Error(
-                `Worker returned HTTP ${response.status}`
-            );
-        }
-
-        const data =
-            await response.json();
-
-        let allServers =
-            Array.isArray(data.data)
-                ? data.data
-                : [];
-
-        let servers =
-            allServers.filter(server =>
-                Number(server.playing || 0)
-                >= MIN_PLAYERS
-            );
-
-        servers.sort((a, b) =>
-            Number(b.playing || 0)
-            -
-            Number(a.playing || 0)
-        );
-
-        count.textContent =
-            `🟢 ${servers.length} rich servers found`;
-
-        if (servers.length === 0) {
-
-            list.innerHTML = `
-                <div class="loading">
-
-                    ⚠️ No 20+ player servers
-                    found right now.
-
-                    <br><br>
-
-                    Worker returned
-                    ${allServers.length}
-                    servers.
-
-                    <br><br>
-
-                    <button
-                        class="refresh"
-                        onclick="loadServers()"
-                    >
-                        🔄 Scan Again
-                    </button>
-
-                </div>
-            `;
-
-            return;
-        }
-
-        list.innerHTML = "";
-
-        servers.forEach((server, index) => {
-
-            const players =
-                Number(server.playing || 0);
-
-            const maxPlayers =
-                Number(server.maxPlayers || 0);
-
-            const ping =
-                server.ping !== undefined
-                    ? Math.round(Number(server.ping))
-                    : "N/A";
-
-            const fps =
-                server.fps !== undefined
-                    ? Math.round(Number(server.fps))
-                    : "N/A";
-
-            const value =
-                calculateValue(server);
-
-            const card =
-                document.createElement("div");
-
-            card.className = "server";
-
-            const badge =
-                document.createElement("div");
-
-            badge.className = "badge";
-
-            badge.textContent =
-                index === 0
-                    ? "🔥 BEST SERVER"
-                    : "🟢 RICH SERVER DETECTED";
-
-            const top =
-                document.createElement("div");
-
-            top.className = "server-top";
-
-            const title =
-                document.createElement("div");
-
-            title.className = "server-title";
-
-            title.textContent =
-                `🎮 Server #${index + 1}`;
-
-            const playerText =
-                document.createElement("div");
-
-            playerText.className = "players";
-
-            playerText.textContent =
-                `👥 ${players}/${maxPlayers}`;
-
-            top.appendChild(title);
-            top.appendChild(playerText);
-
-            const valueBox =
-                document.createElement("div");
-
-            valueBox.className = "value-box";
-
-            valueBox.innerHTML = `
-                <div class="value-label">
-                    Server Value
-                </div>
-
-                <div class="value">
-                    💎 ${value}
-                </div>
-            `;
-
-            const full =
-                document.createElement("div");
-
-            full.className = "full";
-
-            full.textContent =
-                players >= maxPlayers
-                    ? "🔥 SERVER IS FULL"
-                    : "🟢 Rich Server Detected";
-
-            const stats =
-                document.createElement("div");
-
-            stats.className = "stats";
-
-            stats.innerHTML = `
-
-                <div class="stat">
-                    <div class="stat-label">
-                        PLAYERS
-                    </div>
-                    <div class="stat-value">
-                        👥 ${players}
-                    </div>
-                </div>
-
-                <div class="stat">
-                    <div class="stat-label">
-                        PING
-                    </div>
-                    <div class="stat-value">
-                        📡 ${ping} ms
-                    </div>
-                </div>
-
-                <div class="stat">
-                    <div class="stat-label">
-                        FPS
-                    </div>
-                    <div class="stat-value">
-                        ⚡ ${fps}
-                    </div>
-                </div>
-
-            `;
-
-            const idBox =
-                document.createElement("div");
-
-            idBox.className = "server-id";
-
-            idBox.innerHTML = `
-
-                <div class="server-id-label">
-                    SERVER ID
-                </div>
-
-                <div class="server-id-value"></div>
-
-            `;
-
-            idBox.querySelector(
-                ".server-id-value"
-            ).textContent =
-                server.id || "Unknown";
-
-            const join =
-                document.createElement("button");
-
-            join.className = "join";
-
-            join.textContent =
-                "🚀 JOIN THIS SERVER";
-
-            join.onclick = () =>
-                joinServer(server.id);
-
-            card.appendChild(badge);
-            card.appendChild(top);
-            card.appendChild(valueBox);
-            card.appendChild(full);
-            card.appendChild(stats);
-            card.appendChild(idBox);
-            card.appendChild(join);
-
-            list.appendChild(card);
-
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        count.textContent =
-            "❌ Scanner error";
-
-        list.innerHTML = `
-
-            <div class="loading">
-
-                ❌ Could not load servers.
-
-                <br><br>
-
-                ${error.message}
-
-                <br><br>
-
-                <button
-                    class="refresh"
-                    onclick="loadServers()"
-                >
-                    🔄 Try Again
-                </button>
-
-            </div>
-
-        `;
-
-    }
 }
 
-function joinServer(serverId) {
+servers.forEach(server=>{
 
-    if (!serverId) {
+const card=document.createElement("div");
 
-        alert("Server ID is missing.");
+card.className="server";
 
-        return;
+card.innerHTML=`
 
-    }
+<div class="top">
 
-    const link =
-        `roblox://placeId=${PLACE_ID}&gameInstanceId=${encodeURIComponent(serverId)}`;
+<div>
 
-    window.location.href =
-        link;
+<h2>💎 Rich Server</h2>
+
+<div class="rich">🟢 Rich Server Detected</div>
+
+</div>
+
+<div class="value">${server.value}</div>
+
+</div>
+
+<div class="info">
+
+<div class="box">
+
+<span>Players</span>
+
+<b>${server.playing}/${server.maxPlayers}</b>
+
+</div>
+
+<div class="box">
+
+<span>Ping</span>
+
+<b>${server.ping??"N/A"} ms</b>
+
+</div>
+
+<div class="box">
+
+<span>FPS</span>
+
+<b>${server.fps??"N/A"}</b>
+
+</div>
+
+<div class="box">
+
+<span>Server ID</span>
+
+<b style="font-size:10px">${server.id}</b>
+
+</div>
+
+</div>
+
+<button class="join" onclick="joinServer('${server.id}')">
+
+🚀 Join Server
+
+</button>
+
+`;
+
+list.appendChild(card);
+
+});
+
+}catch(err){
+
+list.innerHTML=
+'<div class="empty">Failed to load servers.</div>';
+
+console.error(err);
+
+}
+
+}
+
+function joinServer(id){
+
+const script=
+`game:GetService("TeleportService"):TeleportToPlaceInstance(${PLACE_ID},"${id}")`;
+
+navigator.clipboard.writeText(script);
+
+alert("Join script copied!");
+
 }
 
 loadServers();
 
-setInterval(
-    loadServers,
-    30000
-);
+setInterval(loadServers,30000);
 
 </script>
 
 </body>
 </html>
-```
