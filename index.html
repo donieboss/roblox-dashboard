@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +19,6 @@ body {
     color: #f5f5f5;
 }
 
-/* SIDEBAR */
 .sidebar {
     position: fixed;
     left: 0;
@@ -72,7 +72,6 @@ body {
     border-left: 3px solid #79c936;
 }
 
-/* MAIN */
 .main {
     margin-left: 220px;
     min-height: 100vh;
@@ -102,7 +101,6 @@ h1 {
     margin-bottom: 28px;
 }
 
-/* ACCOUNT */
 .account {
     border: 1px solid #383b38;
     background: #111311;
@@ -129,7 +127,6 @@ h1 {
     background: #171917;
 }
 
-/* STAT CARDS */
 .stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -167,7 +164,6 @@ h1 {
     font-size: 12px;
 }
 
-/* GAME CARDS */
 .games {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -202,7 +198,6 @@ h1 {
     font-weight: bold;
 }
 
-/* SERVER SECTION */
 .server-section {
     margin-top: 25px;
     background: #111311;
@@ -229,6 +224,10 @@ h1 {
     cursor: pointer;
 }
 
+.refresh:hover {
+    background: #252925;
+}
+
 .server {
     border: 1px solid #303330;
     background: #0d0f0e;
@@ -239,6 +238,7 @@ h1 {
 .server-top {
     display: flex;
     justify-content: space-between;
+    gap: 10px;
 }
 
 .server-id {
@@ -280,7 +280,6 @@ h1 {
     padding: 25px;
 }
 
-/* MOBILE */
 @media(max-width: 900px) {
     .sidebar {
         width: 170px;
@@ -315,7 +314,6 @@ h1 {
 
 <body>
 
-<!-- SIDEBAR -->
 <aside class="sidebar">
 
     <div class="logo">
@@ -360,8 +358,6 @@ h1 {
 
 </aside>
 
-
-<!-- MAIN -->
 <main class="main">
 
     <div class="topbar">
@@ -376,8 +372,6 @@ h1 {
             Overview and public Roblox server controls.
         </p>
 
-
-        <!-- ACCOUNT -->
         <div class="account">
 
             <div class="account-title">
@@ -396,8 +390,6 @@ h1 {
 
         </div>
 
-
-        <!-- STATS -->
         <div class="stats">
 
             <div class="stat green">
@@ -416,7 +408,6 @@ h1 {
 
             </div>
 
-
             <div class="stat">
 
                 <div class="stat-title">
@@ -433,7 +424,6 @@ h1 {
 
             </div>
 
-
             <div class="stat">
 
                 <div class="stat-title">
@@ -449,7 +439,6 @@ h1 {
                 </div>
 
             </div>
-
 
             <div class="stat">
 
@@ -469,8 +458,6 @@ h1 {
 
         </div>
 
-
-        <!-- GAMES -->
         <div class="games">
 
             <div class="game">
@@ -481,63 +468,37 @@ h1 {
                 </span>
 
                 <span class="game-value">
-                    —
+                    🟢
                 </span>
 
                 <div class="game-label">
                     Servers
                 </div>
             </div>
-
 
             <div class="game">
                 <h3>MM2</h3>
-
                 <span class="game-number">—</span>
-
-                <span class="game-value">
-                    —
-                </span>
-
-                <div class="game-label">
-                    Servers
-                </div>
+                <span class="game-value">—</span>
+                <div class="game-label">Servers</div>
             </div>
-
 
             <div class="game">
                 <h3>Blade Ball</h3>
-
                 <span class="game-number">—</span>
-
-                <span class="game-value">
-                    —
-                </span>
-
-                <div class="game-label">
-                    Servers
-                </div>
+                <span class="game-value">—</span>
+                <div class="game-label">Servers</div>
             </div>
-
 
             <div class="game">
                 <h3>Pet Simulator 99</h3>
-
                 <span class="game-number">—</span>
-
-                <span class="game-value">
-                    —
-                </span>
-
-                <div class="game-label">
-                    Servers
-                </div>
+                <span class="game-value">—</span>
+                <div class="game-label">Servers</div>
             </div>
 
         </div>
 
-
-        <!-- SERVERS -->
         <div class="server-section">
 
             <div class="server-header">
@@ -553,7 +514,7 @@ h1 {
             <div id="serverList">
 
                 <div class="loading">
-                    Loading real Roblox servers...
+                    🔄 Loading real Roblox servers...
                 </div>
 
             </div>
@@ -564,13 +525,26 @@ h1 {
 
 </main>
 
-
 <script>
+
+/*
+========================================
+ROBLOX SERVER WORKER
+========================================
+*/
+
+const WORKER_URL =
+    "https://black-sun-c74c.redonekowaithe1.workers.dev";
 
 const PLACE_ID = "920587237";
 
 
-// Load Roblox public servers
+/*
+========================================
+LOAD SERVERS
+========================================
+*/
+
 async function loadServers() {
 
     const list = document.getElementById("serverList");
@@ -583,18 +557,42 @@ async function loadServers() {
 
     try {
 
-        const url =
-            `https://games.roblox.com/v1/games/${PLACE_ID}/servers/Public?limit=100`;
-
-        const response = await fetch(url);
+        const response = await fetch(
+            `${WORKER_URL}/servers?placeId=${PLACE_ID}`
+        );
 
         if (!response.ok) {
-            throw new Error("Roblox request failed");
+            throw new Error(
+                `Worker returned HTTP ${response.status}`
+            );
         }
 
         const data = await response.json();
 
-        const servers = data.data || [];
+        let servers = data.data || [];
+
+        /*
+        Only show servers that currently
+        have players.
+        */
+
+        servers = servers.filter(server =>
+            Number(server.playing || 0) > 0
+        );
+
+        /*
+        Highest player count first.
+        */
+
+        servers.sort((a, b) =>
+            Number(b.playing || 0) -
+            Number(a.playing || 0)
+        );
+
+
+        /*
+        Update dashboard statistics.
+        */
 
         document.getElementById("totalServers").textContent =
             servers.length;
@@ -602,12 +600,12 @@ async function loadServers() {
         document.getElementById("adoptServers").textContent =
             servers.length;
 
-        const totalPlayers =
-            servers.reduce(
-                (total, server) =>
-                    total + (server.playing || 0),
-                0
-            );
+
+        const totalPlayers = servers.reduce(
+            (total, server) =>
+                total + Number(server.playing || 0),
+            0
+        );
 
         document.getElementById("totalPlayers").textContent =
             totalPlayers;
@@ -615,18 +613,29 @@ async function loadServers() {
         document.getElementById("playersFound").textContent =
             totalPlayers;
 
+
+        /*
+        No servers.
+        */
+
         if (servers.length === 0) {
 
             list.innerHTML = `
                 <div class="loading">
-                    No public servers returned.
+                    No active public servers found.
                 </div>
             `;
 
             return;
         }
 
+
+        /*
+        Create server cards.
+        */
+
         list.innerHTML = "";
+
 
         servers.forEach(server => {
 
@@ -634,49 +643,96 @@ async function loadServers() {
 
             div.className = "server";
 
-            div.innerHTML = `
 
-                <div class="server-top">
+            const top = document.createElement("div");
 
-                    <strong>
-                        🟢 Public Server
-                    </strong>
+            top.className = "server-top";
 
-                    <span class="players">
-                        ${server.playing}/${server.maxPlayers}
-                        Players
-                    </span>
 
-                </div>
+            const title = document.createElement("strong");
 
-                <div class="server-id">
-                    Server ID:<br>
-                    ${escapeHTML(server.id)}
-                </div>
+            title.textContent =
+                "🟢 Public Server";
 
-                <button
-                    class="join"
-                    onclick="joinServer('${escapeJS(server.id)}')"
-                >
-                    🚀 JOIN SERVER
-                </button>
 
-            `;
+            const players = document.createElement("span");
+
+            players.className = "players";
+
+            players.textContent =
+                `${server.playing || 0}/${server.maxPlayers || 0} Players`;
+
+
+            top.appendChild(title);
+
+            top.appendChild(players);
+
+
+            const id = document.createElement("div");
+
+            id.className = "server-id";
+
+            id.innerHTML = "Server ID:<br>";
+
+            const idText =
+                document.createTextNode(server.id || "Unknown");
+
+            id.appendChild(idText);
+
+
+            const button =
+                document.createElement("button");
+
+            button.className = "join";
+
+            button.textContent =
+                "🚀 JOIN SERVER";
+
+
+            button.addEventListener("click", () => {
+
+                joinServer(server.id);
+
+            });
+
+
+            div.appendChild(top);
+
+            div.appendChild(id);
+
+            div.appendChild(button);
 
             list.appendChild(div);
 
         });
 
-    } catch(error) {
+
+    } catch (error) {
 
         console.error(error);
 
         list.innerHTML = `
+
             <div class="error">
-                ❌ Roblox server data could not be loaded.
+
+                ❌ Could not load Roblox servers.
+
                 <br><br>
-                Your browser may be blocking the direct Roblox API request.
+
+                Make sure your Cloudflare Worker is deployed
+                and accessible.
+
+                <br><br>
+
+                <button
+                    class="refresh"
+                    onclick="loadServers()"
+                >
+                    ↻ Try Again
+                </button>
+
             </div>
+
         `;
 
     }
@@ -684,44 +740,75 @@ async function loadServers() {
 }
 
 
-// Join a public Roblox server
+/*
+========================================
+JOIN SERVER
+========================================
+
+This opens Roblox's launch protocol for
+the selected public server.
+*/
+
 function joinServer(serverId) {
 
-    const link =
+    if (!serverId) {
+        alert("Server ID is missing.");
+        return;
+    }
+
+    const robloxLink =
         `roblox://placeId=${PLACE_ID}&gameInstanceId=${encodeURIComponent(serverId)}`;
 
-    window.location.href = link;
+    window.location.href = robloxLink;
 
 }
 
 
-// Prevent HTML injection
-function escapeHTML(value) {
+/*
+========================================
+NAVIGATION
+========================================
+*/
 
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+function showDashboard() {
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+function showGame(game) {
+
+    if (game === "Adopt Me") {
+
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth"
+        });
+
+    } else {
+
+        alert(
+            `${game} server support is not connected yet.`
+        );
+
+    }
 
 }
 
 
-// Prevent JavaScript problems
-function escapeJS(value) {
+/*
+========================================
+START
+========================================
+*/
 
-    return String(value)
-        .replace(/\\/g, "\\\\")
-        .replace(/'/g, "\\'");
-
-}
-
-
-// Start
 loadServers();
 
 </script>
 
 </body>
 </html>
+```
