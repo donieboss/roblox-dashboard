@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -14,25 +13,19 @@
     font-family: Arial, sans-serif;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
 body {
     background: #08090d;
     color: white;
-    min-height: 100vh;
 }
 
 .sidebar {
-    width: 240px;
-    background: #0d0f14;
-    border-right: 1px solid #20232b;
-    padding: 25px 15px;
     position: fixed;
-    height: 100vh;
     left: 0;
     top: 0;
+    width: 220px;
+    height: 100vh;
+    background: #0d0f14;
+    padding: 25px 15px;
 }
 
 .logo {
@@ -45,63 +38,23 @@ body {
     color: #00ff88;
 }
 
-.menu {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
 .menu a {
-    color: #a7abb5;
+    display: block;
+    color: #aaa;
     text-decoration: none;
     padding: 13px 15px;
+    margin-bottom: 5px;
     border-radius: 10px;
 }
 
-.menu a:hover,
-.menu a.active {
+.menu a:hover {
     background: #171b23;
     color: white;
 }
 
 .main {
-    margin-left: 240px;
+    margin-left: 220px;
     padding: 35px;
-}
-
-.top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.top h1 {
-    font-size: 30px;
-}
-
-.profile {
-    background: #11141b;
-    border: 1px solid #242832;
-    padding: 10px 16px;
-    border-radius: 12px;
-}
-
-.status,
-.online {
-    color: #00ff88;
-    font-size: 13px;
-}
-
-.status {
-    margin-top: 5px;
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-bottom: 25px;
 }
 
 .card,
@@ -110,32 +63,19 @@ body {
     border: 1px solid #242832;
     border-radius: 16px;
     padding: 22px;
+    margin-bottom: 20px;
 }
 
-.card small {
-    color: #858a96;
-}
-
-.card h2 {
-    margin-top: 12px;
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
 }
 
 .green {
     color: #00ff88;
 }
 
-.content {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
-}
-
-.panel h2 {
-    margin-bottom: 18px;
-}
-
-.rich-box,
-.server-card,
 .settings-box {
     background: #151820;
     border: 1px solid #2a303b;
@@ -143,246 +83,59 @@ body {
     padding: 22px;
 }
 
-.rich-box {
+.field {
     margin-bottom: 20px;
 }
 
-.rich-box h3 {
+label {
+    display: block;
     margin-bottom: 8px;
+    font-weight: bold;
 }
 
-.rich-box p {
-    color: #858a96;
-    line-height: 1.5;
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 13px;
+    background: #08090d;
+    border: 1px solid #343944;
+    border-radius: 8px;
+    color: white;
+}
+
+.toggle {
+    margin: 15px 0;
 }
 
 button {
-    border: none;
+    border: 0;
     border-radius: 10px;
-    padding: 12px 16px;
-    margin-top: 15px;
+    padding: 13px 18px;
+    margin-top: 10px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 14px;
 }
 
-button:hover {
-    transform: translateY(-1px);
-    opacity: 0.9;
-}
-
-button:active {
-    transform: translateY(0);
-}
-
-.join-btn,
 .save-btn {
     background: #00ff88;
     color: #07100b;
 }
 
-.find-btn,
 .reset-btn {
     background: #242a35;
     color: white;
     margin-left: 8px;
 }
 
-.server-card {
-    padding: 18px;
-    margin-bottom: 12px;
-}
-
-.server-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.server-name {
-    font-size: 17px;
-    font-weight: bold;
-}
-
-.server-info {
-    color: #858a96;
-    font-size: 13px;
-    margin-top: 8px;
-}
-
-.rich-tag {
-    background: rgba(0,255,136,0.12);
+#saveMessage {
     color: #00ff88;
-    border: 1px solid rgba(0,255,136,0.3);
-    padding: 5px 9px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: bold;
-}
-
-.game {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    background: #151820;
-    border-radius: 12px;
-    margin-bottom: 10px;
-}
-
-.notice {
-    margin-top: 18px;
-    padding: 14px;
-    background: #12151c;
-    border-radius: 10px;
-    color: #858a96;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.settings-panel {
-    margin-top: 25px;
-}
-
-.settings-title {
-    font-size: 17px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.settings-description {
-    color: #858a96;
-    font-size: 13px;
-    margin-bottom: 22px;
-}
-
-.field {
-    margin-bottom: 20px;
-}
-
-.field label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.field small {
-    display: block;
-    color: #858a96;
-    margin-top: 7px;
-    font-size: 12px;
-}
-
-input[type="text"],
-input[type="number"] {
-    width: 100%;
-    background: #08090d;
-    border: 1px solid #343944;
-    color: white;
-    border-radius: 8px;
-    padding: 13px;
-    outline: none;
-}
-
-input:focus {
-    border-color: #00ff88;
-}
-
-.two-columns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
-
-.toggle-row {
-    background: #191b20;
-    padding: 17px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.toggle-text strong {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.toggle-text span {
-    color: #858a96;
-    font-size: 12px;
-}
-
-.switch {
-    position: relative;
-    width: 45px;
-    height: 25px;
-    flex-shrink: 0;
-}
-
-.switch input {
-    display: none;
-}
-
-.slider {
-    position: absolute;
-    inset: 0;
-    background: #303642;
-    border-radius: 30px;
-    cursor: pointer;
-}
-
-.slider:before {
-    content: "";
-    position: absolute;
-    width: 19px;
-    height: 19px;
-    left: 3px;
-    top: 3px;
-    background: white;
-    border-radius: 50%;
-    transition: .2s;
-}
-
-.switch input:checked + .slider {
-    background: #00b86b;
-}
-
-.switch input:checked + .slider:before {
-    transform: translateX(20px);
-}
-
-.save-message {
-    display: inline-block;
-    color: #00ff88;
-    font-size: 13px;
     margin-left: 12px;
+    font-weight: bold;
 }
 
-@media (max-width: 900px) {
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .content,
-    .two-columns {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 650px) {
+@media (max-width: 700px) {
     .sidebar {
         width: 70px;
-    }
-
-    .logo {
-        font-size: 0;
-    }
-
-    .menu a {
-        font-size: 0;
-        text-align: center;
     }
 
     .main {
@@ -395,401 +148,229 @@ input:focus {
     }
 }
 </style>
-
 </head>
 
 <body>
 
 <aside class="sidebar">
-    <div class="logo">RO<span>BLOX</span></div>
 
-```
-<nav class="menu">
-    <a href="#" class="active">📊 Dashboard</a>
-    <a href="#accounts">👤 Accounts</a>
-    <a href="#games">🎮 Games</a>
-    <a href="#servers">🟢 Servers</a>
-    <a href="#settings">⚙️ Settings</a>
-</nav>
-```
+    <div class="logo">
+        RO<span>BLOX</span>
+    </div>
+
+    <nav class="menu">
+        <a href="#dashboard">📊 Dashboard</a>
+        <a href="#games">🎮 Games</a>
+        <a href="#servers">🟢 Servers</a>
+        <a href="#settings">⚙️ Settings</a>
+    </nav>
 
 </aside>
 
 <main class="main">
 
-<div class="top">
-    <div>
-        <h1>Dashboard</h1>
-        <p style="color:#858a96; margin-top:7px;">
-            Roblox server finder
-        </p>
+<section id="dashboard">
+
+    <h1>Dashboard</h1>
+
+    <p style="color:#858a96; margin-top:8px;">
+        Roblox server finder
+    </p>
+
+    <div class="cards">
+
+        <div class="card">
+            <small>Robux</small>
+            <h2 class="green">25,430</h2>
+        </div>
+
+        <div class="card">
+            <small>Friends</small>
+            <h2>128</h2>
+        </div>
+
+        <div class="card">
+            <small>Games</small>
+            <h2>24</h2>
+        </div>
+
+        <div class="card">
+            <small>Status</small>
+            <h2 class="green">Online</h2>
+        </div>
+
     </div>
-
-```
-<div class="profile">
-    👤 My Account
-    <div class="status">● Online</div>
-</div>
-```
-
-</div>
-
-<section class="cards">
-    <div class="card">
-        <small>Robux</small>
-        <h2 class="green">25,430</h2>
-    </div>
-
-```
-<div class="card">
-    <small>Friends</small>
-    <h2>128</h2>
-</div>
-
-<div class="card">
-    <small>Games</small>
-    <h2>24</h2>
-</div>
-
-<div class="card">
-    <small>Status</small>
-    <h2 class="green">Online</h2>
-</div>
-```
 
 </section>
 
-<section class="content">
+<section class="panel" id="games">
 
-<div class="panel" id="games">
+    <h2>🎮 Adopt Me!</h2>
 
-```
-<h2>🎯 Adopt Me! Server Finder</h2>
-
-<div class="rich-box">
-
-    <h3>💎 Find a Rich Server</h3>
-
-    <p>
-        Open Adopt Me! and use Roblox's public
-        server list to choose a server.
+    <p style="margin-top:10px;">
+        Open the official Roblox Adopt Me game page.
     </p>
 
     <button
+        class="save-btn"
         type="button"
-        class="join-btn"
         onclick="openAdoptMe()">
         🎮 Open Adopt Me!
     </button>
 
-    <button
-        type="button"
-        class="find-btn"
-        onclick="findServer()">
-        🔄 Find Another Server
-    </button>
+</section>
 
-    <div class="notice" id="serverMessage">
-        🟢 Ready to browse public servers.
-    </div>
-</div>
+<section class="panel" id="servers">
 
-<h2>🎮 Public Servers</h2>
+    <h2>🟢 Games</h2>
 
-<div class="server-card">
-    <div class="server-top">
-        <div class="server-name">Server #1</div>
-        <div class="rich-tag">💎 COMMUNITY TAG</div>
-    </div>
-
-    <div class="server-info">👥 22 / 48 players</div>
-
-    <button
-        type="button"
-        class="join-btn"
-        onclick="openAdoptMe()">
-        🎮 Open Roblox
-    </button>
-</div>
-
-<div class="server-card">
-    <div class="server-top">
-        <div class="server-name">Server #2</div>
-        <div class="rich-tag">💎 COMMUNITY TAG</div>
-    </div>
-
-    <div class="server-info">👥 31 / 48 players</div>
-
-    <button
-        type="button"
-        class="join-btn"
-        onclick="openAdoptMe()">
-        🎮 Open Roblox
-    </button>
-</div>
-
-<div class="server-card">
-    <div class="server-top">
-        <div class="server-name">Server #3</div>
-        <div class="rich-tag">💎 COMMUNITY TAG</div>
-    </div>
-
-    <div class="server-info">👥 17 / 48 players</div>
-
-    <button
-        type="button"
-        class="join-btn"
-        onclick="openAdoptMe()">
-        🎮 Open Roblox
-    </button>
-</div>
-```
-
-</div>
-
-<div class="panel" id="servers">
-
-```
-<h2>🟢 Games</h2>
-
-<div class="game">
-    <div>🐶 Adopt Me!</div>
-    <div class="online">● Available</div>
-</div>
-
-<div class="game">
-    <div>⚔️ Blade Ball</div>
-    <div class="online">● Available</div>
-</div>
-
-<div class="game">
-    <div>🔪 Murder Mystery 2</div>
-    <div class="online">● Available</div>
-</div>
-
-<h2 style="margin-top:25px;">ℹ️ How it works</h2>
-
-<div class="notice">
-    Use the official Roblox public-server system
-    to browse and join servers.
-    <br><br>
-    This dashboard does not access private Roblox
-    inventories or account information.
-</div>
-```
-
-</div>
+    <p style="margin-top:15px;">🐶 Adopt Me! — Available</p>
+    <p style="margin-top:10px;">⚔️ Blade Ball — Available</p>
+    <p style="margin-top:10px;">🔪 Murder Mystery 2 — Available</p>
 
 </section>
 
-<section class="panel settings-panel" id="settings">
+<section class="panel" id="settings">
 
-```
-<h2>⚙️ Adopt Me Settings</h2>
+    <h2>⚙️ Settings</h2>
 
-<div class="settings-box">
-
-    <div class="settings-title">
-        Adopt Me settings
-    </div>
-
-    <div class="settings-description">
-        Settings for your dashboard and server-finding preferences.
-    </div>
-
-    <div class="field">
-        <label>Discord webhook</label>
-
-        <input
-            type="text"
-            id="webhook"
-            placeholder="https://discord.com/api/webhooks/...">
-
-        <small>
-            Stored locally only. This dashboard does not send
-            player or inventory data to Discord.
-        </small>
-    </div>
-
-    <div class="two-columns">
+    <div class="settings-box">
 
         <div class="field">
+
+            <label>Discord webhook</label>
+
+            <input
+                type="text"
+                id="webhook"
+                placeholder="https://discord.com/api/webhooks/...">
+
+        </div>
+
+        <div class="field">
+
             <label>Min value</label>
 
             <input
                 type="number"
                 id="minValue"
                 value="3"
-                min="0"
-                step="0.01">
+                min="0">
 
-            <small>
-                Minimum total value for your own filter.
-            </small>
         </div>
 
         <div class="field">
+
             <label>Min item value</label>
 
             <input
                 type="number"
                 id="minItemValue"
                 value="0.01"
-                min="0"
-                step="0.01">
+                min="0">
 
-            <small>
-                Minimum value per item.
-            </small>
         </div>
 
-    </div>
-
-    <div class="toggle-row">
-        <div class="toggle-text">
-            <strong>Skip unchat­table</strong>
-            <span>Hide players you don't want to consider.</span>
+        <div class="toggle">
+            <label>
+                <input type="checkbox" id="skipUnchat">
+                Skip unchat­table
+            </label>
         </div>
 
-        <label class="switch">
-            <input type="checkbox" id="skipUnchat">
-            <span class="slider"></span>
-        </label>
-    </div>
-
-    <div class="toggle-row">
-        <div class="toggle-text">
-            <strong>Skip mobile</strong>
-            <span>Hide mobile players from your local filter.</span>
+        <div class="toggle">
+            <label>
+                <input type="checkbox" id="skipMobile">
+                Skip mobile
+            </label>
         </div>
 
-        <label class="switch">
-            <input type="checkbox" id="skipMobile">
-            <span class="slider"></span>
-        </label>
-    </div>
-
-    <div class="toggle-row">
-        <div class="toggle-text">
-            <strong>PSN Linked</strong>
-            <span>Enable the PSN-linked display filter.</span>
+        <div class="toggle">
+            <label>
+                <input type="checkbox" id="psnLinked">
+                PSN Linked
+            </label>
         </div>
 
-        <label class="switch">
-            <input type="checkbox" id="psnLinked">
-            <span class="slider"></span>
-        </label>
+        <button
+            type="button"
+            class="save-btn"
+            id="saveSettingsBtn">
+            💾 Save Settings
+        </button>
+
+        <button
+            type="button"
+            class="reset-btn"
+            id="resetSettingsBtn">
+            ↺ Reset
+        </button>
+
+        <span id="saveMessage"></span>
+
     </div>
-
-    <button
-        type="button"
-        class="save-btn"
-        id="saveSettingsBtn">
-        💾 Save Settings
-    </button>
-
-    <button
-        type="button"
-        class="reset-btn"
-        id="resetSettingsBtn">
-        ↺ Reset
-    </button>
-
-    <span
-        class="save-message"
-        id="saveMessage">
-    </span>
-
-</div>
-```
 
 </section>
 
 </main>
 
 <script>
-const adoptMeURL =
-    "https://www.roblox.com/games/920587237/Adopt-Me";
 
 function openAdoptMe() {
-    window.open(adoptMeURL, "_blank");
-}
-
-function findServer() {
-    const message = document.getElementById("serverMessage");
-
-    message.textContent =
-        "🔎 Opening Adopt Me! so you can browse public servers.";
-
-    setTimeout(function() {
-        window.open(adoptMeURL, "_blank");
-    }, 500);
+    window.open(
+        "https://www.roblox.com/games/920587237/Adopt-Me",
+        "_blank"
+    );
 }
 
 function saveSettings() {
-    try {
-        const settings = {
-            webhook: document.getElementById("webhook").value,
-            minValue: document.getElementById("minValue").value,
-            minItemValue: document.getElementById("minItemValue").value,
-            skipUnchat: document.getElementById("skipUnchat").checked,
-            skipMobile: document.getElementById("skipMobile").checked,
-            psnLinked: document.getElementById("psnLinked").checked
-        };
 
-        localStorage.setItem(
-            "adoptMeSettings",
-            JSON.stringify(settings)
-        );
+    const settings = {
+        webhook: document.getElementById("webhook").value,
+        minValue: document.getElementById("minValue").value,
+        minItemValue: document.getElementById("minItemValue").value,
+        skipUnchat: document.getElementById("skipUnchat").checked,
+        skipMobile: document.getElementById("skipMobile").checked,
+        psnLinked: document.getElementById("psnLinked").checked
+    };
 
-        const message = document.getElementById("saveMessage");
-        message.textContent = "✓ Settings saved!";
+    localStorage.setItem(
+        "adoptMeSettings",
+        JSON.stringify(settings)
+    );
 
-        setTimeout(function() {
-            message.textContent = "";
-        }, 2500);
+    document.getElementById("saveMessage").textContent =
+        "✓ Settings saved!";
 
-    } catch (error) {
-        alert("Could not save settings in this browser.");
-        console.error(error);
-    }
 }
 
 function loadSettings() {
-    try {
-        const saved =
-            localStorage.getItem("adoptMeSettings");
 
-        if (!saved) return;
+    const saved =
+        localStorage.getItem("adoptMeSettings");
 
-        const settings = JSON.parse(saved);
+    if (!saved) return;
 
-        document.getElementById("webhook").value =
-            settings.webhook || "";
+    const settings =
+        JSON.parse(saved);
 
-        document.getElementById("minValue").value =
-            settings.minValue ?? "3";
+    document.getElementById("webhook").value =
+        settings.webhook || "";
 
-        document.getElementById("minItemValue").value =
-            settings.minItemValue ?? "0.01";
+    document.getElementById("minValue").value =
+        settings.minValue || "3";
 
-        document.getElementById("skipUnchat").checked =
-            settings.skipUnchat === true;
+    document.getElementById("minItemValue").value =
+        settings.minItemValue || "0.01";
 
-        document.getElementById("skipMobile").checked =
-            settings.skipMobile === true;
+    document.getElementById("skipUnchat").checked =
+        settings.skipUnchat === true;
 
-        document.getElementById("psnLinked").checked =
-            settings.psnLinked === true;
+    document.getElementById("skipMobile").checked =
+        settings.skipMobile === true;
 
-    } catch (error) {
-        console.error("Could not load settings:", error);
-    }
-}
-
-function resetSettings() {
-    localStorage.removeItem("adoptMeSettings");
-    location.reload();
+    document.getElementById("psnLinked").checked =
+        settings.psnLinked === true;
 }
 
 document
@@ -798,12 +379,16 @@ document
 
 document
     .getElementById("resetSettingsBtn")
-    .addEventListener("click", resetSettings);
+    .addEventListener("click", function() {
+
+        localStorage.removeItem("adoptMeSettings");
+        location.reload();
+
+    });
 
 loadSettings();
+
 </script>
 
 </body>
-
-    
-
+</html>
