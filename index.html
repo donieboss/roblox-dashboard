@@ -1,327 +1,1302 @@
-const DEFAULT_GAME = "adoptme";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-const GAMES = {
-  adoptme: {
-    name: "Adopt Me",
-    placeId: "920587237",
-    emoji: "🐶"
-  },
+<title>DONIE Dashboard</title>
 
-  bladeball: {
-    name: "Blade Ball",
-    placeId: "13772394625",
-    emoji: "⚔️"
-  },
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Inter,Arial,sans-serif;
+}
 
-  mm2: {
-    name: "Murder Mystery 2",
-    placeId: "142823291",
-    emoji: "🔪"
-  }
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 20% 0%,#263b91 0%,transparent 35%),
+        radial-gradient(circle at 100% 20%,#421b78 0%,transparent 35%),
+        #060914;
+    color:#fff;
+}
+
+button{
+    font:inherit;
+}
+
+.layout{
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:245px;
+    background:rgba(7,11,27,.94);
+    border-right:1px solid #202b4c;
+    padding:25px 15px;
+    position:fixed;
+    height:100vh;
+    z-index:10;
+}
+
+.logo{
+    font-size:27px;
+    font-weight:900;
+    padding:10px 15px 30px;
+}
+
+.logo span{
+    color:#7285ff;
+}
+
+.nav-title{
+    color:#65708f;
+    font-size:11px;
+    font-weight:bold;
+    padding:10px 15px;
+    text-transform:uppercase;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.nav button{
+    border:0;
+    background:transparent;
+    color:#aeb8d3;
+    padding:13px 15px;
+    border-radius:11px;
+    text-align:left;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.nav button:hover,
+.nav button.active{
+    background:linear-gradient(90deg,#5865f2,#7149d8);
+    color:#fff;
+}
+
+.sidebarBottom{
+    position:absolute;
+    bottom:20px;
+    left:15px;
+    right:15px;
+}
+
+.online{
+    background:#10182e;
+    border:1px solid #26345a;
+    padding:14px;
+    border-radius:12px;
+}
+
+.dot{
+    display:inline-block;
+    width:9px;
+    height:9px;
+    background:#32e875;
+    border-radius:50%;
+    margin-right:7px;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:245px;
+    width:calc(100% - 245px);
+    padding:30px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.welcome h1{
+    font-size:31px;
+}
+
+.welcome p{
+    color:#8995b5;
+    margin-top:6px;
+}
+
+.refresh{
+    border:0;
+    background:#5865f2;
+    color:#fff;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.refresh:hover{
+    background:#4752c4;
+}
+
+/* HERO */
+
+.hero{
+    background:
+        linear-gradient(135deg,rgba(88,101,242,.85),rgba(110,53,180,.65)),
+        #161c38;
+    border:1px solid #7581ff;
+    border-radius:22px;
+    padding:30px;
+    margin-bottom:25px;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+.hero h2{
+    font-size:29px;
+}
+
+.hero p{
+    color:#dce1ff;
+    margin-top:8px;
+}
+
+.heroButtons{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+    flex-wrap:wrap;
+}
+
+.heroBtn{
+    padding:12px 17px;
+    border:0;
+    border-radius:10px;
+    background:#fff;
+    color:#20264b;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.heroBtn.secondary{
+    background:rgba(255,255,255,.13);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.25);
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:rgba(12,18,39,.88);
+    border:1px solid #222e50;
+    border-radius:16px;
+    padding:20px;
+}
+
+.statIcon{
+    font-size:25px;
+}
+
+.statLabel{
+    color:#7e89a8;
+    font-size:12px;
+    margin-top:13px;
+}
+
+.statValue{
+    font-size:27px;
+    font-weight:900;
+    margin-top:4px;
+}
+
+/* SECTIONS */
+
+.section{
+    display:none;
+}
+
+.section.active{
+    display:block;
+}
+
+.sectionTitle{
+    margin-bottom:15px;
+}
+
+.sectionTitle h2{
+    font-size:23px;
+}
+
+.sectionTitle p{
+    color:#7f8aa8;
+    margin-top:5px;
+}
+
+/* GAMES */
+
+.games{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.game{
+    background:#0e162e;
+    border:1px solid #26345a;
+    border-radius:17px;
+    padding:22px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.game:hover{
+    transform:translateY(-4px);
+    border-color:#6877ff;
+}
+
+.gameIcon{
+    font-size:42px;
+}
+
+.game h3{
+    margin-top:14px;
+}
+
+.game p{
+    color:#7f8aa8;
+    margin-top:6px;
+    font-size:13px;
+}
+
+.gameBtn{
+    margin-top:18px;
+    width:100%;
+    padding:11px;
+    border:0;
+    border-radius:9px;
+    background:#5865f2;
+    color:#fff;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* SERVER */
+
+.gameSelector{
+    display:flex;
+    gap:9px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+}
+
+.selector{
+    border:1px solid #29365c;
+    background:#101832;
+    color:#b9c3de;
+    padding:10px 15px;
+    border-radius:9px;
+    cursor:pointer;
+}
+
+.selector.active{
+    background:#5865f2;
+    color:#fff;
+}
+
+.server{
+    background:linear-gradient(145deg,#111a35,#080e20);
+    border:1px solid #27365f;
+    border-radius:17px;
+    padding:20px;
+    margin-bottom:14px;
+}
+
+.serverTop{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.rich{
+    color:#43e47c;
+    font-size:13px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.score{
+    color:#ffd84d;
+    font-size:25px;
+    font-weight:900;
+}
+
+.serverInfo{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:17px;
+}
+
+.box{
+    background:#080d1d;
+    border-radius:10px;
+    padding:13px;
+}
+
+.box span{
+    color:#687594;
+    font-size:11px;
+}
+
+.box b{
+    display:block;
+    margin-top:5px;
+}
+
+.join{
+    width:100%;
+    margin-top:15px;
+    padding:13px;
+    border:0;
+    border-radius:10px;
+    background:#22c55e;
+    color:#fff;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.join:hover{
+    background:#16a34a;
+}
+
+/* LINKS */
+
+.links{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.link{
+    background:#0e162e;
+    border:1px solid #26345a;
+    border-radius:15px;
+    padding:20px;
+}
+
+.linkIcon{
+    font-size:30px;
+}
+
+.link h3{
+    margin-top:10px;
+}
+
+.link p{
+    color:#7f8aa8;
+    font-size:13px;
+    margin-top:5px;
+}
+
+.link a{
+    display:block;
+    margin-top:15px;
+    background:#5865f2;
+    color:#fff;
+    text-decoration:none;
+    text-align:center;
+    padding:10px;
+    border-radius:9px;
+    font-weight:bold;
+}
+
+/* SETTINGS */
+
+.settings{
+    background:#0e162e;
+    border:1px solid #26345a;
+    border-radius:16px;
+    padding:20px;
+}
+
+.setting{
+    padding:17px 0;
+    border-bottom:1px solid #202c4c;
+}
+
+.setting:last-child{
+    border-bottom:0;
+}
+
+.setting label{
+    font-weight:bold;
+}
+
+.setting p{
+    color:#7783a3;
+    font-size:13px;
+    margin-top:5px;
+}
+
+input[type="number"]{
+    margin-top:10px;
+    background:#080e20;
+    border:1px solid #2b3b65;
+    color:#fff;
+    padding:10px;
+    border-radius:8px;
+}
+
+/* EMPTY */
+
+.loading,
+.empty{
+    text-align:center;
+    padding:50px;
+    color:#8490b0;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo{
+        font-size:18px;
+        padding:10px 5px 25px;
+    }
+
+    .logo span,
+    .nav-title,
+    .nav button span,
+    .sidebarBottom{
+        display:none;
+    }
+
+    .nav button{
+        text-align:center;
+        font-size:20px;
+    }
+
+    .main{
+        margin-left:70px;
+        width:calc(100% - 70px);
+        padding:20px;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .games,
+    .links{
+        grid-template-columns:1fr;
+    }
+
+    .serverInfo{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:550px){
+
+    .topbar{
+        align-items:flex-start;
+        gap:10px;
+        flex-direction:column;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .hero{
+        padding:22px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        💎 DONIE<span>.</span>
+    </div>
+
+    <div class="nav-title">Dashboard</div>
+
+    <nav class="nav">
+
+        <button class="active" onclick="showSection('home',this)">
+            🏠 <span>Home</span>
+        </button>
+
+        <button onclick="showSection('games',this)">
+            🎮 <span>Games</span>
+        </button>
+
+        <button onclick="showSection('servers',this)">
+            💎 <span>Rich Servers</span>
+        </button>
+
+        <button onclick="showSection('links',this)">
+            🔗 <span>Quick Links</span>
+        </button>
+
+        <button onclick="showSection('settings',this)">
+            ⚙️ <span>Settings</span>
+        </button>
+
+    </nav>
+
+    <div class="sidebarBottom">
+
+        <div class="online">
+            <span class="dot"></span>
+            <small>DONIE ONLINE</small>
+        </div>
+
+    </div>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<div class="topbar">
+
+    <div class="welcome">
+        <h1>Welcome to DONIE 👋</h1>
+        <p>Your all-in-one Roblox gaming dashboard.</p>
+    </div>
+
+    <button class="refresh" onclick="loadServers()">
+        🔄 Refresh
+    </button>
+
+</div>
+
+<!-- HOME -->
+
+<section id="home" class="section active">
+
+    <div class="hero">
+
+        <h2>💎 DONIE Gaming Hub</h2>
+
+        <p>
+            Find busy Roblox servers, jump into your favorite games,
+            and keep all your gaming links in one place.
+        </p>
+
+        <div class="heroButtons">
+
+            <button class="heroBtn"
+                onclick="showSectionByName('servers')">
+                🚀 Find Rich Servers
+            </button>
+
+            <button class="heroBtn secondary"
+                onclick="showSectionByName('games')">
+                🎮 Browse Games
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <div class="statIcon">🎮</div>
+            <div class="statLabel">GAMES</div>
+            <div class="statValue">3</div>
+        </div>
+
+        <div class="stat">
+            <div class="statIcon">🔎</div>
+            <div class="statLabel">SERVERS FOUND</div>
+            <div class="statValue" id="homeServers">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="statIcon">👥</div>
+            <div class="statLabel">BEST SERVER</div>
+            <div class="statValue" id="homePlayers">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="statIcon">💎</div>
+            <div class="statLabel">BEST SCORE</div>
+            <div class="statValue" id="homeScore">0</div>
+        </div>
+
+    </div>
+
+    <div class="sectionTitle">
+        <h2>⚡ Quick Start</h2>
+        <p>Choose a game to start scanning.</p>
+    </div>
+
+    <div class="games">
+
+        <div class="game" onclick="selectGame('adoptme')">
+            <div class="gameIcon">🐶</div>
+            <h3>Adopt Me</h3>
+            <p>Find busy Adopt Me servers.</p>
+            <button class="gameBtn">Find Servers</button>
+        </div>
+
+        <div class="game" onclick="selectGame('bladeball')">
+            <div class="gameIcon">⚔️</div>
+            <h3>Blade Ball</h3>
+            <p>Find Blade Ball servers.</p>
+            <button class="gameBtn">Find Servers</button>
+        </div>
+
+        <div class="game" onclick="selectGame('mm2')">
+            <div class="gameIcon">🔪</div>
+            <h3>Murder Mystery 2</h3>
+            <p>Find MM2 servers.</p>
+            <button class="gameBtn">Find Servers</button>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- GAMES -->
+
+<section id="games" class="section">
+
+    <div class="sectionTitle">
+        <h2>🎮 Games</h2>
+        <p>Select a game and start searching.</p>
+    </div>
+
+    <div class="games">
+
+        <div class="game" onclick="selectGame('adoptme')">
+            <div class="gameIcon">🐶</div>
+            <h3>Adopt Me</h3>
+            <p>Roblox server finder</p>
+            <button class="gameBtn">Open Finder</button>
+        </div>
+
+        <div class="game" onclick="selectGame('bladeball')">
+            <div class="gameIcon">⚔️</div>
+            <h3>Blade Ball</h3>
+            <p>Roblox server finder</p>
+            <button class="gameBtn">Open Finder</button>
+        </div>
+
+        <div class="game" onclick="selectGame('mm2')">
+            <div class="gameIcon">🔪</div>
+            <h3>Murder Mystery 2</h3>
+            <p>Roblox server finder</p>
+            <button class="gameBtn">Open Finder</button>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- SERVERS -->
+
+<section id="servers" class="section">
+
+    <div class="sectionTitle">
+
+        <h2>💎 Rich Server Finder</h2>
+
+        <p>
+            Servers are sorted using player count, ping and available
+            performance information.
+        </p>
+
+    </div>
+
+    <div class="gameSelector">
+
+        <button class="selector active"
+            onclick="selectGame('adoptme')">
+            🐶 Adopt Me
+        </button>
+
+        <button class="selector"
+            onclick="selectGame('bladeball')">
+            ⚔️ Blade Ball
+        </button>
+
+        <button class="selector"
+            onclick="selectGame('mm2')">
+            🔪 MM2
+        </button>
+
+    </div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <div class="statLabel">SERVERS FOUND</div>
+            <div class="statValue" id="serverCount">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="statLabel">BEST PLAYERS</div>
+            <div class="statValue" id="bestPlayers">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="statLabel">BEST SCORE</div>
+            <div class="statValue" id="bestScore">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="statLabel">GAME</div>
+            <div class="statValue" id="currentGame">Adopt Me</div>
+        </div>
+
+    </div>
+
+    <div id="serverList">
+        <div class="loading">🔎 Scanning servers...</div>
+    </div>
+
+</section>
+
+<!-- LINKS -->
+
+<section id="links" class="section">
+
+    <div class="sectionTitle">
+        <h2>🔗 Quick Links</h2>
+        <p>Everything you need in one place.</p>
+    </div>
+
+    <div class="links">
+
+        <div class="link">
+            <div class="linkIcon">🎮</div>
+            <h3>Roblox</h3>
+            <p>Open Roblox.</p>
+            <a href="https://www.roblox.com/" target="_blank">
+                Open Roblox
+            </a>
+        </div>
+
+        <div class="link">
+            <div class="linkIcon">💬</div>
+            <h3>Discord</h3>
+            <p>Open Discord.</p>
+            <a href="https://discord.com/" target="_blank">
+                Open Discord
+            </a>
+        </div>
+
+        <div class="link">
+            <div class="linkIcon">▶️</div>
+            <h3>YouTube</h3>
+            <p>Open YouTube.</p>
+            <a href="https://www.youtube.com/" target="_blank">
+                Open YouTube
+            </a>
+        </div>
+
+        <div class="link">
+            <div class="linkIcon">🎵</div>
+            <h3>TikTok</h3>
+            <p>Open TikTok.</p>
+            <a href="https://www.tiktok.com/" target="_blank">
+                Open TikTok
+            </a>
+        </div>
+
+        <div class="link">
+            <div class="linkIcon">🟣</div>
+            <h3>Twitch</h3>
+            <p>Open Twitch.</p>
+            <a href="https://www.twitch.tv/" target="_blank">
+                Open Twitch
+            </a>
+        </div>
+
+        <div class="link">
+            <div class="linkIcon">🟢</div>
+            <h3>GeForce NOW</h3>
+            <p>Open GeForce NOW.</p>
+            <a href="https://www.nvidia.com/geforce-now/" target="_blank">
+                Open GeForce NOW
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- SETTINGS -->
+
+<section id="settings" class="section">
+
+    <div class="sectionTitle">
+        <h2>⚙️ Settings</h2>
+        <p>Customize your DONIE dashboard.</p>
+    </div>
+
+    <div class="settings">
+
+        <div class="setting">
+
+            <label>Minimum Players</label>
+
+            <p>
+                Only show servers with at least this many players.
+            </p>
+
+            <input
+                id="minPlayers"
+                type="number"
+                min="1"
+                max="100"
+                value="20"
+                onchange="saveSettings()"
+            >
+
+        </div>
+
+        <div class="setting">
+
+            <label>Auto Refresh</label>
+
+            <p>
+                The dashboard automatically checks for new servers.
+            </p>
+
+            <button class="selector active">
+                🟢 Enabled — 30 seconds
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+</div>
+
+<script>
+
+/* =========================
+   DONIE CONFIG
+========================= */
+
+const WORKER_URL =
+"https://black-sun-c74c.redonekowaithe1.workers.dev";
+
+let currentGame = "adoptme";
+
+const games = {
+
+    adoptme:{
+        name:"Adopt Me",
+        emoji:"🐶"
+    },
+
+    bladeball:{
+        name:"Blade Ball",
+        emoji:"⚔️"
+    },
+
+    mm2:{
+        name:"Murder Mystery 2",
+        emoji:"🔪"
+    }
+
 };
 
-/*
-  IMPORTANT:
-  Put your NEW Discord webhook below.
-  Never put this webhook in index.html.
-*/
-const DISCORD_WEBHOOK = "PASTE_NEW_WEBHOOK_HERE";
+/* =========================
+   NAVIGATION
+========================= */
 
-const MIN_PLAYERS = 20;
-const MAX_PAGES = 5;
+function showSection(name,button){
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-  "Cache-Control": "no-store"
-};
-
-function json(data, status = 200) {
-  return new Response(JSON.stringify(data, null, 2), {
-    status,
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      ...corsHeaders
-    }
-  });
-}
-
-function scoreServer(server) {
-  const players = server.playing || 0;
-  const maxPlayers = server.maxPlayers || 1;
-
-  const occupancy = players / maxPlayers;
-
-  let score = occupancy * 70;
-
-  if (typeof server.ping === "number") {
-    if (server.ping <= 60) score += 20;
-    else if (server.ping <= 100) score += 15;
-    else if (server.ping <= 150) score += 10;
-    else score += 5;
-  }
-
-  if (typeof server.fps === "number") {
-    if (server.fps >= 55) score += 10;
-    else if (server.fps >= 40) score += 7;
-    else score += 3;
-  }
-
-  return Math.round(score * 100) / 100;
-}
-
-async function getServers(placeId) {
-  const servers = new Map();
-  let cursor = "";
-
-  for (let page = 0; page < MAX_PAGES; page++) {
-    let api =
-      `https://games.roblox.com/v1/games/${placeId}/servers/Public` +
-      `?sortOrder=Desc&limit=100`;
-
-    if (cursor) {
-      api += `&cursor=${encodeURIComponent(cursor)}`;
-    }
-
-    const response = await fetch(api);
-
-    if (!response.ok) {
-      throw new Error(`Roblox API returned ${response.status}`);
-    }
-
-    const result = await response.json();
-
-    for (const server of result.data || []) {
-      if (!server.id) continue;
-
-      if ((server.playing || 0) < MIN_PLAYERS) continue;
-
-      servers.set(server.id, {
-        id: server.id,
-        playing: server.playing || 0,
-        maxPlayers: server.maxPlayers || 0,
-        ping:
-          typeof server.ping === "number"
-            ? server.ping
-            : null,
-        fps:
-          typeof server.fps === "number"
-            ? server.fps
-            : null
-      });
-    }
-
-    cursor = result.nextPageCursor || "";
-
-    if (!cursor) break;
-  }
-
-  return [...servers.values()]
-    .map(server => ({
-      ...server,
-      score: scoreServer(server)
-    }))
-    .sort((a, b) => {
-      if (b.score !== a.score) {
-        return b.score - a.score;
-      }
-
-      return b.playing - a.playing;
-    });
-}
-
-function getJoinUrl(placeId, serverId) {
-  return `https://www.roblox.com/games/start?placeId=${placeId}&gameInstanceId=${encodeURIComponent(serverId)}`;
-}
-
-async function sendDiscord(game, server) {
-  if (
-    !DISCORD_WEBHOOK ||
-    DISCORD_WEBHOOK === "PASTE_NEW_WEBHOOK_HERE"
-  ) {
-    return;
-  }
-
-  const joinUrl = getJoinUrl(game.placeId, server.id);
-
-  const payload = {
-    username: "DONIE Rich Finder",
-
-    embeds: [
-      {
-        title: `${game.emoji} ${game.name} Server Detected`,
-        description:
-          "🟢 **Qualifying server detected by DONIE Rich Finder!**",
-
-        color: 5793266,
-
-        fields: [
-          {
-            name: "👥 Players",
-            value: `${server.playing}/${server.maxPlayers}`,
-            inline: true
-          },
-
-          {
-            name: "📶 Ping",
-            value:
-              server.ping === null
-                ? "N/A"
-                : `${server.ping} ms`,
-            inline: true
-          },
-
-          {
-            name: "⚡ FPS",
-            value:
-              server.fps === null
-                ? "N/A"
-                : `${server.fps}`,
-            inline: true
-          },
-
-          {
-            name: "💎 Server Score",
-            value: `${server.score}`,
-            inline: true
-          },
-
-          {
-            name: "🎮 Game",
-            value: game.name,
-            inline: true
-          },
-
-          {
-            name: "🆔 Server ID",
-            value: `\`${server.id}\``,
-            inline: false
-          }
-        ],
-
-        url: joinUrl,
-
-        footer: {
-          text: "DONIE Rich Finder"
-        },
-
-        timestamp: new Date().toISOString()
-      }
-    ]
-  };
-
-  try {
-    await fetch(DISCORD_WEBHOOK, {
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify(payload)
-    });
-  } catch (error) {
-    console.error("Discord webhook error:", error);
-  }
-}
-
-export default {
-  async fetch(request) {
-    if (request.method === "OPTIONS") {
-      return new Response(null, {
-        status: 204,
-        headers: corsHeaders
-      });
-    }
-
-    const url = new URL(request.url);
-
-    if (
-      url.pathname === "/" ||
-      url.pathname === "/health"
-    ) {
-      return json({
-        online: true,
-        service: "DONIE Rich Finder",
-        games: GAMES
-      });
-    }
-
-    if (url.pathname === "/servers") {
-      const gameKey =
-        url.searchParams.get("game") ||
-        DEFAULT_GAME;
-
-      const game = GAMES[gameKey];
-
-      if (!game) {
-        return json(
-          {
-            success: false,
-            error:
-              "Unknown game. Use adoptme, bladeball, or mm2."
-          },
-          400
-        );
-      }
-
-      try {
-        const servers = await getServers(
-          game.placeId
+    document
+        .querySelectorAll(".section")
+        .forEach(section =>
+            section.classList.remove("active")
         );
 
-        /*
-          Send the best qualifying server to Discord.
-          The dashboard can refresh without exposing
-          the webhook.
-        */
-        if (servers.length > 0) {
-          await sendDiscord(
-            game,
-            servers[0]
-          );
+    document
+        .getElementById(name)
+        .classList.add("active");
+
+    document
+        .querySelectorAll(".nav button")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+    if(button){
+        button.classList.add("active");
+    }
+
+}
+
+function showSectionByName(name){
+
+    document
+        .querySelectorAll(".section")
+        .forEach(section =>
+            section.classList.remove("active")
+        );
+
+    document
+        .getElementById(name)
+        .classList.add("active");
+
+}
+
+/* =========================
+   GAME SELECTION
+========================= */
+
+function selectGame(game){
+
+    currentGame = game;
+
+    showSectionByName("servers");
+
+    document
+        .querySelectorAll(".selector")
+        .forEach(button =>
+            button.classList.remove("active")
+        );
+
+    const selectors =
+        document.querySelectorAll(".selector");
+
+    selectors.forEach(button => {
+
+        if(button.innerText
+            .toLowerCase()
+            .includes(
+                games[game].name
+                    .split(" ")[0]
+                    .toLowerCase()
+            )){
+
+            button.classList.add("active");
+
         }
 
-        return json({
-          success: true,
+    });
 
-          game: {
-            key: gameKey,
-            name: game.name,
-            emoji: game.emoji,
-            placeId: game.placeId
-          },
+    document.getElementById("currentGame")
+        .innerText =
+        games[game].name;
 
-          count: servers.length,
+    loadServers();
 
-          data: servers.map(server => ({
-            ...server,
-            joinUrl: getJoinUrl(
-              game.placeId,
-              server.id
-            )
-          }))
+}
+
+/* =========================
+   LOAD SERVERS
+========================= */
+
+async function loadServers(){
+
+    const list =
+        document.getElementById("serverList");
+
+    if(!list) return;
+
+    list.innerHTML =
+        `<div class="loading">
+            🔎 Scanning ${games[currentGame].name} servers...
+        </div>`;
+
+    try{
+
+        const response =
+            await fetch(
+                WORKER_URL +
+                "/servers?game=" +
+                encodeURIComponent(currentGame)
+            );
+
+        if(!response.ok){
+            throw new Error(
+                "Worker returned HTTP " +
+                response.status
+            );
+        }
+
+        const result =
+            await response.json();
+
+        if(!result.success){
+            throw new Error(
+                result.error ||
+                "Worker error"
+            );
+        }
+
+        const servers =
+            result.data || [];
+
+        updateStats(servers);
+
+        if(!servers.length){
+
+            list.innerHTML =
+                `<div class="empty">
+                    😭 No qualifying servers found.
+                    <br><br>
+                    Try refreshing in a moment.
+                </div>`;
+
+            return;
+        }
+
+        list.innerHTML = "";
+
+        servers.forEach(server => {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "server";
+
+            card.innerHTML = `
+
+                <div class="serverTop">
+
+                    <div>
+
+                        <h3>
+                            ${games[currentGame].emoji}
+                            ${games[currentGame].name}
+                        </h3>
+
+                        <div class="rich">
+                            🟢 Qualifying Server
+                        </div>
+
+                    </div>
+
+                    <div class="score">
+                        💎 ${server.score}
+                    </div>
+
+                </div>
+
+                <div class="serverInfo">
+
+                    <div class="box">
+                        <span>PLAYERS</span>
+                        <b>
+                            ${server.playing}/${server.maxPlayers}
+                        </b>
+                    </div>
+
+                    <div class="box">
+                        <span>PING</span>
+                        <b>
+                            ${
+                                server.ping === null
+                                ? "N/A"
+                                : server.ping + " ms"
+                            }
+                        </b>
+                    </div>
+
+                    <div class="box">
+                        <span>FPS</span>
+                        <b>
+                            ${
+                                server.fps === null
+                                ? "N/A"
+                                : server.fps
+                            }
+                        </b>
+                    </div>
+
+                    <div class="box">
+                        <span>SERVER ID</span>
+                        <b style="font-size:9px">
+                            ${server.id}
+                        </b>
+                    </div>
+
+                </div>
+
+                <button
+                    class="join"
+                    onclick="joinServer('${server.joinUrl}')">
+
+                    🚀 JOIN SERVER
+
+                </button>
+            `;
+
+            list.appendChild(card);
+
         });
 
-      } catch (error) {
-        return json(
-          {
-            success: false,
-            error: error.message,
-            data: []
-          },
-          502
-        );
-      }
+    }catch(error){
+
+        console.error(error);
+
+        list.innerHTML =
+            `<div class="empty">
+                ❌ Failed to load servers.
+                <br><br>
+                ${error.message}
+            </div>`;
+
     }
 
-    return json(
-      {
-        success: false,
-        error: "Endpoint not found."
-      },
-      404
+}
+
+/* =========================
+   STATS
+========================= */
+
+function updateStats(servers){
+
+    const count =
+        servers.length;
+
+    const best =
+        servers[0];
+
+    document.getElementById(
+        "serverCount"
+    ).innerText = count;
+
+    document.getElementById(
+        "homeServers"
+    ).innerText = count;
+
+    if(best){
+
+        const players =
+            `${best.playing}/${best.maxPlayers}`;
+
+        document.getElementById(
+            "bestPlayers"
+        ).innerText = players;
+
+        document.getElementById(
+            "homePlayers"
+        ).innerText = players;
+
+        document.getElementById(
+            "bestScore"
+        ).innerText = best.score;
+
+        document.getElementById(
+            "homeScore"
+        ).innerText = best.score;
+
+    }else{
+
+        document.getElementById(
+            "bestPlayers"
+        ).innerText = "0";
+
+        document.getElementById(
+            "homePlayers"
+        ).innerText = "0";
+
+        document.getElementById(
+            "bestScore"
+        ).innerText = "0";
+
+        document.getElementById(
+            "homeScore"
+        ).innerText = "0";
+
+    }
+
+}
+
+/* =========================
+   JOIN
+========================= */
+
+function joinServer(url){
+
+    if(!url){
+        alert("No join URL available.");
+        return;
+    }
+
+    window.open(
+        url,
+        "_blank"
     );
-  }
-};
+
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+function saveSettings(){
+
+    const value =
+        document.getElementById(
+            "minPlayers"
+        ).value;
+
+    localStorage.setItem(
+        "donieMinPlayers",
+        value
+    );
+
+}
+
+/* =========================
+   START
+========================= */
+
+loadServers();
+
+setInterval(
+    loadServers,
+    30000
+);
+
+</script>
+
+</body>
+</html>
