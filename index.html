@@ -1,373 +1,737 @@
+```html
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
-<title>Roblox Server Dashboard</title>
+<title>Rich Server Detector</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-    }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
 
-    body {
-        background: #090b0a;
-        color: white;
-        min-height: 100vh;
-    }
+body {
+    background:
+        radial-gradient(circle at top, #12351f 0%, #090b0a 45%);
+    color: white;
+    min-height: 100vh;
+}
 
-    .loading,
-    .error {
-        text-align: center;
-        padding: 40px;
-        font-size: 18px;
-    }
+.header {
+    text-align: center;
+    padding: 35px 15px 20px;
+}
 
-    h1 {
-        text-align: center;
-        padding: 30px 10px;
-    }
+.header h1 {
+    font-size: 32px;
+    font-weight: 900;
+}
 
-    #serverList {
-        max-width: 900px;
-        margin: auto;
-        padding: 10px;
-    }
+.header p {
+    color: #8d9a91;
+    margin-top: 8px;
+}
 
-    .server {
-        background: #151817;
-        padding: 20px;
-        margin: 15px 0;
-        border-radius: 10px;
-        border: 1px solid #252927;
+.status {
+    width: fit-content;
+    margin: 18px auto;
+    padding: 8px 15px;
+    border-radius: 20px;
+    background: #102719;
+    border: 1px solid #1d5b32;
+    color: #6cff91;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.controls {
+    max-width: 900px;
+    margin: 0 auto 15px;
+    padding: 0 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.server-count {
+    color: #8d9a91;
+    font-size: 14px;
+}
+
+.refresh {
+    background: #20c968;
+    color: #001b0b;
+    border: none;
+    padding: 10px 17px;
+    border-radius: 8px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.refresh:hover {
+    background: #38e47e;
+}
+
+#serverList {
+    max-width: 900px;
+    margin: auto;
+    padding: 5px 15px 40px;
+}
+
+.server {
+    position: relative;
+    background: linear-gradient(
+        145deg,
+        #151b17,
+        #0e1210
+    );
+
+    border: 1px solid #26352c;
+    border-radius: 14px;
+    padding: 22px;
+    margin: 15px 0;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.35);
+
+    transition: .2s;
+}
+
+.server:hover {
+    transform: translateY(-2px);
+    border-color: #2fd66d;
+}
+
+.rich {
+    border-color: #1f9d4e;
+}
+
+.badge {
+    display: inline-block;
+    background: #123820;
+    color: #61ff8b;
+    border: 1px solid #247442;
+    border-radius: 20px;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 900;
+    margin-bottom: 13px;
+}
+
+.server-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.server-title {
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.players {
+    color: #6cff91;
+    font-weight: 900;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+.value {
+    margin-top: 13px;
+    font-size: 25px;
+    font-weight: 900;
+    color: #ffd95a;
+}
+
+.value-label {
+    color: #88958d;
+    font-size: 11px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.rich-message {
+    margin-top: 13px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #102719;
+    color: #6cff91;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.server-id {
+    margin-top: 15px;
+    padding: 11px;
+    background: #090c0a;
+    border-radius: 8px;
+    color: #929d96;
+    font-size: 12px;
+    word-break: break-all;
+}
+
+.server-id span {
+    color: white;
+}
+
+.info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 13px;
+    color: #9ba69f;
+    font-size: 13px;
+}
+
+.join {
+    width: 100%;
+    margin-top: 17px;
+    background: #25d366;
+    color: #001b0b;
+    border: none;
+    border-radius: 9px;
+    padding: 13px;
+    cursor: pointer;
+    font-weight: 900;
+    font-size: 14px;
+}
+
+.join:hover {
+    background: #42e77c;
+}
+
+.loading,
+.error {
+    text-align: center;
+    padding: 45px 20px;
+    color: #a5afa9;
+}
+
+.error {
+    color: #ff7777;
+}
+
+.empty {
+    text-align: center;
+    padding: 50px 20px;
+    color: #909a94;
+}
+
+@media (max-width: 600px) {
+
+    .header h1 {
+        font-size: 25px;
     }
 
     .server-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
+        align-items: flex-start;
+        flex-direction: column;
     }
 
     .players {
-        color: #7cff7c;
-        font-weight: bold;
+        font-size: 15px;
     }
 
-    .server-id {
-        margin-top: 15px;
-        color: #aaa;
-        word-break: break-all;
-        font-size: 13px;
-    }
-
-    button {
-        border: none;
-        border-radius: 6px;
-        padding: 10px 16px;
-        cursor: pointer;
-        font-weight: bold;
-    }
-
-    .join {
-        margin-top: 15px;
-        background: #25d366;
-        color: black;
+    .controls {
+        align-items: stretch;
+        flex-direction: column;
     }
 
     .refresh {
-        margin-top: 10px;
+        width: 100%;
     }
+}
 </style>
-```
-
 </head>
 
 <body>
 
-```
-<h1>Roblox Server Dashboard</h1>
+<div class="header">
+
+    <h1>💎 Rich Server Detector</h1>
+
+    <p>Find busy Roblox servers and join them instantly</p>
+
+    <div class="status">
+        🟢 LIVE SERVER SCANNER
+    </div>
+
+</div>
+
+<div class="controls">
+
+    <div class="server-count" id="serverCount">
+        Scanning servers...
+    </div>
+
+    <button class="refresh" onclick="loadServers()">
+        🔄 Scan Servers
+    </button>
+
+</div>
 
 <div id="serverList">
+
     <div class="loading">
-        🔄 Loading real Roblox servers...
+        🔄 Finding rich servers...
     </div>
+
 </div>
 
 <script>
 
-    const WORKER_URL =
-        "https://black-sun-c74c.redonekowaithe1.workers.dev";
+const WORKER_URL =
+    "https://red-mouse-29f4.redonekowaithe1.workers.dev";
 
-    const PLACE_ID = "920587237";
+const PLACE_ID =
+    "920587237";
 
-    /* Show servers with 1+ players */
-    const MIN_PLAYERS = 1;
+/*
+ * Only show servers with 20+
+ * players.
+ */
+const MIN_PLAYERS = 20;
 
-    async function loadServers() {
 
-        const list =
-            document.getElementById("serverList");
+/*
+ * Calculate a simple server value.
+ *
+ * More players = higher value.
+ *
+ * This is a dashboard score,
+ * not an actual Roblox item/value.
+ */
+function calculateValue(server) {
 
-        list.innerHTML = `
-            <div class="loading">
-                🔄 Loading real Roblox servers...
-            </div>
-        `;
+    const playing =
+        Number(server.playing || 0);
 
-        try {
+    const maxPlayers =
+        Number(server.maxPlayers || 0);
 
-            const response = await fetch(
+    if (!maxPlayers) {
+        return playing;
+    }
+
+    const fullness =
+        playing / maxPlayers;
+
+    return (
+        playing * 0.08 +
+        fullness * 5
+    ).toFixed(2);
+}
+
+
+/*
+ * Load servers.
+ */
+async function loadServers() {
+
+    const list =
+        document.getElementById("serverList");
+
+    const count =
+        document.getElementById("serverCount");
+
+    count.textContent =
+        "🔄 Scanning...";
+
+    list.innerHTML = `
+        <div class="loading">
+            🔄 Finding rich Roblox servers...
+        </div>
+    `;
+
+    try {
+
+        const response =
+            await fetch(
                 `${WORKER_URL}/servers?placeId=${PLACE_ID}`
             );
 
-            if (!response.ok) {
-                throw new Error(
-                    `Worker returned HTTP ${response.status}`
-                );
-            }
+        if (!response.ok) {
 
-            const data = await response.json();
-
-            /*
-             * Get servers from Worker.
-             */
-            let allServers =
-                Array.isArray(data.data)
-                    ? data.data
-                    : [];
-
-            /*
-             * Keep servers with 1+ players.
-             */
-            let servers =
-                allServers.filter(server =>
-                    Number(server.playing || 0) >= MIN_PLAYERS
-                );
-
-            /*
-             * Busiest servers first.
-             */
-            servers.sort((a, b) =>
-                Number(b.playing || 0) -
-                Number(a.playing || 0)
+            throw new Error(
+                `Worker returned HTTP ${response.status}`
             );
-
-            /*
-             * NO SERVERS FOUND.
-             */
-            if (servers.length === 0) {
-
-                list.innerHTML = `
-                    <div class="loading">
-
-                        ⚠️ No public servers
-                        were returned by the Worker.
-
-                        <br><br>
-
-                        Worker returned:
-                        <strong>
-                            ${allServers.length}
-                        </strong>
-                        servers.
-
-                        <br><br>
-
-                        ↻ Click Refresh to try again.
-
-                        <br><br>
-
-                        <button
-                            class="refresh"
-                            onclick="loadServers()"
-                        >
-                            ↻ Refresh
-                        </button>
-
-                    </div>
-                `;
-
-                return;
-            }
-
-            /*
-             * CREATE SERVER CARDS.
-             */
-            list.innerHTML = "";
-
-            servers.forEach((server, index) => {
-
-                const div =
-                    document.createElement("div");
-
-                div.className = "server";
-
-                /*
-                 * SERVER TOP.
-                 */
-                const top =
-                    document.createElement("div");
-
-                top.className = "server-top";
-
-                const title =
-                    document.createElement("strong");
-
-                title.textContent =
-                    index === 0
-                        ? "🔥 BUSIEST SERVER"
-                        : "🟢 Public Server";
-
-                const players =
-                    document.createElement("span");
-
-                players.className = "players";
-
-                players.textContent =
-                    `${Number(server.playing || 0)}/${Number(server.maxPlayers || 0)} Players`;
-
-                top.appendChild(title);
-                top.appendChild(players);
-
-                /*
-                 * SERVER ID.
-                 */
-                const id =
-                    document.createElement("div");
-
-                id.className = "server-id";
-
-                id.innerHTML = "Server ID:<br>";
-
-                id.appendChild(
-                    document.createTextNode(
-                        server.id || "Unknown"
-                    )
-                );
-
-                /*
-                 * SERVER PERFORMANCE.
-                 */
-                const info =
-                    document.createElement("div");
-
-                info.style.marginTop = "12px";
-                info.style.color = "#aaa";
-                info.style.fontSize = "13px";
-
-                const ping =
-                    server.ping !== undefined
-                        ? `${Math.round(Number(server.ping))} ms`
-                        : "N/A";
-
-                const fps =
-                    server.fps !== undefined
-                        ? `${Math.round(Number(server.fps))} FPS`
-                        : "N/A";
-
-                info.textContent =
-                    `📡 Ping: ${ping}    |    🎮 FPS: ${fps}`;
-
-                /*
-                 * JOIN BUTTON.
-                 */
-                const button =
-                    document.createElement("button");
-
-                button.className = "join";
-
-                button.textContent =
-                    "🚀 JOIN SERVER";
-
-                button.addEventListener(
-                    "click",
-                    () => {
-                        joinServer(server.id);
-                    }
-                );
-
-                /*
-                 * BUILD CARD.
-                 */
-                div.appendChild(top);
-                div.appendChild(id);
-                div.appendChild(info);
-                div.appendChild(button);
-
-                list.appendChild(div);
-
-            });
-
-        } catch (error) {
-
-            console.error(
-                "Server loading error:",
-                error
-            );
-
-            list.innerHTML = `
-
-                <div class="error">
-
-                    ❌ Could not load Roblox servers.
-
-                    <br><br>
-
-                    ${error.message}
-
-                    <br><br>
-
-                    <button
-                        class="refresh"
-                        onclick="loadServers()"
-                    >
-                        ↻ Try Again
-                    </button>
-
-                </div>
-
-            `;
 
         }
 
-    }
+        const data =
+            await response.json();
 
-    /*
-     * OPEN ROBLOX SERVER.
-     */
-    function joinServer(serverId) {
+        let allServers =
+            Array.isArray(data.data)
+                ? data.data
+                : [];
 
-        if (!serverId) {
 
-            alert(
-                "Server ID is missing."
-            );
+        /*
+         * Keep only 20+ player servers.
+         */
+        let servers =
+            allServers.filter(server => {
+
+                return Number(
+                    server.playing || 0
+                ) >= MIN_PLAYERS;
+
+            });
+
+
+        /*
+         * Sort:
+         *
+         * 1. Most players
+         * 2. Highest value
+         */
+        servers.sort((a, b) => {
+
+            const playerDifference =
+                Number(b.playing || 0) -
+                Number(a.playing || 0);
+
+            if (playerDifference !== 0) {
+                return playerDifference;
+            }
+
+            return calculateValue(b) -
+                   calculateValue(a);
+
+        });
+
+
+        count.textContent =
+            `🟢 ${servers.length} rich servers found`;
+
+
+        /*
+         * No servers.
+         */
+        if (servers.length === 0) {
+
+            list.innerHTML = `
+                <div class="empty">
+
+                    ⚠️ No 20+ player servers
+                    were returned right now.
+
+                    <br><br>
+
+                    Worker returned
+                    <strong>
+                        ${allServers.length}
+                    </strong>
+                    servers.
+
+                    <br><br>
+
+                    Try scanning again.
+
+                </div>
+            `;
 
             return;
         }
 
-        const robloxLink =
-            `roblox://placeId=${PLACE_ID}&gameInstanceId=${encodeURIComponent(serverId)}`;
 
-        window.location.href =
-            robloxLink;
+        /*
+         * Create cards.
+         */
+        list.innerHTML = "";
+
+
+        servers.forEach((server, index) => {
+
+            const playing =
+                Number(server.playing || 0);
+
+            const maxPlayers =
+                Number(server.maxPlayers || 0);
+
+            const ping =
+                server.ping !== undefined
+                    ? Math.round(
+                        Number(server.ping)
+                      )
+                    : null;
+
+            const fps =
+                server.fps !== undefined
+                    ? Math.round(
+                        Number(server.fps)
+                      )
+                    : null;
+
+            const value =
+                calculateValue(server);
+
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                "server rich";
+
+
+            /*
+             * Badge.
+             */
+            const badge =
+                document.createElement("div");
+
+            badge.className =
+                "badge";
+
+            badge.textContent =
+                index === 0
+                    ? "🔥 BEST RICH SERVER"
+                    : "🟢 RICH SERVER DETECTED";
+
+
+            /*
+             * Top section.
+             */
+            const top =
+                document.createElement("div");
+
+            top.className =
+                "server-top";
+
+
+            const title =
+                document.createElement("div");
+
+            title.className =
+                "server-title";
+
+            title.textContent =
+                `🎮 Roblox Server #${index + 1}`;
+
+
+            const players =
+                document.createElement("div");
+
+            players.className =
+                "players";
+
+            players.textContent =
+                `👥 ${playing}/${maxPlayers}`;
+
+
+            top.appendChild(title);
+            top.appendChild(players);
+
+
+            /*
+             * Value.
+             */
+            const valueBox =
+                document.createElement("div");
+
+            valueBox.className =
+                "value";
+
+            valueBox.innerHTML = `
+                <div class="value-label">
+                    Server Value
+                </div>
+                💎 ${value}
+            `;
+
+
+            /*
+             * Rich message.
+             */
+            const message =
+                document.createElement("div");
+
+            message.className =
+                "rich-message";
+
+            message.textContent =
+                playing >= maxPlayers
+                    ? "🔥 FULL SERVER DETECTED!"
+                    : "🟢 Rich Server Detected!";
+
+
+            /*
+             * Server ID.
+             */
+            const id =
+                document.createElement("div");
+
+            id.className =
+                "server-id";
+
+            id.innerHTML =
+                `Server ID:<br><span></span>`;
+
+            id.querySelector("span")
+                .textContent =
+                    server.id || "Unknown";
+
+
+            /*
+             * Performance info.
+             */
+            const info =
+                document.createElement("div");
+
+            info.className =
+                "info";
+
+
+            const pingText =
+                ping !== null
+                    ? `📡 Ping: ${ping} ms`
+                    : "📡 Ping: N/A";
+
+
+            const fpsText =
+                fps !== null
+                    ? `⚡ FPS: ${fps}`
+                    : "⚡ FPS: N/A";
+
+
+            info.innerHTML = `
+                <span>${pingText}</span>
+                <span>${fpsText}</span>
+                <span>👥 ${playing} players</span>
+            `;
+
+
+            /*
+             * Join button.
+             */
+            const button =
+                document.createElement("button");
+
+            button.className =
+                "join";
+
+            button.textContent =
+                "🚀 JOIN SERVER";
+
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    joinServer(
+                        server.id
+                    );
+
+                }
+            );
+
+
+            /*
+             * Build card.
+             */
+            div.appendChild(badge);
+            div.appendChild(top);
+            div.appendChild(valueBox);
+            div.appendChild(message);
+            div.appendChild(id);
+            div.appendChild(info);
+            div.appendChild(button);
+
+            list.appendChild(div);
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Server loading error:",
+            error
+        );
+
+
+        count.textContent =
+            "❌ Scanner error";
+
+
+        list.innerHTML = `
+
+            <div class="error">
+
+                ❌ Could not load Roblox servers.
+
+                <br><br>
+
+                ${error.message}
+
+                <br><br>
+
+                <button
+                    class="refresh"
+                    onclick="loadServers()"
+                >
+                    🔄 Try Again
+                </button>
+
+            </div>
+
+        `;
 
     }
 
-    /*
-     * LOAD SERVERS WHEN PAGE OPENS.
-     */
-    loadServers();
+}
+
+
+/*
+ * Join a specific Roblox server.
+ */
+function joinServer(serverId) {
+
+    if (!serverId) {
+
+        alert(
+            "Server ID is missing."
+        );
+
+        return;
+
+    }
+
+
+    const robloxLink =
+        `roblox://placeId=${PLACE_ID}&gameInstanceId=${encodeURIComponent(serverId)}`;
+
+
+    window.location.href =
+        robloxLink;
+
+}
+
+
+/*
+ * Initial scan.
+ */
+loadServers();
+
+
+/*
+ * Automatically scan every 30 seconds.
+ */
+setInterval(
+    loadServers,
+    30000
+);
 
 </script>
-```
 
 </body>
 </html>
+```
