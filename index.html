@@ -1,360 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roblox Dashboard</title>
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    background: #08090d;
-    color: white;
-    display: flex;
-    min-height: 100vh;
-}
-
-.sidebar {
-    width: 240px;
-    background: #0d0f14;
-    border-right: 1px solid #20232b;
-    padding: 25px 15px;
-    position: fixed;
-    height: 100vh;
-}
-
-.logo {
-    font-size: 22px;
-    font-weight: bold;
-    padding: 10px 15px 30px;
-}
-
-.logo span {
-    color: #00ff88;
-}
-
-.menu {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.menu a {
-    color: #a7abb5;
-    text-decoration: none;
-    padding: 13px 15px;
-    border-radius: 10px;
-    transition: 0.2s;
-}
-
-.menu a:hover,
-.menu a.active {
-    background: #171b23;
-    color: white;
-}
-
-.main {
-    margin-left: 240px;
-    width: calc(100% - 240px);
-    padding: 35px;
-}
-
-.top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.top h1 {
-    font-size: 30px;
-}
-
-.profile {
-    background: #11141b;
-    border: 1px solid #242832;
-    padding: 10px 16px;
-    border-radius: 12px;
-}
-
-.status {
-    color: #00ff88;
-    font-size: 13px;
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-bottom: 25px;
-}
-
-.card {
-    background: #101219;
-    border: 1px solid #242832;
-    border-radius: 16px;
-    padding: 22px;
-}
-
-.card small {
-    color: #858a96;
-}
-
-.card h2 {
-    margin-top: 12px;
-    font-size: 27px;
-}
-
-.green {
-    color: #00ff88;
-}
-
-.content {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
-}
-
-.panel {
-    background: #101219;
-    border: 1px solid #242832;
-    border-radius: 16px;
-    padding: 24px;
-}
-
-.panel h2 {
-    margin-bottom: 20px;
-}
-
-.account {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    padding: 18px;
-    background: #151820;
-    border-radius: 13px;
-}
-
-.avatar {
-    width: 65px;
-    height: 65px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, #00ff88, #087dff);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.account-info h3 {
-    margin-bottom: 7px;
-}
-
-.account-info p {
-    color: #888e9a;
-    font-size: 14px;
-}
-
-.game {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    background: #151820;
-    border-radius: 12px;
-    margin-bottom: 10px;
-}
-
-.game-name {
-    font-weight: bold;
-}
-
-.online {
-    color: #00ff88;
-    font-size: 13px;
-}
-
-.server {
-    padding: 14px;
-    background: #151820;
-    border-radius: 12px;
-    margin-bottom: 10px;
-}
-
-.server span {
-    float: right;
-    color: #00ff88;
-}
-
-@media (max-width: 900px) {
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .content {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 650px) {
-    .sidebar {
-        width: 70px;
-    }
-
-    .logo {
-        font-size: 0;
-    }
-
-    .menu a {
-        font-size: 0;
-        text-align: center;
-    }
-
-    .main {
-        margin-left: 70px;
-        width: calc(100% - 70px);
-        padding: 20px;
-    }
-
-    .cards {
-        grid-template-columns: 1fr;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<aside class="sidebar">
-    <div class="logo">RO<span>BLOX</span></div>
-
-    <nav class="menu">
-        <a href="#" class="active">📊 Dashboard</a>
-        <a href="#">👤 Accounts</a>
-        <a href="#">🎮 Games</a>
-        <a href="#">🟢 Servers</a>
-        <a href="#">⚙️ Settings</a>
-    </nav>
-</aside>
-
-<main class="main">
-
-    <div class="top">
-        <div>
-            <h1>Dashboard</h1>
-            <p style="color:#858a96; margin-top:7px;">
-                Roblox account overview
-            </p>
-        </div>
-
-        <div class="profile">
-            👤 My Account
-            <div class="status">● Online</div>
-        </div>
-    </div>
-
-    <section class="cards">
-
-        <div class="card">
-            <small>Robux</small>
-            <h2 class="green">25,430</h2>
-        </div>
-
-        <div class="card">
-            <small>Friends</small>
-            <h2>128</h2>
-        </div>
-
-        <div class="card">
-            <small>Games</small>
-            <h2>24</h2>
-        </div>
-
-        <div class="card">
-            <small>Account Status</small>
-            <h2 class="green">Online</h2>
-        </div>
-
-    </section>
-
-    <section class="content">
-
-        <div class="panel">
-            <h2>Account Overview</h2>
-
-            <div class="account">
-                <div class="avatar">R</div>
-
-                <div class="account-info">
-                    <h3>Roblox Player</h3>
-                    <p>@YourUsername</p>
-                    <p class="status">● Account Online</p>
-                </div>
-            </div>
-
-            <br>
-
-            <h2>Games</h2>
-
-            <div class="game">
-                <div class="game-name">🎮 Adopt Me!</div>
-                <div class="online">● Online</div>
-            </div>
-
-            <div class="game">
-                <div class="game-name">⚔️ Blade Ball</div>
-                <div class="online">● Online</div>
-            </div>
-
-            <div class="game">
-                <div class="game-name">🔪 Murder Mystery 2</div>
-                <div class="online">● Online</div>
-            </div>
-
-        </div>
-
-        <div class="panel">
-            <h2>Servers</h2>
-
-            <div class="server">
-                Adopt Me!
-                <span>Online</span>
-            </div>
-
-            <div class="server">
-                Blade Ball
-                <span>Online</span>
-            </div>
-
-            <div class="server">
-                Murder Mystery 2
-                <span>Online</span>
-            </div>
-
-            <h2 style="margin-top:25px;">Recent Activity</h2>
-
-            <p style="color:#858a96; line-height:2;">
-                ● Account connected<br>
-                ● Dashboard opened<br>
-                ● Server information loaded
-            </p>
-        </div>
-
-    </section>
-
-</main>
-
-</body>
-</html>
-```html
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -499,11 +144,16 @@ body {
 button {
     border: none;
     border-radius: 10px;
-    padding: 13px 18px;
+    padding: 12px 16px;
     margin-top: 15px;
     cursor: pointer;
     font-weight: bold;
     font-size: 14px;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
 }
 
 .join-btn {
@@ -517,9 +167,68 @@ button {
     margin-left: 8px;
 }
 
-button:hover {
-    transform: translateY(-1px);
-    opacity: 0.9;
+.server-card {
+    background: #151820;
+    border: 1px solid #292f3a;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 12px;
+}
+
+.server-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.server-name {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.server-info {
+    color: #858a96;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.rich-tag {
+    background: rgba(0,255,136,0.12);
+    color: #00ff88;
+    border: 1px solid rgba(0,255,136,0.3);
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.server-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.server-actions button {
+    margin-top: 12px;
+}
+
+.server-join {
+    background: #00ff88;
+    color: #07100b;
+}
+
+.server-copy {
+    background: #242a35;
+    color: white;
+}
+
+.notice {
+    margin-top: 18px;
+    padding: 14px;
+    background: #12151c;
+    border-radius: 10px;
+    color: #858a96;
+    font-size: 13px;
+    line-height: 1.5;
 }
 
 .game {
@@ -535,28 +244,6 @@ button:hover {
 .online {
     color: #00ff88;
     font-size: 13px;
-}
-
-.server {
-    padding: 15px;
-    background: #151820;
-    border-radius: 12px;
-    margin-bottom: 10px;
-}
-
-.server span {
-    float: right;
-    color: #00ff88;
-}
-
-.notice {
-    margin-top: 18px;
-    padding: 14px;
-    background: #12151c;
-    border-radius: 10px;
-    color: #858a96;
-    font-size: 13px;
-    line-height: 1.5;
 }
 
 @media (max-width: 900px) {
@@ -592,160 +279,306 @@ button:hover {
     }
 }
 </style>
+
 </head>
 
 <body>
 
 <aside class="sidebar">
-    <div class="logo">RO<span>BLOX</span></div>
 
-    <nav class="menu">
-        <a href="#" class="active">📊 Dashboard</a>
-        <a href="#accounts">👤 Accounts</a>
-        <a href="#games">🎮 Games</a>
-        <a href="#servers">🟢 Servers</a>
-        <a href="#settings">⚙️ Settings</a>
-    </nav>
+```
+<div class="logo">
+    RO<span>BLOX</span>
+</div>
+
+<nav class="menu">
+    <a href="#" class="active">📊 Dashboard</a>
+    <a href="#accounts">👤 Accounts</a>
+    <a href="#games">🎮 Games</a>
+    <a href="#servers">🟢 Servers</a>
+    <a href="#settings">⚙️ Settings</a>
+</nav>
+```
+
 </aside>
 
 <main class="main">
 
-    <div class="top">
-        <div>
-            <h1>Dashboard</h1>
-            <p style="color:#858a96; margin-top:7px;">
-                Roblox server finder
-            </p>
-        </div>
+```
+<div class="top">
 
-        <div class="profile">
-            👤 My Account
-            <div class="status">● Online</div>
+    <div>
+        <h1>Dashboard</h1>
+
+        <p style="color:#858a96; margin-top:7px;">
+            Roblox server finder
+        </p>
+    </div>
+
+    <div class="profile">
+        👤 My Account
+
+        <div class="status">
+            ● Online
         </div>
     </div>
 
-    <section class="cards">
+</div>
 
-        <div class="card">
-            <small>Robux</small>
-            <h2 class="green">25,430</h2>
+<section class="cards">
+
+    <div class="card">
+        <small>Robux</small>
+        <h2 class="green">25,430</h2>
+    </div>
+
+    <div class="card">
+        <small>Friends</small>
+        <h2>128</h2>
+    </div>
+
+    <div class="card">
+        <small>Games</small>
+        <h2>24</h2>
+    </div>
+
+    <div class="card">
+        <small>Status</small>
+        <h2 class="green">Online</h2>
+    </div>
+
+</section>
+
+<section class="content">
+
+    <div class="panel" id="games">
+
+        <h2>🎯 Adopt Me! Rich Server Finder</h2>
+
+        <div class="rich-box">
+
+            <h3>💎 Find a Rich Server</h3>
+
+            <p>
+                Browse public Adopt Me! servers and choose
+                a server to open in Roblox.
+            </p>
+
+            <button
+                class="join-btn"
+                onclick="openAdoptMe()">
+                🎮 Open Adopt Me!
+            </button>
+
+            <button
+                class="find-btn"
+                onclick="refreshServers()">
+                🔄 Refresh Servers
+            </button>
+
+            <div class="notice" id="serverMessage">
+                🟢 Ready to browse public servers.
+            </div>
+
         </div>
 
-        <div class="card">
-            <small>Friends</small>
-            <h2>128</h2>
-        </div>
+        <h2>🎮 Public Servers</h2>
 
-        <div class="card">
-            <small>Games</small>
-            <h2>24</h2>
-        </div>
+        <div id="serverList">
 
-        <div class="card">
-            <small>Status</small>
-            <h2 class="green">Online</h2>
-        </div>
+            <div class="server-card">
 
-    </section>
+                <div class="server-top">
 
-    <section class="content">
+                    <div class="server-name">
+                        Server #1
+                    </div>
 
-        <div class="panel" id="games">
+                    <div class="rich-tag">
+                        💎 COMMUNITY TAG
+                    </div>
 
-            <h2>🎯 Adopt Me! Server Finder</h2>
-
-            <div class="rich-box">
-                <h3>💎 Find a Rich Server</h3>
-
-                <p>
-                    Open Adopt Me! and look for a public server
-                    with players who have valuable pets and items.
-                </p>
-
-                <button class="join-btn"
-                    onclick="window.open('https://www.roblox.com/games/920587237/Adopt-Me','_blank')">
-                    🎮 Open Adopt Me!
-                </button>
-
-                <button class="find-btn"
-                    onclick="findServer()">
-                    🔄 Find Another Server
-                </button>
-
-                <div class="notice" id="serverMessage">
-                    Ready to find a public Adopt Me! server.
                 </div>
+
+                <div class="server-info">
+                    👥 22 / 48 players
+                </div>
+
+                <div class="server-actions">
+
+                    <button
+                        class="server-join"
+                        onclick="openAdoptMe()">
+                        🎮 Open Roblox
+                    </button>
+
+                    <button
+                        class="server-copy"
+                        onclick="copyServer()">
+                        📋 Copy
+                    </button>
+
+                </div>
+
             </div>
 
-            <h2>Games</h2>
+            <div class="server-card">
 
-            <div class="game">
-                <div>🐶 Adopt Me!</div>
-                <div class="online">● Available</div>
+                <div class="server-top">
+
+                    <div class="server-name">
+                        Server #2
+                    </div>
+
+                    <div class="rich-tag">
+                        💎 COMMUNITY TAG
+                    </div>
+
+                </div>
+
+                <div class="server-info">
+                    👥 31 / 48 players
+                </div>
+
+                <div class="server-actions">
+
+                    <button
+                        class="server-join"
+                        onclick="openAdoptMe()">
+                        🎮 Open Roblox
+                    </button>
+
+                    <button
+                        class="server-copy"
+                        onclick="copyServer()">
+                        📋 Copy
+                    </button>
+
+                </div>
+
             </div>
 
-            <div class="game">
-                <div>⚔️ Blade Ball</div>
-                <div class="online">● Available</div>
-            </div>
+            <div class="server-card">
 
-            <div class="game">
-                <div>🔪 Murder Mystery 2</div>
-                <div class="online">● Available</div>
+                <div class="server-top">
+
+                    <div class="server-name">
+                        Server #3
+                    </div>
+
+                    <div class="rich-tag">
+                        💎 COMMUNITY TAG
+                    </div>
+
+                </div>
+
+                <div class="server-info">
+                    👥 17 / 48 players
+                </div>
+
+                <div class="server-actions">
+
+                    <button
+                        class="server-join"
+                        onclick="openAdoptMe()">
+                        🎮 Open Roblox
+                    </button>
+
+                    <button
+                        class="server-copy"
+                        onclick="copyServer()">
+                        📋 Copy
+                    </button>
+
+                </div>
+
             </div>
 
         </div>
 
-        <div class="panel" id="servers">
+    </div>
 
-            <h2>🟢 Servers</h2>
+    <div class="panel" id="servers">
 
-            <div class="server">
-                Adopt Me!
-                <span>Public</span>
-            </div>
+        <h2>🟢 Games</h2>
 
-            <div class="server">
-                Blade Ball
-                <span>Public</span>
-            </div>
+        <div class="game">
+            <div>🐶 Adopt Me!</div>
+            <div class="online">● Available</div>
+        </div>
 
-            <div class="server">
-                Murder Mystery 2
-                <span>Public</span>
-            </div>
+        <div class="game">
+            <div>⚔️ Blade Ball</div>
+            <div class="online">● Available</div>
+        </div>
 
-            <h2 style="margin-top:25px;">ℹ️ How it works</h2>
+        <div class="game">
+            <div>🔪 Murder Mystery 2</div>
+            <div class="online">● Available</div>
+        </div>
 
-            <div class="notice">
-                This dashboard opens the official Roblox game.
-                It does not access private inventories or accounts.
-                To find wealthy players, use Roblox's public-server
-                options and check the players you encounter.
-            </div>
+        <h2 style="margin-top:25px;">
+            ℹ️ Important
+        </h2>
+
+        <div class="notice">
+
+            This dashboard does not access private Roblox
+            inventories or account information.
+
+            <br><br>
+
+            The 💎 tag is only a community/display label.
+            Use Roblox's official public-server system to
+            choose and join servers.
 
         </div>
 
-    </section>
+    </div>
+
+</section>
+```
 
 </main>
 
 <script>
-function findServer() {
-    const message = document.getElementById("serverMessage");
+
+const adoptMeURL =
+"https://www.roblox.com/games/920587237/Adopt-Me";
+
+function openAdoptMe() {
+
+    window.open(
+        adoptMeURL,
+        "_blank"
+    );
+
+}
+
+function refreshServers() {
+
+    const message =
+        document.getElementById("serverMessage");
 
     message.innerHTML =
-        "🔎 Open Adopt Me! and use the public Servers option to browse another server.";
+        "🔄 Server list refreshed. Open Adopt Me! to browse the current public servers.";
 
-    setTimeout(function() {
-        window.open(
-            "https://www.roblox.com/games/920587237/Adopt-Me",
-            "_blank"
-        );
-    }, 700);
 }
+
+function copyServer() {
+
+    navigator.clipboard.writeText(
+        "Use Roblox's Servers tab to select a public server."
+    );
+
+    alert(
+        "📋 Server information copied!"
+    );
+
+}
+
 </script>
 
 </body>
 </html>
-```
+
