@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -51,6 +50,10 @@ header p {
 
 .top-card h2 {
     margin-bottom: 10px;
+}
+
+.description {
+    color: #8f9bb3;
 }
 
 .controls {
@@ -125,7 +128,7 @@ button {
 
 .server-id {
     background: #080c14;
-    padding: 9px;
+    padding: 10px;
     border-radius: 7px;
     color: #d7def0;
     word-break: break-all;
@@ -137,6 +140,10 @@ button {
     background: #20c77a;
     color: #06130c;
     width: 100%;
+}
+
+.join:hover {
+    background: #35e58f;
 }
 
 .empty {
@@ -154,7 +161,6 @@ button {
     font-size: 13px;
 }
 </style>
-
 </head>
 
 <body>
@@ -166,96 +172,151 @@ button {
 
 <div class="container">
 
-```
-<div class="top-card">
-    <h2>🎯 High Value Servers</h2>
-    <p style="color:#8f9bb3;">
-        Show servers meeting your minimum value.
-    </p>
+    <div class="top-card">
+        <h2>🎯 High Value Servers</h2>
 
-    <div class="controls">
-        <input id="minimumValue"
-               type="number"
-               min="0"
-               step="0.01"
-               value="2.00"
-               placeholder="Minimum value">
+        <p class="description">
+            Find servers meeting your minimum value.
+        </p>
 
-        <button class="find-btn" onclick="findServers()">
-            🔎 Find High Value Servers
-        </button>
+        <div class="controls">
+            <input
+                id="minimumValue"
+                type="number"
+                min="0"
+                step="0.01"
+                value="2.00"
+                placeholder="Minimum value"
+            >
+
+            <button
+                type="button"
+                class="find-btn"
+                onclick="findServers()"
+            >
+                🔎 Find High Value Servers
+            </button>
+        </div>
+
+        <p class="note">
+            Servers below your selected value will be hidden.
+        </p>
     </div>
 
-    <p class="note">
-        Minimum value starts at 2.00. The example server data below is for the dashboard UI;
-        real player inventory values require a legitimate data source.
-    </p>
-</div>
+    <div id="serverList" class="server-list"></div>
 
-<div id="serverList" class="server-list"></div>
-
-<div id="empty" class="empty">
-    ❌ No servers meet your selected minimum value.
-</div>
-```
+    <div id="empty" class="empty">
+        ❌ No high-value servers found.
+    </div>
 
 </div>
 
 <script>
+
+/*
+==================================================
+ADOPT ME PLACE
+==================================================
+*/
+
+const PLACE_ID = "920587237";
+
+
+/*
+==================================================
+SERVER DATA
+==================================================
+
+Replace the example serverId values with REAL
+Roblox server instance IDs from your legitimate
+server data source.
+*/
+
 const servers = [
+
     {
         player: "@PlayerOne",
         value: 3.80,
         game: "Adopt Me",
         serverId: "example-server-001"
     },
+
     {
         player: "@RichTrader",
         value: 4.95,
         game: "Adopt Me",
         serverId: "example-server-002"
     },
+
     {
         player: "@TradingKing",
         value: 2.75,
         game: "Adopt Me",
         serverId: "example-server-003"
     },
+
     {
         player: "@PetCollector",
         value: 2.10,
         game: "Adopt Me",
         serverId: "example-server-004"
     }
+
 ];
 
-function findServers() {
-    const minimum = parseFloat(
-        document.getElementById("minimumValue").value
-    ) || 2.00;
 
-    const list = document.getElementById("serverList");
-    const empty = document.getElementById("empty");
+/*
+==================================================
+FIND SERVERS
+==================================================
+*/
+
+function findServers() {
+
+    const input =
+        document.getElementById("minimumValue");
+
+    const minimum =
+        parseFloat(input.value) || 2.00;
+
+    const list =
+        document.getElementById("serverList");
+
+    const empty =
+        document.getElementById("empty");
 
     list.innerHTML = "";
 
-    const filtered = servers.filter(server => server.value >= minimum);
+    const filtered =
+        servers
+        .filter(server => server.value >= minimum)
+        .sort((a, b) => b.value - a.value);
 
     if (filtered.length === 0) {
+
         empty.style.display = "block";
+
         return;
     }
 
     empty.style.display = "none";
 
+
     filtered.forEach(server => {
-        const card = document.createElement("div");
+
+        const card =
+            document.createElement("div");
+
         card.className = "server-card";
 
         card.innerHTML = `
+
             <div class="player">
                 👤 ${server.player}
-                <span class="value">${server.value.toFixed(2)} Value</span>
+
+                <span class="value">
+                    ${server.value.toFixed(2)} Value
+                </span>
             </div>
 
             <div class="status">
@@ -263,36 +324,88 @@ function findServers() {
             </div>
 
             <div class="details">
-                🎮 Game: <strong>${server.game}</strong><br>
+
+                🎮 Game:
+                <strong>${server.game}</strong>
+
+                <br>
+
                 🆔 Server ID:
-                <div class="server-id">${server.serverId}</div>
+
+                <div class="server-id">
+                    ${server.serverId}
+                </div>
+
             </div>
 
-            <button class="join"
-                onclick="openServer('${server.serverId}')">
+            <button
+                type="button"
+                class="join"
+                onclick="joinRobloxServer('${server.serverId}')"
+            >
                 🚀 JOIN SERVER
             </button>
+
         `;
 
         list.appendChild(card);
+
     });
+
 }
 
-function openServer(serverId) {
+
+/*
+==================================================
+JOIN ROBLOX SERVER
+==================================================
+*/
+
+function joinRobloxServer(serverId) {
+
+    if (
+        !serverId ||
+        serverId.startsWith("example-")
+    ) {
+
+        alert(
+            "⚠️ This is an example server.\n\n" +
+            "Add a real Roblox server instance ID " +
+            "before using JOIN SERVER."
+        );
+
+        return;
+    }
+
+
     /*
-      These are example IDs, so they cannot join a real server.
-      Replace this function with your legitimate Roblox
-      server/deep-link data when you have real server IDs.
+    Roblox application deep link
     */
 
-    alert(
-        "Server selected:\\n\\n" +
-        serverId +
-        "\\n\\nAdd a valid Roblox server link here to enable joining."
-    );
+    const robloxLink =
+        "roblox://placeId=" +
+        PLACE_ID +
+        "&gameInstanceId=" +
+        encodeURIComponent(serverId);
+
+
+    /*
+    Try opening Roblox
+    */
+
+    window.location.href = robloxLink;
+
 }
 
+
+/*
+==================================================
+LOAD SERVERS
+==================================================
+*/
+
 findServers();
+
 </script>
 
 </body>
