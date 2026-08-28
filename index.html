@@ -1579,13 +1579,21 @@ loadSettings();
 </body>
 </html>
 <button
+    <button
+    type="button"
     class="save-btn"
     onclick="saveSettings()">
     💾 Save Settings
 </button>
+
 <button
     type="button"
-    class="save-btn"
-    id="saveSettingsBtn">
-    💾 Save Settings
+    class="reset-btn"
+    onclick="resetSettings()">
+    ↺ Reset
 </button>
+
+<span
+    class="save-message"
+    id="saveMessage">
+</span>
