@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Blox Fruits • Rich Server Finder</title>
+<title>DONIE</title>
 
 <style>
 * {
@@ -22,8 +22,6 @@ body {
         radial-gradient(circle at 50% -10%, #164d2c 0%, transparent 40%),
         #070908;
 }
-
-/* HEADER */
 
 .header {
     text-align: center;
@@ -68,8 +66,6 @@ body {
     box-shadow: 0 0 10px #39e875;
 }
 
-/* CONTROLS */
-
 .controls {
     max-width: 950px;
     margin: 0 auto;
@@ -101,15 +97,11 @@ body {
     box-shadow: 0 8px 25px rgba(43,221,109,.2);
 }
 
-/* SERVER LIST */
-
 #serverList {
     max-width: 950px;
     margin: auto;
     padding: 0 15px 50px;
 }
-
-/* CARD */
 
 .server {
     position: relative;
@@ -117,19 +109,14 @@ body {
     margin-bottom: 17px;
     padding: 22px;
     border-radius: 16px;
-
     background:
         linear-gradient(
             145deg,
             rgba(25,34,29,.98),
             rgba(11,15,13,.98)
         );
-
     border: 1px solid #26352c;
-
-    box-shadow:
-        0 12px 35px rgba(0,0,0,.35);
-
+    box-shadow: 0 12px 35px rgba(0,0,0,.35);
     transition: .2s;
 }
 
@@ -146,12 +133,7 @@ body {
 .server:hover {
     transform: translateY(-3px);
     border-color: #35e875;
-    box-shadow:
-        0 15px 40px rgba(0,0,0,.45),
-        0 0 25px rgba(53,232,117,.07);
 }
-
-/* BADGE */
 
 .badge {
     display: inline-block;
@@ -164,8 +146,6 @@ body {
     font-weight: 900;
     margin-bottom: 15px;
 }
-
-/* TOP */
 
 .server-top {
     display: flex;
@@ -184,8 +164,6 @@ body {
     font-size: 17px;
     font-weight: 900;
 }
-
-/* VALUE */
 
 .value-box {
     margin-top: 18px;
@@ -209,8 +187,6 @@ body {
     font-weight: 900;
 }
 
-/* FULL SERVER */
-
 .full {
     margin-top: 12px;
     padding: 10px 12px;
@@ -220,8 +196,6 @@ body {
     font-size: 12px;
     font-weight: 900;
 }
-
-/* STATS */
 
 .stats {
     display: grid;
@@ -249,8 +223,6 @@ body {
     font-size: 13px;
 }
 
-/* SERVER ID */
-
 .server-id {
     margin-top: 13px;
     padding: 12px;
@@ -271,21 +243,16 @@ body {
     word-break: break-all;
 }
 
-/* JOIN */
-
 .join {
     width: 100%;
     margin-top: 16px;
     padding: 14px;
     border: 0;
     border-radius: 10px;
-
     background: #2bdd6d;
     color: #001609;
-
     font-size: 14px;
     font-weight: 900;
-
     cursor: pointer;
     transition: .2s;
 }
@@ -293,10 +260,7 @@ body {
 .join:hover {
     background: #52ed89;
     transform: translateY(-1px);
-    box-shadow: 0 8px 25px rgba(43,221,109,.2);
 }
-
-/* LOADING */
 
 .loading {
     text-align: center;
@@ -320,10 +284,7 @@ body {
     }
 }
 
-/* MOBILE */
-
 @media (max-width: 600px) {
-
     .logo {
         font-size: 32px;
     }
@@ -355,7 +316,7 @@ body {
 <div class="header">
 
     <div class="logo">
-        Blox <span>Rich Finder</span>
+        <span>DONIE</span>
     </div>
 
     <div class="subtitle">
@@ -384,11 +345,8 @@ body {
 <div id="serverList">
 
     <div class="loading">
-
         <div class="spinner"></div>
-
         Finding rich servers...
-
     </div>
 
 </div>
@@ -403,13 +361,6 @@ const PLACE_ID =
 
 const MIN_PLAYERS = 20;
 
-
-/*
- * Dashboard value.
- *
- * This is a server score based
- * on player count/fullness.
- */
 function calculateValue(server) {
 
     const players =
@@ -431,10 +382,6 @@ function calculateValue(server) {
     ).toFixed(2);
 }
 
-
-/*
- * Load servers.
- */
 async function loadServers() {
 
     const list =
@@ -448,11 +395,8 @@ async function loadServers() {
 
     list.innerHTML = `
         <div class="loading">
-
             <div class="spinner"></div>
-
             Finding rich Roblox servers...
-
         </div>
     `;
 
@@ -464,11 +408,9 @@ async function loadServers() {
             );
 
         if (!response.ok) {
-
             throw new Error(
                 `Worker returned HTTP ${response.status}`
             );
-
         }
 
         const data =
@@ -479,30 +421,20 @@ async function loadServers() {
                 ? data.data
                 : [];
 
-
-        /*
-         * Only 20+ player servers.
-         */
         let servers =
             allServers.filter(server =>
                 Number(server.playing || 0)
                 >= MIN_PLAYERS
             );
 
-
-        /*
-         * Highest player count first.
-         */
         servers.sort((a, b) =>
             Number(b.playing || 0)
             -
             Number(a.playing || 0)
         );
 
-
         count.textContent =
             `🟢 ${servers.length} rich servers found`;
-
 
         if (servers.length === 0) {
 
@@ -533,9 +465,7 @@ async function loadServers() {
             return;
         }
 
-
         list.innerHTML = "";
-
 
         servers.forEach((server, index) => {
 
@@ -558,71 +488,49 @@ async function loadServers() {
             const value =
                 calculateValue(server);
 
-
             const card =
                 document.createElement("div");
 
-            card.className =
-                "server";
+            card.className = "server";
 
-
-            /*
-             * Badge.
-             */
             const badge =
                 document.createElement("div");
 
-            badge.className =
-                "badge";
+            badge.className = "badge";
 
             badge.textContent =
                 index === 0
                     ? "🔥 BEST SERVER"
                     : "🟢 RICH SERVER DETECTED";
 
-
-            /*
-             * Header.
-             */
             const top =
                 document.createElement("div");
 
-            top.className =
-                "server-top";
-
+            top.className = "server-top";
 
             const title =
                 document.createElement("div");
 
-            title.className =
-                "server-title";
+            title.className = "server-title";
 
             title.textContent =
                 `🎮 Server #${index + 1}`;
 
-
             const playerText =
                 document.createElement("div");
 
-            playerText.className =
-                "players";
+            playerText.className = "players";
 
             playerText.textContent =
                 `👥 ${players}/${maxPlayers}`;
 
-
             top.appendChild(title);
             top.appendChild(playerText);
 
-
-            /*
-             * Value.
-             */
             const valueBox =
                 document.createElement("div");
 
-            valueBox.className =
-                "value-box";
+            valueBox.className = "value-box";
 
             valueBox.innerHTML = `
                 <div class="value-label">
@@ -634,81 +542,56 @@ async function loadServers() {
                 </div>
             `;
 
-
-            /*
-             * Full server.
-             */
             const full =
                 document.createElement("div");
 
-            full.className =
-                "full";
+            full.className = "full";
 
             full.textContent =
                 players >= maxPlayers
                     ? "🔥 SERVER IS FULL"
                     : "🟢 Rich Server Detected";
 
-
-            /*
-             * Stats.
-             */
             const stats =
                 document.createElement("div");
 
-            stats.className =
-                "stats";
-
+            stats.className = "stats";
 
             stats.innerHTML = `
 
                 <div class="stat">
-
                     <div class="stat-label">
                         PLAYERS
                     </div>
-
                     <div class="stat-value">
                         👥 ${players}
                     </div>
-
                 </div>
 
                 <div class="stat">
-
                     <div class="stat-label">
                         PING
                     </div>
-
                     <div class="stat-value">
                         📡 ${ping} ms
                     </div>
-
                 </div>
 
                 <div class="stat">
-
                     <div class="stat-label">
                         FPS
                     </div>
-
                     <div class="stat-value">
                         ⚡ ${fps}
                     </div>
-
                 </div>
 
             `;
 
-
-            /*
-             * Server ID.
-             */
             const idBox =
                 document.createElement("div");
 
-            idBox.className =
-                "server-id";
+            idBox.className = "server-id";
 
             idBox.innerHTML = `
 
@@ -725,27 +608,17 @@ async function loadServers() {
             ).textContent =
                 server.id || "Unknown";
 
-
-            /*
-             * Join.
-             */
             const join =
                 document.createElement("button");
 
-            join.className =
-                "join";
+            join.className = "join";
 
             join.textContent =
                 "🚀 JOIN THIS SERVER";
 
-
             join.onclick = () =>
                 joinServer(server.id);
 
-
-            /*
-             * Build card.
-             */
             card.appendChild(badge);
             card.appendChild(top);
             card.appendChild(valueBox);
@@ -789,13 +662,8 @@ async function loadServers() {
         `;
 
     }
-
 }
 
-
-/*
- * Join Roblox server.
- */
 function joinServer(serverId) {
 
     if (!serverId) {
@@ -811,19 +679,10 @@ function joinServer(serverId) {
 
     window.location.href =
         link;
-
 }
 
-
-/*
- * First scan.
- */
 loadServers();
 
-
-/*
- * Automatically rescan every 30 seconds.
- */
 setInterval(
     loadServers,
     30000
