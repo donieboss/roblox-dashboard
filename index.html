@@ -1,963 +1,1155 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DONIE Rich Finder</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Inter, Arial, sans-serif;
-      background:
-        radial-gradient(circle at top left, #24105c 0, transparent 35%),
-        radial-gradient(circle at bottom right, #063b45 0, transparent 35%),
-        #070812;
-      color: #fff;
-      min-height: 100vh;
-    }
-
-    button {
-      font: inherit;
-      cursor: pointer;
-      border: 0;
-    }
-
-    .topbar {
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 28px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      background: rgba(8,9,20,.85);
-      backdrop-filter: blur(15px);
-      position: sticky;
-      top: 0;
-      z-index: 20;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo {
-      width: 42px;
-      height: 42px;
-      border-radius: 13px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #7c3cff, #00e5ff);
-      box-shadow: 0 0 25px rgba(124,60,255,.35);
-      font-weight: 900;
-    }
-
-    .brand h1 {
-      font-size: 20px;
-      letter-spacing: .5px;
-    }
-
-    .brand small {
-      color: #8e93a7;
-      display: block;
-      margin-top: 2px;
-    }
-
-    .status {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #a8aec2;
-      font-size: 13px;
-    }
-
-    .dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #27e889;
-      box-shadow: 0 0 12px #27e889;
-    }
-
-    main {
-      width: min(1250px, calc(100% - 32px));
-      margin: 30px auto 60px;
-    }
-
-    .hero {
-      padding: 30px;
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 24px;
-      background: rgba(16,17,31,.72);
-      box-shadow: 0 20px 70px rgba(0,0,0,.28);
-      margin-bottom: 22px;
-    }
-
-    .hero h2 {
-      font-size: clamp(28px, 5vw, 48px);
-      margin-bottom: 10px;
-    }
-
-    .hero h2 span {
-      background: linear-gradient(90deg,#9b6cff,#00e5ff);
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    .hero p {
-      color: #9ba1b7;
-      max-width: 720px;
-      line-height: 1.6;
-    }
-
-    .controls {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 24px;
-    }
-
-    input, select {
-      background: #0b0d1a;
-      border: 1px solid #272b42;
-      color: white;
-      border-radius: 12px;
-      padding: 13px 15px;
-      outline: none;
-    }
-
-    input {
-      flex: 1;
-      min-width: 220px;
-    }
-
-    input:focus, select:focus {
-      border-color: #7850ff;
-      box-shadow: 0 0 0 3px rgba(120,80,255,.12);
-    }
-
-    .btn {
-      padding: 13px 18px;
-      border-radius: 12px;
-      color: white;
-      background: #171a2b;
-      border: 1px solid #2a2e48;
-      transition: .18s;
-      font-weight: 700;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      border-color: #6547db;
-    }
-
-    .btn.primary {
-      background: linear-gradient(135deg,#7545ff,#4e6bff);
-      border: 0;
-      box-shadow: 0 8px 25px rgba(91,70,255,.25);
-    }
-
-    .btn.success {
-      background: linear-gradient(135deg,#00a878,#00c98b);
-      border: 0;
-    }
-
-    .btn.danger {
-      background: #2a1320;
-      border-color: #5d2438;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 22px;
-    }
-
-    .stat {
-      background: rgba(16,17,31,.75);
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: 18px;
-      padding: 20px;
-    }
-
-    .stat label {
-      color: #858ba0;
-      font-size: 13px;
-    }
-
-    .stat strong {
-      display: block;
-      margin-top: 8px;
-      font-size: 26px;
-    }
-
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 24px 0 14px;
-    }
-
-    .section-title h3 {
-      font-size: 20px;
-    }
-
-    .section-title span {
-      color: #777e94;
-      font-size: 13px;
-    }
-
-    .servers {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-    }
-
-    .server {
-      background: linear-gradient(180deg,rgba(20,22,39,.95),rgba(12,14,26,.95));
-      border: 1px solid #252941;
-      border-radius: 20px;
-      padding: 18px;
-      position: relative;
-      overflow: hidden;
-      transition: .2s;
-    }
-
-    .server:hover {
-      transform: translateY(-3px);
-      border-color: #5e48b7;
-      box-shadow: 0 15px 40px rgba(0,0,0,.3);
-    }
-
-    .rich {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      font-size: 11px;
-      padding: 6px 9px;
-      border-radius: 999px;
-      background: rgba(0,229,159,.12);
-      color: #52f0bc;
-      border: 1px solid rgba(0,229,159,.22);
-    }
-
-    .server h4 {
-      font-size: 16px;
-      margin-bottom: 14px;
-      padding-right: 70px;
-      word-break: break-all;
-    }
-
-    .server-id {
-      color: #666d84;
-      font-size: 11px;
-      margin-bottom: 15px;
-    }
-
-    .server-info {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .info-box {
-      background: #0a0c17;
-      border: 1px solid #1e2237;
-      border-radius: 12px;
-      padding: 11px;
-    }
-
-    .info-box small {
-      color: #70768b;
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .info-box strong {
-      font-size: 15px;
-    }
-
-    .value {
-      color: #5ff0bd;
-    }
-
-    .server-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .empty {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 55px 20px;
-      color: #777e94;
-      border: 1px dashed #292d43;
-      border-radius: 18px;
-    }
-
-    .loading {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 55px;
-      color: #9298aa;
-    }
-
-    .spinner {
-      width: 35px;
-      height: 35px;
-      margin: 0 auto 14px;
-      border-radius: 50%;
-      border: 3px solid #282c40;
-      border-top-color: #8a63ff;
-      animation: spin .8s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.72);
-      backdrop-filter: blur(8px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 100;
-    }
-
-    .modal.show {
-      display: flex;
-    }
-
-    .modal-card {
-      width: min(700px, 100%);
-      max-height: 90vh;
-      overflow: auto;
-      background: #10121f;
-      border: 1px solid #30344e;
-      border-radius: 22px;
-      box-shadow: 0 30px 100px rgba(0,0,0,.55);
-    }
-
-    .modal-header {
-      padding: 20px;
-      border-bottom: 1px solid #252941;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .close {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: #1b1e30;
-      color: white;
-      font-size: 20px;
-    }
-
-    .modal-body {
-      padding: 20px;
-    }
-
-    .preview-grid {
-      display: grid;
-      grid-template-columns: repeat(2,1fr);
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .preview-item {
-      padding: 15px;
-      background: #0b0d18;
-      border: 1px solid #20243a;
-      border-radius: 13px;
-    }
-
-    .preview-item small {
-      color: #72788d;
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    .player-list {
-      margin-top: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .player {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 14px;
-      border-radius: 12px;
-      background: #0b0d18;
-      border: 1px solid #20243a;
-    }
-
-    .player-name {
-      font-weight: 700;
-    }
-
-    .player-value {
-      color: #5ff0bd;
-      font-weight: 700;
-    }
-
-    .notice {
-      margin-top: 15px;
-      padding: 13px;
-      border-radius: 12px;
-      background: rgba(255,190,70,.08);
-      border: 1px solid rgba(255,190,70,.2);
-      color: #d7b66f;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    footer {
-      text-align: center;
-      color: #5e6478;
-      font-size: 12px;
-      padding: 30px 0;
-    }
-
-    @media (max-width: 900px) {
-      .servers {
-        grid-template-columns: repeat(2,1fr);
-      }
-
-      .stats {
-        grid-template-columns: repeat(2,1fr);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .topbar {
-        padding: 0 15px;
-      }
-
-      .status {
-        display: none;
-      }
-
-      main {
-        width: min(100% - 20px, 1250px);
-        margin-top: 15px;
-      }
-
-      .hero {
-        padding: 20px;
-      }
-
-      .servers,
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .preview-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DONIE Rich Finder</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#070812;
+  --panel:rgba(15,17,32,.82);
+  --panel2:#0b0d19;
+  --border:#252941;
+  --muted:#858ba0;
+  --purple:#7957ff;
+  --cyan:#00e5ff;
+  --green:#35e6a5;
+  --red:#ff5d70;
+  --yellow:#ffc857;
+}
+
+body{
+  font-family:Inter,Arial,sans-serif;
+  min-height:100vh;
+  color:#fff;
+  background:
+    radial-gradient(circle at 10% 0%,#32116e 0,transparent 30%),
+    radial-gradient(circle at 90% 90%,#004b58 0,transparent 30%),
+    var(--bg);
+}
+
+button,input,select{font:inherit}
+
+button{
+  cursor:pointer;
+  border:0;
+}
+
+.topbar{
+  height:72px;
+  position:sticky;
+  top:0;
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  background:rgba(7,8,18,.88);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(18px);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo{
+  width:43px;
+  height:43px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  font-weight:1000;
+  font-size:21px;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  box-shadow:0 0 30px rgba(121,87,255,.35);
+}
+
+.brand h1{
+  font-size:19px;
+  letter-spacing:.6px;
+}
+
+.brand small{
+  display:block;
+  margin-top:2px;
+  color:var(--muted);
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#aab0c3;
+  font-size:13px;
+}
+
+.dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 14px var(--green);
+}
+
+main{
+  width:min(1350px,calc(100% - 32px));
+  margin:30px auto 60px;
+}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:32px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:26px;
+  background:linear-gradient(135deg,rgba(24,22,48,.88),rgba(10,16,30,.82));
+  box-shadow:0 25px 80px rgba(0,0,0,.3);
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  width:260px;
+  height:260px;
+  right:-100px;
+  top:-120px;
+  border-radius:50%;
+  background:rgba(0,229,255,.09);
+  filter:blur(20px);
+}
+
+.hero h2{
+  position:relative;
+  z-index:2;
+  font-size:clamp(30px,5vw,52px);
+  margin-bottom:10px;
+}
+
+.gradient{
+  background:linear-gradient(90deg,#a77cff,#00e5ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.hero p{
+  position:relative;
+  z-index:2;
+  max-width:780px;
+  color:#9ca3b8;
+  line-height:1.65;
+}
+
+.controls{
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:24px;
+}
+
+input,select{
+  min-height:46px;
+  padding:0 15px;
+  color:white;
+  background:#0a0c18;
+  border:1px solid #292d45;
+  border-radius:12px;
+  outline:none;
+}
+
+input{
+  flex:1;
+  min-width:230px;
+}
+
+input:focus,select:focus{
+  border-color:var(--purple);
+  box-shadow:0 0 0 3px rgba(121,87,255,.13);
+}
+
+.btn{
+  min-height:46px;
+  padding:0 17px;
+  color:#fff;
+  background:#171a2b;
+  border:1px solid #2b3049;
+  border-radius:12px;
+  font-weight:800;
+  transition:.18s;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+  border-color:#6853c9;
+}
+
+.btn.primary{
+  background:linear-gradient(135deg,#7548ff,#536cff);
+  border:0;
+  box-shadow:0 10px 30px rgba(89,76,255,.25);
+}
+
+.btn.success{
+  background:linear-gradient(135deg,#00a979,#00ce91);
+  border:0;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin:22px 0;
+}
+
+.stat{
+  position:relative;
+  overflow:hidden;
+  padding:20px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:19px;
+  background:var(--panel);
+}
+
+.stat:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,rgba(121,87,255,.06),transparent);
+  pointer-events:none;
+}
+
+.stat label{
+  color:#858ca1;
+  font-size:13px;
+}
+
+.stat strong{
+  display:block;
+  margin-top:8px;
+  font-size:27px;
+}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin:27px 0 14px;
+}
+
+.section-title h3{
+  font-size:21px;
+}
+
+.section-title span{
+  color:#7d8499;
+  font-size:13px;
+}
+
+.servers{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.server{
+  position:relative;
+  overflow:hidden;
+  padding:18px;
+  border:1px solid #252941;
+  border-radius:21px;
+  background:linear-gradient(180deg,rgba(21,23,41,.97),rgba(10,12,23,.97));
+  transition:.2s;
+}
+
+.server:hover{
+  transform:translateY(-4px);
+  border-color:#614bc1;
+  box-shadow:0 18px 45px rgba(0,0,0,.35);
+}
+
+.server.top{
+  border-color:rgba(255,200,87,.45);
+  box-shadow:0 0 35px rgba(255,200,87,.07);
+}
+
+.rank{
+  position:absolute;
+  top:13px;
+  left:13px;
+  min-width:31px;
+  height:31px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background:#1c2033;
+  color:#dce0ed;
+  font-size:12px;
+  font-weight:900;
+}
+
+.badges{
+  position:absolute;
+  top:13px;
+  right:13px;
+  display:flex;
+  gap:5px;
+}
+
+.badge{
+  padding:6px 8px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:900;
+}
+
+.badge.rich{
+  color:#55efbd;
+  background:rgba(53,230,165,.1);
+  border:1px solid rgba(53,230,165,.2);
+}
+
+.badge.hot{
+  color:#ffd36b;
+  background:rgba(255,200,87,.1);
+  border:1px solid rgba(255,200,87,.2);
+}
+
+.server h4{
+  margin:42px 0 8px;
+  padding-right:5px;
+  font-size:17px;
+}
+
+.server-id{
+  margin-bottom:15px;
+  color:#60677d;
+  font-size:10px;
+  word-break:break-all;
+}
+
+.score{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:14px;
+  padding:10px 12px;
+  border-radius:12px;
+  background:#0a0c17;
+  border:1px solid #1e2237;
+}
+
+.score span{
+  color:#777e94;
+  font-size:12px;
+}
+
+.score strong{
+  color:#a98cff;
+}
+
+.server-info{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+  margin-bottom:9px;
+}
+
+.info-box{
+  padding:11px;
+  border-radius:12px;
+  background:#090b16;
+  border:1px solid #1e2237;
+}
+
+.info-box small{
+  display:block;
+  margin-bottom:5px;
+  color:#70778c;
+  font-size:11px;
+}
+
+.info-box strong{
+  font-size:14px;
+}
+
+.value{
+  color:var(--green)!important;
+}
+
+.occupancy{
+  height:6px;
+  margin:13px 0;
+  overflow:hidden;
+  border-radius:99px;
+  background:#20243a;
+}
+
+.occupancy span{
+  display:block;
+  height:100%;
+  width:0;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#7152ff,#00e5ff);
+}
+
+.server-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:13px;
+}
+
+.empty,.loading{
+  grid-column:1/-1;
+  padding:60px 20px;
+  text-align:center;
+  color:#777e94;
+  border:1px dashed #292e45;
+  border-radius:19px;
+}
+
+.spinner{
+  width:38px;
+  height:38px;
+  margin:0 auto 15px;
+  border:3px solid #292d43;
+  border-top-color:#8a68ff;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.76);
+  backdrop-filter:blur(9px);
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-card{
+  width:min(760px,100%);
+  max-height:90vh;
+  overflow:auto;
+  border:1px solid #303650;
+  border-radius:23px;
+  background:#10121f;
+  box-shadow:0 30px 100px rgba(0,0,0,.6);
+}
+
+.modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px;
+  border-bottom:1px solid #252941;
+}
+
+.modal-header small{
+  display:block;
+  max-width:570px;
+  margin-top:5px;
+  color:#70778c;
+  word-break:break-all;
+}
+
+.close{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  background:#1b1e30;
+  color:white;
+  font-size:21px;
+}
+
+.modal-body{
+  padding:20px;
+}
+
+.preview-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.preview-item{
+  padding:14px;
+  border:1px solid #20243a;
+  border-radius:13px;
+  background:#0b0d18;
+}
+
+.preview-item small{
+  display:block;
+  margin-bottom:5px;
+  color:#70778c;
+}
+
+.player-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:13px;
+}
+
+.player{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 14px;
+  border:1px solid #20243a;
+  border-radius:12px;
+  background:#0b0d18;
+}
+
+.player-name{
+  font-weight:800;
+}
+
+.player-value{
+  color:var(--green);
+  font-weight:800;
+}
+
+.notice{
+  margin-top:17px;
+  padding:13px;
+  color:#d7b66f;
+  font-size:12px;
+  line-height:1.5;
+  border:1px solid rgba(255,190,70,.2);
+  border-radius:12px;
+  background:rgba(255,190,70,.07);
+}
+
+footer{
+  padding:30px 0;
+  text-align:center;
+  color:#5e6478;
+  font-size:12px;
+}
+
+@media(max-width:1000px){
+  .servers{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .preview-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:600px){
+  .topbar{padding:0 15px}
+  .status{display:none}
+  main{
+    width:calc(100% - 20px);
+    margin-top:15px;
+  }
+  .hero{padding:21px}
+  .servers,.stats{grid-template-columns:1fr}
+  .preview-grid{grid-template-columns:1fr}
+}
+</style>
+
 </head>
 
 <body>
 
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo">D</div>
-      <div>
-        <h1>DONIE RICH FINDER</h1>
-        <small>Roblox Server Scanner</small>
-      </div>
-    </div>
-
-    <div class="status">
-      <span class="dot"></span>
-      Worker Connected
-    </div>
-  </header>
-
-  <main>
-
-    <section class="hero">
-      <h2>Find the <span>Richest Servers</span> 🔥</h2>
-
-      <p>
-        Scan public Roblox servers, preview available information,
-        compare player counts and display verified public value data
-        when the Worker can retrieve it.
-      </p>
-
-      <div class="controls">
-        <input
-          id="placeInput"
-          type="text"
-          placeholder="Enter Roblox Place ID..."
-        />
-
-        <select id="limitInput">
-          <option value="10">10 Servers</option>
-          <option value="25">25 Servers</option>
-          <option value="50">50 Servers</option>
-        </select>
-
-        <button class="btn primary" onclick="scanServers()">
-          🔎 Scan Servers
-        </button>
-
-        <button class="btn" onclick="refreshServers()">
-          🔄 Refresh
-        </button>
-      </div>
-    </section>
-
-    <section class="stats">
-      <div class="stat">
-        <label>Servers Found</label>
-        <strong id="serverCount">0</strong>
-      </div>
-
-      <div class="stat">
-        <label>Total Players</label>
-        <strong id="playerCount">0</strong>
-      </div>
-
-      <div class="stat">
-        <label>Rich Servers</label>
-        <strong id="richCount">0</strong>
-      </div>
-
-      <div class="stat">
-        <label>Known Value</label>
-        <strong id="totalValue">R$ 0</strong>
-      </div>
-    </section>
-
-    <div class="section-title">
-      <h3>🔥 Server Scanner</h3>
-      <span id="scanStatus">Waiting for scan...</span>
-    </div>
-
-    <section id="servers" class="servers">
-      <div class="empty">
-        Enter a Roblox Place ID and click <b>Scan Servers</b>.
-      </div>
-    </section>
-
-    <footer>
-      DONIE Rich Finder • Public Roblox data only
-    </footer>
-
-  </main>
-
-  <!-- PREVIEW MODAL -->
-
-  <div id="previewModal" class="modal" onclick="closeModal(event)">
-    <div class="modal-card" onclick="event.stopPropagation()">
-
-      <div class="modal-header">
-        <div>
-          <h2>👀 Server Preview</h2>
-          <small id="modalServerId" style="color:#777e94"></small>
-        </div>
-
-        <button class="close" onclick="hidePreview()">×</button>
-      </div>
-
-      <div class="modal-body">
-
-        <div class="preview-grid">
-
-          <div class="preview-item">
-            <small>Players</small>
-            <strong id="modalPlayers">0 / 0</strong>
-          </div>
-
-          <div class="preview-item">
-            <small>Known Value</small>
-            <strong id="modalValue" class="value">R$ 0</strong>
-          </div>
-
-          <div class="preview-item">
-            <small>Server ID</small>
-            <strong id="modalId">Unknown</strong>
-          </div>
-
-          <div class="preview-item">
-            <small>Value Status</small>
-            <strong id="modalStatus">Checking...</strong>
-          </div>
-
-        </div>
-
-        <h3>Players with available public data</h3>
-
-        <div id="modalPlayersList" class="player-list">
-          <div class="empty">No player-value data available.</div>
-        </div>
-
-        <div class="notice">
-          ⚠️ Roblox does not always expose the complete player list or
-          inventory/value information through public APIs. This dashboard
-          only shows data returned by the Worker and does not invent
-          player values.
-        </div>
-
-        <div class="controls">
-          <button
-            id="modalJoin"
-            class="btn success"
-            style="flex:1"
-          >
-            🚀 Join Server
-          </button>
-
-          <button
-            id="modalDiscord"
-            class="btn primary"
-            style="flex:1"
-          >
-            📢 Send to Discord
-          </button>
-        </div>
-
-      </div>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">D</div>
+    <div>
+      <h1>DONIE RICH FINDER</h1>
+      <small>Advanced Roblox Server Scanner</small>
     </div>
   </div>
 
+  <div class="status" id="workerStatus">
+    <span class="dot"></span>
+    Worker Connected
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <h2>Find the <span class="gradient">Richest Servers</span> 🔥</h2>
+
+  <p>
+    Scan public Roblox servers, compare occupancy, ping, FPS and
+    verified public value data. Servers are ranked automatically so
+    the strongest candidates appear first.
+  </p>
+
+  <div class="controls">
+    <input id="placeInput" type="text" value="920587237"
+      placeholder="Enter Roblox Place ID...">
+
+```
+<select id="limitInput">
+  <option value="10">10 Servers</option>
+  <option value="25">25 Servers</option>
+  <option value="50" selected>50 Servers</option>
+  <option value="100">100 Servers</option>
+</select>
+
+<select id="sortInput">
+  <option value="score">🔥 Best Score</option>
+  <option value="value">💎 Highest Value</option>
+  <option value="players">👥 Most Players</option>
+  <option value="ping">📶 Lowest Ping</option>
+</select>
+
+<button class="btn primary" onclick="scanServers()">
+  🔎 Scan Servers
+</button>
+
+<button class="btn" onclick="refreshServers()">
+  🔄 Refresh
+</button>
+```
+
+  </div>
+</section>
+
+<section class="stats">
+
+  <div class="stat">
+    <label>Servers Found</label>
+    <strong id="serverCount">0</strong>
+  </div>
+
+  <div class="stat">
+    <label>Total Players</label>
+    <strong id="playerCount">0</strong>
+  </div>
+
+  <div class="stat">
+    <label>Rich Servers</label>
+    <strong id="richCount">0</strong>
+  </div>
+
+  <div class="stat">
+    <label>Known Value</label>
+    <strong id="totalValue">R$ 0</strong>
+  </div>
+
+</section>
+
+<div class="section-title">
+  <h3>🔥 Ranked Servers</h3>
+  <span id="scanStatus">Ready to scan</span>
+</div>
+
+<section id="servers" class="servers">
+  <div class="empty">
+    <h3>🚀 Ready</h3>
+    <br>
+    Enter a Roblox Place ID and click <b>Scan Servers</b>.
+  </div>
+</section>
+
+<footer>
+  DONIE Rich Finder • Public Roblox data only
+</footer>
+
+</main>
+
+<div id="previewModal" class="modal" onclick="closeModal(event)">
+  <div class="modal-card" onclick="event.stopPropagation()">
+
+```
+<div class="modal-header">
+  <div>
+    <h2>👀 Server Preview</h2>
+    <small id="modalServerId">Server ID unavailable</small>
+  </div>
+
+  <button class="close" onclick="hidePreview()">×</button>
+</div>
+
+<div class="modal-body">
+
+  <div class="preview-grid">
+
+    <div class="preview-item">
+      <small>Players</small>
+      <strong id="modalPlayers">0 / 0</strong>
+    </div>
+
+    <div class="preview-item">
+      <small>Known Value</small>
+      <strong id="modalValue" class="value">R$ 0</strong>
+    </div>
+
+    <div class="preview-item">
+      <small>Ping</small>
+      <strong id="modalPing">N/A</strong>
+    </div>
+
+    <div class="preview-item">
+      <small>FPS</small>
+      <strong id="modalFPS">N/A</strong>
+    </div>
+
+    <div class="preview-item">
+      <small>Score</small>
+      <strong id="modalScore">0/100</strong>
+    </div>
+
+    <div class="preview-item">
+      <small>Value Status</small>
+      <strong id="modalStatus">Limited</strong>
+    </div>
+
+    <div class="preview-item">
+      <small>Public Data</small>
+      <strong id="modalPublic">0</strong>
+    </div>
+
+    <div class="preview-item">
+      <small>Occupancy</small>
+      <strong id="modalOccupancy">0%</strong>
+    </div>
+
+  </div>
+
+  <h3>Players with available public data</h3>
+
+  <div id="modalPlayersList" class="player-list">
+    <div class="empty">
+      No player-value data available.
+    </div>
+  </div>
+
+  <div class="notice">
+    ⚠️ Roblox public server responses do not normally expose the
+    complete usernames and inventory values of every player in a
+    server. DONIE only displays value data actually returned by
+    the Worker.
+  </div>
+
+  <div class="controls">
+
+    <button id="modalJoin" class="btn success" style="flex:1">
+      🚀 Join Server
+    </button>
+
+    <button id="modalDiscord" class="btn primary" style="flex:1">
+      📢 Send to Discord
+    </button>
+
+  </div>
+
+</div>
+```
+
+  </div>
+</div>
 
 <script>
 
+const WORKER_URL =
+  "https://weathered-haze-08aa.redonekowaithe1.workers.dev";
+
+let servers = [];
+let selectedServer = null;
+
+function escapeHTML(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function formatValue(value){
+  const n = Number(value || 0);
+
+  if(!Number.isFinite(n)) return "R$ 0";
+
+  if(n >= 1000000000)
+    return "R$ " + (n/1000000000).toFixed(2) + "B";
+
+  if(n >= 1000000)
+    return "R$ " + (n/1000000).toFixed(2) + "M";
+
+  if(n >= 1000)
+    return "R$ " + (n/1000).toFixed(1) + "K";
+
+  return "R$ " + Math.round(n).toLocaleString();
+}
+
+function getServerId(s){
+  return s?.id ||
+         s?.serverId ||
+         s?.jobId ||
+         s?.instanceId ||
+         "";
+}
+
+function getPlaying(s){
+  return Number(
+    s?.playing ??
+    s?.playerCount ??
+    0
+  );
+}
+
+function getMaxPlayers(s){
+  return Number(
+    s?.maxPlayers ??
+    s?.max ??
+    0
+  );
+}
+
+function getValue(s){
+  return Number(
+    s?.totalValue ??
+    s?.value ??
+    s?.totalRap ??
+    s?.rap ??
+    0
+  );
+}
+
+function getPlayers(s){
+  if(Array.isArray(s?.playerData))
+    return s.playerData;
+
+  if(Array.isArray(s?.players))
+    return s.players;
+
+  if(Array.isArray(s?.users))
+    return s.users;
+
+  return [];
+}
+
+function getPing(s){
+  const n = Number(s?.ping);
+  return Number.isFinite(n) ? n : null;
+}
+
+function getFPS(s){
+  const n = Number(s?.fps);
+  return Number.isFinite(n) ? n : null;
+}
+
+function getOccupancy(s){
+  const playing = getPlaying(s);
+  const max = getMaxPlayers(s);
+
+  if(!max) return 0;
+
+  return Math.max(
+    0,
+    Math.min(100,(playing/max)*100)
+  );
+}
+
+function getScore(s){
+
+  const value = getValue(s);
+  const playing = getPlaying(s);
+  const max = getMaxPlayers(s);
+  const ping = getPing(s);
+
+  let score = 0;
+
   /*
-   * ============================================================
-   * DONIE RICH FINDER
-   * Cloudflare Worker
-   * ============================================================
+   * Value contributes the strongest signal,
+   * but only when verified data exists.
    */
 
-  const WORKER_URL =
-    "https://weathered-haze-08aa.redonekowaithe1.workers.dev";
-
-
-  let servers = [];
-  let selectedServer = null;
-
-
-  /*
-   * ------------------------------------------------------------
-   * HELPERS
-   * ------------------------------------------------------------
-   */
-
-  function escapeHTML(value) {
-    return String(value ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-
-
-  function formatValue(value) {
-
-    const number = Number(value || 0);
-
-    if (!Number.isFinite(number)) {
-      return "R$ 0";
-    }
-
-    if (number >= 1000000) {
-      return "R$ " + (number / 1000000).toFixed(2) + "M";
-    }
-
-    if (number >= 1000) {
-      return "R$ " + (number / 1000).toFixed(1) + "K";
-    }
-
-    return "R$ " + Math.round(number).toLocaleString();
-  }
-
-
-  function getServerId(server) {
-    return (
-      server.id ||
-      server.serverId ||
-      server.jobId ||
-      server.instanceId ||
-      ""
+  if(value > 0){
+    score += Math.min(
+      60,
+      Math.log10(value + 1) * 7
     );
   }
 
-
-  function getPlaying(server) {
-    return Number(
-      server.playing ??
-      server.playerCount ??
-      server.players ??
-      0
+  if(max > 0){
+    score += Math.min(
+      20,
+      (playing/max) * 20
     );
   }
 
-
-  function getMaxPlayers(server) {
-    return Number(
-      server.maxPlayers ??
-      server.max ??
-      0
-    );
+  if(ping !== null){
+    if(ping <= 60) score += 15;
+    else if(ping <= 100) score += 10;
+    else if(ping <= 180) score += 5;
   }
 
+  return Math.max(
+    0,
+    Math.min(100,Math.round(score))
+  );
+}
 
-  function getValue(server) {
-    return Number(
-      server.totalValue ??
-      server.value ??
-      server.rap ??
-      server.totalRap ??
-      0
-    );
+function sortServers(list){
+
+  const mode =
+    document.getElementById("sortInput").value;
+
+  return [...list].sort((a,b)=>{
+
+    if(mode === "value")
+      return getValue(b)-getValue(a);
+
+    if(mode === "players")
+      return getPlaying(b)-getPlaying(a);
+
+    if(mode === "ping"){
+      const ap = getPing(a) ?? 99999;
+      const bp = getPing(b) ?? 99999;
+      return ap-bp;
+    }
+
+    return getScore(b)-getScore(a);
+  });
+}
+
+async function scanServers(){
+
+  const placeId =
+    document.getElementById("placeInput")
+      .value.trim();
+
+  const limit =
+    document.getElementById("limitInput").value;
+
+  if(!placeId){
+    alert("Enter a Roblox Place ID first.");
+    return;
   }
 
+  setLoading(true);
 
-  function getPlayers(server) {
-    if (Array.isArray(server.players)) {
-      return server.players;
-    }
+  document.getElementById("scanStatus").textContent =
+    "Scanning Roblox servers...";
 
-    if (Array.isArray(server.playerData)) {
-      return server.playerData;
-    }
+  try{
 
-    if (Array.isArray(server.users)) {
-      return server.users;
-    }
+    const url =
+      `${WORKER_URL}/servers?placeId=${encodeURIComponent(placeId)}&limit=${encodeURIComponent(limit)}`;
 
-    return [];
-  }
-
-
-  /*
-   * ------------------------------------------------------------
-   * SCAN
-   * ------------------------------------------------------------
-   */
-
-  async function scanServers() {
-
-    const placeId =
-      document.getElementById("placeInput").value.trim();
-
-    const limit =
-      document.getElementById("limitInput").value;
-
-    if (!placeId) {
-      alert("Enter a Roblox Place ID first.");
-      return;
-    }
-
-    setLoading(true);
-
-    document.getElementById("scanStatus").textContent =
-      "Scanning...";
-
-    try {
-
-      /*
-       * The Worker receives the request.
-       *
-       * The Worker should handle the Roblox API call.
-       */
-
-      const url =
-        `${WORKER_URL}/servers?placeId=${encodeURIComponent(placeId)}&limit=${encodeURIComponent(limit)}`;
-
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Accept": "application/json"
+    const response =
+      await fetch(url,{
+        method:"GET",
+        headers:{
+          "Accept":"application/json"
         }
       });
 
-      if (!response.ok) {
-        throw new Error(
-          `Worker returned HTTP ${response.status}`
-        );
-      }
+    if(!response.ok){
+      throw new Error(
+        `Worker returned HTTP ${response.status}`
+      );
+    }
 
-      const data = await response.json();
+    const data =
+      await response.json();
 
-      /*
-       * Support several common Worker response formats.
-       */
+    servers =
+      Array.isArray(data)
+        ? data
+        : (
+            data.servers ||
+            data.data ||
+            data.results ||
+            []
+          );
 
-      servers =
-        Array.isArray(data)
-          ? data
-          : (
-              data.servers ||
-              data.data ||
-              data.results ||
-              []
-            );
-
-      if (!Array.isArray(servers)) {
-        servers = [];
-      }
-
-      renderServers();
-
-      document.getElementById("scanStatus").textContent =
-        `Found ${servers.length} server${servers.length === 1 ? "" : "s"}.`;
-
-    } catch (error) {
-
-      console.error(error);
-
+    if(!Array.isArray(servers))
       servers = [];
 
-      document.getElementById("servers").innerHTML = `
-        <div class="empty">
-          <h3>❌ Scanner Error</h3>
-          <br>
-          <p>${escapeHTML(error.message)}</p>
-          <br>
-          <p>
-            Make sure your Cloudflare Worker has a
-            <b>/servers</b> endpoint and that CORS is enabled.
-          </p>
-        </div>
-      `;
+    servers = sortServers(servers);
 
-      document.getElementById("scanStatus").textContent =
-        "Scanner error.";
+    renderServers();
 
-    } finally {
+    document.getElementById("scanStatus").textContent =
+      `Found ${servers.length} server${servers.length === 1 ? "" : "s"}.`;
 
-      setLoading(false);
+  }catch(error){
 
-    }
+    console.error(error);
+
+    servers = [];
+
+    document.getElementById("servers").innerHTML = `
+      <div class="empty">
+        <h3>❌ Scanner Error</h3>
+        <br>
+        <p>${escapeHTML(error.message)}</p>
+        <br>
+        <p>
+          Check that your Cloudflare Worker is deployed and
+          that <b>/servers</b> is working.
+        </p>
+      </div>
+    `;
+
+    document.getElementById("scanStatus").textContent =
+      "Scanner error.";
+
+    updateStats();
+
+  }finally{
+
+    setLoading(false);
+
+  }
+}
+
+function renderServers(){
+
+  const container =
+    document.getElementById("servers");
+
+  if(!servers.length){
+
+    container.innerHTML = `
+      <div class="empty">
+        <h3>😕 No Servers Found</h3>
+        <br>
+        Roblox did not return public servers for this request.
+      </div>
+    `;
+
+    updateStats();
+    return;
   }
 
-
-  /*
-   * ------------------------------------------------------------
-   * RENDER SERVERS
-   * ------------------------------------------------------------
-   */
-
-  function renderServers() {
-
-    const container =
-      document.getElementById("servers");
-
-    if (!servers.length) {
-
-      container.innerHTML = `
-        <div class="empty">
-          No public servers were returned by the Worker.
-        </div>
-      `;
-
-      updateStats();
-
-      return;
-    }
-
-
-    container.innerHTML = servers.map((server, index) => {
+  container.innerHTML =
+    servers.map((server,index)=>{
 
       const id = getServerId(server);
       const playing = getPlaying(server);
-      const maxPlayers = getMaxPlayers(server);
+      const max = getMaxPlayers(server);
       const value = getValue(server);
-      const playerData = getPlayers(server);
+      const ping = getPing(server);
+      const fps = getFPS(server);
+      const publicData = getPlayers(server).length;
+      const score = getScore(server);
+      const occupancy = getOccupancy(server);
 
       const isRich = value > 0;
+      const isHot = occupancy >= 80 || score >= 70;
 
       return `
-        <article class="server">
+        <article class="server ${index === 0 ? "top" : ""}">
 
-          ${
-            isRich
-              ? `<div class="rich">💎 RICH</div>`
-              : ""
-          }
+          <div class="rank">#${index+1}</div>
+
+          <div class="badges">
+
+            ${
+              isRich
+                ? `<span class="badge rich">💎 RICH</span>`
+                : ""
+            }
+
+            ${
+              isHot
+                ? `<span class="badge hot">🔥 HOT</span>`
+                : ""
+            }
+
+          </div>
 
           <h4>
-            Server #${index + 1}
+            Server #${index+1}
           </h4>
 
           <div class="server-id">
             ${escapeHTML(id || "Server ID unavailable")}
           </div>
 
-          <div class="server-info">
-
-            <div class="info-box">
-              <small>Players</small>
-              <strong>
-                ${playing}${maxPlayers ? " / " + maxPlayers : ""}
-              </strong>
-            </div>
-
-            <div class="info-box">
-              <small>Known Value</small>
-              <strong class="value">
-                ${formatValue(value)}
-              </strong>
-            </div>
-
+          <div class="score">
+            <span>⭐ Server Score</span>
+            <strong>${score}/100</strong>
           </div>
 
           <div class="server-info">
 
             <div class="info-box">
-              <small>Public Data</small>
+              <small>👥 Players</small>
               <strong>
-                ${playerData.length}
+                ${playing}${max ? " / "+max : ""}
               </strong>
             </div>
 
             <div class="info-box">
-              <small>Status</small>
-              <strong>
-                ${playerData.length ? "Verified Data" : "Limited"}
+              <small>💎 Known Value</small>
+              <strong class="value">
+                ${formatValue(value)}
               </strong>
             </div>
 
+            <div class="info-box">
+              <small>📶 Ping</small>
+              <strong>
+                ${ping === null ? "N/A" : ping+" ms"}
+              </strong>
+            </div>
+
+            <div class="info-box">
+              <small>⚡ FPS</small>
+              <strong>
+                ${fps === null ? "N/A" : fps}
+              </strong>
+            </div>
+
+            <div class="info-box">
+              <small>🔎 Public Data</small>
+              <strong>${publicData}</strong>
+            </div>
+
+            <div class="info-box">
+              <small>📊 Occupancy</small>
+              <strong>${Math.round(occupancy)}%</strong>
+            </div>
+
+          </div>
+
+          <div class="occupancy">
+            <span style="width:${occupancy}%"></span>
           </div>
 
           <div class="server-actions">
 
             <button
               class="btn"
-              onclick="previewServer(${index})"
-            >
+              onclick="previewServer(${index})">
               👀 Preview
             </button>
 
             <button
               class="btn success"
-              onclick="joinServer(${index})"
-            >
+              onclick="joinServer(${index})">
               🚀 Join
             </button>
 
@@ -968,102 +1160,112 @@
 
     }).join("");
 
-    updateStats();
-  }
+  updateStats();
+}
 
+function updateStats(){
 
-  /*
-   * ------------------------------------------------------------
-   * STATS
-   * ------------------------------------------------------------
-   */
+  let players = 0;
+  let rich = 0;
+  let totalValue = 0;
 
-  function updateStats() {
+  for(const server of servers){
 
-    let players = 0;
-    let rich = 0;
-    let totalValue = 0;
+    players += getPlaying(server);
 
-    for (const server of servers) {
-
-      players += getPlaying(server);
-
-      const value = getValue(server);
-
-      totalValue += value;
-
-      if (value > 0) {
-        rich++;
-      }
-    }
-
-    document.getElementById("serverCount").textContent =
-      servers.length;
-
-    document.getElementById("playerCount").textContent =
-      players.toLocaleString();
-
-    document.getElementById("richCount").textContent =
-      rich;
-
-    document.getElementById("totalValue").textContent =
-      formatValue(totalValue);
-  }
-
-
-  /*
-   * ------------------------------------------------------------
-   * PREVIEW
-   * ------------------------------------------------------------
-   */
-
-  function previewServer(index) {
-
-    const server = servers[index];
-
-    if (!server) return;
-
-    selectedServer = server;
-
-    const id = getServerId(server);
-    const playing = getPlaying(server);
-    const maxPlayers = getMaxPlayers(server);
     const value = getValue(server);
-    const playerData = getPlayers(server);
 
-    document.getElementById("modalServerId").textContent =
+    totalValue += value;
+
+    if(value > 0)
+      rich++;
+  }
+
+  document.getElementById("serverCount")
+    .textContent = servers.length;
+
+  document.getElementById("playerCount")
+    .textContent = players.toLocaleString();
+
+  document.getElementById("richCount")
+    .textContent = rich;
+
+  document.getElementById("totalValue")
+    .textContent = formatValue(totalValue);
+}
+
+function previewServer(index){
+
+  const server = servers[index];
+
+  if(!server) return;
+
+  selectedServer = server;
+
+  const id = getServerId(server);
+  const playing = getPlaying(server);
+  const max = getMaxPlayers(server);
+  const value = getValue(server);
+  const ping = getPing(server);
+  const fps = getFPS(server);
+  const players = getPlayers(server);
+  const score = getScore(server);
+  const occupancy = getOccupancy(server);
+
+  document.getElementById("modalServerId")
+    .textContent =
       id || "Server ID unavailable";
 
-    document.getElementById("modalPlayers").textContent =
-      `${playing}${maxPlayers ? " / " + maxPlayers : ""}`;
+  document.getElementById("modalPlayers")
+    .textContent =
+      `${playing}${max ? " / "+max : ""}`;
 
-    document.getElementById("modalValue").textContent =
+  document.getElementById("modalValue")
+    .textContent =
       formatValue(value);
 
-    document.getElementById("modalId").textContent =
-      id || "Unavailable";
+  document.getElementById("modalPing")
+    .textContent =
+      ping === null ? "N/A" : ping+" ms";
 
-    document.getElementById("modalStatus").textContent =
-      playerData.length
-        ? "Public data available"
+  document.getElementById("modalFPS")
+    .textContent =
+      fps === null ? "N/A" : fps;
+
+  document.getElementById("modalScore")
+    .textContent =
+      `${score}/100`;
+
+  document.getElementById("modalStatus")
+    .textContent =
+      value > 0
+        ? "Verified public value"
         : "Limited public data";
 
-    const list =
-      document.getElementById("modalPlayersList");
+  document.getElementById("modalPublic")
+    .textContent =
+      players.length;
 
+  document.getElementById("modalOccupancy")
+    .textContent =
+      Math.round(occupancy)+"%";
 
-    if (!playerData.length) {
+  const list =
+    document.getElementById("modalPlayersList");
 
-      list.innerHTML = `
-        <div class="empty">
-          Roblox/Worker did not provide player-value
-          information for this server.
-        </div>
-      `;
+  if(!players.length){
 
-    } else {
+    list.innerHTML = `
+      <div class="empty">
+        Roblox/Worker did not provide player-value
+        information for this server.
+      </div>
+    `;
 
-      list.innerHTML = playerData.map(player => {
+  }else{
+
+    list.innerHTML =
+      players.map(player=>{
 
         const username =
           player.username ||
@@ -1074,14 +1276,13 @@
 
         const playerValue =
           player.value ??
-          player.rap ??
           player.totalValue ??
+          player.rap ??
           player.totalRap ??
           0;
 
         return `
           <div class="player">
-
             <span class="player-name">
               ${escapeHTML(username)}
             </span>
@@ -1089,270 +1290,242 @@
             <span class="player-value">
               ${formatValue(playerValue)}
             </span>
-
           </div>
         `;
 
       }).join("");
-
-    }
-
-
-    document.getElementById("modalJoin").onclick =
-      () => joinSpecificServer(server);
-
-    document.getElementById("modalDiscord").onclick =
-      () => sendDiscord(server);
-
-    document.getElementById("previewModal")
-      .classList.add("show");
   }
 
+  document.getElementById("modalJoin").onclick =
+    ()=>joinSpecificServer(server);
 
-  function hidePreview() {
+  document.getElementById("modalDiscord").onclick =
+    ()=>sendDiscord(server);
 
-    document.getElementById("previewModal")
-      .classList.remove("show");
+  document.getElementById("previewModal")
+    .classList.add("show");
+}
 
-    selectedServer = null;
-  }
+function hidePreview(){
 
+  document.getElementById("previewModal")
+    .classList.remove("show");
 
-  function closeModal(event) {
+  selectedServer = null;
+}
 
-    if (event.target.id === "previewModal") {
-      hidePreview();
-    }
-  }
+function closeModal(event){
 
+  if(event.target.id === "previewModal")
+    hidePreview();
+}
 
-  /*
-   * ------------------------------------------------------------
-   * JOIN SERVER
-   * ------------------------------------------------------------
-   */
+function joinServer(index){
 
-  function joinServer(index) {
+  const server = servers[index];
 
-    const server = servers[index];
-
-    if (!server) return;
-
+  if(server)
     joinSpecificServer(server);
+}
+
+function joinSpecificServer(server){
+
+  const placeId =
+    document.getElementById("placeInput")
+      .value.trim();
+
+  const serverId =
+    getServerId(server);
+
+  if(!placeId){
+    alert("Place ID is missing.");
+    return;
   }
 
+  if(!serverId){
+    alert(
+      "This server does not have a public server ID."
+    );
+    return;
+  }
 
-  function joinSpecificServer(server) {
+  const joinUrl =
+    `https://www.roblox.com/games/start?placeId=${encodeURIComponent(placeId)}&gameInstanceId=${encodeURIComponent(serverId)}`;
 
-    const placeId =
-      document.getElementById("placeInput").value.trim();
+  window.open(joinUrl,"_blank");
+}
 
-    const serverId =
-      getServerId(server);
+async function sendDiscord(server){
 
-    if (!placeId) {
-      alert("Place ID is missing.");
-      return;
-    }
+  if(!server) return;
 
-    if (!serverId) {
-      alert(
-        "This server does not have a public server ID, so Roblox cannot be given a direct server join request."
-      );
-      return;
-    }
+  const button =
+    document.getElementById("modalDiscord");
 
+  const original =
+    button.textContent;
+
+  button.disabled = true;
+  button.textContent = "📤 Sending...";
+
+  const placeId =
+    document.getElementById("placeInput")
+      .value.trim();
+
+  const serverId = getServerId(server);
+  const playing = getPlaying(server);
+  const maxPlayers = getMaxPlayers(server);
+  const ping = getPing(server);
+  const fps = getFPS(server);
+  const value = getValue(server);
+
+  try{
 
     /*
-     * Roblox deep link.
+     * IMPORTANT:
+     * These fields are sent at the TOP LEVEL because
+     * the Worker /discord endpoint expects them there.
      */
 
-    const joinUrl =
-      `https://www.roblox.com/games/start?placeId=${encodeURIComponent(placeId)}&gameInstanceId=${encodeURIComponent(serverId)}`;
+    const response =
+      await fetch(`${WORKER_URL}/discord`,{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          placeId,
+          serverId,
+          playing,
+          maxPlayers,
+          ping,
+          fps,
+          totalValue:value,
+          rap:Number(server.rap || server.totalRap || 0)
+        })
+      });
 
-    window.open(joinUrl, "_blank");
-  }
+    if(!response.ok){
 
+      let message =
+        `HTTP ${response.status}`;
 
-  /*
-   * ------------------------------------------------------------
-   * DISCORD
-   * ------------------------------------------------------------
-   *
-   * IMPORTANT:
-   * The Discord webhook is NOT stored here.
-   *
-   * The request goes through your Cloudflare Worker.
-   */
+      try{
+        const result =
+          await response.json();
 
-  async function sendDiscord(server) {
+        if(result?.error)
+          message = result.error;
+      }catch{}
 
-    if (!server) return;
+      throw new Error(message);
+    }
 
-    const button =
-      document.getElementById("modalDiscord");
+    button.textContent = "✅ Sent!";
 
-    const original =
-      button.textContent;
-
-    button.disabled = true;
-    button.textContent = "📤 Sending...";
-
-
-    try {
-
-      const response = await fetch(
-        `${WORKER_URL}/discord`,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-            placeId:
-              document.getElementById("placeInput")
-                .value.trim(),
-
-            server: server
-          })
-        }
-      );
-
-
-      if (!response.ok) {
-        throw new Error(
-          `Discord request failed: HTTP ${response.status}`
-        );
-      }
-
-      button.textContent = "✅ Sent!";
-
-      setTimeout(() => {
-        button.textContent = original;
-        button.disabled = false;
-      }, 1800);
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert(
-        "Could not send the server to Discord. Make sure your Worker has the /discord endpoint."
-      );
-
+    setTimeout(()=>{
       button.textContent = original;
       button.disabled = false;
-    }
+    },1800);
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Discord notification failed: "+error.message
+    );
+
+    button.textContent = original;
+    button.disabled = false;
+  }
+}
+
+function refreshServers(){
+
+  const placeId =
+    document.getElementById("placeInput")
+      .value.trim();
+
+  if(!placeId){
+    alert("Enter a Roblox Place ID first.");
+    return;
   }
 
+  scanServers();
+}
 
-  /*
-   * ------------------------------------------------------------
-   * REFRESH
-   * ------------------------------------------------------------
-   */
+function setLoading(loading){
 
-  function refreshServers() {
+  const container =
+    document.getElementById("servers");
 
-    const placeId =
-      document.getElementById("placeInput")
-        .value.trim();
+  if(loading){
 
-    if (!placeId) {
-      alert("Enter a Roblox Place ID first.");
-      return;
+    container.innerHTML = `
+      <div class="loading">
+        <div class="spinner"></div>
+        <h3>🔥 Scanning Roblox servers...</h3>
+        <p style="margin-top:8px">
+          Ranking public servers and checking available data.
+        </p>
+      </div>
+    `;
+  }
+}
+
+document
+  .getElementById("placeInput")
+  .addEventListener("keydown",event=>{
+    if(event.key === "Enter")
+      scanServers();
+  });
+
+document
+  .getElementById("sortInput")
+  .addEventListener("change",()=>{
+    if(servers.length){
+      servers = sortServers(servers);
+      renderServers();
+    }
+  });
+
+async function testWorker(){
+
+  const status =
+    document.getElementById("workerStatus");
+
+  try{
+
+    const response =
+      await fetch(WORKER_URL,{
+        method:"GET"
+      });
+
+    if(response.ok){
+
+      status.innerHTML =
+        `<span class="dot"></span> Worker Connected`;
+
+    }else{
+
+      status.innerHTML =
+        `<span class="dot"
+          style="background:#ff5964;box-shadow:0 0 12px #ff5964">
+        </span> Worker Error`;
+
     }
 
-    scanServers();
+  }catch{
+
+    status.innerHTML =
+      `<span class="dot"
+        style="background:#ff5964;box-shadow:0 0 12px #ff5964">
+      </span> Worker Offline`;
   }
+}
 
-
-  /*
-   * ------------------------------------------------------------
-   * LOADING
-   * ------------------------------------------------------------
-   */
-
-  function setLoading(loading) {
-
-    const container =
-      document.getElementById("servers");
-
-    if (loading) {
-
-      container.innerHTML = `
-        <div class="loading">
-          <div class="spinner"></div>
-          <h3>Scanning Roblox servers...</h3>
-          <p style="margin-top:8px">
-            Getting public server information.
-          </p>
-        </div>
-      `;
-
-    }
-  }
-
-
-  /*
-   * ------------------------------------------------------------
-   * ENTER KEY
-   * ------------------------------------------------------------
-   */
-
-  document
-    .getElementById("placeInput")
-    .addEventListener("keydown", event => {
-
-      if (event.key === "Enter") {
-        scanServers();
-      }
-
-    });
-
-
-  /*
-   * ------------------------------------------------------------
-   * INITIAL WORKER TEST
-   * ------------------------------------------------------------
-   */
-
-  async function testWorker() {
-
-    try {
-
-      const response =
-        await fetch(WORKER_URL, {
-          method: "GET"
-        });
-
-      if (response.ok) {
-
-        document.querySelector(".status")
-          .innerHTML =
-            `<span class="dot"></span> Worker Connected`;
-
-      } else {
-
-        document.querySelector(".status")
-          .innerHTML =
-            `<span class="dot" style="background:#ff5964"></span> Worker Error`;
-
-      }
-
-    } catch {
-
-      document.querySelector(".status")
-        .innerHTML =
-          `<span class="dot" style="background:#ff5964"></span> Worker Offline`;
-
-    }
-  }
-
-
-  testWorker();
+testWorker();
 
 </script>
 
