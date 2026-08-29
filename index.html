@@ -4,59 +4,76 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DONIE • BEAM Value Checker</title>
+<title>DONIE • BEAM Rich Finder</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 
+:root{
+  --bg:#070812;
+  --panel:#101321;
+  --panel2:#15192a;
+  --border:#272d45;
+  --text:#f5f7ff;
+  --muted:#8e96ad;
+  --purple:#7c5cff;
+  --purple2:#a78bfa;
+  --green:#39e58c;
+  --red:#ff5f6d;
+}
+
 body{
-  font-family:Arial,Helvetica,sans-serif;
   min-height:100vh;
-  color:#f5f7ff;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--text);
   background:
-    radial-gradient(circle at 15% 10%,rgba(124,92,255,.22),transparent 32%),
-    radial-gradient(circle at 85% 90%,rgba(57,229,140,.10),transparent 30%),
-    #070812;
+    radial-gradient(circle at 10% 5%,rgba(124,92,255,.20),transparent 30%),
+    radial-gradient(circle at 90% 90%,rgba(57,229,140,.08),transparent 30%),
+    var(--bg);
 }
 
 .container{
-  width:min(1100px,94%);
+  width:min(1200px,94%);
   margin:auto;
-  padding:35px 0 60px;
+  padding:30px 0 60px;
 }
 
 header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:25px;
+  margin-bottom:24px;
 }
 
 .logo{
-  font-size:28px;
+  font-size:29px;
   font-weight:900;
 }
 
-.logo span{color:#a78bfa}
+.logo span{color:var(--purple2)}
 
-.badge{
-  padding:8px 12px;
+.status{
+  padding:8px 13px;
   border-radius:999px;
-  border:1px solid #2a3048;
-  background:#101321;
-  color:#39e58c;
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:var(--muted);
   font-size:12px;
   font-weight:800;
 }
 
+.status.online{
+  color:var(--green);
+}
+
 .hero,.panel{
-  border:1px solid #272d45;
-  background:rgba(16,19,33,.92);
+  background:rgba(16,19,33,.94);
+  border:1px solid var(--border);
   border-radius:20px;
 }
 
 .hero{
-  padding:28px;
+  padding:27px;
   margin-bottom:18px;
 }
 
@@ -66,37 +83,38 @@ header{
 }
 
 .hero p{
-  color:#8e96ad;
+  color:var(--muted);
   line-height:1.6;
 }
 
 .panel{
-  padding:22px;
+  padding:21px;
   margin-bottom:18px;
 }
 
 .panel h2{
-  margin-bottom:16px;
-  font-size:19px;
+  margin-bottom:15px;
 }
 
 .form{
   display:grid;
-  grid-template-columns:1fr 140px auto;
+  grid-template-columns:1fr 110px auto;
   gap:10px;
 }
 
 input{
   width:100%;
-  padding:13px 14px;
+  padding:13px;
   border-radius:11px;
-  border:1px solid #2a3048;
+  border:1px solid var(--border);
   background:#0a0d18;
   color:white;
   outline:none;
 }
 
-input:focus{border-color:#7c5cff}
+input:focus{
+  border-color:var(--purple);
+}
 
 button{
   border:0;
@@ -106,122 +124,258 @@ button{
   font-weight:900;
 }
 
-.add{
-  background:#7c5cff;
+.primary{
+  background:var(--purple);
   color:white;
 }
 
-.clear{
-  background:#252b40;
+.secondary{
+  background:var(--panel2);
   color:white;
+  border:1px solid var(--border);
+}
+
+.controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:18px;
 }
 
 .total{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:20px;
-  border-radius:15px;
+  padding:18px;
   background:#0a0d18;
-  border:1px solid #252a3d;
-  margin-bottom:18px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:15px;
 }
 
 .total-label{
-  color:#8e96ad;
-  font-size:13px;
+  color:var(--muted);
+  font-size:12px;
 }
 
 .total-value{
-  font-size:30px;
+  color:var(--green);
+  font-size:29px;
   font-weight:900;
-  color:#39e58c;
 }
 
 .items{
   display:grid;
-  gap:10px;
+  gap:9px;
 }
 
 .item{
   display:grid;
-  grid-template-columns:1fr 100px 90px 40px;
-  align-items:center;
+  grid-template-columns:1fr 100px 70px 40px;
   gap:10px;
-  padding:14px;
-  border-radius:13px;
-  background:#15192a;
-  border:1px solid #272d45;
+  align-items:center;
+  padding:13px;
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:12px;
 }
 
 .item-name{font-weight:800}
-
-.item-value{
-  color:#39e58c;
-  font-weight:900;
-}
-
-.item-qty{
-  color:#a78bfa;
-  font-weight:900;
-}
+.item-value{color:var(--green);font-weight:900}
+.item-qty{color:var(--purple2);font-weight:900}
 
 .remove{
-  background:#2b1a22;
-  color:#ff5f6d;
   padding:8px;
-}
-
-.suggestions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:13px;
-}
-
-.suggestions button{
-  background:#15192a;
-  color:#cbd0e2;
-  border:1px solid #272d45;
-  padding:8px 11px;
+  background:#2b1a22;
+  color:var(--red);
 }
 
 .empty{
   text-align:center;
-  color:#8e96ad;
+  color:var(--muted);
   padding:25px;
-  border:1px dashed #2a3048;
+  border:1px dashed var(--border);
   border-radius:14px;
 }
 
+.search{
+  margin-bottom:15px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:15px;
+}
+
+.stat{
+  padding:17px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+}
+
+.stat small{
+  display:block;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+.stat strong{
+  font-size:22px;
+}
+
+.server-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+.server{
+  padding:18px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:17px;
+}
+
+.server-head{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.server-title{
+  font-weight:900;
+  font-size:17px;
+}
+
+.slots{
+  padding:6px 9px;
+  border-radius:999px;
+  background:rgba(57,229,140,.1);
+  color:var(--green);
+  font-size:11px;
+  font-weight:900;
+}
+
+.full{
+  background:rgba(255,95,109,.1);
+  color:var(--red);
+}
+
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.metric{
+  padding:11px;
+  border-radius:10px;
+  background:var(--panel2);
+}
+
+.metric small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-bottom:4px;
+}
+
+.metric strong{
+  font-size:14px;
+}
+
+.job{
+  padding:10px;
+  background:#080b15;
+  border:1px solid #20253a;
+  border-radius:10px;
+  margin-bottom:12px;
+}
+
+.job small{
+  display:block;
+  color:var(--muted);
+  margin-bottom:5px;
+}
+
+.job code{
+  font-size:11px;
+  color:#c9cfff;
+  word-break:break-all;
+}
+
+.server-actions{
+  display:flex;
+  gap:8px;
+}
+
+.join{
+  flex:1;
+  background:var(--green);
+  color:#06150d;
+}
+
+.loading{
+  grid-column:1/-1;
+  text-align:center;
+  color:var(--muted);
+  padding:45px;
+}
+
+.spinner{
+  width:32px;
+  height:32px;
+  border:3px solid #252a3d;
+  border-top-color:var(--purple);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin:0 auto 12px;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
 .note{
+  margin-top:10px;
   color:#737c95;
   font-size:12px;
-  line-height:1.5;
-  margin-top:12px;
 }
 
-@media(max-width:700px){
-  .form{grid-template-columns:1fr 100px}
-  .form .add{grid-column:1/-1}
-  .item{
-    grid-template-columns:1fr 70px 60px 40px;
-  }
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translate(-50%,100px);
+  opacity:0;
+  background:#171c2d;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:12px 17px;
+  transition:.2s;
+  z-index:10;
 }
 
-@media(max-width:480px){
-  header{
-    align-items:flex-start;
-    gap:10px;
-    flex-direction:column;
-  }
+.toast.show{
+  transform:translate(-50%,0);
+  opacity:1;
+}
 
-  .hero h1{font-size:26px}
+@media(max-width:800px){
+  .server-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
 
-  .item{
-    grid-template-columns:1fr 55px 45px 38px;
-    font-size:13px;
-  }
+@media(max-width:600px){
+  .form{grid-template-columns:1fr 90px}
+  .form .primary{grid-column:1/-1}
+  .item{grid-template-columns:1fr 65px 45px 38px}
+  header{flex-direction:column;align-items:flex-start;gap:10px}
 }
 </style>
 </head>
@@ -235,28 +389,35 @@ button{
     DONIE <span>BEAM</span>
   </div>
 
-  <div class="badge">
-    VALUE CHECKER
+  <div id="status" class="status">
+    Connecting...
   </div>
 </header>
 
+
 <section class="hero">
-  <h1>Rich Value Detector</h1>
+
+  <h1>Rich Finder</h1>
+
   <p>
-    Add pets or items that you can legitimately see,
-    choose the quantity, and calculate the combined value.
+    Calculate values from items you can legitimately see,
+    while browsing live public Roblox servers returned by your Worker.
   </p>
+
 </section>
+
+
+<!-- ================= VALUE CHECKER ================= -->
 
 <section class="panel">
 
-  <h2>Add Pet / Item</h2>
+  <h2>💎 BEAM Value Checker</h2>
 
   <div class="form">
 
     <input
       id="itemInput"
-      placeholder="Example: Shadow Dragon"
+      placeholder="Enter pet/item name"
       autocomplete="off"
     >
 
@@ -267,46 +428,22 @@ button{
       value="1"
     >
 
-    <button class="add" onclick="addItem()">
+    <button
+      class="primary"
+      onclick="addItem()"
+    >
       + Add
     </button>
 
   </div>
 
-  <div class="suggestions">
-
-    <button onclick="quickAdd('Shadow Dragon')">
-      Shadow Dragon
-    </button>
-
-    <button onclick="quickAdd('Bat Dragon')">
-      Bat Dragon
-    </button>
-
-    <button onclick="quickAdd('Frost Dragon')">
-      Frost Dragon
-    </button>
-
-    <button onclick="quickAdd('Owl')">
-      Owl
-    </button>
-
-    <button onclick="quickAdd('Parrot')">
-      Parrot
-    </button>
-
-    <button onclick="quickAdd('Turtle')">
-      Turtle
-    </button>
-
-  </div>
-
   <p class="note">
-    The example values below are placeholders. Replace them with
-    values from the value source you trust.
+    Example values are placeholders. Edit VALUE_DATABASE
+    in the JavaScript below to use your own value list.
   </p>
 
 </section>
+
 
 <section class="panel">
 
@@ -317,21 +454,115 @@ button{
         TOTAL VALUE
       </div>
 
-      <div class="total-value" id="total">
+      <div
+        id="total"
+        class="total-value"
+      >
         0
       </div>
     </div>
 
-    <button class="clear" onclick="clearAll()">
-      Clear All
+    <button
+      class="secondary"
+      onclick="clearItems()"
+    >
+      Clear
     </button>
 
   </div>
 
-  <div id="items" class="items">
-
+  <div
+    id="items"
+    class="items"
+  >
     <div class="empty">
-      No pets/items added yet.
+      No items added yet.
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ================= LIVE SERVERS ================= -->
+
+<section class="panel">
+
+  <h2>🎮 Live Adopt Me Servers</h2>
+
+  <div class="controls">
+
+    <button
+      class="primary"
+      onclick="loadServers()"
+    >
+      🔄 Refresh
+    </button>
+
+    <button
+      class="secondary"
+      onclick="sortServers('slots')"
+    >
+      👥 Most Empty
+    </button>
+
+    <button
+      class="secondary"
+      onclick="sortServers('players')"
+    >
+      👤 Fewest Players
+    </button>
+
+    <button
+      class="secondary"
+      onclick="sortServers('ping')"
+    >
+      📶 Lowest Ping
+    </button>
+
+  </div>
+
+  <input
+    id="serverSearch"
+    class="search"
+    placeholder="Search JobId..."
+    oninput="renderServers()"
+  >
+
+  <div class="stats">
+
+    <div class="stat">
+      <small>Servers</small>
+      <strong id="serverCount">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>Players</small>
+      <strong id="playerCount">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>Open Slots</small>
+      <strong id="slotCount">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>Updated</small>
+      <strong id="updated">--</strong>
+    </div>
+
+  </div>
+
+  <div
+    id="serverGrid"
+    class="server-grid"
+  >
+
+    <div class="loading">
+
+      <div class="spinner"></div>
+
+      Loading live servers...
+
     </div>
 
   </div>
@@ -340,64 +571,67 @@ button{
 
 </div>
 
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
 <script>
 
-/*
-========================================
-EDIT YOUR VALUES HERE
-========================================
+/* =====================================================
+   CONFIG
+===================================================== */
 
-These are example placeholder values.
-Change them to the value system you use.
-*/
+const WORKER_URL =
+  "https://weathered-haze-08aa.redonekowaithe1.workers.dev";
+
+const PLACE_ID =
+  "920587237";
+
+const SERVERS_ENDPOINT =
+  `${WORKER_URL}/roblox-servers?placeId=${PLACE_ID}&limit=100`;
+
+
+/* =====================================================
+   VALUE DATABASE
+===================================================== */
 
 const VALUE_DATABASE = {
 
-  "shadow dragon": 100,
-  "bat dragon": 95,
-  "frost dragon": 85,
-  "giraffe": 80,
-  "owl": 75,
-  "parrot": 70,
-  "evil unicorn": 65,
-  "crow": 60,
-  "arctic reindeer": 45,
-  "turtle": 30,
-  "kangaroo": 25
+  "shadow dragon":100,
+  "bat dragon":95,
+  "frost dragon":85,
+  "giraffe":80,
+  "owl":75,
+  "parrot":70,
+  "evil unicorn":65,
+  "crow":60,
+  "arctic reindeer":45,
+  "turtle":30,
+  "kangaroo":25
 
 };
 
-
-/*
-========================================
-CURRENT ITEMS
-========================================
-*/
-
 let inventory = [];
 
+let servers = [];
 
-/*
-========================================
-NORMALIZE
-========================================
-*/
 
-function normalize(text){
+/* =====================================================
+   VALUE CHECKER
+===================================================== */
 
-  return String(text)
+function normalize(value){
+
+  return String(value)
     .trim()
     .toLowerCase()
     .replace(/\s+/g," ");
 
 }
 
-
-/*
-========================================
-ADD ITEM
-========================================
-*/
 
 function addItem(){
 
@@ -418,7 +652,7 @@ function addItem(){
 
   if(!name){
 
-    alert("Enter a pet or item name.");
+    showToast("Enter a pet/item name.");
 
     return;
 
@@ -432,8 +666,8 @@ function addItem(){
 
   if(value === undefined){
 
-    alert(
-      `"${name}" is not in the value database yet.`
+    showToast(
+      "That item isn't in the value database."
     );
 
     return;
@@ -441,92 +675,33 @@ function addItem(){
   }
 
   inventory.push({
-
-    name:name,
-
-    value:value,
-
-    quantity:quantity
-
+    name,
+    value,
+    quantity
   });
 
   input.value = "";
-
   qtyInput.value = 1;
 
-  render();
+  renderItems();
 
 }
 
 
-/*
-========================================
-QUICK ADD
-========================================
-*/
+function renderItems(){
 
-function quickAdd(name){
-
-  document.getElementById(
-    "itemInput"
-  ).value = name;
-
-  addItem();
-
-}
-
-
-/*
-========================================
-REMOVE
-========================================
-*/
-
-function removeItem(index){
-
-  inventory.splice(index,1);
-
-  render();
-
-}
-
-
-/*
-========================================
-CLEAR
-========================================
-*/
-
-function clearAll(){
-
-  inventory = [];
-
-  render();
-
-}
-
-
-/*
-========================================
-RENDER
-========================================
-*/
-
-function render(){
-
-  const container =
+  const box =
     document.getElementById("items");
 
   const totalElement =
     document.getElementById("total");
 
-  if(inventory.length === 0){
+  if(!inventory.length){
 
-    container.innerHTML = `
-      <div class="empty">
-        No pets/items added yet.
-      </div>
-    `;
+    box.innerHTML =
+      `<div class="empty">
+        No items added yet.
+      </div>`;
 
     totalElement.textContent = "0";
 
@@ -536,8 +711,8 @@ function render(){
 
   let total = 0;
 
-  container.innerHTML =
-    inventory.map((item,index) => {
+  box.innerHTML =
+    inventory.map((item,index)=>{
 
       const subtotal =
         item.value * item.quantity;
@@ -545,7 +720,6 @@ function render(){
       total += subtotal;
 
       return `
-
         <div class="item">
 
           <div class="item-name">
@@ -553,7 +727,7 @@ function render(){
           </div>
 
           <div class="item-value">
-            ${subtotal}
+            ${subtotal.toLocaleString()}
           </div>
 
           <div class="item-qty">
@@ -568,7 +742,6 @@ function render(){
           </button>
 
         </div>
-
       `;
 
     }).join("");
@@ -579,11 +752,529 @@ function render(){
 }
 
 
-/*
-========================================
-ESCAPE HTML
-========================================
-*/
+function removeItem(index){
+
+  inventory.splice(index,1);
+
+  renderItems();
+
+}
+
+
+function clearItems(){
+
+  inventory = [];
+
+  renderItems();
+
+}
+
+
+/* =====================================================
+   LIVE SERVER LIST
+===================================================== */
+
+async function loadServers(){
+
+  const grid =
+    document.getElementById("serverGrid");
+
+  grid.innerHTML = `
+    <div class="loading">
+
+      <div class="spinner"></div>
+
+      Loading live servers...
+
+    </div>
+  `;
+
+  setStatus("Loading...",false);
+
+  try{
+
+    const response =
+      await fetch(
+        `${SERVERS_ENDPOINT}&_=${Date.now()}`,
+        {
+          cache:"no-store"
+        }
+      );
+
+    if(!response.ok){
+
+      throw new Error(
+        `HTTP ${response.status}`
+      );
+
+    }
+
+    const data =
+      await response.json();
+
+    if(!data.success){
+
+      throw new Error(
+        data.error ||
+        "Worker returned an error"
+      );
+
+    }
+
+    servers =
+      Array.isArray(data.servers)
+        ? data.servers
+        : [];
+
+    updateStats();
+
+    renderServers();
+
+    setStatus(
+      "● Live",
+      true
+    );
+
+    document.getElementById(
+      "updated"
+    ).textContent =
+      new Date().toLocaleTimeString(
+        [],
+        {
+          hour:"numeric",
+          minute:"2-digit"
+        }
+      );
+
+  }catch(error){
+
+    console.error(error);
+
+    setStatus(
+      "Connection error",
+      false
+    );
+
+    grid.innerHTML = `
+      <div class="empty">
+
+        <h3 style="color:white;margin-bottom:8px">
+          Couldn't load servers
+        </h3>
+
+        <p>
+          ${escapeHtml(error.message)}
+        </p>
+
+        <br>
+
+        <button
+          class="primary"
+          onclick="loadServers()"
+        >
+          Try Again
+        </button>
+
+      </div>
+    `;
+
+  }
+
+}
+
+
+function updateStats(){
+
+  const players =
+    servers.reduce(
+      (sum,s) =>
+        sum + Number(s.playing || 0),
+      0
+    );
+
+  const slots =
+    servers.reduce(
+      (sum,s) =>
+        sum + Number(s.availableSlots || 0),
+      0
+    );
+
+  document.getElementById(
+    "serverCount"
+  ).textContent =
+    servers.length;
+
+  document.getElementById(
+    "playerCount"
+  ).textContent =
+    players;
+
+  document.getElementById(
+    "slotCount"
+  ).textContent =
+    slots;
+
+}
+
+
+/* =====================================================
+   SORTING
+===================================================== */
+
+function sortServers(type){
+
+  if(type === "slots"){
+
+    servers.sort(
+      (a,b) =>
+        Number(b.availableSlots || 0) -
+        Number(a.availableSlots || 0)
+    );
+
+  }
+
+  if(type === "players"){
+
+    servers.sort(
+      (a,b) =>
+        Number(a.playing || 0) -
+        Number(b.playing || 0)
+    );
+
+  }
+
+  if(type === "ping"){
+
+    servers.sort(
+      (a,b) => {
+
+        const ap =
+          Number(a.ping);
+
+        const bp =
+          Number(b.ping);
+
+        if(!Number.isFinite(ap)) return 1;
+        if(!Number.isFinite(bp)) return -1;
+
+        return ap - bp;
+
+      }
+    );
+
+  }
+
+  renderServers();
+
+}
+
+
+/* =====================================================
+   RENDER SERVER CARDS
+===================================================== */
+
+function renderServers(){
+
+  const grid =
+    document.getElementById(
+      "serverGrid"
+    );
+
+  const search =
+    document.getElementById(
+      "serverSearch"
+    ).value
+    .trim()
+    .toLowerCase();
+
+  const visible =
+    servers.filter(server => {
+
+      const id =
+        String(
+          server.jobId ||
+          server.id ||
+          ""
+        ).toLowerCase();
+
+      return id.includes(search);
+
+    });
+
+  if(!visible.length){
+
+    grid.innerHTML =
+      `<div class="empty">
+        No servers found.
+      </div>`;
+
+    return;
+
+  }
+
+  grid.innerHTML =
+    visible.map(
+      (server,index) =>
+        createServerCard(
+          server,
+          index
+        )
+    ).join("");
+
+}
+
+
+function createServerCard(server,index){
+
+  const jobId =
+    server.jobId ||
+    server.id ||
+    "";
+
+  const playing =
+    Number(
+      server.playing || 0
+    );
+
+  const maxPlayers =
+    Number(
+      server.maxPlayers || 0
+    );
+
+  const slots =
+    Math.max(
+      maxPlayers - playing,
+      0
+    );
+
+  const ping =
+    server.ping != null
+      ? `${server.ping} ms`
+      : "N/A";
+
+  const fps =
+    server.fps != null
+      ? Math.round(
+          Number(server.fps)
+        )
+      : "N/A";
+
+  const joinUrl =
+    server.joinUrl ||
+    buildJoinUrl(jobId);
+
+  const full =
+    slots <= 0;
+
+  return `
+
+    <article class="server">
+
+      <div class="server-head">
+
+        <div class="server-title">
+          🎮 Adopt Me • Server #${index+1}
+        </div>
+
+        <div class="slots ${full ? "full":""}">
+          ${
+            full
+              ? "FULL"
+              : `${slots} OPEN`
+          }
+        </div>
+
+      </div>
+
+
+      <div class="metrics">
+
+        <div class="metric">
+          <small>PLAYERS</small>
+          <strong>
+            ${playing}/${maxPlayers || "?"}
+          </strong>
+        </div>
+
+        <div class="metric">
+          <small>PING</small>
+          <strong>
+            ${escapeHtml(String(ping))}
+          </strong>
+        </div>
+
+        <div class="metric">
+          <small>FPS</small>
+          <strong>
+            ${escapeHtml(String(fps))}
+          </strong>
+        </div>
+
+      </div>
+
+
+      <div class="job">
+
+        <small>JOB ID</small>
+
+        <code>
+          ${escapeHtml(jobId)}
+        </code>
+
+      </div>
+
+
+      <div class="server-actions">
+
+        <button
+          class="join"
+          onclick='joinServer(${JSON.stringify(joinUrl)})'
+        >
+          🎮 Join Server
+        </button>
+
+        <button
+          class="secondary"
+          onclick='copyJobId(${JSON.stringify(jobId)})'
+        >
+          📋 Copy
+        </button>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+
+/* =====================================================
+   ROBLOX JOIN
+===================================================== */
+
+function buildJoinUrl(jobId){
+
+  if(!jobId){
+    return "";
+  }
+
+  return (
+    "https://www.roblox.com/games/start" +
+    "?placeId=" +
+    encodeURIComponent(PLACE_ID) +
+    "&gameInstanceId=" +
+    encodeURIComponent(jobId)
+  );
+
+}
+
+
+function joinServer(url){
+
+  if(!url){
+
+    showToast(
+      "No Roblox join URL available."
+    );
+
+    return;
+
+  }
+
+  /*
+    Uses Roblox's normal game-launch
+    mechanism for the selected public server.
+  */
+
+  window.location.href = url;
+
+}
+
+
+/* =====================================================
+   COPY
+===================================================== */
+
+async function copyJobId(jobId){
+
+  if(!jobId){
+
+    showToast("No JobId.");
+
+    return;
+
+  }
+
+  try{
+
+    await navigator.clipboard.writeText(
+      jobId
+    );
+
+    showToast(
+      "JobId copied!"
+    );
+
+  }catch{
+
+    showToast(
+      "Copy failed."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function setStatus(text,online){
+
+  const element =
+    document.getElementById("status");
+
+  element.textContent = text;
+
+  element.className =
+    "status " +
+    (online ? "online" : "");
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer;
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer =
+    setTimeout(
+      () => toast.classList.remove("show"),
+      2200
+    );
+
+}
+
+
+/* =====================================================
+   HTML ESCAPE
+===================================================== */
 
 function escapeHtml(value){
 
@@ -595,6 +1286,20 @@ function escapeHtml(value){
     .replaceAll("'","&#039;");
 
 }
+
+
+/* =====================================================
+   START
+===================================================== */
+
+renderItems();
+
+loadServers();
+
+setInterval(
+  loadServers,
+  30000
+);
 
 </script>
 
