@@ -1,322 +1,1014 @@
-const ROBLOX_GAMES = "https://games.roblox.com";
-const ROBLOX_USERS = "https://users.roblox.com";
-const ROBLOX_INVENTORY = "https://inventory.roblox.com";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-export default {
-  async fetch(request) {
-    const url = new URL(request.url);
+<title>DONIE Rich Finder</title>
 
-    if (request.method === "OPTIONS") {
-      return new Response(null, {
-        headers: corsHeaders()
-      });
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: white;
+  background:
+    radial-gradient(circle at top, #1c1c35, #07070c 55%);
+  min-height: 100vh;
+}
+
+header {
+  text-align: center;
+  padding: 45px 20px 30px;
+  border-bottom: 1px solid #29293a;
+  background: rgba(8, 8, 15, .85);
+}
+
+.logo {
+  font-size: 48px;
+  font-weight: 900;
+}
+
+.subtitle {
+  margin-top: 8px;
+  color: #999;
+}
+
+.container {
+  width: 92%;
+  max-width: 1250px;
+  margin: 30px auto;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 13px 18px;
+  background: #5865f2;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: .85;
+}
+
+.tab.active {
+  background: #00a86b;
+}
+
+.panel {
+  display: none;
+}
+
+.panel.active {
+  display: block;
+}
+
+.status {
+  padding: 16px;
+  margin-bottom: 20px;
+  background: #11111b;
+  border: 1px solid #29293a;
+  border-radius: 14px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.server-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  background: #11111b;
+  border: 1px solid #303044;
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.card.rich {
+  border-color: #00e676;
+  box-shadow: 0 0 20px rgba(0,230,118,.08);
+}
+
+.badge {
+  display: inline-block;
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: #00a86b;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 11px 0;
+  border-bottom: 1px solid #292936;
+}
+
+.join {
+  width: 100%;
+  margin-top: 18px;
+  background: #00a86b;
+}
+
+.scanner-box {
+  max-width: 950px;
+  margin: auto;
+  padding: 25px;
+  background: #11111b;
+  border: 1px solid #29293a;
+  border-radius: 18px;
+}
+
+.scanner-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+input {
+  flex: 1;
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #343448;
+  border-radius: 11px;
+  background: #0d0d15;
+  color: white;
+  font-size: 16px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #5865f2;
+}
+
+.profile {
+  margin-top: 25px;
+  padding: 20px;
+  border-radius: 15px;
+  background: #0d0d15;
+}
+
+.value-box {
+  margin: 20px 0;
+  padding: 25px;
+  text-align: center;
+  border: 1px solid #00a86b;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #10251d, #0c1512);
+}
+
+.value-label {
+  color: #aaa;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.value-number {
+  margin-top: 8px;
+  font-size: 42px;
+  font-weight: 900;
+  color: #00e676;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.summary-card {
+  padding: 18px;
+  background: #151522;
+  border: 1px solid #29293c;
+  border-radius: 13px;
+  text-align: center;
+}
+
+.summary-number {
+  display: block;
+  font-size: 24px;
+  font-weight: 900;
+  margin-top: 7px;
+}
+
+.items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.item {
+  padding: 15px;
+  background: #151522;
+  border: 1px solid #2b2b40;
+  border-radius: 12px;
+}
+
+.item-name {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.item-rap {
+  font-size: 18px;
+  font-weight: bold;
+  color: #00e676;
+}
+
+.item-meta {
+  color: #888;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.warning {
+  margin-top: 15px;
+  padding: 13px;
+  border-radius: 10px;
+  background: #211d0c;
+  color: #e5d58b;
+}
+
+.empty {
+  text-align: center;
+  padding: 50px 20px;
+  background: #11111b;
+  border-radius: 15px;
+  color: #999;
+}
+
+@media (max-width: 650px) {
+  .scanner-row {
+    flex-direction: column;
+  }
+
+  .value-number {
+    font-size: 32px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🔥 DONIE</div>
+
+  <div class="subtitle">
+    Rich Server Finder + Player Value Scanner
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="tabs">
+
+    <button
+      class="tab active"
+      onclick="showPanel('servers', this)">
+      🎮 Servers
+    </button>
+
+    <button
+      class="tab"
+      onclick="showPanel('scanner', this)">
+      💰 Player Value
+    </button>
+
+  </div>
+
+  <!-- SERVER PANEL -->
+
+  <section id="servers" class="panel active">
+
+    <div class="controls">
+
+      <button onclick="loadServers(20)">
+        👥 20+ Players
+      </button>
+
+      <button onclick="loadServers(30)">
+        🔥 30+ Players
+      </button>
+
+      <button onclick="loadServers(35)">
+        💎 Full Servers
+      </button>
+
+      <button onclick="loadServers(0)">
+        🔄 Show All
+      </button>
+
+    </div>
+
+    <div id="serverStatus" class="status">
+      🔎 Loading servers...
+    </div>
+
+    <div id="serversContainer" class="server-grid"></div>
+
+  </section>
+
+  <!-- PLAYER SCANNER -->
+
+  <section id="scanner" class="panel">
+
+    <div class="scanner-box">
+
+      <h1>💰 Player Value Scanner</h1>
+
+      <p style="color:#999">
+        Enter a Roblox username to calculate
+        the RAP of publicly available collectibles.
+      </p>
+
+      <div class="scanner-row">
+
+        <input
+          id="usernameInput"
+          type="text"
+          placeholder="Roblox username..."
+          autocomplete="off">
+
+        <button onclick="scanPlayer()">
+          🔎 SCAN PLAYER
+        </button>
+
+      </div>
+
+      <div
+        id="scannerStatus"
+        class="status"
+        style="margin-top:20px">
+
+        Waiting for username...
+
+      </div>
+
+      <div id="profileResult"></div>
+
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+
+/* =========================================
+   CHANGE THIS TO YOUR CLOUDFLARE WORKER URL
+   ========================================= */
+
+const WORKER_URL =
+  "https://YOUR-WORKER.workers.dev";
+
+
+/* Roblox game/place ID */
+
+const PLACE_ID =
+  "920587237";
+
+
+/* =========================================
+   TABS
+   ========================================= */
+
+function showPanel(id, button) {
+
+  document
+    .querySelectorAll(".panel")
+    .forEach(panel => {
+      panel.classList.remove("active");
+    });
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(tab => {
+      tab.classList.remove("active");
+    });
+
+  document
+    .getElementById(id)
+    .classList.add("active");
+
+  button.classList.add("active");
+}
+
+
+/* =========================================
+   SERVER FINDER
+   ========================================= */
+
+async function loadServers(minPlayers = 20) {
+
+  const status =
+    document.getElementById("serverStatus");
+
+  const container =
+    document.getElementById("serversContainer");
+
+  status.innerHTML =
+    "🔎 Finding servers...";
+
+  container.innerHTML = "";
+
+  try {
+
+    const response =
+      await fetch(
+        `${WORKER_URL}/servers` +
+        `?placeId=${PLACE_ID}&limit=100`
+      );
+
+    const result =
+      await response.json();
+
+    if (!response.ok || !result.success) {
+
+      throw new Error(
+        result.error ||
+        `Worker HTTP ${response.status}`
+      );
     }
 
-    try {
-      // -------------------------
-      // HEALTH CHECK
-      // -------------------------
-      if (url.pathname === "/") {
-        return json({
-          success: true,
-          message: "DONIE Worker is online"
-        });
-      }
+    let servers =
+      result.data || [];
 
-      // -------------------------
-      // USERNAME -> USER ID
-      // -------------------------
-      if (url.pathname === "/user") {
-        const username = url.searchParams.get("username");
+    servers =
+      servers.filter(server => {
 
-        if (!username) {
-          return json({
-            success: false,
-            error: "Missing username"
-          }, 400);
-        }
+        const players =
+          Number(server.playing || 0);
 
-        const response = await fetch(
-          `${ROBLOX_USERS}/v1/usernames/users`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              usernames: [username],
-              excludeBannedUsers: false
-            })
-          }
-        );
+        const maxPlayers =
+          Number(server.maxPlayers || 0);
 
-        if (!response.ok) {
-          throw new Error(
-            `Roblox returned HTTP ${response.status}`
+        if (minPlayers === 35) {
+
+          return (
+            players === maxPlayers &&
+            players > 0
           );
         }
 
-        const data = await response.json();
-        const user = data.data?.[0];
-
-        if (!user) {
-          return json({
-            success: false,
-            error: "Roblox user not found"
-          }, 404);
-        }
-
-        return json({
-          success: true,
-          user: {
-            id: user.id,
-            name: user.name,
-            displayName: user.displayName
-          }
-        });
-      }
-
-      // -------------------------
-      // PROFILE
-      // -------------------------
-      if (url.pathname === "/profile") {
-        const userId = url.searchParams.get("userId");
-
-        if (!userId) {
-          return json({
-            success: false,
-            error: "Missing userId"
-          }, 400);
-        }
-
-        const response = await fetch(
-          `${ROBLOX_USERS}/v1/users/${encodeURIComponent(userId)}`
-        );
-
-        if (!response.ok) {
-          return json({
-            success: false,
-            error: "User not found"
-          }, 404);
-        }
-
-        const user = await response.json();
-
-        return json({
-          success: true,
-          user: {
-            id: user.id,
-            name: user.name,
-            displayName: user.displayName,
-            description: user.description || "",
-            created: user.created
-          }
-        });
-      }
-
-      // -------------------------
-      // COLLECTIBLES + RAP
-      // -------------------------
-      if (url.pathname === "/value") {
-        const userId = url.searchParams.get("userId");
-
-        if (!userId) {
-          return json({
-            success: false,
-            error: "Missing userId"
-          }, 400);
-        }
-
-        const result = await getCollectibles(userId);
-
-        return json({
-          success: true,
-          userId: Number(userId),
-          totalRAP: result.totalRAP,
-          limitedCount: result.items.length,
-          items: result.items,
-          warnings: result.warnings
-        });
-      }
-
-      // -------------------------
-      // SERVERS
-      // -------------------------
-      if (url.pathname === "/servers") {
-        const placeId =
-          url.searchParams.get("placeId") || "920587237";
-
-        const limit = Math.min(
-          Number(url.searchParams.get("limit") || 100),
-          100
-        );
-
-        const apiUrl =
-          `${ROBLOX_GAMES}/v1/games/${encodeURIComponent(placeId)}` +
-          `/servers/Public?sortOrder=Desc&limit=${limit}`;
-
-        const response = await fetch(apiUrl);
-
-        if (!response.ok) {
-          throw new Error(
-            `Roblox server API returned ${response.status}`
-          );
-        }
-
-        const data = await response.json();
-
-        const servers = (data.data || []).map(server => ({
-          id: server.id,
-          playing: Number(server.playing || 0),
-          maxPlayers: Number(server.maxPlayers || 0),
-          ping: server.ping ?? null,
-          fps: server.fps ?? null
-        }));
-
-        return json({
-          success: true,
-          count: servers.length,
-          data: servers
-        });
-      }
-
-      return json({
-        success: false,
-        error: "Endpoint not found"
-      }, 404);
-
-    } catch (error) {
-      return json({
-        success: false,
-        error: error.message || "Worker error"
-      }, 500);
-    }
-  }
-};
-
-
-// ======================================
-// COLLECTIBLE SCANNER
-// ======================================
-
-async function getCollectibles(userId) {
-  let cursor = null;
-  let totalRAP = 0;
-
-  const items = [];
-  const warnings = [];
-
-  // Safety limit so a huge inventory
-  // doesn't hammer the Roblox API.
-  const MAX_PAGES = 20;
-
-  for (let page = 0; page < MAX_PAGES; page++) {
-
-    let apiUrl =
-      `${ROBLOX_INVENTORY}/v1/users/${encodeURIComponent(userId)}` +
-      `/assets/collectibles?assetType=All&sortOrder=Asc&limit=100`;
-
-    if (cursor) {
-      apiUrl +=
-        `&cursor=${encodeURIComponent(cursor)}`;
-    }
-
-    const response = await fetch(apiUrl);
-
-    if (response.status === 403) {
-      throw new Error(
-        "This player's inventory is private or Roblox denied access."
-      );
-    }
-
-    if (!response.ok) {
-      throw new Error(
-        `Inventory API returned HTTP ${response.status}`
-      );
-    }
-
-    const data = await response.json();
-
-    for (const item of data.data || []) {
-
-      const rap = Number(
-        item.recentAveragePrice
-      );
-
-      const validRAP =
-        Number.isFinite(rap) &&
-        rap >= 0;
-
-      if (validRAP) {
-        totalRAP += rap;
-      } else {
-        warnings.push(
-          `${item.name || "Unknown item"} has no RAP value.`
-        );
-      }
-
-      items.push({
-        assetId: item.assetId ?? null,
-        userAssetId: item.userAssetId ?? null,
-        name: item.name || "Unknown item",
-        rap: validRAP ? rap : null,
-        originalPrice:
-          item.originalPrice ?? null,
-        serialNumber:
-          item.serialNumber ?? null,
-        isOnHold:
-          item.isOnHold ?? false
+        return players >= minPlayers;
       });
-    }
 
-    cursor = data.nextPageCursor;
-
-    if (!cursor) {
-      break;
-    }
-  }
-
-  if (cursor) {
-    warnings.push(
-      "Inventory is larger than the scanner page limit, so the displayed RAP may be incomplete."
+    servers.sort(
+      (a, b) =>
+        Number(b.playing || 0) -
+        Number(a.playing || 0)
     );
+
+    status.innerHTML =
+      `🟢 Found <b>${servers.length}</b> servers`;
+
+    if (!servers.length) {
+
+      container.innerHTML = `
+        <div class="empty">
+          ❌ No matching servers found.
+        </div>
+      `;
+
+      return;
+    }
+
+    servers.forEach(server => {
+
+      const players =
+        Number(server.playing || 0);
+
+      const max =
+        Number(server.maxPlayers || 0);
+
+      const rich =
+        players >= 30;
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        "card" +
+        (rich ? " rich" : "");
+
+      card.innerHTML = `
+
+        <h2>🎮 Roblox Server</h2>
+
+        <span class="badge">
+          ${rich
+            ? "🔥 RICH SERVER"
+            : "SERVER"}
+        </span>
+
+        <div class="stat">
+          <span>👥 Players</span>
+          <b>${players}/${max}</b>
+        </div>
+
+        <div class="stat">
+          <span>📡 Ping</span>
+          <b>
+            ${server.ping ?? "N/A"} ms
+          </b>
+        </div>
+
+        <div class="stat">
+          <span>⚡ FPS</span>
+          <b>
+            ${server.fps ?? "N/A"}
+          </b>
+        </div>
+
+        <button
+          class="join"
+          onclick="joinServer('${server.id}')">
+          🚀 JOIN SERVER
+        </button>
+
+      `;
+
+      container.appendChild(card);
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    status.innerHTML =
+      "❌ Server error";
+
+    container.innerHTML = `
+      <div class="empty">
+        ${escapeHtml(error.message)}
+      </div>
+    `;
+  }
+}
+
+
+/* =========================================
+   JOIN SERVER
+   ========================================= */
+
+function joinServer(serverId) {
+
+  const url =
+    "https://www.roblox.com/games/start" +
+    "?placeId=" +
+    encodeURIComponent(PLACE_ID) +
+    "&gameInstanceId=" +
+    encodeURIComponent(serverId);
+
+  window.open(url, "_blank");
+}
+
+
+/* =========================================
+   PLAYER SCANNER
+   ========================================= */
+
+async function scanPlayer() {
+
+  const username =
+    document
+      .getElementById("usernameInput")
+      .value
+      .trim();
+
+  const status =
+    document.getElementById("scannerStatus");
+
+  const resultBox =
+    document.getElementById("profileResult");
+
+  if (!username) {
+
+    status.innerHTML =
+      "❌ Enter a Roblox username.";
+
+    return;
   }
 
-  // Highest RAP first.
-  items.sort((a, b) => {
-    return (b.rap || 0) - (a.rap || 0);
-  });
+  resultBox.innerHTML = "";
 
-  return {
-    totalRAP,
-    items,
-    warnings: [...new Set(warnings)]
-  };
+  try {
+
+    /* FIND USER */
+
+    status.innerHTML =
+      "🔎 Finding player...";
+
+    const userResponse =
+      await fetch(
+        `${WORKER_URL}/user?username=` +
+        encodeURIComponent(username)
+      );
+
+    const userResult =
+      await userResponse.json();
+
+    if (
+      !userResponse.ok ||
+      !userResult.success
+    ) {
+
+      throw new Error(
+        userResult.error ||
+        "Player not found."
+      );
+    }
+
+    const user =
+      userResult.user;
+
+
+    /* PROFILE */
+
+    status.innerHTML =
+      "👤 Loading profile...";
+
+    const profileResponse =
+      await fetch(
+        `${WORKER_URL}/profile` +
+        `?userId=${user.id}`
+      );
+
+    const profileResult =
+      await profileResponse.json();
+
+
+    /* VALUE */
+
+    status.innerHTML =
+      "💰 Calculating player RAP...";
+
+    const valueResponse =
+      await fetch(
+        `${WORKER_URL}/value` +
+        `?userId=${user.id}`
+      );
+
+    const valueResult =
+      await valueResponse.json();
+
+    if (
+      !valueResponse.ok ||
+      !valueResult.success
+    ) {
+
+      throw new Error(
+        valueResult.error ||
+        "Could not calculate RAP."
+      );
+    }
+
+    const items =
+      valueResult.items || [];
+
+    const totalRAP =
+      Number(
+        valueResult.totalRAP || 0
+      );
+
+    const collectibleCount =
+      Number(
+        valueResult.collectibleCount ||
+        valueResult.limitedCount ||
+        items.length
+      );
+
+
+    /* ITEMS */
+
+    let itemsHTML = "";
+
+    if (!items.length) {
+
+      itemsHTML = `
+        <div class="empty">
+          🔒 No publicly available
+          collectibles were returned.
+        </div>
+      `;
+
+    } else {
+
+      itemsHTML = `
+        <h2>🏆 Collectibles</h2>
+        <div class="items">
+      `;
+
+      items
+        .slice(0, 200)
+        .forEach(item => {
+
+          const rap =
+            item.rap === null ||
+            item.rap === undefined
+              ? "N/A"
+              : formatNumber(item.rap);
+
+          itemsHTML += `
+
+            <div class="item">
+
+              <div class="item-name">
+                ${escapeHtml(item.name)}
+              </div>
+
+              <div class="item-rap">
+
+                ${
+                  rap === "N/A"
+                    ? "RAP unavailable"
+                    : "💰 " + rap + " RAP"
+                }
+
+              </div>
+
+              <div class="item-meta">
+
+                Asset ID:
+                ${item.assetId ?? "N/A"}
+
+              </div>
+
+              ${
+                item.serialNumber != null
+                  ? `
+                    <div class="item-meta">
+                      Serial:
+                      #${item.serialNumber}
+                    </div>
+                  `
+                  : ""
+              }
+
+            </div>
+
+          `;
+
+        });
+
+      itemsHTML += `</div>`;
+    }
+
+
+    /* WARNINGS */
+
+    const warnings =
+      valueResult.warnings || [];
+
+    const warningHTML =
+      warnings.length
+        ? `
+          <div class="warning">
+            ⚠️ ${escapeHtml(
+              warnings[0]
+            )}
+          </div>
+        `
+        : "";
+
+
+    /* DISPLAY */
+
+    status.innerHTML =
+      "🟢 Scan complete!";
+
+    resultBox.innerHTML = `
+
+      <div class="profile">
+
+        <h2>
+          👤 ${escapeHtml(
+            user.displayName
+          )}
+        </h2>
+
+        <p style="color:#999">
+          @${escapeHtml(user.name)}
+        </p>
+
+        <div class="value-box">
+
+          <div class="value-label">
+            Total RAP
+          </div>
+
+          <div class="value-number">
+            ${formatNumber(totalRAP)}
+          </div>
+
+          <div
+            style="
+              color:#888;
+              margin-top:8px;
+            "
+          >
+            Roblox RAP from returned
+            collectibles
+          </div>
+
+        </div>
+
+
+        <div class="summary">
+
+          <div class="summary-card">
+
+            👤 User ID
+
+            <span class="summary-number">
+              ${user.id}
+            </span>
+
+          </div>
+
+
+          <div class="summary-card">
+
+            💎 Collectibles
+
+            <span class="summary-number">
+              ${collectibleCount}
+            </span>
+
+          </div>
+
+
+          <div class="summary-card">
+
+            💰 RAP
+
+            <span class="summary-number">
+              ${formatNumber(totalRAP)}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        ${
+          profileResult.success
+            ? `
+              <div class="stat">
+
+                <span>
+                  📅 Account Created
+                </span>
+
+                <b>
+                  ${formatDate(
+                    profileResult.user.created
+                  )}
+                </b>
+
+              </div>
+            `
+            : ""
+        }
+
+
+        ${warningHTML}
+
+
+        <div
+          class="warning"
+          style="
+            background:#111827;
+            color:#aeb8ca;
+          "
+        >
+
+          ℹ️ RAP is calculated from the
+          <b>recentAveragePrice</b>
+          values Roblox returns.
+
+          Some collectibles may not have
+          RAP available.
+
+        </div>
+
+
+        ${itemsHTML}
+
+      </div>
+
+    `;
+
+  } catch (error) {
+
+    console.error(error);
+
+    status.innerHTML =
+      "❌ Scanner error";
+
+    resultBox.innerHTML = `
+      <div class="empty">
+        ${escapeHtml(error.message)}
+      </div>
+    `;
+  }
 }
 
 
-// ======================================
-// RESPONSE HELPERS
-// ======================================
+/* =========================================
+   HELPERS
+   ========================================= */
 
-function corsHeaders() {
-  return {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type"
-  };
+function formatNumber(number) {
+
+  return Number(number || 0)
+    .toLocaleString("en-US");
 }
 
-function json(data, status = 200) {
-  return new Response(
-    JSON.stringify(data, null, 2),
-    {
-      status,
-      headers: {
-        "Content-Type": "application/json",
-        ...corsHeaders()
+
+function formatDate(value) {
+
+  if (!value) {
+    return "Unknown";
+  }
+
+  const date =
+    new Date(value);
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+    return "Unknown";
+  }
+
+  return date.toLocaleDateString();
+}
+
+
+function escapeHtml(value) {
+
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+
+/* =========================================
+   ENTER KEY
+   ========================================= */
+
+document
+  .getElementById("usernameInput")
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if (event.key === "Enter") {
+        scanPlayer();
       }
+
     }
   );
-}
-    
+
+
+/* =========================================
+   START
+   ========================================= */
+
+loadServers(20);
+
+</script>
+
+</body>
+</html>
