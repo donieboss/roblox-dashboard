@@ -1,876 +1,322 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
-
-<title>DONIE Rich Finder</title>
-
-<style>
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background:
-    radial-gradient(circle at top, #17172b 0%, #08080d 45%);
-  color: white;
-}
-
-header {
-  text-align: center;
-  padding: 45px 20px 30px;
-  border-bottom: 1px solid #29293a;
-  background: rgba(10,10,18,.8);
-}
-
-.logo {
-  font-size: 45px;
-  font-weight: 900;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  color: #999;
-  margin-top: 8px;
-}
-
-.container {
-  width: 92%;
-  max-width: 1250px;
-  margin: 30px auto;
-}
-
-.tabs {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-button {
-  border: 0;
-  border-radius: 10px;
-  padding: 13px 18px;
-  background: #5865f2;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-button:hover {
-  opacity: .85;
-}
-
-.tab.active {
-  background: #00a86b;
-}
-
-.panel {
-  display: none;
-}
-
-.panel.active {
-  display: block;
-}
-
-.status {
-  background: #11111b;
-  border: 1px solid #29293a;
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 20px;
-}
-
-.controls {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-.server-grid {
-  display: grid;
-  grid-template-columns:
-    repeat(auto-fit, minmax(290px, 1fr));
-  gap: 18px;
-}
-
-.card {
-  background: #11111b;
-  border: 1px solid #303044;
-  border-radius: 18px;
-  padding: 20px;
-}
-
-.card.rich {
-  border-color: #00e676;
-  box-shadow: 0 0 20px rgba(0,230,118,.08);
-}
-
-.card h2 {
-  margin-top: 0;
-}
-
-.badge {
-  display: inline-block;
-  border-radius: 20px;
-  padding: 7px 12px;
-  background: #00a86b;
-  font-size: 12px;
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
-.stat {
-  display: flex;
-  justify-content: space-between;
-  padding: 11px 0;
-  border-bottom: 1px solid #292936;
-}
-
-.join {
-  width: 100%;
-  margin-top: 18px;
-  background: #00a86b;
-}
-
-input {
-  width: 100%;
-  padding: 15px;
-  border: 1px solid #343448;
-  border-radius: 11px;
-  background: #0d0d15;
-  color: white;
-  outline: none;
-  font-size: 16px;
-}
-
-input:focus {
-  border-color: #5865f2;
-}
-
-.scanner-box {
-  background: #11111b;
-  border: 1px solid #29293a;
-  border-radius: 18px;
-  padding: 25px;
-  max-width: 800px;
-  margin: auto;
-}
-
-.scanner-row {
-  display: flex;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.scanner-row input {
-  flex: 1;
-}
-
-.profile {
-  margin-top: 25px;
-  padding: 20px;
-  border-radius: 15px;
-  background: #0d0d15;
-}
-
-.items {
-  display: grid;
-  grid-template-columns:
-    repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
-  margin-top: 15px;
-}
-
-.item {
-  padding: 15px;
-  background: #151522;
-  border: 1px solid #2b2b40;
-  border-radius: 12px;
-}
-
-.item-name {
-  font-weight: bold;
-}
-
-.item-type {
-  color: #888;
-  font-size: 13px;
-  margin-top: 5px;
-}
-
-.empty {
-  text-align: center;
-  padding: 50px 20px;
-  background: #11111b;
-  border-radius: 15px;
-  color: #999;
-}
-
-.warning {
-  margin-top: 15px;
-  padding: 13px;
-  border-radius: 10px;
-  background: #211d0c;
-  color: #e5d58b;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<header>
-
-  <div class="logo">
-    🔥 DONIE
-  </div>
-
-  <div class="subtitle">
-    Rich Server Finder + Inventory Scanner
-  </div>
-
-</header>
-
-<div class="container">
-
-  <!-- TABS -->
-
-  <div class="tabs">
-
-    <button
-      class="tab active"
-      onclick="showPanel('servers', this)"
-    >
-      🎮 Servers
-    </button>
-
-    <button
-      class="tab"
-      onclick="showPanel('scanner', this)"
-    >
-      🔎 Inventory Scanner
-    </button>
-
-  </div>
-
-
-  <!-- ===================== -->
-  <!-- SERVER PANEL -->
-  <!-- ===================== -->
-
-  <section
-    id="servers"
-    class="panel active"
-  >
-
-    <div class="controls">
-
-      <button onclick="loadServers(20)">
-        👥 20+ Players
-      </button>
-
-      <button onclick="loadServers(30)">
-        🔥 30+ Players
-      </button>
-
-      <button onclick="loadServers(35)">
-        💎 35/35
-      </button>
-
-      <button onclick="loadServers(0)">
-        🔄 Show All
-      </button>
-
-    </div>
-
-    <div
-      id="serverStatus"
-      class="status"
-    >
-      🔎 Loading servers...
-    </div>
-
-    <div
-      id="serversContainer"
-      class="server-grid"
-    ></div>
-
-  </section>
-
-
-  <!-- ===================== -->
-  <!-- INVENTORY SCANNER -->
-  <!-- ===================== -->
-
-  <section
-    id="scanner"
-    class="panel"
-  >
-
-    <div class="scanner-box">
-
-      <h1>🔎 Inventory Scanner</h1>
-
-      <p style="color:#999">
-        Enter a Roblox username to scan
-        publicly available inventory information.
-      </p>
-
-      <div class="scanner-row">
-
-        <input
-          id="usernameInput"
-          type="text"
-          placeholder="Enter Roblox username..."
-          autocomplete="off"
-        >
-
-        <button onclick="scanInventory()">
-          🔎 SCAN
-        </button>
-
-      </div>
-
-      <div
-        id="scannerStatus"
-        class="status"
-        style="margin-top:20px"
-      >
-        Waiting for username...
-      </div>
-
-      <div
-        id="profileResult"
-      ></div>
-
-    </div>
-
-  </section>
-
-</div>
-
-
-<script>
-
-const WORKER_URL =
-  "https://black-sun-c74c.redonekowaithe1.workers.dev";
-
-const PLACE_ID =
-  "920587237";
-
-
-// =====================================
-// TAB SWITCHER
-// =====================================
-
-function showPanel(panelId, button) {
-
-  document
-    .querySelectorAll(".panel")
-    .forEach(panel => {
-      panel.classList.remove("active");
-    });
-
-  document
-    .querySelectorAll(".tab")
-    .forEach(tab => {
-      tab.classList.remove("active");
-    });
-
-  document
-    .getElementById(panelId)
-    .classList.add("active");
-
-  button.classList.add("active");
-}
-
-
-// =====================================
-// LOAD SERVERS
-// =====================================
-
-async function loadServers(minPlayers = 20) {
-
-  const status =
-    document.getElementById("serverStatus");
-
-  const container =
-    document.getElementById("serversContainer");
-
-  status.innerHTML =
-    "🔎 Finding servers...";
-
-  container.innerHTML = "";
-
-  try {
-
-    const response = await fetch(
-      `${WORKER_URL}/servers?placeId=${PLACE_ID}&limit=100`
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        "Worker HTTP " + response.status
-      );
+const ROBLOX_GAMES = "https://games.roblox.com";
+const ROBLOX_USERS = "https://users.roblox.com";
+const ROBLOX_INVENTORY = "https://inventory.roblox.com";
+
+export default {
+  async fetch(request) {
+    const url = new URL(request.url);
+
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        headers: corsHeaders()
+      });
     }
 
-    const result =
-      await response.json();
+    try {
+      // -------------------------
+      // HEALTH CHECK
+      // -------------------------
+      if (url.pathname === "/") {
+        return json({
+          success: true,
+          message: "DONIE Worker is online"
+        });
+      }
 
-    console.log("Servers:", result);
+      // -------------------------
+      // USERNAME -> USER ID
+      // -------------------------
+      if (url.pathname === "/user") {
+        const username = url.searchParams.get("username");
 
-    if (!result.success) {
-      throw new Error(
-        result.error || "Worker error"
-      );
-    }
+        if (!username) {
+          return json({
+            success: false,
+            error: "Missing username"
+          }, 400);
+        }
 
-    let servers =
-      result.data || [];
+        const response = await fetch(
+          `${ROBLOX_USERS}/v1/usernames/users`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              usernames: [username],
+              excludeBannedUsers: false
+            })
+          }
+        );
 
-    servers =
-      servers.filter(server => {
-
-        const players =
-          Number(server.playing || 0);
-
-        const max =
-          Number(server.maxPlayers || 0);
-
-        if (minPlayers === 35) {
-          return (
-            players === 35 &&
-            max === 35
+        if (!response.ok) {
+          throw new Error(
+            `Roblox returned HTTP ${response.status}`
           );
         }
 
-        return players >= minPlayers;
-      });
-
-    servers.sort((a, b) => {
-
-      return (
-        Number(b.playing || 0) -
-        Number(a.playing || 0)
-      );
-
-    });
-
-    status.innerHTML =
-      `🟢 Found <b>${servers.length}</b> servers`;
-
-    if (servers.length === 0) {
-
-      container.innerHTML = `
-        <div class="empty">
-          ❌ No matching servers found.
-        </div>
-      `;
-
-      return;
-    }
-
-    servers.forEach(server => {
-
-      const players =
-        Number(server.playing || 0);
-
-      const maxPlayers =
-        Number(server.maxPlayers || 0);
-
-      const percent =
-        maxPlayers
-          ? Math.round(
-              players / maxPlayers * 100
-            )
-          : 0;
-
-      const rich =
-        players >= 30;
-
-      const card =
-        document.createElement("div");
-
-      card.className =
-        "card" +
-        (rich ? " rich" : "");
-
-      card.innerHTML = `
-
-        <h2>🎮 Roblox Server</h2>
-
-        <span class="badge">
-          ${rich
-            ? "🟢 RICH SERVER"
-            : "SERVER"}
-        </span>
-
-        <div class="stat">
-          <span>👥 Players</span>
-          <b>${players}/${maxPlayers}</b>
-        </div>
-
-        <div class="stat">
-          <span>📊 Fullness</span>
-          <b>${percent}%</b>
-        </div>
-
-        <div class="stat">
-          <span>📡 Ping</span>
-          <b>
-            ${server.ping ?? "N/A"} ms
-          </b>
-        </div>
-
-        <div class="stat">
-          <span>⚡ FPS</span>
-          <b>
-            ${server.fps ?? "N/A"}
-          </b>
-        </div>
-
-        <button
-          class="join"
-          onclick="joinServer('${server.id}')"
-        >
-          🚀 JOIN SERVER
-        </button>
-
-      `;
-
-      container.appendChild(card);
-
-    });
-
-  } catch (error) {
-
-    console.error(error);
-
-    status.innerHTML =
-      "❌ Could not connect to Worker.";
-
-    container.innerHTML = `
-      <div class="empty">
-        ${escapeHtml(error.message)}
-      </div>
-    `;
-  }
-}
-
-
-// =====================================
-// JOIN SERVER
-// =====================================
-
-function joinServer(serverId) {
-
-  const url =
-    "https://www.roblox.com/games/start" +
-    "?placeId=" +
-    encodeURIComponent(PLACE_ID) +
-    "&gameInstanceId=" +
-    encodeURIComponent(serverId);
-
-  window.open(url, "_blank");
-}
-
-
-// =====================================
-// INVENTORY SCANNER
-// =====================================
-
-async function scanInventory() {
-
-  const username =
-    document
-      .getElementById("usernameInput")
-      .value
-      .trim();
-
-  const status =
-    document.getElementById("scannerStatus");
-
-  const resultBox =
-    document.getElementById("profileResult");
-
-  if (!username) {
-
-    status.innerHTML =
-      "❌ Enter a Roblox username.";
-
-    return;
-  }
-
-  status.innerHTML =
-    "🔎 Finding Roblox user...";
-
-  resultBox.innerHTML = "";
-
-  try {
-
-    // -------------------------------
-    // USERNAME -> ID
-    // -------------------------------
-
-    const userResponse =
-      await fetch(
-        `${WORKER_URL}/user?username=` +
-        encodeURIComponent(username)
-      );
-
-    const userResult =
-      await userResponse.json();
-
-    if (!userResult.success) {
-      throw new Error(
-        userResult.error ||
-        "User not found"
-      );
-    }
-
-    const user =
-      userResult.user;
-
-    status.innerHTML =
-      "🎒 Scanning public inventory...";
-
-
-    // -------------------------------
-    // PROFILE
-    // -------------------------------
-
-    const profileResponse =
-      await fetch(
-        `${WORKER_URL}/profile?userId=${user.id}`
-      );
-
-    const profileResult =
-      await profileResponse.json();
-
-
-    // -------------------------------
-    // INVENTORY
-    // -------------------------------
-
-    const inventoryResponse =
-      await fetch(
-        `${WORKER_URL}/inventory?userId=${user.id}`
-      );
-
-    const inventoryResult =
-      await inventoryResponse.json();
-
-    if (!inventoryResult.success) {
-      throw new Error(
-        inventoryResult.error ||
-        "Inventory unavailable"
-      );
-    }
-
-    const items =
-      inventoryResult.items || [];
-
-
-    // -------------------------------
-    // DISPLAY
-    // -------------------------------
-
-    status.innerHTML =
-      `🟢 Scan complete — ${items.length} public items found`;
-
-    let itemsHTML = "";
-
-    if (items.length === 0) {
-
-      itemsHTML = `
-        <div class="empty">
-          🔒 No publicly available inventory
-          items were returned.
-        </div>
-      `;
-
-    } else {
-
-      itemsHTML =
-        `<div class="items">`;
-
-      items
-        .slice(0, 200)
-        .forEach(item => {
-
-          itemsHTML += `
-
-            <div class="item">
-
-              <div class="item-name">
-                ${escapeHtml(
-                  item.name ||
-                  "Unknown Item"
-                )}
-              </div>
-
-              <div class="item-type">
-                ${escapeHtml(
-                  item.assetType ||
-                  "Unknown"
-                )}
-              </div>
-
-              <div
-                style="
-                  margin-top:8px;
-                  color:#777;
-                  font-size:12px;
-                "
-              >
-                ID: ${item.id}
-              </div>
-
-            </div>
-
-          `;
-
-        });
-
-      itemsHTML +=
-        `</div>`;
-    }
-
-
-    resultBox.innerHTML = `
-
-      <div class="profile">
-
-        <h2>
-          👤 ${escapeHtml(user.displayName)}
-        </h2>
-
-        <p style="color:#999">
-          @${escapeHtml(user.name)}
-        </p>
-
-        <div class="stat">
-          <span>🆔 User ID</span>
-          <b>${user.id}</b>
-        </div>
-
-        <div class="stat">
-          <span>🎒 Public Items</span>
-          <b>${items.length}</b>
-        </div>
-
-        ${profileResult.success
-          ? `
-            <div class="stat">
-              <span>📅 Account Created</span>
-              <b>
-                ${formatDate(
-                  profileResult.user.created
-                )}
-              </b>
-            </div>
-          `
-          : ""
+        const data = await response.json();
+        const user = data.data?.[0];
+
+        if (!user) {
+          return json({
+            success: false,
+            error: "Roblox user not found"
+          }, 404);
         }
 
-        <div class="warning">
-          🔒 This scanner only shows
-          information Roblox makes publicly
-          available. It does not bypass
-          private inventories.
-        </div>
-
-        ${itemsHTML}
-
-      </div>
-
-    `;
-
-  } catch (error) {
-
-    console.error(error);
-
-    status.innerHTML =
-      "❌ Scanner error";
-
-    resultBox.innerHTML = `
-      <div class="empty">
-        ${escapeHtml(error.message)}
-      </div>
-    `;
-  }
-}
-
-
-// =====================================
-// ENTER KEY
-// =====================================
-
-document
-  .getElementById("usernameInput")
-  .addEventListener(
-    "keydown",
-    event => {
-
-      if (event.key === "Enter") {
-        scanInventory();
+        return json({
+          success: true,
+          user: {
+            id: user.id,
+            name: user.name,
+            displayName: user.displayName
+          }
+        });
       }
 
+      // -------------------------
+      // PROFILE
+      // -------------------------
+      if (url.pathname === "/profile") {
+        const userId = url.searchParams.get("userId");
+
+        if (!userId) {
+          return json({
+            success: false,
+            error: "Missing userId"
+          }, 400);
+        }
+
+        const response = await fetch(
+          `${ROBLOX_USERS}/v1/users/${encodeURIComponent(userId)}`
+        );
+
+        if (!response.ok) {
+          return json({
+            success: false,
+            error: "User not found"
+          }, 404);
+        }
+
+        const user = await response.json();
+
+        return json({
+          success: true,
+          user: {
+            id: user.id,
+            name: user.name,
+            displayName: user.displayName,
+            description: user.description || "",
+            created: user.created
+          }
+        });
+      }
+
+      // -------------------------
+      // COLLECTIBLES + RAP
+      // -------------------------
+      if (url.pathname === "/value") {
+        const userId = url.searchParams.get("userId");
+
+        if (!userId) {
+          return json({
+            success: false,
+            error: "Missing userId"
+          }, 400);
+        }
+
+        const result = await getCollectibles(userId);
+
+        return json({
+          success: true,
+          userId: Number(userId),
+          totalRAP: result.totalRAP,
+          limitedCount: result.items.length,
+          items: result.items,
+          warnings: result.warnings
+        });
+      }
+
+      // -------------------------
+      // SERVERS
+      // -------------------------
+      if (url.pathname === "/servers") {
+        const placeId =
+          url.searchParams.get("placeId") || "920587237";
+
+        const limit = Math.min(
+          Number(url.searchParams.get("limit") || 100),
+          100
+        );
+
+        const apiUrl =
+          `${ROBLOX_GAMES}/v1/games/${encodeURIComponent(placeId)}` +
+          `/servers/Public?sortOrder=Desc&limit=${limit}`;
+
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+          throw new Error(
+            `Roblox server API returned ${response.status}`
+          );
+        }
+
+        const data = await response.json();
+
+        const servers = (data.data || []).map(server => ({
+          id: server.id,
+          playing: Number(server.playing || 0),
+          maxPlayers: Number(server.maxPlayers || 0),
+          ping: server.ping ?? null,
+          fps: server.fps ?? null
+        }));
+
+        return json({
+          success: true,
+          count: servers.length,
+          data: servers
+        });
+      }
+
+      return json({
+        success: false,
+        error: "Endpoint not found"
+      }, 404);
+
+    } catch (error) {
+      return json({
+        success: false,
+        error: error.message || "Worker error"
+      }, 500);
+    }
+  }
+};
+
+
+// ======================================
+// COLLECTIBLE SCANNER
+// ======================================
+
+async function getCollectibles(userId) {
+  let cursor = null;
+  let totalRAP = 0;
+
+  const items = [];
+  const warnings = [];
+
+  // Safety limit so a huge inventory
+  // doesn't hammer the Roblox API.
+  const MAX_PAGES = 20;
+
+  for (let page = 0; page < MAX_PAGES; page++) {
+
+    let apiUrl =
+      `${ROBLOX_INVENTORY}/v1/users/${encodeURIComponent(userId)}` +
+      `/assets/collectibles?assetType=All&sortOrder=Asc&limit=100`;
+
+    if (cursor) {
+      apiUrl +=
+        `&cursor=${encodeURIComponent(cursor)}`;
+    }
+
+    const response = await fetch(apiUrl);
+
+    if (response.status === 403) {
+      throw new Error(
+        "This player's inventory is private or Roblox denied access."
+      );
+    }
+
+    if (!response.ok) {
+      throw new Error(
+        `Inventory API returned HTTP ${response.status}`
+      );
+    }
+
+    const data = await response.json();
+
+    for (const item of data.data || []) {
+
+      const rap = Number(
+        item.recentAveragePrice
+      );
+
+      const validRAP =
+        Number.isFinite(rap) &&
+        rap >= 0;
+
+      if (validRAP) {
+        totalRAP += rap;
+      } else {
+        warnings.push(
+          `${item.name || "Unknown item"} has no RAP value.`
+        );
+      }
+
+      items.push({
+        assetId: item.assetId ?? null,
+        userAssetId: item.userAssetId ?? null,
+        name: item.name || "Unknown item",
+        rap: validRAP ? rap : null,
+        originalPrice:
+          item.originalPrice ?? null,
+        serialNumber:
+          item.serialNumber ?? null,
+        isOnHold:
+          item.isOnHold ?? false
+      });
+    }
+
+    cursor = data.nextPageCursor;
+
+    if (!cursor) {
+      break;
+    }
+  }
+
+  if (cursor) {
+    warnings.push(
+      "Inventory is larger than the scanner page limit, so the displayed RAP may be incomplete."
+    );
+  }
+
+  // Highest RAP first.
+  items.sort((a, b) => {
+    return (b.rap || 0) - (a.rap || 0);
+  });
+
+  return {
+    totalRAP,
+    items,
+    warnings: [...new Set(warnings)]
+  };
+}
+
+
+// ======================================
+// RESPONSE HELPERS
+// ======================================
+
+function corsHeaders() {
+  return {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type"
+  };
+}
+
+function json(data, status = 200) {
+  return new Response(
+    JSON.stringify(data, null, 2),
+    {
+      status,
+      headers: {
+        "Content-Type": "application/json",
+        ...corsHeaders()
+      }
     }
   );
-
-
-// =====================================
-// HELPERS
-// =====================================
-
-function escapeHtml(value) {
-
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }
-
-
-function formatDate(value) {
-
-  if (!value) {
-    return "Unknown";
-  }
-
-  const date =
-    new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return "Unknown";
-  }
-
-  return date.toLocaleDateString();
-}
-
-
-// =====================================
-// START
-// =====================================
-
-loadServers(20);
-
-</script>
-
-</body>
-</html>
+    
