@@ -3,409 +3,225 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>DONIE Rich Finder</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DONIE • BEAM Value Checker</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-:root{
-  --bg:#070812;
-  --panel:#101321;
-  --panel2:#15192a;
-  --border:#272d45;
-  --text:#f5f7ff;
-  --muted:#8e96ad;
-  --accent:#7c5cff;
-  --accent2:#a78bfa;
-  --green:#39e58c;
-  --red:#ff5f6d;
-  --yellow:#ffd166;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
-  min-height:100vh;
   font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
+  color:#f5f7ff;
   background:
-    radial-gradient(circle at top left,rgba(124,92,255,.18),transparent 35%),
-    radial-gradient(circle at bottom right,rgba(57,229,140,.08),transparent 30%),
-    var(--bg);
-  color:var(--text);
+    radial-gradient(circle at 15% 10%,rgba(124,92,255,.22),transparent 32%),
+    radial-gradient(circle at 85% 90%,rgba(57,229,140,.10),transparent 30%),
+    #070812;
 }
 
 .container{
-  width:min(1200px,94%);
+  width:min(1100px,94%);
   margin:auto;
   padding:35px 0 60px;
 }
 
-/* HEADER */
-
-.header{
+header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:20px;
-  margin-bottom:30px;
+  margin-bottom:25px;
 }
 
 .logo{
-  font-size:30px;
+  font-size:28px;
   font-weight:900;
-  letter-spacing:-1px;
 }
 
-.logo span{
-  color:var(--accent2);
-}
+.logo span{color:#a78bfa}
 
-.status{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:9px 14px;
-  border:1px solid var(--border);
-  background:rgba(16,19,33,.8);
+.badge{
+  padding:8px 12px;
   border-radius:999px;
-  color:var(--muted);
-  font-size:13px;
+  border:1px solid #2a3048;
+  background:#101321;
+  color:#39e58c;
+  font-size:12px;
+  font-weight:800;
 }
 
-.status-dot{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-  background:var(--yellow);
+.hero,.panel{
+  border:1px solid #272d45;
+  background:rgba(16,19,33,.92);
+  border-radius:20px;
 }
-
-.status-dot.online{
-  background:var(--green);
-  box-shadow:0 0 12px rgba(57,229,140,.7);
-}
-
-.status-dot.offline{
-  background:var(--red);
-}
-
-/* HERO */
 
 .hero{
-  padding:30px;
-  border:1px solid var(--border);
-  background:linear-gradient(
-    135deg,
-    rgba(124,92,255,.15),
-    rgba(16,19,33,.95)
-  );
-  border-radius:22px;
-  margin-bottom:22px;
-}
-
-.hero h1{
-  font-size:34px;
-  margin-bottom:10px;
-}
-
-.hero p{
-  color:var(--muted);
-  line-height:1.6;
-}
-
-/* CONTROLS */
-
-.controls{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-bottom:22px;
-}
-
-button{
-  border:0;
-  cursor:pointer;
-  font-weight:800;
-  color:white;
-  border-radius:12px;
-  padding:12px 17px;
-  transition:.18s ease;
-}
-
-button:hover{
-  transform:translateY(-1px);
-}
-
-.refresh{
-  background:var(--accent);
-}
-
-.refresh:hover{
-  background:#6d4ef0;
-}
-
-.sort-btn{
-  background:var(--panel2);
-  border:1px solid var(--border);
-}
-
-/* STATS */
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-  margin-bottom:22px;
-}
-
-.stat{
-  padding:20px;
-  border-radius:16px;
-  background:var(--panel);
-  border:1px solid var(--border);
-}
-
-.stat-label{
-  color:var(--muted);
-  font-size:13px;
-  margin-bottom:8px;
-}
-
-.stat-value{
-  font-size:25px;
-  font-weight:900;
-}
-
-/* SEARCH */
-
-.search-box{
-  margin-bottom:22px;
-}
-
-.search-box input{
-  width:100%;
-  padding:15px 17px;
-  border-radius:13px;
-  border:1px solid var(--border);
-  outline:none;
-  background:var(--panel);
-  color:white;
-  font-size:15px;
-}
-
-.search-box input:focus{
-  border-color:var(--accent);
-}
-
-/* SERVER GRID */
-
-.server-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
-}
-
-.server{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:20px;
-  transition:.18s ease;
-}
-
-.server:hover{
-  border-color:#414a70;
-  transform:translateY(-2px);
-}
-
-.server-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  margin-bottom:17px;
-}
-
-.server-number{
-  font-size:18px;
-  font-weight:900;
-}
-
-.room{
-  font-size:12px;
-  padding:6px 9px;
-  border-radius:999px;
-  background:rgba(57,229,140,.1);
-  color:var(--green);
-  border:1px solid rgba(57,229,140,.2);
-}
-
-.room.full{
-  color:var(--red);
-  background:rgba(255,95,109,.1);
-  border-color:rgba(255,95,109,.2);
-}
-
-.metrics{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
+  padding:28px;
   margin-bottom:18px;
 }
 
-.metric{
-  background:var(--panel2);
-  border-radius:12px;
-  padding:12px;
+.hero h1{
+  font-size:32px;
+  margin-bottom:8px;
 }
 
-.metric-label{
-  color:var(--muted);
-  font-size:11px;
-  margin-bottom:5px;
+.hero p{
+  color:#8e96ad;
+  line-height:1.6;
 }
 
-.metric-value{
-  font-weight:900;
-  font-size:15px;
+.panel{
+  padding:22px;
+  margin-bottom:18px;
 }
 
-.job{
-  padding:11px;
+.panel h2{
+  margin-bottom:16px;
+  font-size:19px;
+}
+
+.form{
+  display:grid;
+  grid-template-columns:1fr 140px auto;
+  gap:10px;
+}
+
+input{
+  width:100%;
+  padding:13px 14px;
+  border-radius:11px;
+  border:1px solid #2a3048;
   background:#0a0d18;
-  border-radius:10px;
-  border:1px solid #20253a;
-  margin-bottom:13px;
-  overflow:hidden;
+  color:white;
+  outline:none;
 }
 
-.job-label{
-  color:var(--muted);
-  font-size:11px;
-  margin-bottom:5px;
+input:focus{border-color:#7c5cff}
+
+button{
+  border:0;
+  border-radius:11px;
+  padding:12px 16px;
+  cursor:pointer;
+  font-weight:900;
 }
 
-.job-id{
-  color:#c9cfff;
-  font-family:monospace;
-  font-size:12px;
-  word-break:break-all;
+.add{
+  background:#7c5cff;
+  color:white;
 }
 
-.server-actions{
+.clear{
+  background:#252b40;
+  color:white;
+}
+
+.total{
   display:flex;
-  gap:9px;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px;
+  border-radius:15px;
+  background:#0a0d18;
+  border:1px solid #252a3d;
+  margin-bottom:18px;
 }
 
-.join{
-  flex:1;
-  background:var(--green);
-  color:#06150d;
+.total-label{
+  color:#8e96ad;
+  font-size:13px;
 }
 
-.copy{
-  background:var(--panel2);
-  border:1px solid var(--border);
+.total-value{
+  font-size:30px;
+  font-weight:900;
+  color:#39e58c;
 }
 
-/* LOADING */
-
-.loading{
-  grid-column:1/-1;
-  text-align:center;
-  padding:60px 20px;
-  color:var(--muted);
+.items{
+  display:grid;
+  gap:10px;
 }
 
-.spinner{
-  width:35px;
-  height:35px;
-  border:3px solid #252a3d;
-  border-top-color:var(--accent);
-  border-radius:50%;
-  animation:spin .8s linear infinite;
-  margin:0 auto 15px;
+.item{
+  display:grid;
+  grid-template-columns:1fr 100px 90px 40px;
+  align-items:center;
+  gap:10px;
+  padding:14px;
+  border-radius:13px;
+  background:#15192a;
+  border:1px solid #272d45;
 }
 
-@keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
+.item-name{font-weight:800}
+
+.item-value{
+  color:#39e58c;
+  font-weight:900;
 }
 
-/* EMPTY */
+.item-qty{
+  color:#a78bfa;
+  font-weight:900;
+}
+
+.remove{
+  background:#2b1a22;
+  color:#ff5f6d;
+  padding:8px;
+}
+
+.suggestions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:13px;
+}
+
+.suggestions button{
+  background:#15192a;
+  color:#cbd0e2;
+  border:1px solid #272d45;
+  padding:8px 11px;
+}
 
 .empty{
-  grid-column:1/-1;
-  padding:50px;
   text-align:center;
-  border:1px dashed var(--border);
-  border-radius:18px;
-  color:var(--muted);
+  color:#8e96ad;
+  padding:25px;
+  border:1px dashed #2a3048;
+  border-radius:14px;
 }
 
-/* TOAST */
-
-.toast{
-  position:fixed;
-  bottom:25px;
-  left:50%;
-  transform:translateX(-50%) translateY(100px);
-  background:#171c2d;
-  border:1px solid var(--border);
-  padding:13px 18px;
-  border-radius:12px;
-  opacity:0;
-  transition:.25s ease;
-  pointer-events:none;
-  z-index:99;
+.note{
+  color:#737c95;
+  font-size:12px;
+  line-height:1.5;
+  margin-top:12px;
 }
 
-.toast.show{
-  transform:translateX(-50%) translateY(0);
-  opacity:1;
-}
-
-/* MOBILE */
-
-@media(max-width:800px){
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
+@media(max-width:700px){
+  .form{grid-template-columns:1fr 100px}
+  .form .add{grid-column:1/-1}
+  .item{
+    grid-template-columns:1fr 70px 60px 40px;
   }
-
-  .server-grid{
-    grid-template-columns:1fr;
-  }
-
 }
 
-@media(max-width:500px){
-
-  .container{
-    width:92%;
-  }
-
-  .header{
+@media(max-width:480px){
+  header{
     align-items:flex-start;
+    gap:10px;
     flex-direction:column;
   }
 
-  .hero h1{
-    font-size:27px;
-  }
+  .hero h1{font-size:26px}
 
-  .stats{
-    grid-template-columns:1fr 1fr;
+  .item{
+    grid-template-columns:1fr 55px 45px 38px;
+    font-size:13px;
   }
-
-  .metrics{
-    grid-template-columns:1fr 1fr 1fr;
-  }
-
 }
 </style>
 </head>
@@ -414,725 +230,359 @@ button:hover{
 
 <div class="container">
 
-  <header class="header">
-
-    <div class="logo">
-      DONIE <span>Rich Finder</span>
-    </div>
-
-    <div class="status">
-      <div id="statusDot" class="status-dot"></div>
-      <span id="statusText">Connecting...</span>
-    </div>
-
-  </header>
-
-
-  <section class="hero">
-
-    <h1>Adopt Me Server Finder</h1>
-
-    <p>
-      Live public Roblox servers powered by your Cloudflare Worker.
-      Find servers, view player counts, and launch the selected Roblox
-      game instance.
-    </p>
-
-  </section>
-
-
-  <div class="controls">
-
-    <button class="refresh" onclick="loadServers()">
-      🔄 Refresh Servers
-    </button>
-
-    <button class="sort-btn" onclick="sortServers('slots')">
-      👥 Most Empty
-    </button>
-
-    <button class="sort-btn" onclick="sortServers('players')">
-      👤 Fewest Players
-    </button>
-
-    <button class="sort-btn" onclick="sortServers('ping')">
-      📶 Lowest Ping
-    </button>
-
+<header>
+  <div class="logo">
+    DONIE <span>BEAM</span>
   </div>
 
+  <div class="badge">
+    VALUE CHECKER
+  </div>
+</header>
 
-  <section class="stats">
+<section class="hero">
+  <h1>Rich Value Detector</h1>
+  <p>
+    Add pets or items that you can legitimately see,
+    choose the quantity, and calculate the combined value.
+  </p>
+</section>
 
-    <div class="stat">
-      <div class="stat-label">Servers Found</div>
-      <div id="serverCount" class="stat-value">0</div>
-    </div>
+<section class="panel">
 
-    <div class="stat">
-      <div class="stat-label">Players</div>
-      <div id="playerCount" class="stat-value">0</div>
-    </div>
+  <h2>Add Pet / Item</h2>
 
-    <div class="stat">
-      <div class="stat-label">Open Slots</div>
-      <div id="slotCount" class="stat-value">0</div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-label">Last Update</div>
-      <div id="lastUpdate" class="stat-value">--</div>
-    </div>
-
-  </section>
-
-
-  <div class="search-box">
+  <div class="form">
 
     <input
-      id="search"
-      type="text"
-      placeholder="Search by JobId..."
-      oninput="renderServers()"
+      id="itemInput"
+      placeholder="Example: Shadow Dragon"
+      autocomplete="off"
     >
+
+    <input
+      id="qtyInput"
+      type="number"
+      min="1"
+      value="1"
+    >
+
+    <button class="add" onclick="addItem()">
+      + Add
+    </button>
 
   </div>
 
+  <div class="suggestions">
 
-  <section id="serverGrid" class="server-grid">
+    <button onclick="quickAdd('Shadow Dragon')">
+      Shadow Dragon
+    </button>
 
-    <div class="loading">
+    <button onclick="quickAdd('Bat Dragon')">
+      Bat Dragon
+    </button>
 
-      <div class="spinner"></div>
+    <button onclick="quickAdd('Frost Dragon')">
+      Frost Dragon
+    </button>
 
-      Loading live Roblox servers...
+    <button onclick="quickAdd('Owl')">
+      Owl
+    </button>
 
+    <button onclick="quickAdd('Parrot')">
+      Parrot
+    </button>
+
+    <button onclick="quickAdd('Turtle')">
+      Turtle
+    </button>
+
+  </div>
+
+  <p class="note">
+    The example values below are placeholders. Replace them with
+    values from the value source you trust.
+  </p>
+
+</section>
+
+<section class="panel">
+
+  <div class="total">
+
+    <div>
+      <div class="total-label">
+        TOTAL VALUE
+      </div>
+
+      <div class="total-value" id="total">
+        0
+      </div>
     </div>
 
-  </section>
+    <button class="clear" onclick="clearAll()">
+      Clear All
+    </button>
+
+  </div>
+
+  <div id="items" class="items">
+
+    <div class="empty">
+      No pets/items added yet.
+    </div>
+
+  </div>
+
+</section>
 
 </div>
-
-
-<div id="toast" class="toast"></div>
-
 
 <script>
 
 /*
-=========================================================
-DONIE RICH FINDER
-ROBLOX SERVER DASHBOARD
-=========================================================
+========================================
+EDIT YOUR VALUES HERE
+========================================
+
+These are example placeholder values.
+Change them to the value system you use.
 */
 
-const WORKER_URL =
-  "https://weathered-haze-08aa.redonekowaithe1.workers.dev";
+const VALUE_DATABASE = {
 
-const PLACE_ID =
-  "920587237";
+  "shadow dragon": 100,
+  "bat dragon": 95,
+  "frost dragon": 85,
+  "giraffe": 80,
+  "owl": 75,
+  "parrot": 70,
+  "evil unicorn": 65,
+  "crow": 60,
+  "arctic reindeer": 45,
+  "turtle": 30,
+  "kangaroo": 25
 
-const SERVERS_ENDPOINT =
-  `${WORKER_URL}/roblox-servers?placeId=${PLACE_ID}&limit=100`;
-
-let servers = [];
-
-let currentSort = "slots";
+};
 
 
 /*
-=========================================================
-STATUS
-=========================================================
+========================================
+CURRENT ITEMS
+========================================
 */
 
-function setStatus(online, text){
+let inventory = [];
 
-  const dot =
-    document.getElementById("statusDot");
 
-  const label =
-    document.getElementById("statusText");
+/*
+========================================
+NORMALIZE
+========================================
+*/
 
-  dot.className =
-    "status-dot " +
-    (online ? "online" : "offline");
+function normalize(text){
 
-  label.textContent = text;
+  return String(text)
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g," ");
 
 }
 
 
 /*
-=========================================================
-TOAST
-=========================================================
+========================================
+ADD ITEM
+========================================
 */
 
-let toastTimer;
+function addItem(){
 
-function showToast(message){
+  const input =
+    document.getElementById("itemInput");
 
-  const toast =
-    document.getElementById("toast");
+  const qtyInput =
+    document.getElementById("qtyInput");
 
-  toast.textContent = message;
+  const name =
+    input.value.trim();
 
-  toast.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer = setTimeout(() => {
-
-    toast.classList.remove("show");
-
-  }, 2200);
-
-}
-
-
-/*
-=========================================================
-LOAD LIVE SERVERS
-=========================================================
-*/
-
-async function loadServers(){
-
-  const grid =
-    document.getElementById("serverGrid");
-
-  grid.innerHTML = `
-    <div class="loading">
-
-      <div class="spinner"></div>
-
-      Loading live Roblox servers...
-
-    </div>
-  `;
-
-  setStatus(false, "Loading...");
-
-  try{
-
-    const response =
-      await fetch(
-        `${SERVERS_ENDPOINT}&_=${Date.now()}`,
-        {
-          method:"GET",
-          cache:"no-store"
-        }
-      );
-
-    if(!response.ok){
-
-      throw new Error(
-        `Worker returned HTTP ${response.status}`
-      );
-
-    }
-
-    const data =
-      await response.json();
-
-    if(!data.success){
-
-      throw new Error(
-        data.error ||
-        "Worker returned an error"
-      );
-
-    }
-
-    servers =
-      Array.isArray(data.servers)
-        ? data.servers
-        : [];
-
-    setStatus(
-      true,
-      "Live • Roblox connected"
-    );
-
-    updateStats();
-
-    renderServers();
-
-    document.getElementById(
-      "lastUpdate"
-    ).textContent =
-      new Date().toLocaleTimeString(
-        [],
-        {
-          hour:"numeric",
-          minute:"2-digit",
-          second:"2-digit"
-        }
-      );
-
-  }catch(error){
-
-    console.error(error);
-
-    setStatus(
-      false,
-      "Connection error"
-    );
-
-    grid.innerHTML = `
-      <div class="empty">
-
-        <h3 style="color:white;margin-bottom:10px;">
-          Couldn't load servers
-        </h3>
-
-        <p>
-          ${escapeHtml(error.message)}
-        </p>
-
-        <br>
-
-        <button
-          class="refresh"
-          onclick="loadServers()"
-        >
-          Try Again
-        </button>
-
-      </div>
-    `;
-
-  }
-
-}
-
-
-/*
-=========================================================
-STATS
-=========================================================
-*/
-
-function updateStats(){
-
-  const count =
-    servers.length;
-
-  const players =
-    servers.reduce(
-      (total, server) =>
-        total +
-        Number(server.playing || 0),
-      0
-    );
-
-  const slots =
-    servers.reduce(
-      (total, server) =>
-        total +
-        Number(
-          server.availableSlots || 0
-        ),
-      0
-    );
-
-  document.getElementById(
-    "serverCount"
-  ).textContent = count;
-
-  document.getElementById(
-    "playerCount"
-  ).textContent = players;
-
-  document.getElementById(
-    "slotCount"
-  ).textContent = slots;
-
-}
-
-
-/*
-=========================================================
-SORT
-=========================================================
-*/
-
-function sortServers(type){
-
-  currentSort = type;
-
-  if(type === "slots"){
-
-    servers.sort(
-      (a,b) =>
-        Number(b.availableSlots || 0) -
-        Number(a.availableSlots || 0)
-    );
-
-  }
-
-  if(type === "players"){
-
-    servers.sort(
-      (a,b) =>
-        Number(a.playing || 0) -
-        Number(b.playing || 0)
-    );
-
-  }
-
-  if(type === "ping"){
-
-    servers.sort(
-      (a,b) => {
-
-        const ap =
-          Number(a.ping);
-
-        const bp =
-          Number(b.ping);
-
-        if(!Number.isFinite(ap))
-          return 1;
-
-        if(!Number.isFinite(bp))
-          return -1;
-
-        return ap - bp;
-
-      }
-    );
-
-  }
-
-  renderServers();
-
-}
-
-
-/*
-=========================================================
-RENDER SERVERS
-=========================================================
-*/
-
-function renderServers(){
-
-  const grid =
-    document.getElementById(
-      "serverGrid"
-    );
-
-  const search =
-    document.getElementById(
-      "search"
-    ).value
-      .trim()
-      .toLowerCase();
-
-  let visible =
-    servers.filter(server => {
-
-      const id =
-        String(
-          server.jobId ||
-          server.id ||
-          ""
-        ).toLowerCase();
-
-      return id.includes(search);
-
-    });
-
-
-  if(visible.length === 0){
-
-    grid.innerHTML = `
-      <div class="empty">
-
-        <h3 style="color:white;margin-bottom:8px;">
-          No servers found
-        </h3>
-
-        <p>
-          Try refreshing or changing your search.
-        </p>
-
-      </div>
-    `;
-
-    return;
-
-  }
-
-
-  grid.innerHTML =
-    visible.map(
-      (server,index) =>
-        createServerCard(
-          server,
-          index
-        )
-    ).join("");
-
-}
-
-
-/*
-=========================================================
-SERVER CARD
-=========================================================
-*/
-
-function createServerCard(
-  server,
-  index
-){
-
-  const jobId =
-    server.jobId ||
-    server.id ||
-    "";
-
-  const playing =
-    Number(
-      server.playing || 0
-    );
-
-  const maxPlayers =
-    Number(
-      server.maxPlayers || 0
-    );
-
-  const slots =
+  const quantity =
     Math.max(
-      maxPlayers - playing,
-      0
+      1,
+      Number(qtyInput.value) || 1
     );
 
-  const ping =
-    server.ping !== null &&
-    server.ping !== undefined
-      ? `${server.ping} ms`
-      : "N/A";
+  if(!name){
 
-  const fps =
-    server.fps !== null &&
-    server.fps !== undefined
-      ? Math.round(
-          Number(server.fps)
-        )
-      : "N/A";
+    alert("Enter a pet or item name.");
 
-  const isFull =
-    slots <= 0;
-
-  const joinUrl =
-    server.joinUrl ||
-    buildJoinUrl(jobId);
-
-
-  return `
-
-    <article class="server">
-
-      <div class="server-top">
-
-        <div class="server-number">
-          Server #${index + 1}
-        </div>
-
-        <div
-          class="room ${isFull ? "full" : ""}"
-        >
-          ${
-            isFull
-              ? "FULL"
-              : `${slots} slots open`
-          }
-        </div>
-
-      </div>
-
-
-      <div class="metrics">
-
-        <div class="metric">
-
-          <div class="metric-label">
-            PLAYERS
-          </div>
-
-          <div class="metric-value">
-            ${playing}/${maxPlayers || "?"}
-          </div>
-
-        </div>
-
-
-        <div class="metric">
-
-          <div class="metric-label">
-            PING
-          </div>
-
-          <div class="metric-value">
-            ${escapeHtml(String(ping))}
-          </div>
-
-        </div>
-
-
-        <div class="metric">
-
-          <div class="metric-label">
-            FPS
-          </div>
-
-          <div class="metric-value">
-            ${escapeHtml(String(fps))}
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="job">
-
-        <div class="job-label">
-          GAME INSTANCE / JOB ID
-        </div>
-
-        <div class="job-id">
-          ${escapeHtml(jobId)}
-        </div>
-
-      </div>
-
-
-      <div class="server-actions">
-
-        <button
-          class="join"
-          onclick='joinServer(${JSON.stringify(joinUrl)})'
-        >
-          🎮 Join Server
-        </button>
-
-        <button
-          class="copy"
-          onclick='copyJobId(${JSON.stringify(jobId)})'
-        >
-          📋 Copy ID
-        </button>
-
-      </div>
-
-    </article>
-
-  `;
-
-}
-
-
-/*
-=========================================================
-BUILD ROBLOX JOIN URL
-=========================================================
-*/
-
-function buildJoinUrl(jobId){
-
-  if(!jobId){
-
-    return "";
+    return;
 
   }
 
-  return (
-    "https://www.roblox.com/games/start" +
-    "?placeId=" +
-    encodeURIComponent(PLACE_ID) +
-    "&gameInstanceId=" +
-    encodeURIComponent(jobId)
-  );
+  const key =
+    normalize(name);
 
-}
+  const value =
+    VALUE_DATABASE[key];
 
+  if(value === undefined){
 
-/*
-=========================================================
-JOIN SERVER
-=========================================================
-*/
-
-function joinServer(url){
-
-  if(!url){
-
-    showToast(
-      "No join URL available"
+    alert(
+      `"${name}" is not in the value database yet.`
     );
 
     return;
 
   }
 
-  /*
-    Opening the Roblox launch URL lets
-    Roblox handle the game launch.
-  */
+  inventory.push({
 
-  window.location.href = url;
+    name:name,
+
+    value:value,
+
+    quantity:quantity
+
+  });
+
+  input.value = "";
+
+  qtyInput.value = 1;
+
+  render();
 
 }
 
 
 /*
-=========================================================
-COPY JOB ID
-=========================================================
+========================================
+QUICK ADD
+========================================
 */
 
-async function copyJobId(jobId){
+function quickAdd(name){
 
-  if(!jobId){
+  document.getElementById(
+    "itemInput"
+  ).value = name;
 
-    showToast(
-      "No JobId available"
-    );
+  addItem();
+
+}
+
+
+/*
+========================================
+REMOVE
+========================================
+*/
+
+function removeItem(index){
+
+  inventory.splice(index,1);
+
+  render();
+
+}
+
+
+/*
+========================================
+CLEAR
+========================================
+*/
+
+function clearAll(){
+
+  inventory = [];
+
+  render();
+
+}
+
+
+/*
+========================================
+RENDER
+========================================
+*/
+
+function render(){
+
+  const container =
+    document.getElementById("items");
+
+  const totalElement =
+    document.getElementById("total");
+
+  if(inventory.length === 0){
+
+    container.innerHTML = `
+      <div class="empty">
+        No pets/items added yet.
+      </div>
+    `;
+
+    totalElement.textContent = "0";
 
     return;
 
   }
 
-  try{
+  let total = 0;
 
-    await navigator.clipboard.writeText(
-      jobId
-    );
+  container.innerHTML =
+    inventory.map((item,index) => {
 
-    showToast(
-      "JobId copied!"
-    );
+      const subtotal =
+        item.value * item.quantity;
 
-  }catch{
+      total += subtotal;
 
-    showToast(
-      "Couldn't copy JobId"
-    );
+      return `
 
-  }
+        <div class="item">
+
+          <div class="item-name">
+            ${escapeHtml(item.name)}
+          </div>
+
+          <div class="item-value">
+            ${subtotal}
+          </div>
+
+          <div class="item-qty">
+            x${item.quantity}
+          </div>
+
+          <button
+            class="remove"
+            onclick="removeItem(${index})"
+          >
+            ×
+          </button>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+  totalElement.textContent =
+    total.toLocaleString();
 
 }
 
 
 /*
-=========================================================
-HTML ESCAPE
-=========================================================
+========================================
+ESCAPE HTML
+========================================
 */
 
 function escapeHtml(value){
@@ -1145,24 +595,6 @@ function escapeHtml(value){
     .replaceAll("'","&#039;");
 
 }
-
-
-/*
-=========================================================
-AUTOMATIC REFRESH
-=========================================================
-*/
-
-loadServers();
-
-/*
-Refresh every 30 seconds.
-*/
-
-setInterval(
-  loadServers,
-  30000
-);
 
 </script>
 
