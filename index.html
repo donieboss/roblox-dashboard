@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DONIE • BEAM Rich Finder</title>
+<title>DONIE • Blade Ball Finder</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -16,10 +16,11 @@
   --border:#272d45;
   --text:#f5f7ff;
   --muted:#8e96ad;
-  --purple:#7c5cff;
-  --purple2:#a78bfa;
+  --accent:#7c5cff;
+  --accent2:#a78bfa;
   --green:#39e58c;
   --red:#ff5f6d;
+  --gold:#ffd166;
 }
 
 body{
@@ -50,7 +51,7 @@ header{
   font-weight:900;
 }
 
-.logo span{color:var(--purple2)}
+.logo span{color:var(--accent2)}
 
 .status{
   padding:8px 13px;
@@ -62,9 +63,7 @@ header{
   font-weight:800;
 }
 
-.status.online{
-  color:var(--green);
-}
+.status.online{color:var(--green)}
 
 .hero,.panel{
   background:rgba(16,19,33,.94);
@@ -96,24 +95,11 @@ header{
   margin-bottom:15px;
 }
 
-.form{
-  display:grid;
-  grid-template-columns:1fr 110px auto;
+.controls{
+  display:flex;
+  flex-wrap:wrap;
   gap:10px;
-}
-
-input{
-  width:100%;
-  padding:13px;
-  border-radius:11px;
-  border:1px solid var(--border);
-  background:#0a0d18;
-  color:white;
-  outline:none;
-}
-
-input:focus{
-  border-color:var(--purple);
+  margin-bottom:15px;
 }
 
 button{
@@ -125,7 +111,7 @@ button{
 }
 
 .primary{
-  background:var(--purple);
+  background:var(--accent);
   color:white;
 }
 
@@ -135,71 +121,19 @@ button{
   border:1px solid var(--border);
 }
 
-.controls{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-bottom:18px;
-}
-
-.total{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:18px;
-  background:#0a0d18;
-  border:1px solid var(--border);
-  border-radius:14px;
-  margin-bottom:15px;
-}
-
-.total-label{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.total-value{
-  color:var(--green);
-  font-size:29px;
-  font-weight:900;
-}
-
-.items{
-  display:grid;
-  gap:9px;
-}
-
-.item{
-  display:grid;
-  grid-template-columns:1fr 100px 70px 40px;
-  gap:10px;
-  align-items:center;
-  padding:13px;
-  background:var(--panel2);
-  border:1px solid var(--border);
-  border-radius:12px;
-}
-
-.item-name{font-weight:800}
-.item-value{color:var(--green);font-weight:900}
-.item-qty{color:var(--purple2);font-weight:900}
-
-.remove{
-  padding:8px;
-  background:#2b1a22;
-  color:var(--red);
-}
-
-.empty{
-  text-align:center;
-  color:var(--muted);
-  padding:25px;
-  border:1px dashed var(--border);
-  border-radius:14px;
-}
-
 .search{
+  width:100%;
+  padding:13px;
+  border-radius:11px;
+  border:1px solid var(--border);
+  background:#0a0d18;
+  color:white;
+  outline:none;
   margin-bottom:15px;
+}
+
+.search:focus{
+  border-color:var(--accent);
 }
 
 .stats{
@@ -331,7 +265,7 @@ button{
   width:32px;
   height:32px;
   border:3px solid #252a3d;
-  border-top-color:var(--purple);
+  border-top-color:var(--accent);
   border-radius:50%;
   animation:spin .8s linear infinite;
   margin:0 auto 12px;
@@ -341,10 +275,20 @@ button{
   to{transform:rotate(360deg)}
 }
 
+.empty{
+  grid-column:1/-1;
+  text-align:center;
+  color:var(--muted);
+  padding:30px;
+  border:1px dashed var(--border);
+  border-radius:14px;
+}
+
 .note{
-  margin-top:10px;
   color:#737c95;
   font-size:12px;
+  line-height:1.5;
+  margin-top:10px;
 }
 
 .toast{
@@ -371,11 +315,18 @@ button{
   .stats{grid-template-columns:repeat(2,1fr)}
 }
 
-@media(max-width:600px){
-  .form{grid-template-columns:1fr 90px}
-  .form .primary{grid-column:1/-1}
-  .item{grid-template-columns:1fr 65px 45px 38px}
-  header{flex-direction:column;align-items:flex-start;gap:10px}
+@media(max-width:500px){
+  header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+
+  .hero h1{font-size:26px}
+
+  .metrics{
+    grid-template-columns:repeat(3,1fr);
+  }
 }
 </style>
 </head>
@@ -385,61 +336,26 @@ button{
 <div class="container">
 
 <header>
+
   <div class="logo">
-    DONIE <span>BEAM</span>
+    DONIE <span>Blade Ball</span>
   </div>
 
   <div id="status" class="status">
     Connecting...
   </div>
+
 </header>
 
 
 <section class="hero">
 
-  <h1>Rich Finder</h1>
+  <h1>⚔️ Blade Ball Server Finder</h1>
 
   <p>
-    Calculate values from items you can legitimately see,
-    while browsing live public Roblox servers returned by your Worker.
-  </p>
-
-</section>
-
-
-<!-- ================= VALUE CHECKER ================= -->
-
-<section class="panel">
-
-  <h2>💎 BEAM Value Checker</h2>
-
-  <div class="form">
-
-    <input
-      id="itemInput"
-      placeholder="Enter pet/item name"
-      autocomplete="off"
-    >
-
-    <input
-      id="qtyInput"
-      type="number"
-      min="1"
-      value="1"
-    >
-
-    <button
-      class="primary"
-      onclick="addItem()"
-    >
-      + Add
-    </button>
-
-  </div>
-
-  <p class="note">
-    Example values are placeholders. Edit VALUE_DATABASE
-    in the JavaScript below to use your own value list.
+    Find live public Blade Ball servers, view player counts,
+    copy their JobIds, and use Roblox's normal launch mechanism
+    to open a selected public server.
   </p>
 
 </section>
@@ -447,47 +363,7 @@ button{
 
 <section class="panel">
 
-  <div class="total">
-
-    <div>
-      <div class="total-label">
-        TOTAL VALUE
-      </div>
-
-      <div
-        id="total"
-        class="total-value"
-      >
-        0
-      </div>
-    </div>
-
-    <button
-      class="secondary"
-      onclick="clearItems()"
-    >
-      Clear
-    </button>
-
-  </div>
-
-  <div
-    id="items"
-    class="items"
-  >
-    <div class="empty">
-      No items added yet.
-    </div>
-  </div>
-
-</section>
-
-
-<!-- ================= LIVE SERVERS ================= -->
-
-<section class="panel">
-
-  <h2>🎮 Live Adopt Me Servers</h2>
+  <h2>🎮 Live Blade Ball Servers</h2>
 
   <div class="controls">
 
@@ -495,7 +371,7 @@ button{
       class="primary"
       onclick="loadServers()"
     >
-      🔄 Refresh
+      🔄 Refresh Servers
     </button>
 
     <button
@@ -521,12 +397,14 @@ button{
 
   </div>
 
+
   <input
-    id="serverSearch"
+    id="search"
     class="search"
-    placeholder="Search JobId..."
+    placeholder="Search by JobId..."
     oninput="renderServers()"
   >
+
 
   <div class="stats">
 
@@ -552,6 +430,7 @@ button{
 
   </div>
 
+
   <div
     id="serverGrid"
     class="server-grid"
@@ -561,11 +440,16 @@ button{
 
       <div class="spinner"></div>
 
-      Loading live servers...
+      Loading Blade Ball servers...
 
     </div>
 
   </div>
+
+  <p class="note">
+    Place ID configured for Blade Ball:
+    <strong>13772394625</strong>
+  </p>
 
 </section>
 
@@ -581,197 +465,28 @@ button{
 <script>
 
 /* =====================================================
-   CONFIG
+   BLADE BALL CONFIG
 ===================================================== */
 
 const WORKER_URL =
   "https://weathered-haze-08aa.redonekowaithe1.workers.dev";
 
+/*
+   Blade Ball place ID
+*/
 const PLACE_ID =
-  "920587237";
+  "13772394625";
+
 
 const SERVERS_ENDPOINT =
   `${WORKER_URL}/roblox-servers?placeId=${PLACE_ID}&limit=100`;
 
 
-/* =====================================================
-   VALUE DATABASE
-===================================================== */
-
-const VALUE_DATABASE = {
-
-  "shadow dragon":100,
-  "bat dragon":95,
-  "frost dragon":85,
-  "giraffe":80,
-  "owl":75,
-  "parrot":70,
-  "evil unicorn":65,
-  "crow":60,
-  "arctic reindeer":45,
-  "turtle":30,
-  "kangaroo":25
-
-};
-
-let inventory = [];
-
 let servers = [];
 
 
 /* =====================================================
-   VALUE CHECKER
-===================================================== */
-
-function normalize(value){
-
-  return String(value)
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g," ");
-
-}
-
-
-function addItem(){
-
-  const input =
-    document.getElementById("itemInput");
-
-  const qtyInput =
-    document.getElementById("qtyInput");
-
-  const name =
-    input.value.trim();
-
-  const quantity =
-    Math.max(
-      1,
-      Number(qtyInput.value) || 1
-    );
-
-  if(!name){
-
-    showToast("Enter a pet/item name.");
-
-    return;
-
-  }
-
-  const key =
-    normalize(name);
-
-  const value =
-    VALUE_DATABASE[key];
-
-  if(value === undefined){
-
-    showToast(
-      "That item isn't in the value database."
-    );
-
-    return;
-
-  }
-
-  inventory.push({
-    name,
-    value,
-    quantity
-  });
-
-  input.value = "";
-  qtyInput.value = 1;
-
-  renderItems();
-
-}
-
-
-function renderItems(){
-
-  const box =
-    document.getElementById("items");
-
-  const totalElement =
-    document.getElementById("total");
-
-  if(!inventory.length){
-
-    box.innerHTML =
-      `<div class="empty">
-        No items added yet.
-      </div>`;
-
-    totalElement.textContent = "0";
-
-    return;
-
-  }
-
-  let total = 0;
-
-  box.innerHTML =
-    inventory.map((item,index)=>{
-
-      const subtotal =
-        item.value * item.quantity;
-
-      total += subtotal;
-
-      return `
-        <div class="item">
-
-          <div class="item-name">
-            ${escapeHtml(item.name)}
-          </div>
-
-          <div class="item-value">
-            ${subtotal.toLocaleString()}
-          </div>
-
-          <div class="item-qty">
-            x${item.quantity}
-          </div>
-
-          <button
-            class="remove"
-            onclick="removeItem(${index})"
-          >
-            ×
-          </button>
-
-        </div>
-      `;
-
-    }).join("");
-
-  totalElement.textContent =
-    total.toLocaleString();
-
-}
-
-
-function removeItem(index){
-
-  inventory.splice(index,1);
-
-  renderItems();
-
-}
-
-
-function clearItems(){
-
-  inventory = [];
-
-  renderItems();
-
-}
-
-
-/* =====================================================
-   LIVE SERVER LIST
+   LOAD SERVERS
 ===================================================== */
 
 async function loadServers(){
@@ -784,12 +499,15 @@ async function loadServers(){
 
       <div class="spinner"></div>
 
-      Loading live servers...
+      Loading Blade Ball servers...
 
     </div>
   `;
 
-  setStatus("Loading...",false);
+  setStatus(
+    "Loading...",
+    false
+  );
 
   try{
 
@@ -797,6 +515,7 @@ async function loadServers(){
       await fetch(
         `${SERVERS_ENDPOINT}&_=${Date.now()}`,
         {
+          method:"GET",
           cache:"no-store"
         }
       );
@@ -804,7 +523,7 @@ async function loadServers(){
     if(!response.ok){
 
       throw new Error(
-        `HTTP ${response.status}`
+        `Worker returned HTTP ${response.status}`
       );
 
     }
@@ -842,7 +561,8 @@ async function loadServers(){
         [],
         {
           hour:"numeric",
-          minute:"2-digit"
+          minute:"2-digit",
+          second:"2-digit"
         }
       );
 
@@ -859,7 +579,7 @@ async function loadServers(){
       <div class="empty">
 
         <h3 style="color:white;margin-bottom:8px">
-          Couldn't load servers
+          Couldn't load Blade Ball servers
         </h3>
 
         <p>
@@ -883,19 +603,25 @@ async function loadServers(){
 }
 
 
+/* =====================================================
+   STATS
+===================================================== */
+
 function updateStats(){
 
   const players =
     servers.reduce(
-      (sum,s) =>
-        sum + Number(s.playing || 0),
+      (sum,server) =>
+        sum +
+        Number(server.playing || 0),
       0
     );
 
   const slots =
     servers.reduce(
-      (sum,s) =>
-        sum + Number(s.availableSlots || 0),
+      (sum,server) =>
+        sum +
+        Number(server.availableSlots || 0),
       0
     );
 
@@ -918,7 +644,7 @@ function updateStats(){
 
 
 /* =====================================================
-   SORTING
+   SORT
 ===================================================== */
 
 function sortServers(type){
@@ -954,8 +680,11 @@ function sortServers(type){
         const bp =
           Number(b.ping);
 
-        if(!Number.isFinite(ap)) return 1;
-        if(!Number.isFinite(bp)) return -1;
+        if(!Number.isFinite(ap))
+          return 1;
+
+        if(!Number.isFinite(bp))
+          return -1;
 
         return ap - bp;
 
@@ -970,7 +699,7 @@ function sortServers(type){
 
 
 /* =====================================================
-   RENDER SERVER CARDS
+   RENDER
 ===================================================== */
 
 function renderServers(){
@@ -982,7 +711,7 @@ function renderServers(){
 
   const search =
     document.getElementById(
-      "serverSearch"
+      "search"
     ).value
     .trim()
     .toLowerCase();
@@ -990,27 +719,30 @@ function renderServers(){
   const visible =
     servers.filter(server => {
 
-      const id =
+      const jobId =
         String(
           server.jobId ||
           server.id ||
           ""
         ).toLowerCase();
 
-      return id.includes(search);
+      return jobId.includes(search);
 
     });
 
+
   if(!visible.length){
 
-    grid.innerHTML =
-      `<div class="empty">
-        No servers found.
-      </div>`;
+    grid.innerHTML = `
+      <div class="empty">
+        No Blade Ball servers found.
+      </div>
+    `;
 
     return;
 
   }
+
 
   grid.innerHTML =
     visible.map(
@@ -1024,7 +756,14 @@ function renderServers(){
 }
 
 
-function createServerCard(server,index){
+/* =====================================================
+   SERVER CARD
+===================================================== */
+
+function createServerCard(
+  server,
+  index
+){
 
   const jobId =
     server.jobId ||
@@ -1063,8 +802,9 @@ function createServerCard(server,index){
     server.joinUrl ||
     buildJoinUrl(jobId);
 
-  const full =
+  const isFull =
     slots <= 0;
+
 
   return `
 
@@ -1073,12 +813,14 @@ function createServerCard(server,index){
       <div class="server-head">
 
         <div class="server-title">
-          🎮 Adopt Me • Server #${index+1}
+          ⚔️ Blade Ball #${index + 1}
         </div>
 
-        <div class="slots ${full ? "full":""}">
+        <div
+          class="slots ${isFull ? "full" : ""}"
+        >
           ${
-            full
+            isFull
               ? "FULL"
               : `${slots} OPEN`
           }
@@ -1090,24 +832,35 @@ function createServerCard(server,index){
       <div class="metrics">
 
         <div class="metric">
+
           <small>PLAYERS</small>
+
           <strong>
             ${playing}/${maxPlayers || "?"}
           </strong>
+
         </div>
 
+
         <div class="metric">
+
           <small>PING</small>
+
           <strong>
             ${escapeHtml(String(ping))}
           </strong>
+
         </div>
 
+
         <div class="metric">
+
           <small>FPS</small>
+
           <strong>
             ${escapeHtml(String(fps))}
           </strong>
+
         </div>
 
       </div>
@@ -1150,7 +903,7 @@ function createServerCard(server,index){
 
 
 /* =====================================================
-   ROBLOX JOIN
+   ROBLOX JOIN URL
 ===================================================== */
 
 function buildJoinUrl(jobId){
@@ -1175,17 +928,12 @@ function joinServer(url){
   if(!url){
 
     showToast(
-      "No Roblox join URL available."
+      "No join URL available."
     );
 
     return;
 
   }
-
-  /*
-    Uses Roblox's normal game-launch
-    mechanism for the selected public server.
-  */
 
   window.location.href = url;
 
@@ -1193,14 +941,16 @@ function joinServer(url){
 
 
 /* =====================================================
-   COPY
+   COPY JOB ID
 ===================================================== */
 
 async function copyJobId(jobId){
 
   if(!jobId){
 
-    showToast("No JobId.");
+    showToast(
+      "No JobId available."
+    );
 
     return;
 
@@ -1216,10 +966,10 @@ async function copyJobId(jobId){
       "JobId copied!"
     );
 
-  }catch{
+  }catch(error){
 
     showToast(
-      "Copy failed."
+      "Couldn't copy JobId."
     );
 
   }
@@ -1231,14 +981,20 @@ async function copyJobId(jobId){
    STATUS
 ===================================================== */
 
-function setStatus(text,online){
+function setStatus(
+  text,
+  online
+){
 
-  const element =
-    document.getElementById("status");
+  const status =
+    document.getElementById(
+      "status"
+    );
 
-  element.textContent = text;
+  status.textContent =
+    text;
 
-  element.className =
+  status.className =
     "status " +
     (online ? "online" : "");
 
@@ -1254,7 +1010,9 @@ let toastTimer;
 function showToast(message){
 
   const toast =
-    document.getElementById("toast");
+    document.getElementById(
+      "toast"
+    );
 
   toast.textContent =
     message;
@@ -1265,7 +1023,8 @@ function showToast(message){
 
   toastTimer =
     setTimeout(
-      () => toast.classList.remove("show"),
+      () =>
+        toast.classList.remove("show"),
       2200
     );
 
@@ -1273,7 +1032,7 @@ function showToast(message){
 
 
 /* =====================================================
-   HTML ESCAPE
+   ESCAPE HTML
 ===================================================== */
 
 function escapeHtml(value){
@@ -1291,8 +1050,6 @@ function escapeHtml(value){
 /* =====================================================
    START
 ===================================================== */
-
-renderItems();
 
 loadServers();
 
