@@ -20,6 +20,7 @@
   --green:#39e58c;
   --red:#ff5f6d;
   --yellow:#ffd166;
+  --blue:#4da6ff;
 }
 
 body{
@@ -202,7 +203,7 @@ button{cursor:pointer}
   font-weight:950;
 }
 
-/* TABS */
+/* MAIN TABS */
 
 .tabs{
   display:flex;
@@ -250,6 +251,13 @@ button{cursor:pointer}
   font-weight:950;
 }
 
+.panel-subtitle{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:5px;
+  line-height:1.5;
+}
+
 .controls{
   display:flex;
   flex-wrap:wrap;
@@ -286,85 +294,129 @@ button{cursor:pointer}
   color:#ff8c98;
 }
 
-/* BLADE BALL MODES */
+/* =====================================================
+   BLADE BALL SECTION NAVIGATION
+===================================================== */
 
-.blade-modes{
+.blade-section-nav{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-bottom:16px;
 }
 
-.blade-mode{
-  position:relative;
-  overflow:hidden;
+.blade-section-btn{
+  min-height:64px;
   display:flex;
   align-items:center;
-  gap:13px;
-  min-height:95px;
-  padding:15px;
-  text-align:left;
-  color:white;
-  background:#0a0d14;
+  justify-content:center;
+  gap:8px;
   border:1px solid var(--border);
-  border-radius:13px;
+  background:#0a0d14;
+  color:var(--muted);
+  border-radius:11px;
+  font-weight:950;
   transition:.18s ease;
 }
 
-.blade-mode:hover{
-  transform:translateY(-2px);
-  background:#10141e;
+.blade-section-btn:hover{
+  transform:translateY(-1px);
+  border-color:#3a4359;
+  color:white;
 }
 
-.mode-icon{
-  width:50px;
-  height:50px;
-  flex:0 0 50px;
+.blade-section-btn.active{
+  color:white;
+  background:#151927;
+  border-color:var(--purple);
+  box-shadow:0 0 20px rgba(139,92,246,.10);
+}
+
+.blade-section-btn.public.active{
+  border-color:var(--blue);
+}
+
+.blade-section-btn.voice.active{
+  border-color:var(--purple);
+}
+
+.blade-section-btn.pro.active{
+  border-color:var(--yellow);
+}
+
+.blade-section-btn.trade.active{
+  border-color:var(--green);
+}
+
+.blade-section-icon{
+  font-size:20px;
+}
+
+/* BLADE SUBSECTIONS */
+
+.blade-section{
+  display:none;
+}
+
+.blade-section.active{
+  display:block;
+}
+
+/* SPECIAL MODE CARD */
+
+.special-mode{
+  display:grid;
+  grid-template-columns:80px 1fr auto;
+  align-items:center;
+  gap:18px;
+  padding:22px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:
+    linear-gradient(135deg,#0b0f17,#101522);
+}
+
+.special-icon{
+  width:68px;
+  height:68px;
   display:grid;
   place-items:center;
-  border-radius:12px;
-  font-size:24px;
+  border-radius:16px;
+  font-size:31px;
   background:#151927;
   border:1px solid #252c3d;
 }
 
-.mode-info{
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  gap:5px;
+.special-info h2{
+  font-size:19px;
+  margin-bottom:7px;
 }
 
-.mode-info strong{
-  font-size:14px;
-  font-weight:950;
-}
-
-.mode-info span{
+.special-info p{
   color:var(--muted);
-  font-size:10px;
-  line-height:1.35;
+  font-size:11px;
+  line-height:1.6;
 }
 
-.mode-arrow{
-  margin-left:auto;
-  color:#69738a;
-  font-size:20px;
+.special-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:11px;
+}
+
+.meta{
+  padding:5px 8px;
+  border-radius:999px;
+  background:#080b11;
+  border:1px solid var(--border);
+  color:#9ca5b8;
+  font-size:9px;
   font-weight:900;
 }
 
-.blade-mode.voice:hover{
-  border-color:var(--purple);
-  box-shadow:0 0 25px rgba(139,92,246,.12);
-}
-
-.blade-mode.pro:hover{
-  border-color:var(--yellow);
-  box-shadow:0 0 25px rgba(255,209,102,.10);
-}
-
-.blade-mode.trade:hover{
-  border-color:var(--green);
-  box-shadow:0 0 25px rgba(57,229,140,.10);
+.special-action{
+  min-width:135px;
 }
 
 /* SEARCH */
@@ -801,8 +853,21 @@ button{cursor:pointer}
     grid-template-columns:1fr;
   }
 
-  .blade-modes{
+  .blade-section-nav{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .special-mode{
     grid-template-columns:1fr;
+    text-align:center;
+  }
+
+  .special-icon{
+    margin:auto;
+  }
+
+  .special-action{
+    width:100%;
   }
 }
 
@@ -840,6 +905,10 @@ button{cursor:pointer}
 
   .settings-actions .btn{
     width:100%;
+  }
+
+  .blade-section-nav{
+    grid-template-columns:1fr 1fr;
   }
 }
 </style>
@@ -922,7 +991,7 @@ button{cursor:pointer}
     <section class="hero">
 
       <h1 id="heroTitle">
-        Server Finder
+        Adopt Me Server Finder
       </h1>
 
       <p id="heroText">
@@ -957,35 +1026,40 @@ button{cursor:pointer}
 
     </section>
 
+    <!-- MAIN TABS -->
+
     <div class="tabs">
 
       <button id="tabAdopt"
         class="tab active"
         onclick="switchGame('adopt')">
-        Adopt Me
+        🐾 Adopt Me
       </button>
 
       <button id="tabBlade"
         class="tab"
         onclick="switchGame('blade')">
-        Blade Ball
+        ⚔️ Blade Ball
       </button>
 
       <button class="tab"
         onclick="showSettings()">
-        Settings
+        ⚙️ Settings
       </button>
 
       <button class="tab"
         onclick="showValue()">
-        Value Checker
+        💎 Value Checker
       </button>
 
     </div>
 
-    <!-- BLADE BALL MODES -->
 
-    <section id="bladeModesPanel"
+    <!-- =================================================
+         BLADE BALL
+    ================================================= -->
+
+    <section id="bladePanel"
       class="panel"
       style="display:none;">
 
@@ -994,116 +1068,303 @@ button{cursor:pointer}
         <div>
 
           <div class="panel-title">
-            ⚔️ Blade Ball Modes
+            ⚔️ Blade Ball
           </div>
 
-          <div style="
-            color:var(--muted);
-            font-size:11px;
-            margin-top:5px;
-          ">
-            Quick launch Blade Ball special modes.
+          <div class="panel-subtitle">
+            Select a Blade Ball section below.
+            Each section is separate.
           </div>
 
         </div>
 
       </div>
 
-      <div class="blade-modes">
+
+      <!-- FOUR SECTIONS -->
+
+      <div class="blade-section-nav">
 
         <button
-          class="blade-mode voice"
-          onclick="openBladeMode('15131065025','🎙️ Voice Server')">
+          id="bladeNavPublic"
+          class="blade-section-btn public active"
+          onclick="switchBladeSection('public')">
 
-          <div class="mode-icon">
+          <span class="blade-section-icon">🌐</span>
+          <span>PUBLIC</span>
+
+        </button>
+
+        <button
+          id="bladeNavVoice"
+          class="blade-section-btn voice"
+          onclick="switchBladeSection('voice')">
+
+          <span class="blade-section-icon">🎙️</span>
+          <span>VOICE</span>
+
+        </button>
+
+        <button
+          id="bladeNavPro"
+          class="blade-section-btn pro"
+          onclick="switchBladeSection('pro')">
+
+          <span class="blade-section-icon">👑</span>
+          <span>PRO</span>
+
+        </button>
+
+        <button
+          id="bladeNavTrade"
+          class="blade-section-btn trade"
+          onclick="switchBladeSection('trade')">
+
+          <span class="blade-section-icon">🤝</span>
+          <span>TRADE</span>
+
+        </button>
+
+      </div>
+
+
+      <!-- PUBLIC -->
+
+      <div
+        id="bladePublic"
+        class="blade-section active">
+
+        <div class="panel"
+          style="margin:0;">
+
+          <div class="panel-head">
+
+            <div>
+
+              <div class="panel-title">
+                🌐 Blade Ball Public
+              </div>
+
+              <div class="panel-subtitle">
+                Browse public Blade Ball servers using your Worker.
+              </div>
+
+            </div>
+
+            <button
+              class="btn primary"
+              onclick="loadServers()">
+              🔄 Refresh
+            </button>
+
+          </div>
+
+          <p style="
+            color:var(--muted);
+            font-size:11px;
+            line-height:1.6;
+          ">
+            The public section uses the same live-server
+            finder below. Your Worker must return Blade Ball
+            servers for the Blade Ball Place ID.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- VOICE -->
+
+      <div
+        id="bladeVoice"
+        class="blade-section">
+
+        <div class="special-mode">
+
+          <div class="special-icon">
             🎙️
           </div>
 
-          <div class="mode-info">
+          <div class="special-info">
 
-            <strong>
+            <h2>
               Voice Server
-            </strong>
+            </h2>
 
-            <span>
-              Launch Blade Ball Voice Server
-            </span>
+            <p>
+              Open the Blade Ball Voice Server experience
+              separately from the normal public section.
+            </p>
+
+            <div class="special-meta">
+
+              <span class="meta">
+                VOICE
+              </span>
+
+              <span class="meta">
+                PLACE ID: 15131065025
+              </span>
+
+            </div>
 
           </div>
 
-          <div class="mode-arrow">
-            →
+          <div class="special-action">
+
+            <button
+              class="btn primary"
+              style="width:100%;"
+              onclick="openBladeMode('15131065025','Voice Server')">
+
+              🎙️ Open Voice
+
+            </button>
+
           </div>
 
-        </button>
+        </div>
+
+      </div>
 
 
-        <button
-          class="blade-mode pro"
-          onclick="openBladeMode('14732610803','👑 Pro Servers')">
+      <!-- PRO -->
 
-          <div class="mode-icon">
+      <div
+        id="bladePro"
+        class="blade-section">
+
+        <div class="special-mode">
+
+          <div class="special-icon">
             👑
           </div>
 
-          <div class="mode-info">
+          <div class="special-info">
 
-            <strong>
+            <h2>
               Pro Servers
-            </strong>
+            </h2>
 
-            <span>
-              Launch Blade Ball Pro Servers
-            </span>
+            <p>
+              Open the Blade Ball Pro Servers experience
+              separately from the public server finder.
+            </p>
+
+            <div class="special-meta">
+
+              <span class="meta">
+                PRO
+              </span>
+
+              <span class="meta">
+                PLACE ID: 14732610803
+              </span>
+
+            </div>
 
           </div>
 
-          <div class="mode-arrow">
-            →
+          <div class="special-action">
+
+            <button
+              class="btn"
+              style="
+                width:100%;
+                background:#3a2f12;
+                border-color:#66521c;
+                color:#ffd166;
+              "
+              onclick="openBladeMode('14732610803','Pro Servers')">
+
+              👑 Open Pro
+
+            </button>
+
           </div>
 
-        </button>
+        </div>
+
+      </div>
 
 
-        <button
-          class="blade-mode trade"
-          onclick="openBladeMode('16581637217','🤝 Trade Plaza')">
+      <!-- TRADE -->
 
-          <div class="mode-icon">
+      <div
+        id="bladeTrade"
+        class="blade-section">
+
+        <div class="special-mode">
+
+          <div class="special-icon">
             🤝
           </div>
 
-          <div class="mode-info">
+          <div class="special-info">
 
-            <strong>
+            <h2>
               Trade Plaza
-            </strong>
+            </h2>
 
-            <span>
-              Launch Blade Ball Trade Plaza
-            </span>
+            <p>
+              Open the Blade Ball Trade Plaza separately
+              for trading weapons and items.
+            </p>
+
+            <div class="special-meta">
+
+              <span class="meta">
+                TRADE
+              </span>
+
+              <span class="meta">
+                PLACE ID: 16581637217
+              </span>
+
+            </div>
 
           </div>
 
-          <div class="mode-arrow">
-            →
+          <div class="special-action">
+
+            <button
+              class="btn join"
+              style="width:100%;"
+              onclick="openBladeMode('16581637217','Trade Plaza')">
+
+              🤝 Open Trade
+
+            </button>
+
           </div>
 
-        </button>
+        </div>
 
       </div>
 
     </section>
 
 
-    <!-- SERVERS -->
+    <!-- =================================================
+         SERVER FINDER
+    ================================================= -->
 
-    <section class="panel">
+    <section id="serverPanel"
+      class="panel">
 
       <div class="panel-head">
 
-        <div class="panel-title">
-          Live Public Servers
+        <div>
+
+          <div class="panel-title">
+            Live Public Servers
+          </div>
+
+          <div class="panel-subtitle">
+            Public servers for the currently selected game.
+          </div>
+
         </div>
 
         <div class="controls">
@@ -1155,7 +1416,9 @@ button{cursor:pointer}
     </section>
 
 
-    <!-- SETTINGS -->
+    <!-- =================================================
+         SETTINGS
+    ================================================= -->
 
     <section id="settingsPanel"
       class="panel">
@@ -1165,7 +1428,7 @@ button{cursor:pointer}
         <div>
 
           <div class="panel-title">
-            ⚙️ Adopt Me Settings
+            ⚙️ Settings
           </div>
 
           <div class="saved-note">
@@ -1360,7 +1623,9 @@ button{cursor:pointer}
     </section>
 
 
-    <!-- VALUE CHECKER -->
+    <!-- =================================================
+         VALUE CHECKER
+    ================================================= -->
 
     <section id="valuePanel"
       class="panel">
@@ -1443,7 +1708,6 @@ button{cursor:pointer}
 const WORKER_URL =
   "https://weathered-haze-08aa.redonekowaithe1.workers.dev";
 
-
 const GAMES = {
 
   adopt:{
@@ -1458,16 +1722,6 @@ const GAMES = {
 
 };
 
-
-let currentGame = "adopt";
-let servers = [];
-let values = [];
-
-
-/* =====================================================
-   BLADE BALL MODES
-===================================================== */
-
 const BLADE_MODES = {
 
   voice:"15131065025",
@@ -1478,6 +1732,97 @@ const BLADE_MODES = {
 
 };
 
+let currentGame = "adopt";
+let currentBladeSection = "public";
+let servers = [];
+let values = [];
+
+
+/* =====================================================
+   BLADE BALL SECTION SWITCHER
+===================================================== */
+
+function switchBladeSection(section){
+
+  currentBladeSection = section;
+
+  const sections = {
+
+    public:
+      document.getElementById("bladePublic"),
+
+    voice:
+      document.getElementById("bladeVoice"),
+
+    pro:
+      document.getElementById("bladePro"),
+
+    trade:
+      document.getElementById("bladeTrade")
+
+  };
+
+  Object.keys(sections).forEach(key => {
+
+    sections[key].classList.toggle(
+      "active",
+      key === section
+    );
+
+  });
+
+
+  const buttons = {
+
+    public:
+      document.getElementById("bladeNavPublic"),
+
+    voice:
+      document.getElementById("bladeNavVoice"),
+
+    pro:
+      document.getElementById("bladeNavPro"),
+
+    trade:
+      document.getElementById("bladeNavTrade")
+
+  };
+
+  Object.keys(buttons).forEach(key => {
+
+    buttons[key].classList.toggle(
+      "active",
+      key === section
+    );
+
+  });
+
+
+  /*
+    Public is the only section that needs
+    the live public server finder.
+  */
+
+  const serverPanel =
+    document.getElementById(
+      "serverPanel"
+    );
+
+  if(currentGame === "blade"){
+
+    serverPanel.style.display =
+      section === "public"
+        ? "block"
+        : "none";
+
+  }
+
+}
+
+
+/* =====================================================
+   BLADE BALL SPECIAL LAUNCH
+===================================================== */
 
 function openBladeMode(placeId,modeName){
 
@@ -1505,7 +1850,6 @@ function openBladeMode(placeId,modeName){
 
 const SETTINGS_KEY =
   "donie_roblox_toolkit_settings";
-
 
 const DEFAULT_SETTINGS = {
 
@@ -1722,17 +2066,31 @@ function switchGame(game){
     );
 
 
-  /* Show the three Blade Ball buttons */
-
-  const modes =
+  const bladePanel =
     document.getElementById(
-      "bladeModesPanel"
+      "bladePanel"
     );
 
-  modes.style.display =
-    game === "blade"
-      ? "block"
-      : "none";
+  if(game === "blade"){
+
+    bladePanel.style.display =
+      "block";
+
+    switchBladeSection(
+      currentBladeSection
+    );
+
+  }else{
+
+    bladePanel.style.display =
+      "none";
+
+    document.getElementById(
+      "serverPanel"
+    ).style.display =
+      "block";
+
+  }
 
 
   document.getElementById("search").value = "";
@@ -1770,6 +2128,21 @@ function getEndpoint(){
 
 
 async function loadServers(){
+
+  /*
+    If Blade Ball is on a non-public section,
+    don't replace the section with server loading.
+  */
+
+  if(
+    currentGame === "blade" &&
+    currentBladeSection !== "public"
+  ){
+
+    return;
+
+  }
+
 
   const grid =
     document.getElementById(
