@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,11 @@
 <title>DONIE • Blade Ball Finder</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 :root{
   --bg:#07080d;
@@ -25,13 +30,18 @@
 body{
   min-height:100vh;
   background:
-    radial-gradient(circle at 50% -10%,rgba(139,92,246,.16),transparent 35%),
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(139,92,246,.16),
+      transparent 35%
+    ),
     var(--bg);
   color:var(--text);
   font-family:Inter,Arial,sans-serif;
 }
 
-button,input{
+button,
+input{
   font:inherit;
 }
 
@@ -43,6 +53,8 @@ button{
   min-height:100vh;
   display:flex;
 }
+
+/* SIDEBAR */
 
 .sidebar{
   position:fixed;
@@ -107,6 +119,8 @@ button{
   line-height:1.6;
 }
 
+/* MAIN */
+
 .main{
   margin-left:235px;
   width:calc(100% - 235px);
@@ -151,11 +165,18 @@ button{
   box-shadow:0 0 12px rgba(57,229,140,.7);
 }
 
+.dot.error{
+  background:var(--red);
+  box-shadow:0 0 12px rgba(255,97,112,.5);
+}
+
 .content{
   width:min(1180px,94%);
   margin:auto;
   padding:30px 0 70px;
 }
+
+/* HERO */
 
 .hero{
   border:1px solid var(--border);
@@ -163,7 +184,11 @@ button{
   padding:25px;
   margin-bottom:16px;
   background:
-    linear-gradient(135deg,rgba(139,92,246,.12),rgba(13,16,24,.96));
+    linear-gradient(
+      135deg,
+      rgba(139,92,246,.12),
+      rgba(13,16,24,.96)
+    );
 }
 
 .hero h1{
@@ -176,6 +201,8 @@ button{
   line-height:1.6;
   font-size:12px;
 }
+
+/* STATS */
 
 .stats{
   display:grid;
@@ -202,28 +229,7 @@ button{
   font-size:23px;
 }
 
-.tabs{
-  display:flex;
-  gap:7px;
-  overflow-x:auto;
-  border-bottom:1px solid var(--border);
-  margin-bottom:15px;
-}
-
-.tab{
-  background:transparent;
-  border:0;
-  color:var(--muted);
-  padding:11px 14px;
-  font-weight:950;
-  white-space:nowrap;
-  border-bottom:2px solid transparent;
-}
-
-.tab.active{
-  color:white;
-  border-bottom-color:var(--purple);
-}
+/* PANEL */
 
 .panel{
   background:var(--panel);
@@ -258,6 +264,8 @@ button{
   flex-wrap:wrap;
   gap:7px;
 }
+
+/* BUTTONS */
 
 .btn{
   border:1px solid var(--border);
@@ -294,6 +302,14 @@ button{
   border-color:#24598c;
   color:#76bdff;
 }
+
+.btn.danger{
+  background:#32161b;
+  border-color:#632832;
+  color:#ff8c98;
+}
+
+/* SECTION NAV */
 
 .section-nav{
   display:grid;
@@ -351,6 +367,8 @@ button{
   display:block;
 }
 
+/* MODE CARDS */
+
 .mode{
   display:grid;
   grid-template-columns:80px 1fr auto;
@@ -397,6 +415,8 @@ button{
   font-weight:900;
 }
 
+/* SEARCH */
+
 .search{
   width:100%;
   background:#090c13;
@@ -411,6 +431,8 @@ button{
 .search:focus{
   border-color:var(--purple);
 }
+
+/* FILTERS */
 
 .filters{
   display:flex;
@@ -429,11 +451,17 @@ button{
   font-weight:950;
 }
 
+.filter:hover{
+  color:white;
+}
+
 .filter.active{
   color:white;
   border-color:var(--purple);
   background:#171c2a;
 }
+
+/* SERVERS */
 
 .server-grid{
   display:grid;
@@ -451,7 +479,11 @@ button{
 .server.rap{
   border-color:#70531a;
   background:
-    linear-gradient(135deg,rgba(255,209,102,.05),#0a0d14);
+    linear-gradient(
+      135deg,
+      rgba(255,209,102,.05),
+      #0a0d14
+    );
 }
 
 .server-top{
@@ -479,11 +511,19 @@ button{
   border:1px solid rgba(57,229,140,.18);
 }
 
+.badge.full{
+  color:var(--red);
+  background:rgba(255,97,112,.08);
+  border:1px solid rgba(255,97,112,.18);
+}
+
 .badge.rap{
   color:var(--yellow);
   background:rgba(255,209,102,.08);
   border:1px solid rgba(255,209,102,.2);
 }
+
+/* METRICS */
 
 .metrics{
   display:grid;
@@ -509,6 +549,8 @@ button{
   font-size:12px;
 }
 
+/* JOB */
+
 .job{
   background:#070a10;
   border:1px solid #1d2331;
@@ -530,6 +572,8 @@ button{
   word-break:break-all;
 }
 
+/* PLAYERS */
+
 .players{
   display:flex;
   flex-wrap:wrap;
@@ -546,6 +590,14 @@ button{
   color:#bbc4d5;
 }
 
+.player.rich{
+  color:var(--yellow);
+  border-color:#5d491c;
+  background:#18150c;
+}
+
+/* ACTIONS */
+
 .actions{
   display:flex;
   gap:7px;
@@ -554,6 +606,8 @@ button{
 .actions .join{
   flex:1;
 }
+
+/* STATES */
 
 .loading,
 .empty{
@@ -564,6 +618,18 @@ button{
   border:1px dashed var(--border);
   border-radius:10px;
 }
+
+.empty h3{
+  color:white;
+  margin-bottom:7px;
+}
+
+.empty p{
+  line-height:1.6;
+  font-size:11px;
+}
+
+/* SPINNER */
 
 .spinner{
   width:26px;
@@ -576,8 +642,12 @@ button{
 }
 
 @keyframes spin{
-  to{transform:rotate(360deg)}
+  to{
+    transform:rotate(360deg);
+  }
 }
+
+/* INFO */
 
 .info{
   padding:13px;
@@ -588,6 +658,24 @@ button{
   font-size:11px;
   line-height:1.6;
 }
+
+.info.success{
+  border-color:#204e39;
+  background:#0a1510;
+}
+
+.info.warning{
+  border-color:#5a471d;
+  background:#151108;
+}
+
+.info.error{
+  border-color:#5a2029;
+  background:#150a0d;
+  color:#d9a1a8;
+}
+
+/* TOAST */
 
 .toast{
   position:fixed;
@@ -608,6 +696,8 @@ button{
   transform:translate(-50%,0);
   opacity:1;
 }
+
+/* MOBILE */
 
 @media(max-width:900px){
 
@@ -704,6 +794,10 @@ button{
   .controls{
     width:100%;
   }
+
+  .actions{
+    flex-direction:column;
+  }
 }
 </style>
 </head>
@@ -712,30 +806,44 @@ button{
 
 <div class="app">
 
+<!-- SIDEBAR -->
+
 <aside class="sidebar">
 
   <div class="brand">
     DONIE <span>TOOLS</span>
   </div>
 
-  <div class="label">GAME</div>
+  <div class="label">
+    GAME
+  </div>
 
   <nav class="nav">
-    <button class="active" id="bladeNav">
+
+    <button
+      class="active"
+      id="bladeNav">
       ⚔️ Blade Ball
     </button>
+
   </nav>
 
-  <div class="label">TOOLS</div>
+  <div class="label">
+    TOOLS
+  </div>
 
   <nav class="nav">
-    <button onclick="loadServers()">
+
+    <button
+      onclick="loadServers()">
       🔄 Refresh
     </button>
 
-    <button onclick="switchSection('rap')">
+    <button
+      onclick="switchSection('rap')">
       💰 17K+ Finder
     </button>
+
   </nav>
 
   <div class="sidebar-bottom">
@@ -745,338 +853,434 @@ button{
 
 </aside>
 
+<!-- MAIN -->
+
 <main class="main">
 
-<div class="topbar">
+  <div class="topbar">
 
-  <div class="page-title">
-    Blade Ball
-  </div>
-
-  <div class="connection">
-    <span id="statusDot" class="dot"></span>
-    <span id="statusText">Connecting</span>
-  </div>
-
-</div>
-
-<div class="content">
-
-<section class="hero">
-
-  <h1>
-    Blade Ball Server Finder
-  </h1>
-
-  <p>
-    Browse public servers and view reported RAP information.
-    The 17K+ finder only counts servers with verified reporter data.
-  </p>
-
-</section>
-
-<section class="stats">
-
-  <div class="stat">
-    <small>SERVERS</small>
-    <strong id="serverCount">0</strong>
-  </div>
-
-  <div class="stat">
-    <small>PLAYERS</small>
-    <strong id="playerCount">0</strong>
-  </div>
-
-  <div class="stat">
-    <small>OPEN SLOTS</small>
-    <strong id="slotCount">0</strong>
-  </div>
-
-  <div class="stat">
-    <small>17K+ SERVERS</small>
-    <strong id="rapServerCount">0</strong>
-  </div>
-
-  <div class="stat">
-    <small>UPDATED</small>
-    <strong id="updated">--</strong>
-  </div>
-
-</section>
-
-<div class="panel">
-
-<div class="section-nav">
-
-  <button
-    class="section-btn public active"
-    id="secPublic"
-    onclick="switchSection('public')">
-    🌐 PUBLIC
-  </button>
-
-  <button
-    class="section-btn voice"
-    id="secVoice"
-    onclick="switchSection('voice')">
-    🎙️ VOICE
-  </button>
-
-  <button
-    class="section-btn pro"
-    id="secPro"
-    onclick="switchSection('pro')">
-    👑 PRO
-  </button>
-
-  <button
-    class="section-btn trade"
-    id="secTrade"
-    onclick="switchSection('trade')">
-    🤝 TRADE
-  </button>
-
-  <button
-    class="section-btn rap"
-    id="secRap"
-    onclick="switchSection('rap')">
-    💰 17K+
-  </button>
-
-</div>
-
-<!-- PUBLIC -->
-
-<div id="publicSection" class="section active">
-
-  <div class="panel-head">
-
-    <div>
-      <div class="title">
-        🌐 Public Servers
-      </div>
-
-      <div class="subtitle">
-        Live public Blade Ball servers.
-      </div>
+    <div class="page-title">
+      Blade Ball
     </div>
 
-    <button
-      class="btn primary"
-      onclick="loadServers()">
-      🔄 Refresh
-    </button>
+    <div class="connection">
 
-  </div>
+      <span
+        id="statusDot"
+        class="dot">
+      </span>
 
-  <div class="filters">
-
-    <button
-      id="filterAll"
-      class="filter active"
-      onclick="setFilter('all')">
-      ALL
-    </button>
-
-    <button
-      id="filterOpen"
-      class="filter"
-      onclick="setFilter('open')">
-      OPEN SLOTS
-    </button>
-
-    <button
-      id="filterRap"
-      class="filter"
-      onclick="setFilter('rap')">
-      💰 17K+
-    </button>
-
-  </div>
-
-  <input
-    id="search"
-    class="search"
-    placeholder="Search JobId..."
-    oninput="renderServers()">
-
-  <div
-    id="serverGrid"
-    class="server-grid">
-
-    <div class="loading">
-      <div class="spinner"></div>
-      Loading servers...
-    </div>
-
-  </div>
-
-</div>
-
-<!-- VOICE -->
-
-<div id="voiceSection" class="section">
-
-  <div class="mode">
-
-    <div class="mode-icon">
-      🎙️
-    </div>
-
-    <div>
-
-      <h2>Voice Server</h2>
-
-      <p>
-        Open the Blade Ball Voice experience separately.
-      </p>
-
-      <span class="meta">
-        PLACE ID 15131065025
+      <span id="statusText">
+        Connecting
       </span>
 
     </div>
 
-    <button
-      class="btn primary"
-      onclick="openMode('15131065025','Voice Server')">
-      🎙️ Open Voice
-    </button>
-
   </div>
 
-</div>
+  <div class="content">
 
-<!-- PRO -->
+    <!-- HERO -->
 
-<div id="proSection" class="section">
+    <section class="hero">
 
-  <div class="mode">
-
-    <div class="mode-icon">
-      👑
-    </div>
-
-    <div>
-
-      <h2>Pro Servers</h2>
+      <h1>
+        Blade Ball Server Finder
+      </h1>
 
       <p>
-        Open the Blade Ball Pro Servers experience.
+        Browse live public Blade Ball servers,
+        check available slots, search Job IDs,
+        and view verified RAP reports.
       </p>
 
-      <span class="meta">
-        PLACE ID 14732610803
-      </span>
+    </section>
 
-    </div>
+    <!-- STATS -->
 
-    <button
-      class="btn gold"
-      onclick="openMode('14732610803','Pro Servers')">
-      👑 Open Pro
-    </button>
+    <section class="stats">
 
-  </div>
-
-</div>
-
-<!-- TRADE -->
-
-<div id="tradeSection" class="section">
-
-  <div class="mode">
-
-    <div class="mode-icon">
-      🤝
-    </div>
-
-    <div>
-
-      <h2>Trade Plaza</h2>
-
-      <p>
-        Open the Blade Ball Trade Plaza separately.
-      </p>
-
-      <span class="meta">
-        PLACE ID 16581637217
-      </span>
-
-    </div>
-
-    <button
-      class="btn join"
-      onclick="openMode('16581637217','Trade Plaza')">
-      🤝 Open Trade
-    </button>
-
-  </div>
-
-</div>
-
-<!-- RAP -->
-
-<div id="rapSection" class="section">
-
-  <div class="panel-head">
-
-    <div>
-
-      <div class="title">
-        💰 17K+ RAP Finder
+      <div class="stat">
+        <small>SERVERS</small>
+        <strong id="serverCount">0</strong>
       </div>
 
-      <div class="subtitle">
-        Only reported servers whose highest reported RAP is
-        at least 17,000 appear here.
+      <div class="stat">
+        <small>PLAYERS</small>
+        <strong id="playerCount">0</strong>
+      </div>
+
+      <div class="stat">
+        <small>OPEN SLOTS</small>
+        <strong id="slotCount">0</strong>
+      </div>
+
+      <div class="stat">
+        <small>17K+ SERVERS</small>
+        <strong id="rapServerCount">0</strong>
+      </div>
+
+      <div class="stat">
+        <small>UPDATED</small>
+        <strong id="updated">--</strong>
+      </div>
+
+    </section>
+
+    <!-- MAIN PANEL -->
+
+    <div class="panel">
+
+      <!-- SECTION BUTTONS -->
+
+      <div class="section-nav">
+
+        <button
+          class="section-btn public active"
+          id="secPublic"
+          onclick="switchSection('public')">
+          🌐 PUBLIC
+        </button>
+
+        <button
+          class="section-btn voice"
+          id="secVoice"
+          onclick="switchSection('voice')">
+          🎙️ VOICE
+        </button>
+
+        <button
+          class="section-btn pro"
+          id="secPro"
+          onclick="switchSection('pro')">
+          👑 PRO
+        </button>
+
+        <button
+          class="section-btn trade"
+          id="secTrade"
+          onclick="switchSection('trade')">
+          🤝 TRADE
+        </button>
+
+        <button
+          class="section-btn rap"
+          id="secRap"
+          onclick="switchSection('rap')">
+          💰 17K+
+        </button>
+
+      </div>
+
+      <!-- PUBLIC -->
+
+      <div
+        id="publicSection"
+        class="section active">
+
+        <div class="panel-head">
+
+          <div>
+
+            <div class="title">
+              🌐 Public Servers
+            </div>
+
+            <div class="subtitle">
+              Live public Blade Ball servers from Roblox.
+            </div>
+
+          </div>
+
+          <button
+            class="btn primary"
+            onclick="loadServers()">
+            🔄 Refresh
+          </button>
+
+        </div>
+
+        <div class="filters">
+
+          <button
+            id="filterAll"
+            class="filter active"
+            onclick="setFilter('all')">
+            ALL
+          </button>
+
+          <button
+            id="filterOpen"
+            class="filter"
+            onclick="setFilter('open')">
+            OPEN SLOTS
+          </button>
+
+          <button
+            id="filterRap"
+            class="filter"
+            onclick="setFilter('rap')">
+            💰 17K+
+          </button>
+
+        </div>
+
+        <input
+          id="search"
+          class="search"
+          type="search"
+          autocomplete="off"
+          placeholder="Search JobId..."
+          oninput="renderServers()">
+
+        <div
+          id="serverGrid"
+          class="server-grid">
+
+          <div class="loading">
+
+            <div class="spinner"></div>
+
+            Loading Blade Ball servers...
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- VOICE -->
+
+      <div
+        id="voiceSection"
+        class="section">
+
+        <div class="mode">
+
+          <div class="mode-icon">
+            🎙️
+          </div>
+
+          <div>
+
+            <h2>
+              Voice Server
+            </h2>
+
+            <p>
+              Open the Blade Ball Voice experience separately.
+            </p>
+
+            <span class="meta">
+              PLACE ID 15131065025
+            </span>
+
+          </div>
+
+          <button
+            class="btn primary"
+            onclick="openMode(
+              '15131065025',
+              'Voice Server'
+            )">
+            🎙️ Open Voice
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- PRO -->
+
+      <div
+        id="proSection"
+        class="section">
+
+        <div class="mode">
+
+          <div class="mode-icon">
+            👑
+          </div>
+
+          <div>
+
+            <h2>
+              Pro Servers
+            </h2>
+
+            <p>
+              Open the Blade Ball Pro Servers experience.
+            </p>
+
+            <span class="meta">
+              PLACE ID 14732610803
+            </span>
+
+          </div>
+
+          <button
+            class="btn gold"
+            onclick="openMode(
+              '14732610803',
+              'Pro Servers'
+            )">
+            👑 Open Pro
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- TRADE -->
+
+      <div
+        id="tradeSection"
+        class="section">
+
+        <div class="mode">
+
+          <div class="mode-icon">
+            🤝
+          </div>
+
+          <div>
+
+            <h2>
+              Trade Plaza
+            </h2>
+
+            <p>
+              Open the Blade Ball Trade Plaza separately.
+            </p>
+
+            <span class="meta">
+              PLACE ID 16581637217
+            </span>
+
+          </div>
+
+          <button
+            class="btn join"
+            onclick="openMode(
+              '16581637217',
+              'Trade Plaza'
+            )">
+            🤝 Open Trade
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- RAP -->
+
+      <div
+        id="rapSection"
+        class="section">
+
+        <div class="panel-head">
+
+          <div>
+
+            <div class="title">
+              💰 17K+ RAP Finder
+            </div>
+
+            <div class="subtitle">
+              Servers only appear here when the authorized
+              reporter has supplied verified RAP information
+              of 17,000 or higher.
+            </div>
+
+          </div>
+
+          <button
+            class="btn gold"
+            onclick="
+              setFilter('rap');
+              switchSection('public');
+            ">
+            Show 17K+
+          </button>
+
+        </div>
+
+        <div class="info warning">
+
+          ⚠️ Roblox's normal public server API does not
+          provide player RAP. The 17K+ value therefore comes
+          only from your authorized server reporter.
+
+        </div>
+
+        <br>
+
+        <div
+          id="rapGrid"
+          class="server-grid">
+
+          <div class="empty">
+
+            No 17K+ reported servers yet.
+
+          </div>
+
+        </div>
+
       </div>
 
     </div>
 
-    <button
-      class="btn gold"
-      onclick="setFilter('rap');switchSection('public')">
-      Show 17K+
-    </button>
+    <!-- WORKER STATUS -->
 
-  </div>
+    <div class="panel">
 
-  <div class="info">
+      <div class="panel-head">
 
-    ⚠️ RAP is not supplied by the normal public server-list
-    response. This dashboard therefore only marks a server
-    as 17K+ after your legitimate reporter supplies player
-    UserIds/RAP information. A missing report is displayed as
-    unknown, not falsely counted as 17K+.
+        <div>
 
-  </div>
+          <div class="title">
+            ⚙️ Worker Status
+          </div>
 
-  <br>
+          <div class="subtitle">
+            Connection information for the DONIE server finder.
+          </div>
 
-  <div id="rapGrid" class="server-grid">
+        </div>
 
-    <div class="empty">
-      No 17K+ reported servers yet.
+        <button
+          class="btn blue"
+          onclick="checkWorker()">
+          Check Worker
+        </button>
+
+      </div>
+
+      <div
+        id="workerInfo"
+        class="info">
+        Checking Worker...
+      </div>
+
     </div>
 
   </div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
 
 </main>
 
 </div>
 
-<div id="toast" class="toast"></div>
+<div
+  id="toast"
+  class="toast">
+</div>
 
 <script>
+
+/* =========================================================
+   DONIE BLADE BALL FINDER
+   ========================================================= */
 
 const WORKER_URL =
   "https://weathered-haze-08aa.redonekowaithe1.workers.dev";
@@ -1084,58 +1288,135 @@ const WORKER_URL =
 const BLADE_PLACE_ID =
   "13772394625";
 
+const RAP_THRESHOLD =
+  17000;
+
+const REFRESH_INTERVAL =
+  30000;
+
 const MODES = {
   voice:"15131065025",
   pro:"14732610803",
   trade:"16581637217"
 };
 
-const RAP_THRESHOLD = 17000;
-
 let servers = [];
-let filter = "all";
+
+let filter =
+  "all";
+
+let loading =
+  false;
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
 
 function escapeHtml(value){
 
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+  return String(
+    value ?? ""
+  )
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
 
 }
 
-function setStatus(text,online){
 
-  document.getElementById("statusText").textContent =
+function setStatus(
+  text,
+  state
+){
+
+  const textEl =
+    document.getElementById(
+      "statusText"
+    );
+
+  const dotEl =
+    document.getElementById(
+      "statusDot"
+    );
+
+  textEl.textContent =
     text;
 
-  document.getElementById("statusDot").className =
-    "dot " + (online ? "online" : "");
+  dotEl.className =
+    "dot";
+
+  if(state === "online"){
+    dotEl.classList.add(
+      "online"
+    );
+  }
+
+  if(state === "error"){
+    dotEl.classList.add(
+      "error"
+    );
+  }
 
 }
 
-function toast(message){
+
+function toast(
+  message
+){
 
   const el =
-    document.getElementById("toast");
+    document.getElementById(
+      "toast"
+    );
 
-  el.textContent = message;
+  el.textContent =
+    message;
 
-  el.classList.add("show");
+  el.classList.add(
+    "show"
+  );
 
-  clearTimeout(window.__toast);
+  clearTimeout(
+    window.__toast
+  );
 
   window.__toast =
     setTimeout(
-      () => el.classList.remove("show"),
+      () =>
+        el.classList.remove(
+          "show"
+        ),
       2200
     );
 
 }
 
-function switchSection(section){
+
+/* =========================================================
+   SECTION SWITCHING
+   ========================================================= */
+
+function switchSection(
+  section
+){
 
   const sections = [
     "public",
@@ -1145,25 +1426,39 @@ function switchSection(section){
     "rap"
   ];
 
-  sections.forEach(name => {
+  sections.forEach(
+    name => {
 
-    document.getElementById(
-      name + "Section"
-    ).classList.toggle(
-      "active",
-      name === section
-    );
+      const sectionEl =
+        document.getElementById(
+          name + "Section"
+        );
 
-    document.getElementById(
-      "sec" +
-      name.charAt(0).toUpperCase() +
-      name.slice(1)
-    ).classList.toggle(
-      "active",
-      name === section
-    );
+      const buttonEl =
+        document.getElementById(
+          "sec" +
+          name
+            .charAt(0)
+            .toUpperCase() +
+          name.slice(1)
+        );
 
-  });
+      if(sectionEl){
+        sectionEl.classList.toggle(
+          "active",
+          name === section
+        );
+      }
+
+      if(buttonEl){
+        buttonEl.classList.toggle(
+          "active",
+          name === section
+        );
+      }
+
+    }
+  );
 
   if(section === "rap"){
     renderRAP();
@@ -1171,88 +1466,176 @@ function switchSection(section){
 
 }
 
-function openMode(placeId,name){
 
-  toast("Opening " + name + "...");
+/* =========================================================
+   ROBLOX MODE OPEN
+   ========================================================= */
 
-  setTimeout(() => {
+function openMode(
+  placeId,
+  name
+){
 
-    window.location.href =
-      "https://www.roblox.com/games/start?placeId=" +
-      encodeURIComponent(placeId);
+  toast(
+    "Opening " +
+    name +
+    "..."
+  );
 
-  },250);
+  setTimeout(
+    () => {
+
+      window.location.href =
+        "https://www.roblox.com/games/start" +
+        "?placeId=" +
+        encodeURIComponent(
+          placeId
+        );
+
+    },
+    250
+  );
 
 }
 
-function setFilter(type){
 
-  filter = type;
+/* =========================================================
+   FILTER
+   ========================================================= */
 
-  document
-    .getElementById("filterAll")
-    .classList.toggle(
-      "active",
-      type === "all"
+function setFilter(
+  type
+){
+
+  filter =
+    type;
+
+  const all =
+    document.getElementById(
+      "filterAll"
     );
 
-  document
-    .getElementById("filterOpen")
-    .classList.toggle(
-      "active",
-      type === "open"
+  const open =
+    document.getElementById(
+      "filterOpen"
     );
 
-  document
-    .getElementById("filterRap")
-    .classList.toggle(
-      "active",
-      type === "rap"
+  const rap =
+    document.getElementById(
+      "filterRap"
     );
+
+  all.classList.toggle(
+    "active",
+    type === "all"
+  );
+
+  open.classList.toggle(
+    "active",
+    type === "open"
+  );
+
+  rap.classList.toggle(
+    "active",
+    type === "rap"
+  );
 
   renderServers();
 
 }
 
-function serverRAP(server){
+
+/* =========================================================
+   RAP
+   ========================================================= */
+
+function serverRAP(
+  server
+){
 
   const a =
-    Number(server.highestRap || 0);
+    Number(
+      server.highestRap ||
+      0
+    );
 
   const b =
-    Number(server.maxRAP || 0);
+    Number(
+      server.maxRAP ||
+      0
+    );
 
   const c =
-    Number(server.rap || 0);
+    Number(
+      server.rap ||
+      0
+    );
 
-  return Math.max(a,b,c);
-
-}
-
-function getJobId(server){
-
-  return server.jobId ||
-         server.id ||
-         "";
-
-}
-
-function buildJoin(jobId){
-
-  if(!jobId)
-    return "";
-
-  return (
-    "https://www.roblox.com/games/start" +
-    "?placeId=" +
-    encodeURIComponent(BLADE_PLACE_ID) +
-    "&gameInstanceId=" +
-    encodeURIComponent(jobId)
+  return Math.max(
+    a,
+    b,
+    c
   );
 
 }
 
+
+/* =========================================================
+   JOB ID
+   ========================================================= */
+
+function getJobId(
+  server
+){
+
+  return String(
+    server.jobId ||
+    server.id ||
+    ""
+  );
+
+}
+
+
+/* =========================================================
+   JOIN URL
+   ========================================================= */
+
+function buildJoin(
+  jobId
+){
+
+  if(!jobId){
+    return "";
+  }
+
+  return (
+    "https://www.roblox.com/games/start" +
+    "?placeId=" +
+    encodeURIComponent(
+      BLADE_PLACE_ID
+    ) +
+    "&gameInstanceId=" +
+    encodeURIComponent(
+      jobId
+    )
+  );
+
+}
+
+
+/* =========================================================
+   LOAD SERVERS
+   ========================================================= */
+
 async function loadServers(){
+
+  if(loading){
+    return;
+  }
+
+  loading =
+    true;
 
   const grid =
     document.getElementById(
@@ -1261,79 +1644,130 @@ async function loadServers(){
 
   grid.innerHTML = `
     <div class="loading">
+
       <div class="spinner"></div>
-      Loading Blade Ball servers...
+
+      Loading live Blade Ball servers...
+
     </div>
   `;
 
-  setStatus("Loading",false);
+  setStatus(
+    "Loading",
+    "loading"
+  );
 
   try{
 
-    const url =
+    const endpoint =
       WORKER_URL +
       "/roblox-servers" +
       "?placeId=" +
-      encodeURIComponent(BLADE_PLACE_ID) +
+      encodeURIComponent(
+        BLADE_PLACE_ID
+      ) +
       "&limit=100&_=" +
       Date.now();
 
     const response =
       await fetch(
-        url,
+        endpoint,
         {
-          cache:"no-store"
+          method:"GET",
+          cache:"no-store",
+          headers:{
+            "Accept":
+              "application/json"
+          }
         }
       );
 
-    if(!response.ok)
+    if(!response.ok){
+
       throw new Error(
-        "Worker HTTP " + response.status
+        "Worker HTTP " +
+        response.status
       );
+
+    }
 
     const data =
       await response.json();
 
-    if(!data.success)
+    if(!data.success){
+
       throw new Error(
-        data.error || "Worker error"
+        data.error ||
+        "Worker returned an error"
       );
 
+    }
+
     servers =
-      Array.isArray(data.servers)
+      Array.isArray(
+        data.servers
+      )
         ? data.servers
         : [];
 
     updateStats();
+
     renderServers();
+
     renderRAP();
 
-    setStatus("Live",true);
+    setStatus(
+      "Live",
+      "online"
+    );
 
-    document.getElementById("updated")
+    document
+      .getElementById(
+        "updated"
+      )
       .textContent =
-      new Date().toLocaleTimeString(
-        [],
-        {
-          hour:"numeric",
-          minute:"2-digit"
-        }
-      );
+      new Date()
+        .toLocaleTimeString(
+          [],
+          {
+            hour:"numeric",
+            minute:"2-digit"
+          }
+        );
+
+    updateWorkerInfo(
+      true,
+      data
+    );
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "DONIE Worker error:",
+      error
+    );
 
-    setStatus("Error",false);
+    setStatus(
+      "Error",
+      "error"
+    );
+
+    const message =
+      error?.message ||
+      "Unknown error";
 
     grid.innerHTML = `
+
       <div class="empty">
-        <h3 style="color:white;margin-bottom:7px">
+
+        <h3>
           Couldn't load servers
         </h3>
 
         <p>
-          ${escapeHtml(error.message)}
+          ${escapeHtml(
+            message
+          )}
         </p>
 
         <br>
@@ -1341,58 +1775,366 @@ async function loadServers(){
         <button
           class="btn primary"
           onclick="loadServers()">
-          Try Again
+          🔄 Try Again
         </button>
+
+        <br><br>
+
+        <button
+          class="btn blue"
+          onclick="checkWorker()">
+          ⚙️ Check Worker
+        </button>
+
       </div>
+
+    `;
+
+    updateWorkerInfo(
+      false,
+      null,
+      message
+    );
+
+  }finally{
+
+    loading =
+      false;
+
+  }
+
+}
+
+
+/* =========================================================
+   WORKER HEALTH CHECK
+   ========================================================= */
+
+async function checkWorker(){
+
+  const info =
+    document.getElementById(
+      "workerInfo"
+    );
+
+  info.className =
+    "info";
+
+  info.innerHTML =
+    "Checking Worker...";
+
+  try{
+
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/health?_=" +
+        Date.now(),
+        {
+          cache:"no-store"
+        }
+      );
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+
+    }
+
+    const data =
+      await response.json();
+
+    if(!data.success){
+
+      throw new Error(
+        data.error ||
+        "Health check failed"
+      );
+
+    }
+
+    setStatus(
+      "Live",
+      "online"
+    );
+
+    info.className =
+      "info success";
+
+    info.innerHTML = `
+
+      <strong style="color:white">
+        ✅ Worker online
+      </strong>
+
+      <br><br>
+
+      Service:
+      ${escapeHtml(
+        data.service ||
+        "DONIE Blade Ball Finder"
+      )}
+
+      <br>
+
+      Place ID:
+      ${escapeHtml(
+        data.placeId ||
+        BLADE_PLACE_ID
+      )}
+
+      <br>
+
+      17K+ threshold:
+      ${Number(
+        data.rapThreshold ||
+        RAP_THRESHOLD
+      ).toLocaleString()}
+
+      <br>
+
+      KV:
+      ${
+        data.kvConfigured
+          ? "✅ Connected"
+          : "❌ Missing SERVERS binding"
+      }
+
+      <br>
+
+      Reporter:
+      ${
+        data.reporterConfigured
+          ? "✅ Configured"
+          : "⚠️ Not configured"
+      }
+
+    `;
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+    setStatus(
+      "Error",
+      "error"
+    );
+
+    info.className =
+      "info error";
+
+    info.innerHTML = `
+
+      <strong style="color:white">
+        ❌ Worker check failed
+      </strong>
+
+      <br><br>
+
+      ${escapeHtml(
+        error?.message ||
+        "Unable to contact Worker"
+      )}
+
+      <br><br>
+
+      Worker:
+      ${escapeHtml(
+        WORKER_URL
+      )}
+
     `;
 
   }
 
 }
 
-function updateStats(){
 
-  let players = 0;
-  let slots = 0;
-  let rapServers = 0;
+/* =========================================================
+   WORKER INFO
+   ========================================================= */
 
-  servers.forEach(server => {
+function updateWorkerInfo(
+  success,
+  data,
+  error
+){
 
-    players +=
-      Number(server.playing || 0);
+  const info =
+    document.getElementById(
+      "workerInfo"
+    );
 
-    slots +=
-      Number(
-        server.availableSlots ??
-        Math.max(
-          Number(server.maxPlayers || 0) -
-          Number(server.playing || 0),
-          0
-        )
-      );
+  if(success){
 
-    if(
-      serverRAP(server) >=
-      RAP_THRESHOLD
-    ){
-      rapServers++;
-    }
+    info.className =
+      "info success";
 
-  });
+    info.innerHTML = `
 
-  document.getElementById("serverCount")
-    .textContent = servers.length;
+      <strong style="color:white">
+        ✅ Server API connected
+      </strong>
 
-  document.getElementById("playerCount")
-    .textContent = players;
+      <br><br>
 
-  document.getElementById("slotCount")
-    .textContent = slots;
+      Live servers:
+      ${Number(
+        data?.count ||
+        0
+      )}
 
-  document.getElementById("rapServerCount")
-    .textContent = rapServers;
+      <br>
+
+      17K+ threshold:
+      ${Number(
+        data?.rapThreshold ||
+        RAP_THRESHOLD
+      ).toLocaleString()}
+
+      <br>
+
+      Blade Ball:
+      ${escapeHtml(
+        data?.placeId ||
+        BLADE_PLACE_ID
+      )}
+
+    `;
+
+    return;
+
+  }
+
+  info.className =
+    "info error";
+
+  info.innerHTML = `
+
+    <strong style="color:white">
+      ❌ Server API error
+    </strong>
+
+    <br><br>
+
+    ${escapeHtml(
+      error ||
+      "Unknown Worker error"
+    )}
+
+    <br><br>
+
+    Click
+    <strong style="color:white">
+      Check Worker
+    </strong>
+    for more information.
+
+  `;
 
 }
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+function updateStats(){
+
+  let players =
+    0;
+
+  let slots =
+    0;
+
+  let rapServers =
+    0;
+
+  servers.forEach(
+    server => {
+
+      players +=
+        Number(
+          server.playing ||
+          0
+        );
+
+      const max =
+        Number(
+          server.maxPlayers ||
+          0
+        );
+
+      const playing =
+        Number(
+          server.playing ||
+          0
+        );
+
+      const available =
+        Number(
+          server.availableSlots ??
+          Math.max(
+            max -
+            playing,
+            0
+          )
+        );
+
+      slots +=
+        available;
+
+      if(
+        serverRAP(
+          server
+        ) >=
+        RAP_THRESHOLD
+      ){
+        rapServers++;
+      }
+
+    }
+  );
+
+  document
+    .getElementById(
+      "serverCount"
+    )
+    .textContent =
+    servers.length;
+
+  document
+    .getElementById(
+      "playerCount"
+    )
+    .textContent =
+    players;
+
+  document
+    .getElementById(
+      "slotCount"
+    )
+    .textContent =
+    slots;
+
+  document
+    .getElementById(
+      "rapServerCount"
+    )
+    .textContent =
+    rapServers;
+
+}
+
+
+/* =========================================================
+   RENDER SERVERS
+   ========================================================= */
 
 function renderServers(){
 
@@ -1401,248 +2143,481 @@ function renderServers(){
       "serverGrid"
     );
 
-  const query =
+  const searchEl =
     document.getElementById(
       "search"
-    ).value
+    );
+
+  const query =
+    (
+      searchEl?.value ||
+      ""
+    )
     .trim()
     .toLowerCase();
 
   let visible =
-    servers.filter(server => {
+    servers.filter(
+      server => {
 
-      const id =
-        getJobId(server)
-        .toLowerCase();
+        const id =
+          getJobId(
+            server
+          )
+          .toLowerCase();
 
-      const rap =
-        serverRAP(server);
+        const rap =
+          serverRAP(
+            server
+          );
 
-      const playing =
-        Number(server.playing || 0);
+        const playing =
+          Number(
+            server.playing ||
+            0
+          );
 
-      const max =
-        Number(server.maxPlayers || 0);
+        const max =
+          Number(
+            server.maxPlayers ||
+            0
+          );
 
-      const slots =
-        Number(
-          server.availableSlots ??
-          Math.max(max-playing,0)
-        );
+        const slots =
+          Number(
+            server.availableSlots ??
+            Math.max(
+              max -
+              playing,
+              0
+            )
+          );
 
-      if(
-        !id.includes(query)
-      ){
-        return false;
+        if(
+          !id.includes(
+            query
+          )
+        ){
+          return false;
+        }
+
+        if(
+          filter === "open" &&
+          slots <= 0
+        ){
+          return false;
+        }
+
+        if(
+          filter === "rap" &&
+          rap <
+          RAP_THRESHOLD
+        ){
+          return false;
+        }
+
+        return true;
+
       }
-
-      if(filter === "open" && slots <= 0)
-        return false;
-
-      if(
-        filter === "rap" &&
-        rap < RAP_THRESHOLD
-      ){
-        return false;
-      }
-
-      return true;
-
-    });
+    );
 
   visible.sort(
-    (a,b) =>
-      serverRAP(b) -
-      serverRAP(a)
+    (a,b) => {
+
+      const rapDifference =
+        serverRAP(b) -
+        serverRAP(a);
+
+      if(
+        rapDifference !== 0
+      ){
+        return rapDifference;
+      }
+
+      return (
+        Number(
+          b.playing ||
+          0
+        ) -
+        Number(
+          a.playing ||
+          0
+        )
+      );
+
+    }
   );
 
-  if(!visible.length){
+  if(
+    !visible.length
+  ){
 
-    grid.innerHTML = `
-      <div class="empty">
-        No matching servers found.
-      </div>
-    `;
+    if(
+      servers.length === 0
+    ){
+
+      grid.innerHTML = `
+
+        <div class="empty">
+
+          <h3>
+            No live servers returned
+          </h3>
+
+          <p>
+            Roblox did not return any public
+            Blade Ball servers right now.
+          </p>
+
+        </div>
+
+      `;
+
+    }else{
+
+      grid.innerHTML = `
+
+        <div class="empty">
+
+          <h3>
+            No matching servers
+          </h3>
+
+          <p>
+            Try another Job ID or filter.
+          </p>
+
+        </div>
+
+      `;
+
+    }
 
     return;
 
   }
 
   grid.innerHTML =
-    visible.map(
-      (server,index) =>
-        createCard(server,index)
-    ).join("");
+    visible
+      .map(
+        (
+          server,
+          index
+        ) =>
+          createCard(
+            server,
+            index
+          )
+      )
+      .join("");
 
 }
 
-function createCard(server,index){
+
+/* =========================================================
+   SERVER CARD
+   ========================================================= */
+
+function createCard(
+  server,
+  index
+){
 
   const jobId =
-    getJobId(server);
+    getJobId(
+      server
+    );
 
   const playing =
-    Number(server.playing || 0);
+    Number(
+      server.playing ||
+      0
+    );
 
   const maxPlayers =
-    Number(server.maxPlayers || 0);
+    Number(
+      server.maxPlayers ||
+      0
+    );
 
   const slots =
     Number(
       server.availableSlots ??
-      Math.max(maxPlayers-playing,0)
+      Math.max(
+        maxPlayers -
+        playing,
+        0
+      )
     );
 
   const ping =
     server.ping != null
-      ? Math.round(Number(server.ping)) + " ms"
+      ? (
+          Math.round(
+            Number(
+              server.ping
+            )
+          ) +
+          " ms"
+        )
       : "N/A";
 
   const fps =
     server.fps != null
-      ? Math.round(Number(server.fps))
+      ? Math.round(
+          Number(
+            server.fps
+          )
+        )
       : "N/A";
 
   const rap =
-    serverRAP(server);
+    serverRAP(
+      server
+    );
 
   const join =
     server.joinUrl ||
-    buildJoin(jobId);
+    buildJoin(
+      jobId
+    );
 
   const isRap =
-    rap >= RAP_THRESHOLD;
+    rap >=
+    RAP_THRESHOLD;
 
   const playerList =
-    Array.isArray(server.players)
+    Array.isArray(
+      server.players
+    )
       ? server.players
       : [];
 
-  return `
-
-  <article class="server ${isRap ? "rap":""}">
-
-    <div class="server-top">
-
-      <div class="server-name">
-        Blade Ball #${index+1}
-      </div>
-
-      ${
-        isRap
-          ? `<div class="badge rap">
-              💰 ${rap.toLocaleString()} RAP
-             </div>`
-          : `<div class="badge open">
-              ${slots} OPEN
-             </div>`
-      }
-
-    </div>
-
-    <div class="metrics">
-
-      <div class="metric">
-        <small>PLAYERS</small>
-        <strong>
-          ${playing}/${maxPlayers || "?"}
-        </strong>
-      </div>
-
-      <div class="metric">
-        <small>OPEN</small>
-        <strong>
-          ${slots}
-        </strong>
-      </div>
-
-      <div class="metric">
-        <small>PING</small>
-        <strong>
-          ${escapeHtml(ping)}
-        </strong>
-      </div>
-
-      <div class="metric">
-        <small>RAP</small>
-        <strong>
-          ${
-            rap > 0
-              ? rap.toLocaleString()
-              : "N/A"
-          }
-        </strong>
-      </div>
-
-    </div>
-
-    ${
-      playerList.length
+  const badge =
+    isRap
+      ? `
+        <div class="badge rap">
+          💰 ${rap.toLocaleString()} RAP
+        </div>
+      `
+      : slots > 0
         ? `
+          <div class="badge open">
+            ${slots} OPEN
+          </div>
+        `
+        : `
+          <div class="badge full">
+            FULL
+          </div>
+        `;
+
+  const playersHtml =
+    playerList.length
+      ? `
         <div class="players">
 
           ${
             playerList
-              .slice(0,12)
-              .map(player => `
+              .slice(
+                0,
+                12
+              )
+              .map(
+                player => {
 
-                <span class="player">
+                  const playerRap =
+                    Number(
+                      player.rap ||
+                      0
+                    );
 
-                  ${escapeHtml(
+                  const rich =
+                    playerRap >=
+                    RAP_THRESHOLD;
+
+                  const playerName =
                     player.name ||
                     player.username ||
-                    ("User " + player.userId)
-                  )}
+                    (
+                      "User " +
+                      player.userId
+                    );
 
-                  ${
-                    Number(player.rap || 0) >=
-                    RAP_THRESHOLD
-                      ? " 💰"
-                      : ""
-                  }
+                  return `
+                    <span
+                      class="player ${
+                        rich
+                          ? "rich"
+                          : ""
+                      }">
 
-                </span>
+                      ${escapeHtml(
+                        playerName
+                      )}
 
-              `)
+                      ${
+                        rich
+                          ? " 💰"
+                          : ""
+                      }
+
+                    </span>
+                  `;
+
+                }
+              )
               .join("")
           }
 
         </div>
-        `
-        : ""
-    }
+      `
+      : "";
 
-    <div class="job">
+  return `
 
-      <small>JOB ID</small>
+    <article
+      class="server ${
+        isRap
+          ? "rap"
+          : ""
+      }">
 
-      <code>
-        ${escapeHtml(jobId)}
-      </code>
+      <div class="server-top">
 
-    </div>
+        <div class="server-name">
+          Blade Ball #${
+            index + 1
+          }
+        </div>
 
-    <div class="actions">
+        ${badge}
 
-      <button
-        class="btn join"
-        onclick='joinServer(${JSON.stringify(join)})'>
-        🎮 Join Server
-      </button>
+      </div>
 
-      <button
-        class="btn"
-        onclick='copyText(${JSON.stringify(jobId)})'>
-        📋 Copy
-      </button>
+      <div class="metrics">
 
-    </div>
+        <div class="metric">
 
-  </article>
+          <small>
+            PLAYERS
+          </small>
+
+          <strong>
+            ${
+              playing
+            }/${
+              maxPlayers ||
+              "?"
+            }
+          </strong>
+
+        </div>
+
+        <div class="metric">
+
+          <small>
+            OPEN
+          </small>
+
+          <strong>
+            ${
+              slots
+            }
+          </strong>
+
+        </div>
+
+        <div class="metric">
+
+          <small>
+            PING
+          </small>
+
+          <strong>
+            ${
+              escapeHtml(
+                ping
+              )
+            }
+          </strong>
+
+        </div>
+
+        <div class="metric">
+
+          <small>
+            RAP
+          </small>
+
+          <strong>
+            ${
+              rap > 0
+                ? rap.toLocaleString()
+                : "N/A"
+            }
+          </strong>
+
+        </div>
+
+      </div>
+
+      ${playersHtml}
+
+      <div class="job">
+
+        <small>
+          JOB ID
+        </small>
+
+        <code>
+          ${
+            escapeHtml(
+              jobId
+            )
+          }
+        </code>
+
+      </div>
+
+      <div class="actions">
+
+        <button
+          class="btn join"
+          onclick='joinServer(
+            ${JSON.stringify(
+              join
+            )}
+          )'>
+
+          🎮 Join Server
+
+        </button>
+
+        <button
+          class="btn"
+          onclick='copyText(
+            ${JSON.stringify(
+              jobId
+            )}
+          )'>
+
+          📋 Copy
+
+        </button>
+
+      </div>
+
+    </article>
 
   `;
 
 }
+
+
+/* =========================================================
+   RAP GRID
+   ========================================================= */
 
 function renderRAP(){
 
@@ -1651,14 +2626,17 @@ function renderRAP(){
       "rapGrid"
     );
 
-  if(!grid)
+  if(!grid){
     return;
+  }
 
   const matches =
     servers
       .filter(
         server =>
-          serverRAP(server) >=
+          serverRAP(
+            server
+          ) >=
           RAP_THRESHOLD
       )
       .sort(
@@ -1667,16 +2645,26 @@ function renderRAP(){
           serverRAP(a)
       );
 
-  if(!matches.length){
+  if(
+    !matches.length
+  ){
 
     grid.innerHTML = `
+
       <div class="empty">
-        No 17K+ reported servers yet.
-        <br><br>
-        The reporter must provide real player
-        RAP information before a server can
-        appear here.
+
+        <h3>
+          No 17K+ servers yet
+        </h3>
+
+        <p>
+          Your authorized reporter has not
+          supplied a live server report with
+          RAP of 17,000 or higher.
+        </p>
+
       </div>
+
     `;
 
     return;
@@ -1686,57 +2674,113 @@ function renderRAP(){
   grid.innerHTML =
     matches
       .map(
-        (server,index) =>
-          createCard(server,index)
+        (
+          server,
+          index
+        ) =>
+          createCard(
+            server,
+            index
+          )
       )
       .join("");
 
 }
 
-function joinServer(url){
+
+/* =========================================================
+   JOIN SERVER
+   ========================================================= */
+
+function joinServer(
+  url
+){
 
   if(!url){
 
-    toast("No join URL available.");
+    toast(
+      "No join URL available."
+    );
+
     return;
 
   }
 
-  window.location.href = url;
+  toast(
+    "Opening Roblox..."
+  );
+
+  window.location.href =
+    url;
 
 }
 
-async function copyText(text){
+
+/* =========================================================
+   COPY
+   ========================================================= */
+
+async function copyText(
+  text
+){
 
   if(!text){
 
-    toast("Nothing to copy.");
+    toast(
+      "Nothing to copy."
+    );
+
     return;
 
   }
 
   try{
 
-    await navigator.clipboard.writeText(text);
+    await navigator
+      .clipboard
+      .writeText(
+        text
+      );
 
-    toast("Copied!");
+    toast(
+      "Job ID copied!"
+    );
 
   }catch{
 
-    toast("Copy failed.");
+    toast(
+      "Copy failed."
+    );
 
   }
 
 }
 
+
+/* =========================================================
+   START
+   ========================================================= */
+
+checkWorker();
+
 loadServers();
 
+
+/* =========================================================
+   AUTO REFRESH
+   ========================================================= */
+
 setInterval(
-  loadServers,
-  30000
+  () => {
+
+    loadServers();
+
+  },
+  REFRESH_INTERVAL
 );
 
 </script>
 
 </body>
 </html>
+```
