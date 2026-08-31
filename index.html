@@ -11,39 +11,48 @@
 :root{
   --bg:#07080d;
   --panel:#0d1018;
-  --panel2:#121621;
-  --border:#202635;
-  --text:#f4f6fb;
-  --muted:#7f889b;
+  --panel2:#111621;
+  --border:#222a3a;
+  --text:#f5f7fb;
+  --muted:#8490a7;
   --purple:#8b5cf6;
-  --purple2:#a78bfa;
+  --blue:#42a5ff;
   --green:#39e58c;
-  --red:#ff5f6d;
   --yellow:#ffd166;
-  --blue:#4da6ff;
+  --red:#ff6170;
 }
 
 body{
   min-height:100vh;
-  font-family:Arial,Helvetica,sans-serif;
-  color:var(--text);
   background:
     radial-gradient(circle at 50% -10%,rgba(139,92,246,.16),transparent 35%),
     var(--bg);
+  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
 }
 
-button,input{font:inherit}
-button{cursor:pointer}
+button,input{
+  font:inherit;
+}
 
-.app{display:flex;min-height:100vh}
+button{
+  cursor:pointer;
+}
+
+.app{
+  min-height:100vh;
+  display:flex;
+}
 
 .sidebar{
-  width:235px;
-  border-right:1px solid var(--border);
-  background:#090b11;
-  padding:22px 14px;
   position:fixed;
-  inset:0 auto 0 0;
+  left:0;
+  top:0;
+  bottom:0;
+  width:235px;
+  background:#090b11;
+  border-right:1px solid var(--border);
+  padding:22px 14px;
 }
 
 .brand{
@@ -52,38 +61,50 @@ button{cursor:pointer}
   padding:8px 12px 25px;
 }
 
-.brand span{color:var(--purple2)}
+.brand span{
+  color:#a78bfa;
+}
 
-.section-label{
-  color:#555e72;
+.label{
+  color:#566078;
   font-size:10px;
-  font-weight:900;
-  letter-spacing:1.4px;
+  font-weight:950;
+  letter-spacing:1.5px;
   padding:10px 12px;
 }
 
-.nav{display:grid;gap:5px}
+.nav{
+  display:grid;
+  gap:6px;
+}
 
 .nav button{
-  width:100%;
   border:1px solid transparent;
   background:transparent;
-  color:#9aa2b5;
-  text-align:left;
+  color:#9aa4b8;
   padding:12px;
-  border-radius:9px;
-  font-weight:800;
+  border-radius:10px;
+  text-align:left;
+  font-weight:900;
 }
 
 .nav button:hover,
 .nav button.active{
-  background:#151927;
-  border-color:#252c3d;
+  background:#151a28;
+  border-color:#293148;
   color:white;
 }
 
 .nav button.active{
-  box-shadow:inset 2px 0 0 var(--purple);
+  box-shadow:inset 2px 0 var(--purple);
+}
+
+.sidebar-bottom{
+  margin-top:30px;
+  color:#59647a;
+  font-size:10px;
+  padding:12px;
+  line-height:1.6;
 }
 
 .main{
@@ -98,19 +119,22 @@ button{cursor:pointer}
   align-items:center;
   justify-content:space-between;
   padding:0 28px;
-  background:rgba(7,8,13,.88);
   position:sticky;
   top:0;
   z-index:10;
+  background:rgba(7,8,13,.9);
   backdrop-filter:blur(10px);
 }
 
-.page-title{font-size:15px;font-weight:900}
+.page-title{
+  font-weight:950;
+  font-size:15px;
+}
 
 .connection{
   display:flex;
-  align-items:center;
   gap:8px;
+  align-items:center;
   color:var(--muted);
   font-size:12px;
 }
@@ -124,68 +148,76 @@ button{cursor:pointer}
 
 .dot.online{
   background:var(--green);
-  box-shadow:0 0 10px rgba(57,229,140,.6);
+  box-shadow:0 0 12px rgba(57,229,140,.7);
 }
 
 .content{
   width:min(1180px,94%);
   margin:auto;
-  padding:30px 0 60px;
+  padding:30px 0 70px;
 }
 
 .hero{
-  padding:26px;
   border:1px solid var(--border);
-  border-radius:15px;
+  border-radius:16px;
+  padding:25px;
+  margin-bottom:16px;
   background:
-    linear-gradient(135deg,rgba(139,92,246,.11),rgba(13,16,24,.95));
-  margin-bottom:18px;
+    linear-gradient(135deg,rgba(139,92,246,.12),rgba(13,16,24,.96));
 }
 
-.hero h1{font-size:27px;margin-bottom:7px}
-.hero p{color:var(--muted);font-size:13px;line-height:1.6}
+.hero h1{
+  font-size:27px;
+  margin-bottom:7px;
+}
+
+.hero p{
+  color:var(--muted);
+  line-height:1.6;
+  font-size:12px;
+}
 
 .stats{
   display:grid;
   grid-template-columns:repeat(5,1fr);
   gap:10px;
-  margin-bottom:18px;
+  margin-bottom:16px;
 }
 
 .stat{
-  border:1px solid var(--border);
   background:var(--panel);
+  border:1px solid var(--border);
   border-radius:13px;
-  padding:17px;
+  padding:16px;
 }
 
-.stat-label{
+.stat small{
   color:var(--muted);
-  font-size:10px;
-  margin-bottom:8px;
+  font-size:9px;
 }
 
-.stat-value{
-  font-size:22px;
-  font-weight:950;
+.stat strong{
+  display:block;
+  margin-top:7px;
+  font-size:23px;
 }
 
 .tabs{
   display:flex;
   gap:7px;
-  margin-bottom:15px;
-  border-bottom:1px solid var(--border);
   overflow-x:auto;
+  border-bottom:1px solid var(--border);
+  margin-bottom:15px;
 }
 
 .tab{
   background:transparent;
-  color:var(--muted);
   border:0;
+  color:var(--muted);
   padding:11px 14px;
-  border-bottom:2px solid transparent;
-  font-weight:900;
+  font-weight:950;
   white-space:nowrap;
+  border-bottom:2px solid transparent;
 }
 
 .tab.active{
@@ -194,24 +226,27 @@ button{cursor:pointer}
 }
 
 .panel{
-  border:1px solid var(--border);
   background:var(--panel);
-  border-radius:15px;
+  border:1px solid var(--border);
+  border-radius:16px;
   padding:18px;
   margin-bottom:16px;
 }
 
 .panel-head{
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap:10px;
+  align-items:flex-start;
+  gap:12px;
   margin-bottom:15px;
 }
 
-.panel-title{font-size:16px;font-weight:950}
+.title{
+  font-size:16px;
+  font-weight:950;
+}
 
-.panel-subtitle{
+.subtitle{
   color:var(--muted);
   font-size:11px;
   margin-top:5px;
@@ -221,7 +256,7 @@ button{cursor:pointer}
 .controls{
   display:flex;
   flex-wrap:wrap;
-  gap:8px;
+  gap:7px;
 }
 
 .btn{
@@ -230,10 +265,12 @@ button{cursor:pointer}
   color:white;
   border-radius:9px;
   padding:10px 13px;
-  font-weight:850;
+  font-weight:900;
 }
 
-.btn:hover{border-color:#3a4359}
+.btn:hover{
+  border-color:#3c4760;
+}
 
 .btn.primary{
   background:var(--purple);
@@ -242,99 +279,120 @@ button{cursor:pointer}
 
 .btn.join{
   background:var(--green);
-  color:#06150d;
   border-color:var(--green);
+  color:#06150d;
 }
 
-.btn.high{
-  background:#34270b;
-  border-color:#6a5116;
+.btn.gold{
+  background:#332912;
+  border-color:#6b551e;
   color:var(--yellow);
 }
 
-.blade-nav{
+.btn.blue{
+  background:#102338;
+  border-color:#24598c;
+  color:#76bdff;
+}
+
+.section-nav{
   display:grid;
   grid-template-columns:repeat(5,1fr);
   gap:8px;
   margin-bottom:16px;
 }
 
-.blade-nav button{
-  min-height:64px;
+.section-btn{
+  min-height:62px;
   border:1px solid var(--border);
   background:#0a0d14;
   color:var(--muted);
   border-radius:11px;
   font-weight:950;
-  transition:.18s;
 }
 
-.blade-nav button:hover{
-  transform:translateY(-1px);
+.section-btn:hover{
   color:white;
+  border-color:#3b465e;
 }
 
-.blade-nav button.active{
+.section-btn.active{
   color:white;
   background:#151927;
   border-color:var(--purple);
 }
 
-.blade-nav .public.active{border-color:var(--blue)}
-.blade-nav .voice.active{border-color:var(--purple)}
-.blade-nav .pro.active{border-color:var(--yellow)}
-.blade-nav .trade.active{border-color:var(--green)}
-.blade-nav .high.active{
-  border-color:#ffb000;
-  box-shadow:0 0 20px rgba(255,177,0,.08);
+.section-btn.public.active{
+  border-color:var(--blue);
 }
 
-.blade-section{display:none}
-.blade-section.active{display:block}
+.section-btn.voice.active{
+  border-color:var(--purple);
+}
 
-.special-mode{
+.section-btn.pro.active{
+  border-color:var(--yellow);
+}
+
+.section-btn.trade.active{
+  border-color:var(--green);
+}
+
+.section-btn.rap.active{
+  border-color:#ffbf3d;
+  box-shadow:0 0 18px rgba(255,191,61,.08);
+}
+
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block;
+}
+
+.mode{
   display:grid;
   grid-template-columns:80px 1fr auto;
-  align-items:center;
   gap:18px;
+  align-items:center;
   padding:22px;
   border:1px solid var(--border);
   border-radius:14px;
-  background:linear-gradient(135deg,#0b0f17,#101522);
+  background:#0b0f17;
 }
 
-.special-icon{
+.mode-icon{
   width:68px;
   height:68px;
   display:grid;
   place-items:center;
   border-radius:16px;
-  font-size:31px;
   background:#151927;
-  border:1px solid #252c3d;
+  border:1px solid var(--border);
+  font-size:30px;
 }
 
-.special-info h2{font-size:19px;margin-bottom:7px}
+.mode h2{
+  font-size:19px;
+  margin-bottom:7px;
+}
 
-.special-info p{
+.mode p{
   color:var(--muted);
   font-size:11px;
   line-height:1.6;
 }
 
-.meta-list{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-  margin-top:11px;
-}
-
 .meta{
+  display:inline-block;
+  margin-top:10px;
+  margin-right:5px;
   padding:5px 8px;
   border-radius:999px;
   background:#080b11;
   border:1px solid var(--border);
-  color:#9ca5b8;
+  color:#a2acc0;
   font-size:9px;
   font-weight:900;
 }
@@ -346,39 +404,35 @@ button{cursor:pointer}
   border:1px solid var(--border);
   outline:none;
   border-radius:9px;
-  padding:12px 13px;
-  margin-bottom:13px;
+  padding:12px;
+  margin-bottom:12px;
 }
 
-.search:focus{border-color:var(--purple)}
+.search:focus{
+  border-color:var(--purple);
+}
 
-.filterbar{
+.filters{
   display:flex;
-  gap:8px;
+  gap:7px;
   flex-wrap:wrap;
-  margin-bottom:13px;
+  margin-bottom:12px;
 }
 
-.filter-btn{
+.filter{
   border:1px solid var(--border);
-  background:#090c13;
-  color:#9ca5b8;
+  background:#0a0d14;
+  color:#9ba5ba;
+  border-radius:9px;
   padding:8px 11px;
-  border-radius:8px;
-  font-size:11px;
-  font-weight:900;
+  font-size:10px;
+  font-weight:950;
 }
 
-.filter-btn.active{
+.filter.active{
   color:white;
   border-color:var(--purple);
-  background:#151927;
-}
-
-.filter-btn.high.active{
-  color:var(--yellow);
-  border-color:#8a681c;
-  background:#251d0a;
+  background:#171c2a;
 }
 
 .server-grid{
@@ -394,41 +448,38 @@ button{cursor:pointer}
   padding:15px;
 }
 
-.server.high-value{
-  border-color:#6d541a;
-  box-shadow:0 0 18px rgba(255,209,102,.05);
+.server.rap{
+  border-color:#70531a;
+  background:
+    linear-gradient(135deg,rgba(255,209,102,.05),#0a0d14);
 }
 
 .server-top{
   display:flex;
   justify-content:space-between;
-  align-items:center;
   gap:10px;
-  margin-bottom:12px;
+  margin-bottom:11px;
 }
 
-.server-name{font-weight:950}
+.server-name{
+  font-weight:950;
+}
 
 .badge{
-  border-radius:999px;
   padding:5px 8px;
-  font-size:10px;
-  font-weight:900;
+  border-radius:999px;
+  font-size:9px;
+  font-weight:950;
+  white-space:nowrap;
 }
 
-.open{
+.badge.open{
   color:var(--green);
   background:rgba(57,229,140,.08);
   border:1px solid rgba(57,229,140,.18);
 }
 
-.full{
-  color:var(--red);
-  background:rgba(255,95,109,.08);
-  border-color:rgba(255,95,109,.18);
-}
-
-.valuable{
+.badge.rap{
   color:var(--yellow);
   background:rgba(255,209,102,.08);
   border:1px solid rgba(255,209,102,.2);
@@ -437,85 +488,105 @@ button{cursor:pointer}
 .metrics{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:7px;
-  margin-bottom:10px;
+  gap:6px;
+  margin-bottom:9px;
 }
 
 .metric{
   background:var(--panel2);
   border-radius:8px;
-  padding:9px;
+  padding:8px;
 }
 
 .metric small{
   display:block;
   color:var(--muted);
-  font-size:9px;
+  font-size:8px;
   margin-bottom:4px;
 }
 
-.metric strong{font-size:12px}
+.metric strong{
+  font-size:12px;
+}
 
 .job{
-  border:1px solid #1d2331;
   background:#070a10;
-  border-radius:8px;
+  border:1px solid #1d2331;
   padding:9px;
-  margin-bottom:10px;
+  border-radius:8px;
+  margin-bottom:9px;
 }
 
 .job small{
   display:block;
   color:var(--muted);
-  font-size:9px;
+  font-size:8px;
   margin-bottom:4px;
 }
 
 .job code{
-  color:#cbd1df;
-  font-size:10px;
+  color:#cbd2e1;
+  font-size:9px;
   word-break:break-all;
 }
 
-.actions{display:flex;gap:7px}
-.actions .join{flex:1}
-
-.loading{
-  grid-column:1/-1;
-  text-align:center;
-  padding:40px;
-  color:var(--muted);
+.players{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-bottom:10px;
 }
 
-.spinner{
-  width:27px;
-  height:27px;
-  border:3px solid #222838;
-  border-top-color:var(--purple);
-  border-radius:50%;
-  animation:spin .8s linear infinite;
-  margin:0 auto 10px;
+.player{
+  padding:5px 7px;
+  border-radius:7px;
+  background:#111722;
+  border:1px solid #222b3b;
+  font-size:9px;
+  color:#bbc4d5;
 }
 
-@keyframes spin{to{transform:rotate(360deg)}}
+.actions{
+  display:flex;
+  gap:7px;
+}
 
+.actions .join{
+  flex:1;
+}
+
+.loading,
 .empty{
   grid-column:1/-1;
   text-align:center;
+  padding:38px;
   color:var(--muted);
-  padding:30px;
   border:1px dashed var(--border);
   border-radius:10px;
 }
 
-.note{
+.spinner{
+  width:26px;
+  height:26px;
+  margin:0 auto 10px;
+  border:3px solid #252b3a;
+  border-top-color:var(--purple);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.info{
+  padding:13px;
+  border:1px solid var(--border);
+  background:#0a0d14;
+  border-radius:10px;
   color:var(--muted);
   font-size:11px;
   line-height:1.6;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:10px;
-  background:#090c13;
 }
 
 .toast{
@@ -528,9 +599,9 @@ button{cursor:pointer}
   border:1px solid var(--border);
   padding:11px 15px;
   border-radius:9px;
-  font-size:12px;
   transition:.2s;
   z-index:50;
+  font-size:12px;
 }
 
 .toast.show{
@@ -538,12 +609,8 @@ button{cursor:pointer}
   opacity:1;
 }
 
-@media(max-width:950px){
-  .stats{grid-template-columns:repeat(3,1fr)}
-  .blade-nav{grid-template-columns:repeat(3,1fr)}
-}
+@media(max-width:900px){
 
-@media(max-width:850px){
   .sidebar{
     width:65px;
     padding:15px 8px;
@@ -555,12 +622,15 @@ button{cursor:pointer}
   }
 
   .brand span,
-  .section-label{display:none}
+  .label,
+  .sidebar-bottom{
+    display:none;
+  }
 
   .brand:after{
     content:"D";
+    color:#a78bfa;
     font-size:23px;
-    color:var(--purple2);
   }
 
   .nav button{
@@ -578,17 +648,62 @@ button{cursor:pointer}
     width:calc(100% - 65px);
   }
 
-  .server-grid{grid-template-columns:1fr}
-  .special-mode{grid-template-columns:1fr;text-align:center}
-  .special-icon{margin:auto}
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .stats .stat:last-child{
+    grid-column:1/-1;
+  }
+
+  .section-nav{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .server-grid{
+    grid-template-columns:1fr;
+  }
+
+  .mode{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+
+  .mode-icon{
+    margin:auto;
+  }
+
+  .mode button{
+    width:100%;
+  }
 }
 
 @media(max-width:550px){
-  .topbar{padding:0 15px}
-  .content{width:94%;padding-top:20px}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .blade-nav{grid-template-columns:1fr 1fr}
-  .metrics{grid-template-columns:repeat(2,1fr)}
+
+  .topbar{
+    padding:0 15px;
+  }
+
+  .content{
+    width:94%;
+    padding-top:20px;
+  }
+
+  .section-nav{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .metrics{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .panel-head{
+    flex-direction:column;
+  }
+
+  .controls{
+    width:100%;
+  }
 }
 </style>
 </head>
@@ -599,44 +714,63 @@ button{cursor:pointer}
 
 <aside class="sidebar">
 
-  <div class="brand">DONIE <span>TOOLS</span></div>
+  <div class="brand">
+    DONIE <span>TOOLS</span>
+  </div>
 
-  <div class="section-label">GAME</div>
-
-  <nav class="nav">
-    <button class="active">⚔️ Blade Ball</button>
-  </nav>
-
-  <div class="section-label">TOOLS</div>
+  <div class="label">GAME</div>
 
   <nav class="nav">
-    <button onclick="loadServers()">🔄 Refresh</button>
-    <button onclick="showHighValue()">💰 17K+ Finder</button>
+    <button class="active" id="bladeNav">
+      ⚔️ Blade Ball
+    </button>
   </nav>
+
+  <div class="label">TOOLS</div>
+
+  <nav class="nav">
+    <button onclick="loadServers()">
+      🔄 Refresh
+    </button>
+
+    <button onclick="switchSection('rap')">
+      💰 17K+ Finder
+    </button>
+  </nav>
+
+  <div class="sidebar-bottom">
+    DONIE Blade Ball Finder<br>
+    Public server tools
+  </div>
 
 </aside>
 
 <main class="main">
 
 <div class="topbar">
-  <div class="page-title">Blade Ball</div>
+
+  <div class="page-title">
+    Blade Ball
+  </div>
 
   <div class="connection">
-    <div id="statusDot" class="dot"></div>
+    <span id="statusDot" class="dot"></span>
     <span id="statusText">Connecting</span>
   </div>
+
 </div>
 
 <div class="content">
 
 <section class="hero">
 
-  <h1>⚔️ Blade Ball Server Finder</h1>
+  <h1>
+    Blade Ball Server Finder
+  </h1>
 
   <p>
-    Find public Blade Ball servers and prioritize servers
-    with reported high-value data. The 17K+ filter only uses
-    values actually supplied by an authorized server reporter.
+    Browse public servers and view reported RAP information.
+    The 17K+ finder only counts servers with verified reporter data.
   </p>
 
 </section>
@@ -644,138 +778,152 @@ button{cursor:pointer}
 <section class="stats">
 
   <div class="stat">
-    <div class="stat-label">SERVERS</div>
-    <div id="serverCount" class="stat-value">0</div>
+    <small>SERVERS</small>
+    <strong id="serverCount">0</strong>
   </div>
 
   <div class="stat">
-    <div class="stat-label">PLAYERS</div>
-    <div id="playerCount" class="stat-value">0</div>
+    <small>PLAYERS</small>
+    <strong id="playerCount">0</strong>
   </div>
 
   <div class="stat">
-    <div class="stat-label">OPEN SLOTS</div>
-    <div id="slotCount" class="stat-value">0</div>
+    <small>OPEN SLOTS</small>
+    <strong id="slotCount">0</strong>
   </div>
 
   <div class="stat">
-    <div class="stat-label">17K+ SERVERS</div>
-    <div id="highCount" class="stat-value">0</div>
+    <small>17K+ SERVERS</small>
+    <strong id="rapServerCount">0</strong>
   </div>
 
   <div class="stat">
-    <div class="stat-label">UPDATED</div>
-    <div id="updated" class="stat-value">--</div>
+    <small>UPDATED</small>
+    <strong id="updated">--</strong>
   </div>
 
 </section>
 
-<section class="panel">
+<div class="panel">
 
-<div class="blade-nav">
+<div class="section-nav">
 
-  <button id="navPublic"
-    class="active public"
+  <button
+    class="section-btn public active"
+    id="secPublic"
     onclick="switchSection('public')">
     🌐 PUBLIC
   </button>
 
-  <button id="navVoice"
-    class="voice"
+  <button
+    class="section-btn voice"
+    id="secVoice"
     onclick="switchSection('voice')">
     🎙️ VOICE
   </button>
 
-  <button id="navPro"
-    class="pro"
+  <button
+    class="section-btn pro"
+    id="secPro"
     onclick="switchSection('pro')">
     👑 PRO
   </button>
 
-  <button id="navTrade"
-    class="trade"
+  <button
+    class="section-btn trade"
+    id="secTrade"
     onclick="switchSection('trade')">
     🤝 TRADE
   </button>
 
-  <button id="navHigh"
-    class="high"
-    onclick="switchSection('high')">
+  <button
+    class="section-btn rap"
+    id="secRap"
+    onclick="switchSection('rap')">
     💰 17K+
   </button>
 
 </div>
 
-<div id="publicSection" class="blade-section active">
+<!-- PUBLIC -->
 
-  <div class="panel" style="margin:0">
+<div id="publicSection" class="section active">
 
-    <div class="panel-head">
+  <div class="panel-head">
 
-      <div>
-        <div class="panel-title">🌐 Public Servers</div>
-        <div class="panel-subtitle">
-          Live public Blade Ball servers.
-        </div>
+    <div>
+      <div class="title">
+        🌐 Public Servers
       </div>
 
-      <button class="btn primary" onclick="loadServers()">
-        🔄 Refresh
-      </button>
-
-    </div>
-
-    <div class="filterbar">
-
-      <button
-        class="filter-btn active"
-        id="filterAll"
-        onclick="setFilter('all')">
-        ALL
-      </button>
-
-      <button
-        class="filter-btn"
-        id="filterOpen"
-        onclick="setFilter('open')">
-        OPEN SLOTS
-      </button>
-
-      <button
-        class="filter-btn high"
-        id="filterHigh"
-        onclick="setFilter('high')">
-        💰 17K+
-      </button>
-
-    </div>
-
-    <input
-      id="search"
-      class="search"
-      placeholder="Search JobId..."
-      oninput="renderServers()">
-
-    <div id="serverGrid" class="server-grid">
-
-      <div class="loading">
-        <div class="spinner"></div>
-        Loading Blade Ball servers...
+      <div class="subtitle">
+        Live public Blade Ball servers.
       </div>
+    </div>
 
+    <button
+      class="btn primary"
+      onclick="loadServers()">
+      🔄 Refresh
+    </button>
+
+  </div>
+
+  <div class="filters">
+
+    <button
+      id="filterAll"
+      class="filter active"
+      onclick="setFilter('all')">
+      ALL
+    </button>
+
+    <button
+      id="filterOpen"
+      class="filter"
+      onclick="setFilter('open')">
+      OPEN SLOTS
+    </button>
+
+    <button
+      id="filterRap"
+      class="filter"
+      onclick="setFilter('rap')">
+      💰 17K+
+    </button>
+
+  </div>
+
+  <input
+    id="search"
+    class="search"
+    placeholder="Search JobId..."
+    oninput="renderServers()">
+
+  <div
+    id="serverGrid"
+    class="server-grid">
+
+    <div class="loading">
+      <div class="spinner"></div>
+      Loading servers...
     </div>
 
   </div>
 
 </div>
 
-<div id="voiceSection" class="blade-section">
+<!-- VOICE -->
 
-  <div class="special-mode">
+<div id="voiceSection" class="section">
 
-    <div class="special-icon">🎙️</div>
+  <div class="mode">
 
-    <div class="special-info">
+    <div class="mode-icon">
+      🎙️
+    </div>
+
+    <div>
 
       <h2>Voice Server</h2>
 
@@ -783,15 +931,15 @@ button{cursor:pointer}
         Open the Blade Ball Voice experience separately.
       </p>
 
-      <div class="meta-list">
-        <span class="meta">VOICE</span>
-        <span class="meta">PLACE ID 15131065025</span>
-      </div>
+      <span class="meta">
+        PLACE ID 15131065025
+      </span>
 
     </div>
 
-    <button class="btn primary"
-      onclick="openExperience('15131065025')">
+    <button
+      class="btn primary"
+      onclick="openMode('15131065025','Voice Server')">
       🎙️ Open Voice
     </button>
 
@@ -799,29 +947,33 @@ button{cursor:pointer}
 
 </div>
 
-<div id="proSection" class="blade-section">
+<!-- PRO -->
 
-  <div class="special-mode">
+<div id="proSection" class="section">
 
-    <div class="special-icon">👑</div>
+  <div class="mode">
 
-    <div class="special-info">
+    <div class="mode-icon">
+      👑
+    </div>
+
+    <div>
 
       <h2>Pro Servers</h2>
 
       <p>
-        Open the Blade Ball Pro experience separately.
+        Open the Blade Ball Pro Servers experience.
       </p>
 
-      <div class="meta-list">
-        <span class="meta">PRO</span>
-        <span class="meta">PLACE ID 14732610803</span>
-      </div>
+      <span class="meta">
+        PLACE ID 14732610803
+      </span>
 
     </div>
 
-    <button class="btn high"
-      onclick="openExperience('14732610803')">
+    <button
+      class="btn gold"
+      onclick="openMode('14732610803','Pro Servers')">
       👑 Open Pro
     </button>
 
@@ -829,29 +981,33 @@ button{cursor:pointer}
 
 </div>
 
-<div id="tradeSection" class="blade-section">
+<!-- TRADE -->
 
-  <div class="special-mode">
+<div id="tradeSection" class="section">
 
-    <div class="special-icon">🤝</div>
+  <div class="mode">
 
-    <div class="special-info">
+    <div class="mode-icon">
+      🤝
+    </div>
+
+    <div>
 
       <h2>Trade Plaza</h2>
 
       <p>
-        Open the Blade Ball Trade Plaza.
+        Open the Blade Ball Trade Plaza separately.
       </p>
 
-      <div class="meta-list">
-        <span class="meta">TRADE</span>
-        <span class="meta">PLACE ID 16581637217</span>
-      </div>
+      <span class="meta">
+        PLACE ID 16581637217
+      </span>
 
     </div>
 
-    <button class="btn join"
-      onclick="openExperience('16581637217')">
+    <button
+      class="btn join"
+      onclick="openMode('16581637217','Trade Plaza')">
       🤝 Open Trade
     </button>
 
@@ -859,46 +1015,63 @@ button{cursor:pointer}
 
 </div>
 
-<div id="highSection" class="blade-section">
+<!-- RAP -->
 
-  <div class="panel" style="margin:0">
+<div id="rapSection" class="section">
 
-    <div class="panel-head">
+  <div class="panel-head">
 
-      <div>
-        <div class="panel-title">💰 17K+ High Value</div>
+    <div>
 
-        <div class="panel-subtitle">
-          Shows servers with reported value of at least 17,000.
-        </div>
+      <div class="title">
+        💰 17K+ RAP Finder
       </div>
 
-      <button class="btn high" onclick="loadServers()">
-        🔄 Scan
-      </button>
+      <div class="subtitle">
+        Only reported servers whose highest reported RAP is
+        at least 17,000 appear here.
+      </div>
 
     </div>
 
-    <div class="note">
-      ⚠️ This is a reported-value system. Roblox's normal
-      public-server listing does not provide hidden player
-      inventories or trade values. A server appears here only
-      when your authorized reporter supplies a value of 17,000+
-      or greater.
+    <button
+      class="btn gold"
+      onclick="setFilter('rap');switchSection('public')">
+      Show 17K+
+    </button>
+
+  </div>
+
+  <div class="info">
+
+    ⚠️ RAP is not supplied by the normal public server-list
+    response. This dashboard therefore only marks a server
+    as 17K+ after your legitimate reporter supplies player
+    UserIds/RAP information. A missing report is displayed as
+    unknown, not falsely counted as 17K+.
+
+  </div>
+
+  <br>
+
+  <div id="rapGrid" class="server-grid">
+
+    <div class="empty">
+      No 17K+ reported servers yet.
     </div>
-
-    <br>
-
-    <div id="highGrid" class="server-grid"></div>
 
   </div>
 
 </div>
 
-</section>
+</div>
 
 </div>
+
+</div>
+
 </main>
+
 </div>
 
 <div id="toast" class="toast"></div>
@@ -911,74 +1084,180 @@ const WORKER_URL =
 const BLADE_PLACE_ID =
   "13772394625";
 
-const HIGH_VALUE =
-  17000;
+const MODES = {
+  voice:"15131065025",
+  pro:"14732610803",
+  trade:"16581637217"
+};
+
+const RAP_THRESHOLD = 17000;
 
 let servers = [];
-let activeFilter = "all";
-let currentSection = "public";
+let filter = "all";
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+function setStatus(text,online){
+
+  document.getElementById("statusText").textContent =
+    text;
+
+  document.getElementById("statusDot").className =
+    "dot " + (online ? "online" : "");
+
+}
+
+function toast(message){
+
+  const el =
+    document.getElementById("toast");
+
+  el.textContent = message;
+
+  el.classList.add("show");
+
+  clearTimeout(window.__toast);
+
+  window.__toast =
+    setTimeout(
+      () => el.classList.remove("show"),
+      2200
+    );
+
+}
 
 function switchSection(section){
 
-  currentSection = section;
+  const sections = [
+    "public",
+    "voice",
+    "pro",
+    "trade",
+    "rap"
+  ];
 
-  const sections = {
-    public:document.getElementById("publicSection"),
-    voice:document.getElementById("voiceSection"),
-    pro:document.getElementById("proSection"),
-    trade:document.getElementById("tradeSection"),
-    high:document.getElementById("highSection")
-  };
+  sections.forEach(name => {
 
-  Object.entries(sections).forEach(([key,el])=>{
-    el.classList.toggle("active",key===section);
+    document.getElementById(
+      name + "Section"
+    ).classList.toggle(
+      "active",
+      name === section
+    );
+
+    document.getElementById(
+      "sec" +
+      name.charAt(0).toUpperCase() +
+      name.slice(1)
+    ).classList.toggle(
+      "active",
+      name === section
+    );
+
   });
 
-  const buttons = {
-    public:document.getElementById("navPublic"),
-    voice:document.getElementById("navVoice"),
-    pro:document.getElementById("navPro"),
-    trade:document.getElementById("navTrade"),
-    high:document.getElementById("navHigh")
-  };
-
-  Object.entries(buttons).forEach(([key,el])=>{
-    el.classList.toggle("active",key===section);
-  });
-
-  if(section==="high"){
-    renderHighValue();
+  if(section === "rap"){
+    renderRAP();
   }
 
-  if(section==="public"){
-    renderServers();
-  }
 }
 
-function showHighValue(){
-  switchSection("high");
+function openMode(placeId,name){
+
+  toast("Opening " + name + "...");
+
+  setTimeout(() => {
+
+    window.location.href =
+      "https://www.roblox.com/games/start?placeId=" +
+      encodeURIComponent(placeId);
+
+  },250);
+
 }
 
-function setFilter(filter){
+function setFilter(type){
 
-  activeFilter = filter;
+  filter = type;
 
-  document.getElementById("filterAll")
-    .classList.toggle("active",filter==="all");
+  document
+    .getElementById("filterAll")
+    .classList.toggle(
+      "active",
+      type === "all"
+    );
 
-  document.getElementById("filterOpen")
-    .classList.toggle("active",filter==="open");
+  document
+    .getElementById("filterOpen")
+    .classList.toggle(
+      "active",
+      type === "open"
+    );
 
-  document.getElementById("filterHigh")
-    .classList.toggle("active",filter==="high");
+  document
+    .getElementById("filterRap")
+    .classList.toggle(
+      "active",
+      type === "rap"
+    );
 
   renderServers();
+
+}
+
+function serverRAP(server){
+
+  const a =
+    Number(server.highestRap || 0);
+
+  const b =
+    Number(server.maxRAP || 0);
+
+  const c =
+    Number(server.rap || 0);
+
+  return Math.max(a,b,c);
+
+}
+
+function getJobId(server){
+
+  return server.jobId ||
+         server.id ||
+         "";
+
+}
+
+function buildJoin(jobId){
+
+  if(!jobId)
+    return "";
+
+  return (
+    "https://www.roblox.com/games/start" +
+    "?placeId=" +
+    encodeURIComponent(BLADE_PLACE_ID) +
+    "&gameInstanceId=" +
+    encodeURIComponent(jobId)
+  );
+
 }
 
 async function loadServers(){
 
   const grid =
-    document.getElementById("serverGrid");
+    document.getElementById(
+      "serverGrid"
+    );
 
   grid.innerHTML = `
     <div class="loading">
@@ -1000,18 +1279,25 @@ async function loadServers(){
       Date.now();
 
     const response =
-      await fetch(url,{
-        cache:"no-store"
-      });
+      await fetch(
+        url,
+        {
+          cache:"no-store"
+        }
+      );
 
     if(!response.ok)
-      throw new Error("Worker HTTP "+response.status);
+      throw new Error(
+        "Worker HTTP " + response.status
+      );
 
     const data =
       await response.json();
 
     if(!data.success)
-      throw new Error(data.error || "Worker error");
+      throw new Error(
+        data.error || "Worker error"
+      );
 
     servers =
       Array.isArray(data.servers)
@@ -1020,16 +1306,19 @@ async function loadServers(){
 
     updateStats();
     renderServers();
-    renderHighValue();
+    renderRAP();
 
     setStatus("Live",true);
 
     document.getElementById("updated")
       .textContent =
-      new Date().toLocaleTimeString([],{
-        hour:"numeric",
-        minute:"2-digit"
-      });
+      new Date().toLocaleTimeString(
+        [],
+        {
+          hour:"numeric",
+          minute:"2-digit"
+        }
+      );
 
   }catch(error){
 
@@ -1043,11 +1332,14 @@ async function loadServers(){
           Couldn't load servers
         </h3>
 
-        <p>${escapeHtml(error.message)}</p>
+        <p>
+          ${escapeHtml(error.message)}
+        </p>
 
         <br>
 
-        <button class="btn primary"
+        <button
+          class="btn primary"
           onclick="loadServers()">
           Try Again
         </button>
@@ -1055,22 +1347,38 @@ async function loadServers(){
     `;
 
   }
+
 }
 
 function updateStats(){
 
   let players = 0;
   let slots = 0;
+  let rapServers = 0;
 
-  servers.forEach(s=>{
-    players += Number(s.playing || 0);
-    slots += Number(s.availableSlots || 0);
+  servers.forEach(server => {
+
+    players +=
+      Number(server.playing || 0);
+
+    slots +=
+      Number(
+        server.availableSlots ??
+        Math.max(
+          Number(server.maxPlayers || 0) -
+          Number(server.playing || 0),
+          0
+        )
+      );
+
+    if(
+      serverRAP(server) >=
+      RAP_THRESHOLD
+    ){
+      rapServers++;
+    }
+
   });
-
-  const high =
-    servers.filter(s =>
-      Number(s.highValue || 0) >= HIGH_VALUE
-    ).length;
 
   document.getElementById("serverCount")
     .textContent = servers.length;
@@ -1081,59 +1389,72 @@ function updateStats(){
   document.getElementById("slotCount")
     .textContent = slots;
 
-  document.getElementById("highCount")
-    .textContent = high;
-}
+  document.getElementById("rapServerCount")
+    .textContent = rapServers;
 
-function getVisibleServers(){
-
-  const search =
-    document.getElementById("search")
-      .value
-      .trim()
-      .toLowerCase();
-
-  let list = servers.filter(server=>{
-
-    const id =
-      String(
-        server.jobId ||
-        server.id ||
-        ""
-      ).toLowerCase();
-
-    return id.includes(search);
-  });
-
-  if(activeFilter==="open"){
-    list =
-      list.filter(s =>
-        Number(s.availableSlots || 0) > 0
-      );
-  }
-
-  if(activeFilter==="high"){
-    list =
-      list.filter(s =>
-        Number(s.highValue || 0) >= HIGH_VALUE
-      );
-  }
-
-  list.sort((a,b)=>{
-    return Number(b.highValue || 0) -
-           Number(a.highValue || 0);
-  });
-
-  return list;
 }
 
 function renderServers(){
 
   const grid =
-    document.getElementById("serverGrid");
+    document.getElementById(
+      "serverGrid"
+    );
 
-  const visible =
-    getVisibleServers();
+  const query =
+    document.getElementById(
+      "search"
+    ).value
+    .trim()
+    .toLowerCase();
+
+  let visible =
+    servers.filter(server => {
+
+      const id =
+        getJobId(server)
+        .toLowerCase();
+
+      const rap =
+        serverRAP(server);
+
+      const playing =
+        Number(server.playing || 0);
+
+      const max =
+        Number(server.maxPlayers || 0);
+
+      const slots =
+        Number(
+          server.availableSlots ??
+          Math.max(max-playing,0)
+        );
+
+      if(
+        !id.includes(query)
+      ){
+        return false;
+      }
+
+      if(filter === "open" && slots <= 0)
+        return false;
+
+      if(
+        filter === "rap" &&
+        rap < RAP_THRESHOLD
+      ){
+        return false;
+      }
+
+      return true;
+
+    });
+
+  visible.sort(
+    (a,b) =>
+      serverRAP(b) -
+      serverRAP(a)
+  );
 
   if(!visible.length){
 
@@ -1144,54 +1465,21 @@ function renderServers(){
     `;
 
     return;
+
   }
 
   grid.innerHTML =
-    visible.map((server,index)=>
-      createServerCard(server,index)
+    visible.map(
+      (server,index) =>
+        createCard(server,index)
     ).join("");
+
 }
 
-function renderHighValue(){
-
-  const grid =
-    document.getElementById("highGrid");
-
-  const highServers =
-    servers
-      .filter(s =>
-        Number(s.highValue || 0) >= HIGH_VALUE
-      )
-      .sort((a,b)=>
-        Number(b.highValue || 0) -
-        Number(a.highValue || 0)
-      );
-
-  if(!highServers.length){
-
-    grid.innerHTML = `
-      <div class="empty">
-        No reported 17K+ servers yet.
-        <br><br>
-        Refresh after your server reporter has submitted data.
-      </div>
-    `;
-
-    return;
-  }
-
-  grid.innerHTML =
-    highServers.map((server,index)=>
-      createServerCard(server,index)
-    ).join("");
-}
-
-function createServerCard(server,index){
+function createCard(server,index){
 
   const jobId =
-    server.jobId ||
-    server.id ||
-    "";
+    getJobId(server);
 
   const playing =
     Number(server.playing || 0);
@@ -1200,21 +1488,14 @@ function createServerCard(server,index){
     Number(server.maxPlayers || 0);
 
   const slots =
-    Math.max(
-      Number(
-        server.availableSlots != null
-          ? server.availableSlots
-          : maxPlayers-playing
-      ),
-      0
+    Number(
+      server.availableSlots ??
+      Math.max(maxPlayers-playing,0)
     );
-
-  const value =
-    Number(server.highValue || 0);
 
   const ping =
     server.ping != null
-      ? Math.round(Number(server.ping))+" ms"
+      ? Math.round(Number(server.ping)) + " ms"
       : "N/A";
 
   const fps =
@@ -1222,223 +1503,238 @@ function createServerCard(server,index){
       ? Math.round(Number(server.fps))
       : "N/A";
 
-  const joinUrl =
+  const rap =
+    serverRAP(server);
+
+  const join =
     server.joinUrl ||
-    buildJoinUrl(jobId);
+    buildJoin(jobId);
 
-  const isHigh =
-    value >= HIGH_VALUE;
+  const isRap =
+    rap >= RAP_THRESHOLD;
 
-  const full =
-    slots <= 0;
+  const playerList =
+    Array.isArray(server.players)
+      ? server.players
+      : [];
 
   return `
-    <article class="server ${isHigh ? "high-value":""}">
 
-      <div class="server-top">
+  <article class="server ${isRap ? "rap":""}">
 
-        <div class="server-name">
-          Blade Ball #${index+1}
-        </div>
+    <div class="server-top">
 
-        <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+      <div class="server-name">
+        Blade Ball #${index+1}
+      </div>
+
+      ${
+        isRap
+          ? `<div class="badge rap">
+              💰 ${rap.toLocaleString()} RAP
+             </div>`
+          : `<div class="badge open">
+              ${slots} OPEN
+             </div>`
+      }
+
+    </div>
+
+    <div class="metrics">
+
+      <div class="metric">
+        <small>PLAYERS</small>
+        <strong>
+          ${playing}/${maxPlayers || "?"}
+        </strong>
+      </div>
+
+      <div class="metric">
+        <small>OPEN</small>
+        <strong>
+          ${slots}
+        </strong>
+      </div>
+
+      <div class="metric">
+        <small>PING</small>
+        <strong>
+          ${escapeHtml(ping)}
+        </strong>
+      </div>
+
+      <div class="metric">
+        <small>RAP</small>
+        <strong>
+          ${
+            rap > 0
+              ? rap.toLocaleString()
+              : "N/A"
+          }
+        </strong>
+      </div>
+
+    </div>
+
+    ${
+      playerList.length
+        ? `
+        <div class="players">
 
           ${
-            isHigh
-              ? `<div class="badge valuable">
-                   💰 ${formatValue(value)}
-                 </div>`
-              : ""
+            playerList
+              .slice(0,12)
+              .map(player => `
+
+                <span class="player">
+
+                  ${escapeHtml(
+                    player.name ||
+                    player.username ||
+                    ("User " + player.userId)
+                  )}
+
+                  ${
+                    Number(player.rap || 0) >=
+                    RAP_THRESHOLD
+                      ? " 💰"
+                      : ""
+                  }
+
+                </span>
+
+              `)
+              .join("")
           }
 
-          <div class="badge ${full ? "full":"open"}">
-            ${
-              full
-                ? "FULL"
-                : slots+" OPEN"
-            }
-          </div>
-
         </div>
+        `
+        : ""
+    }
 
-      </div>
+    <div class="job">
 
-      <div class="metrics">
+      <small>JOB ID</small>
 
-        <div class="metric">
-          <small>PLAYERS</small>
-          <strong>
-            ${playing}/${maxPlayers || "?"}
-          </strong>
-        </div>
+      <code>
+        ${escapeHtml(jobId)}
+      </code>
 
-        <div class="metric">
-          <small>VALUE</small>
-          <strong>
-            ${
-              value
-                ? formatValue(value)
-                : "N/A"
-            }
-          </strong>
-        </div>
+    </div>
 
-        <div class="metric">
-          <small>PING</small>
-          <strong>
-            ${escapeHtml(String(ping))}
-          </strong>
-        </div>
+    <div class="actions">
 
-        <div class="metric">
-          <small>FPS</small>
-          <strong>
-            ${escapeHtml(String(fps))}
-          </strong>
-        </div>
+      <button
+        class="btn join"
+        onclick='joinServer(${JSON.stringify(join)})'>
+        🎮 Join Server
+      </button>
 
-      </div>
+      <button
+        class="btn"
+        onclick='copyText(${JSON.stringify(jobId)})'>
+        📋 Copy
+      </button>
 
-      <div class="job">
+    </div>
 
-        <small>JOB ID</small>
+  </article>
 
-        <code>
-          ${escapeHtml(jobId)}
-        </code>
-
-      </div>
-
-      <div class="actions">
-
-        <button
-          class="btn join"
-          onclick='joinServer(${JSON.stringify(joinUrl)})'>
-          🎮 Join Server
-        </button>
-
-        <button
-          class="btn"
-          onclick='copyJobId(${JSON.stringify(jobId)})'>
-          📋 Copy
-        </button>
-
-      </div>
-
-    </article>
   `;
+
 }
 
-function formatValue(value){
+function renderRAP(){
 
-  value = Number(value)||0;
+  const grid =
+    document.getElementById(
+      "rapGrid"
+    );
 
-  if(value>=1000000)
-    return (value/1000000).toFixed(1)+"M";
+  if(!grid)
+    return;
 
-  if(value>=1000)
-    return (value/1000).toFixed(1)+"K";
+  const matches =
+    servers
+      .filter(
+        server =>
+          serverRAP(server) >=
+          RAP_THRESHOLD
+      )
+      .sort(
+        (a,b) =>
+          serverRAP(b) -
+          serverRAP(a)
+      );
 
-  return value.toLocaleString();
-}
+  if(!matches.length){
 
-function buildJoinUrl(jobId){
+    grid.innerHTML = `
+      <div class="empty">
+        No 17K+ reported servers yet.
+        <br><br>
+        The reporter must provide real player
+        RAP information before a server can
+        appear here.
+      </div>
+    `;
 
-  if(!jobId)
-    return "";
+    return;
 
-  return (
-    "https://www.roblox.com/games/start" +
-    "?placeId=" +
-    encodeURIComponent(BLADE_PLACE_ID) +
-    "&gameInstanceId=" +
-    encodeURIComponent(jobId)
-  );
+  }
+
+  grid.innerHTML =
+    matches
+      .map(
+        (server,index) =>
+          createCard(server,index)
+      )
+      .join("");
+
 }
 
 function joinServer(url){
 
   if(!url){
-    showToast("No join URL available.");
+
+    toast("No join URL available.");
     return;
+
   }
 
   window.location.href = url;
+
 }
 
-function openExperience(placeId){
+async function copyText(text){
 
-  showToast("Opening Blade Ball...");
+  if(!text){
 
-  setTimeout(()=>{
-    window.location.href =
-      "https://www.roblox.com/games/start?placeId="+
-      encodeURIComponent(placeId);
-  },250);
-}
-
-async function copyJobId(jobId){
-
-  if(!jobId){
-    showToast("No JobId available.");
+    toast("Nothing to copy.");
     return;
+
   }
 
   try{
 
-    await navigator.clipboard.writeText(jobId);
+    await navigator.clipboard.writeText(text);
 
-    showToast("JobId copied!");
+    toast("Copied!");
 
   }catch{
 
-    showToast("Copy failed.");
+    toast("Copy failed.");
 
   }
-}
 
-function setStatus(text,online){
-
-  document.getElementById("statusText")
-    .textContent = text;
-
-  document.getElementById("statusDot")
-    .className =
-      "dot "+(online ? "online":"");
-}
-
-let toastTimer;
-
-function showToast(message){
-
-  const toast =
-    document.getElementById("toast");
-
-  toast.textContent = message;
-
-  toast.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer =
-    setTimeout(()=>{
-      toast.classList.remove("show");
-    },2200);
-}
-
-function escapeHtml(value){
-
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
 }
 
 loadServers();
 
-setInterval(loadServers,30000);
+setInterval(
+  loadServers,
+  30000
+);
 
 </script>
 
