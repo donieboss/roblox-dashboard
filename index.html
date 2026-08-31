@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DONIE • Roblox Toolkit</title>
+<title>DONIE • Blade Ball Toolkit</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-
 :root{
   --bg:#07080d;
   --panel:#0d1018;
@@ -16,32 +15,20 @@
   --text:#f4f6fb;
   --muted:#7f889b;
   --purple:#8b5cf6;
-  --purple2:#a78bfa;
   --green:#39e58c;
   --red:#ff5f6d;
   --yellow:#ffd166;
   --blue:#4da6ff;
 }
-
 body{
   min-height:100vh;
-  font-family:Inter,Arial,Helvetica,sans-serif;
+  font-family:Inter,Arial,sans-serif;
   color:var(--text);
-  background:
-    radial-gradient(circle at 50% -10%,rgba(139,92,246,.16),transparent 35%),
-    #07080d;
+  background:radial-gradient(circle at 50% -10%,rgba(139,92,246,.16),transparent 35%),var(--bg);
 }
-
 button,input{font:inherit}
 button{cursor:pointer}
-
-.app{
-  display:flex;
-  min-height:100vh;
-}
-
-/* SIDEBAR */
-
+.app{display:flex;min-height:100vh}
 .sidebar{
   width:235px;
   border-right:1px solid var(--border);
@@ -51,2110 +38,480 @@ button{cursor:pointer}
   inset:0 auto 0 0;
   overflow-y:auto;
 }
-
-.brand{
-  font-size:23px;
-  font-weight:950;
-  padding:8px 12px 25px;
-}
-
-.brand span{color:var(--purple2)}
-
+.brand{font-size:23px;font-weight:950;padding:8px 12px 25px}
+.brand span{color:#a78bfa}
 .section-label{
-  color:#555e72;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:1.4px;
-  padding:10px 12px;
+  color:#555e72;font-size:10px;font-weight:900;
+  letter-spacing:1.4px;padding:10px 12px
 }
-
-.nav{
-  display:grid;
-  gap:5px;
-}
-
+.nav{display:grid;gap:5px}
 .nav button{
-  width:100%;
-  border:1px solid transparent;
-  background:transparent;
-  color:#9aa2b5;
-  text-align:left;
-  padding:12px;
-  border-radius:9px;
-  font-weight:800;
+  width:100%;border:1px solid transparent;background:transparent;
+  color:#9aa2b5;text-align:left;padding:12px;border-radius:9px;font-weight:800
 }
-
-.nav button:hover,
-.nav button.active{
-  background:#151927;
-  border-color:#252c3d;
-  color:white;
+.nav button:hover,.nav button.active{
+  background:#151927;border-color:#252c3d;color:white
 }
-
-.nav button.active{
-  box-shadow:inset 2px 0 0 var(--purple);
-}
-
-.sidebar-bottom{
-  margin-top:28px;
-  color:#596276;
-  font-size:11px;
-  padding:12px;
-}
-
-/* MAIN */
-
-.main{
-  margin-left:235px;
-  width:calc(100% - 235px);
-}
-
+.nav button.active{box-shadow:inset 2px 0 0 var(--purple)}
+.sidebar-bottom{margin-top:28px;color:#596276;font-size:11px;padding:12px}
+.main{margin-left:235px;width:calc(100% - 235px)}
 .topbar{
-  height:65px;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 28px;
-  background:rgba(7,8,13,.85);
-  position:sticky;
-  top:0;
-  z-index:10;
-  backdrop-filter:blur(10px);
+  height:65px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;background:rgba(7,8,13,.85);
+  position:sticky;top:0;z-index:10;backdrop-filter:blur(10px)
 }
-
-.page-title{
-  font-size:15px;
-  font-weight:900;
-}
-
-.connection{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  color:var(--muted);
-  font-size:12px;
-}
-
-.dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--yellow);
-}
-
-.dot.online{
-  background:var(--green);
-  box-shadow:0 0 10px rgba(57,229,140,.6);
-}
-
-.content{
-  width:min(1180px,94%);
-  margin:auto;
-  padding:30px 0 60px;
-}
-
-/* HERO */
-
+.page-title{font-size:15px;font-weight:900}
+.connection{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--yellow)}
+.dot.online{background:var(--green);box-shadow:0 0 10px rgba(57,229,140,.6)}
+.content{width:min(1180px,94%);margin:auto;padding:30px 0 60px}
 .hero{
-  padding:26px;
-  border:1px solid var(--border);
-  border-radius:15px;
-  background:
-    linear-gradient(135deg,rgba(139,92,246,.11),rgba(13,16,24,.95));
-  margin-bottom:18px;
+  padding:26px;border:1px solid var(--border);border-radius:15px;
+  background:linear-gradient(135deg,rgba(139,92,246,.11),rgba(13,16,24,.95));
+  margin-bottom:18px
 }
-
-.hero h1{
-  font-size:27px;
-  margin-bottom:7px;
-}
-
-.hero p{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
-}
-
-/* STATS */
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-  margin-bottom:18px;
-}
-
-.stat{
-  border:1px solid var(--border);
-  background:var(--panel);
-  border-radius:13px;
-  padding:17px;
-}
-
-.stat-label{
-  color:var(--muted);
-  font-size:11px;
-  margin-bottom:8px;
-}
-
-.stat-value{
-  font-size:23px;
-  font-weight:950;
-}
-
-/* MAIN TABS */
-
+.hero h1{font-size:27px;margin-bottom:7px}
+.hero p{color:var(--muted);font-size:13px;line-height:1.6}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.stat{border:1px solid var(--border);background:var(--panel);border-radius:13px;padding:17px}
+.stat-label{color:var(--muted);font-size:11px;margin-bottom:8px}
+.stat-value{font-size:23px;font-weight:950}
 .tabs{
-  display:flex;
-  gap:7px;
-  margin-bottom:15px;
-  border-bottom:1px solid var(--border);
-  overflow-x:auto;
+  display:flex;gap:7px;margin-bottom:15px;
+  border-bottom:1px solid var(--border);overflow-x:auto
 }
-
 .tab{
-  background:transparent;
-  color:var(--muted);
-  border:0;
-  padding:11px 14px;
-  border-bottom:2px solid transparent;
-  font-weight:900;
-  white-space:nowrap;
+  background:transparent;color:var(--muted);border:0;
+  padding:11px 14px;border-bottom:2px solid transparent;
+  font-weight:900;white-space:nowrap
 }
-
-.tab.active{
-  color:white;
-  border-bottom-color:var(--purple);
-}
-
-/* PANEL */
-
+.tab.active{color:white;border-bottom-color:var(--purple)}
 .panel{
-  border:1px solid var(--border);
-  background:var(--panel);
-  border-radius:15px;
-  padding:18px;
-  margin-bottom:16px;
+  border:1px solid var(--border);background:var(--panel);
+  border-radius:15px;padding:18px;margin-bottom:16px
 }
-
 .panel-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:15px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:15px
 }
-
-.panel-title{
-  font-size:16px;
-  font-weight:950;
-}
-
-.panel-subtitle{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:5px;
-  line-height:1.5;
-}
-
-.controls{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
-
+.panel-title{font-size:16px;font-weight:950}
+.panel-subtitle{color:var(--muted);font-size:11px;margin-top:5px;line-height:1.5}
+.controls{display:flex;flex-wrap:wrap;gap:8px}
 .btn{
-  border:1px solid var(--border);
-  background:var(--panel2);
-  color:white;
-  border-radius:9px;
-  padding:10px 13px;
-  font-weight:850;
+  border:1px solid var(--border);background:var(--panel2);
+  color:white;border-radius:9px;padding:10px 13px;font-weight:850
 }
-
-.btn:hover{
-  border-color:#3a4359;
-}
-
-.btn.primary{
-  background:var(--purple);
-  border-color:var(--purple);
-}
-
-.btn.join{
-  background:var(--green);
-  color:#06150d;
-  border-color:var(--green);
-}
-
-.btn.danger{
-  background:#25131a;
-  border-color:#4a202b;
-  color:#ff8c98;
-}
-
-/* =====================================================
-   BLADE BALL SECTION NAVIGATION
-===================================================== */
-
+.btn:hover{border-color:#3a4359}
+.btn.primary{background:var(--purple);border-color:var(--purple)}
+.btn.join{background:var(--green);color:#06150d;border-color:var(--green)}
 .blade-section-nav{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-  margin-bottom:16px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px
 }
-
 .blade-section-btn{
-  min-height:64px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  border:1px solid var(--border);
-  background:#0a0d14;
-  color:var(--muted);
-  border-radius:11px;
-  font-weight:950;
-  transition:.18s ease;
+  min-height:64px;display:flex;align-items:center;justify-content:center;
+  gap:8px;border:1px solid var(--border);background:#0a0d14;
+  color:var(--muted);border-radius:11px;font-weight:950;transition:.18s
 }
-
-.blade-section-btn:hover{
-  transform:translateY(-1px);
-  border-color:#3a4359;
-  color:white;
+.blade-section-btn:hover{transform:translateY(-1px);border-color:#3a4359;color:white}
+.blade-section-btn.active{color:white;background:#151927}
+.blade-section-btn.public.active{border-color:var(--blue)}
+.blade-section-btn.voice.active{border-color:var(--purple)}
+.blade-section-btn.pro.active{border-color:var(--yellow)}
+.blade-section-btn.trade.active{border-color:var(--green)}
+.blade-section{display:none}
+.blade-section.active{display:block}
+.mode-card{
+  display:grid;grid-template-columns:80px 1fr auto;align-items:center;
+  gap:18px;padding:22px;border:1px solid var(--border);
+  border-radius:14px;background:linear-gradient(135deg,#0b0f17,#101522)
 }
-
-.blade-section-btn.active{
-  color:white;
-  background:#151927;
-  border-color:var(--purple);
-  box-shadow:0 0 20px rgba(139,92,246,.10);
+.mode-icon{
+  width:68px;height:68px;display:grid;place-items:center;
+  border-radius:16px;font-size:31px;background:#151927;border:1px solid #252c3d
 }
-
-.blade-section-btn.public.active{
-  border-color:var(--blue);
-}
-
-.blade-section-btn.voice.active{
-  border-color:var(--purple);
-}
-
-.blade-section-btn.pro.active{
-  border-color:var(--yellow);
-}
-
-.blade-section-btn.trade.active{
-  border-color:var(--green);
-}
-
-.blade-section-icon{
-  font-size:20px;
-}
-
-/* BLADE SUBSECTIONS */
-
-.blade-section{
-  display:none;
-}
-
-.blade-section.active{
-  display:block;
-}
-
-/* SPECIAL MODE CARD */
-
-.special-mode{
-  display:grid;
-  grid-template-columns:80px 1fr auto;
-  align-items:center;
-  gap:18px;
-  padding:22px;
-  border:1px solid var(--border);
-  border-radius:14px;
-  background:
-    linear-gradient(135deg,#0b0f17,#101522);
-}
-
-.special-icon{
-  width:68px;
-  height:68px;
-  display:grid;
-  place-items:center;
-  border-radius:16px;
-  font-size:31px;
-  background:#151927;
-  border:1px solid #252c3d;
-}
-
-.special-info h2{
-  font-size:19px;
-  margin-bottom:7px;
-}
-
-.special-info p{
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.6;
-}
-
-.special-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-  margin-top:11px;
-}
-
+.mode-info h2{font-size:19px;margin-bottom:7px}
+.mode-info p{color:var(--muted);font-size:11px;line-height:1.6}
+.meta-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
 .meta{
-  padding:5px 8px;
-  border-radius:999px;
-  background:#080b11;
-  border:1px solid var(--border);
-  color:#9ca5b8;
-  font-size:9px;
-  font-weight:900;
+  padding:5px 8px;border-radius:999px;background:#080b11;
+  border:1px solid var(--border);color:#9ca5b8;font-size:9px;font-weight:900
 }
-
-.special-action{
-  min-width:135px;
-}
-
-/* SEARCH */
-
 .search{
-  width:100%;
-  background:#090c13;
-  color:white;
-  border:1px solid var(--border);
-  outline:none;
-  border-radius:9px;
-  padding:12px 13px;
-  margin-bottom:13px;
+  width:100%;background:#090c13;color:white;border:1px solid var(--border);
+  outline:none;border-radius:9px;padding:12px 13px;margin-bottom:13px
 }
-
-.search:focus{
-  border-color:var(--purple);
-}
-
-/* SERVERS */
-
-.server-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
-.server{
-  border:1px solid var(--border);
-  background:#0a0d14;
-  border-radius:13px;
-  padding:15px;
-}
-
-.server-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:12px;
-}
-
-.server-name{
-  font-weight:950;
-}
-
+.search:focus{border-color:var(--purple)}
+.server-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.server{border:1px solid var(--border);background:#0a0d14;border-radius:13px;padding:15px}
+.server-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.server-name{font-weight:950}
 .open{
-  color:var(--green);
-  background:rgba(57,229,140,.08);
-  border:1px solid rgba(57,229,140,.18);
-  border-radius:999px;
-  padding:5px 8px;
-  font-size:10px;
-  font-weight:900;
+  color:var(--green);background:rgba(57,229,140,.08);
+  border:1px solid rgba(57,229,140,.18);border-radius:999px;
+  padding:5px 8px;font-size:10px;font-weight:900
 }
-
-.full{
-  color:var(--red);
-  background:rgba(255,95,109,.08);
-  border-color:rgba(255,95,109,.18);
-}
-
-.metrics{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:7px;
-  margin-bottom:10px;
-}
-
-.metric{
-  background:var(--panel2);
-  border-radius:8px;
-  padding:9px;
-}
-
-.metric small{
-  display:block;
-  color:var(--muted);
-  font-size:9px;
-  margin-bottom:4px;
-}
-
-.metric strong{
-  font-size:13px;
-}
-
-.job{
-  border:1px solid #1d2331;
-  background:#070a10;
-  border-radius:8px;
-  padding:9px;
-  margin-bottom:10px;
-}
-
-.job small{
-  display:block;
-  color:var(--muted);
-  font-size:9px;
-  margin-bottom:4px;
-}
-
-.job code{
-  color:#cbd1df;
-  font-size:10px;
-  word-break:break-all;
-}
-
-.actions{
-  display:flex;
-  gap:7px;
-}
-
-.actions .join{
-  flex:1;
-}
-
-/* SETTINGS */
-
-.settings-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.setting-card{
-  border:1px solid var(--border);
-  background:#0a0d14;
-  border-radius:12px;
-  padding:15px;
-}
-
-.setting-card.full-width{
-  grid-column:1/-1;
-}
-
-.setting-title{
-  font-size:13px;
-  font-weight:900;
-  margin-bottom:6px;
-}
-
-.setting-help{
-  color:var(--muted);
-  font-size:10px;
-  line-height:1.5;
-  margin-bottom:11px;
-}
-
-.setting-input{
-  width:100%;
-  background:#080b11;
-  color:white;
-  border:1px solid var(--border);
-  outline:none;
-  border-radius:9px;
-  padding:11px;
-}
-
-.setting-input:focus{
-  border-color:var(--purple);
-}
-
-.settings-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:14px;
-}
-
-.toggle-list{
-  display:grid;
-  gap:9px;
-}
-
-.toggle-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:10px;
-  background:#080b11;
-}
-
-.toggle-copy{
-  min-width:0;
-}
-
-.toggle-name{
-  font-size:12px;
-  font-weight:900;
-  margin-bottom:3px;
-}
-
-.toggle-description{
-  color:var(--muted);
-  font-size:10px;
-  line-height:1.4;
-}
-
-.switch{
-  position:relative;
-  width:46px;
-  height:25px;
-  flex:0 0 auto;
-}
-
-.switch input{
-  opacity:0;
-  width:0;
-  height:0;
-}
-
-.slider{
-  position:absolute;
-  inset:0;
-  background:#252b39;
-  border:1px solid #343c4f;
-  border-radius:999px;
-  transition:.2s;
-}
-
-.slider:before{
-  content:"";
-  position:absolute;
-  width:18px;
-  height:18px;
-  left:3px;
-  top:2px;
-  background:#8c95a7;
-  border-radius:50%;
-  transition:.2s;
-}
-
-.switch input:checked + .slider{
-  background:var(--purple);
-  border-color:var(--purple);
-}
-
-.switch input:checked + .slider:before{
-  transform:translateX(20px);
-  background:white;
-}
-
-.saved-note{
-  color:#647087;
-  font-size:10px;
-  margin-top:10px;
-}
-
-/* VALUE */
-
-.value-form{
-  display:grid;
-  grid-template-columns:1fr 90px auto;
-  gap:8px;
-  margin-bottom:12px;
-}
-
-.input{
-  background:#090c13;
-  border:1px solid var(--border);
-  color:white;
-  outline:none;
-  border-radius:9px;
-  padding:11px;
-}
-
-.total{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:#090c13;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:14px;
-  margin-bottom:10px;
-}
-
-.total small{
-  color:var(--muted);
-}
-
-.total strong{
-  color:var(--green);
-  font-size:25px;
-}
-
-.value-list{
-  display:grid;
-  gap:7px;
-}
-
-.value-row{
-  display:grid;
-  grid-template-columns:1fr 100px 60px 35px;
-  gap:8px;
-  align-items:center;
-  padding:11px;
-  background:var(--panel2);
-  border-radius:9px;
-  border:1px solid var(--border);
-}
-
-.value-name{
-  font-weight:850;
-}
-
-.value-price{
-  color:var(--green);
-  font-weight:900;
-}
-
-.value-qty{
-  color:var(--purple2);
-  font-weight:900;
-}
-
-.remove{
-  padding:7px;
-  color:var(--red);
-  background:#28171e;
-  border:1px solid #43202a;
-}
-
-/* LOADING */
-
-.loading{
-  grid-column:1/-1;
-  text-align:center;
-  padding:40px;
-  color:var(--muted);
-}
-
+.full{color:var(--red);background:rgba(255,95,109,.08);border-color:rgba(255,95,109,.18)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
+.metric{background:var(--panel2);border-radius:8px;padding:9px}
+.metric small{display:block;color:var(--muted);font-size:9px;margin-bottom:4px}
+.metric strong{font-size:13px}
+.job{border:1px solid #1d2331;background:#070a10;border-radius:8px;padding:9px;margin-bottom:10px}
+.job small{display:block;color:var(--muted);font-size:9px;margin-bottom:4px}
+.job code{color:#cbd1df;font-size:10px;word-break:break-all}
+.actions{display:flex;gap:7px}
+.actions .join{flex:1}
+.loading{grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)}
 .spinner{
-  width:27px;
-  height:27px;
-  border:3px solid #222838;
-  border-top-color:var(--purple);
-  border-radius:50%;
-  animation:spin .8s linear infinite;
-  margin:0 auto 10px;
+  width:27px;height:27px;border:3px solid #222838;border-top-color:var(--purple);
+  border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px
 }
-
-@keyframes spin{
-  to{transform:rotate(360deg)}
-}
-
+@keyframes spin{to{transform:rotate(360deg)}}
 .empty{
-  grid-column:1/-1;
-  text-align:center;
-  color:var(--muted);
-  padding:30px;
-  border:1px dashed var(--border);
-  border-radius:10px;
+  grid-column:1/-1;text-align:center;color:var(--muted);
+  padding:30px;border:1px dashed var(--border);border-radius:10px
 }
-
-/* TOAST */
-
 .toast{
-  position:fixed;
-  left:50%;
-  bottom:22px;
-  transform:translate(-50%,80px);
-  opacity:0;
-  background:#171c29;
-  border:1px solid var(--border);
-  padding:11px 15px;
-  border-radius:9px;
-  font-size:12px;
-  transition:.2s;
-  z-index:50;
+  position:fixed;left:50%;bottom:22px;transform:translate(-50%,80px);
+  opacity:0;background:#171c29;border:1px solid var(--border);
+  padding:11px 15px;border-radius:9px;font-size:12px;transition:.2s;z-index:50
 }
-
-.toast.show{
-  transform:translate(-50%,0);
-  opacity:1;
-}
-
-/* MOBILE */
+.toast.show{transform:translate(-50%,0);opacity:1}
 
 @media(max-width:850px){
-
-  .sidebar{
-    width:65px;
-    padding:15px 8px;
-  }
-
-  .brand{
-    font-size:0;
-    text-align:center;
-  }
-
-  .brand span{
-    display:none;
-  }
-
-  .brand:after{
-    content:"D";
-    font-size:23px;
-    color:var(--purple2);
-  }
-
-  .section-label,
-  .sidebar-bottom{
-    display:none;
-  }
-
-  .nav button{
-    font-size:0;
-    text-align:center;
-  }
-
-  .nav button:before{
-    content:"•";
-    font-size:20px;
-  }
-
-  .main{
-    margin-left:65px;
-    width:calc(100% - 65px);
-  }
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .server-grid{
-    grid-template-columns:1fr;
-  }
-
-  .settings-grid{
-    grid-template-columns:1fr;
-  }
-
-  .blade-section-nav{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .special-mode{
-    grid-template-columns:1fr;
-    text-align:center;
-  }
-
-  .special-icon{
-    margin:auto;
-  }
-
-  .special-action{
-    width:100%;
-  }
+  .sidebar{width:65px;padding:15px 8px}
+  .brand{font-size:0;text-align:center}
+  .brand span,.section-label,.sidebar-bottom{display:none}
+  .brand:after{content:"D";font-size:23px;color:#a78bfa}
+  .nav button{font-size:0;text-align:center}
+  .nav button:before{content:"•";font-size:20px}
+  .main{margin-left:65px;width:calc(100% - 65px)}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .server-grid{grid-template-columns:1fr}
+  .blade-section-nav{grid-template-columns:repeat(2,1fr)}
+  .mode-card{grid-template-columns:1fr;text-align:center}
+  .mode-icon{margin:auto}
+  .mode-card .btn{width:100%}
 }
-
 @media(max-width:550px){
-
-  .topbar{
-    padding:0 15px;
-  }
-
-  .content{
-    width:94%;
-    padding-top:20px;
-  }
-
-  .value-form{
-    grid-template-columns:1fr 75px;
-  }
-
-  .value-form .btn{
-    grid-column:1/-1;
-  }
-
-  .value-row{
-    grid-template-columns:1fr 70px 45px 35px;
-  }
-
-  .panel-head{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .settings-actions{
-    flex-direction:column;
-  }
-
-  .settings-actions .btn{
-    width:100%;
-  }
-
-  .blade-section-nav{
-    grid-template-columns:1fr 1fr;
-  }
+  .topbar{padding:0 15px}
+  .content{width:94%;padding-top:20px}
+  .panel-head{align-items:flex-start;flex-direction:column}
+  .controls{width:100%}
+  .controls .btn{flex:1}
 }
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
 <aside class="sidebar">
-
-  <div class="brand">
-    DONIE <span>TOOLS</span>
-  </div>
+  <div class="brand">DONIE <span>TOOLS</span></div>
 
   <div class="section-label">GAMES</div>
-
   <nav class="nav">
-
-    <button id="navAdopt"
-      class="active"
-      onclick="switchGame('adopt')">
-      🐾 Adopt Me
-    </button>
-
-    <button id="navBlade"
-      onclick="switchGame('blade')">
-      ⚔️ Blade Ball
-    </button>
-
+    <button onclick="switchGame('adopt')">🐾 Adopt Me</button>
+    <button class="active" onclick="switchGame('blade')">⚔️ Blade Ball</button>
   </nav>
 
   <div class="section-label">TOOLS</div>
-
   <nav class="nav">
-
-    <button onclick="showValue()">
-      💎 Value Checker
-    </button>
-
-    <button onclick="showSettings()">
-      ⚙️ Settings
-    </button>
-
-    <button onclick="loadServers()">
-      🔄 Refresh Servers
-    </button>
-
+    <button onclick="scrollToServers()">🔄 Servers</button>
   </nav>
 
   <div class="sidebar-bottom">
     DONIE Toolkit<br>
-    Public-server tools
+    Public server finder
   </div>
-
 </aside>
 
 <main class="main">
 
-  <div class="topbar">
+<div class="topbar">
+  <div id="pageTitle" class="page-title">Blade Ball</div>
+  <div class="connection">
+    <div id="statusDot" class="dot"></div>
+    <span id="statusText">Connecting</span>
+  </div>
+</div>
 
-    <div id="pageTitle" class="page-title">
-      Adopt Me
+<div class="content">
+
+<section class="hero">
+  <h1 id="heroTitle">Blade Ball Server Finder</h1>
+  <p>
+    Choose between Public, Voice, Pro and Trade.
+    Each section has its own Roblox experience and public-server finder.
+  </p>
+</section>
+
+<section class="stats">
+  <div class="stat">
+    <div class="stat-label">SERVERS</div>
+    <div id="serverCount" class="stat-value">0</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">PLAYERS</div>
+    <div id="playerCount" class="stat-value">0</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">OPEN SLOTS</div>
+    <div id="slotCount" class="stat-value">0</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">UPDATED</div>
+    <div id="updated" class="stat-value">--</div>
+  </div>
+</section>
+
+<div class="tabs">
+  <button class="tab" onclick="switchGame('adopt')">🐾 Adopt Me</button>
+  <button class="tab active" onclick="switchGame('blade')">⚔️ Blade Ball</button>
+</div>
+
+<section class="panel">
+
+  <div class="panel-head">
+    <div>
+      <div class="panel-title">⚔️ Blade Ball</div>
+      <div class="panel-subtitle">
+        Public, Voice, Pro and Trade are separated below.
+      </div>
     </div>
+  </div>
 
-    <div class="connection">
+  <div class="blade-section-nav">
 
-      <div id="statusDot" class="dot"></div>
+    <button id="bladeNavPublic"
+      class="blade-section-btn public active"
+      onclick="switchBladeSection('public')">
+      🌐 PUBLIC
+    </button>
 
-      <span id="statusText">
-        Connecting
-      </span>
+    <button id="bladeNavVoice"
+      class="blade-section-btn voice"
+      onclick="switchBladeSection('voice')">
+      🎙️ VOICE
+    </button>
 
-    </div>
+    <button id="bladeNavPro"
+      class="blade-section-btn pro"
+      onclick="switchBladeSection('pro')">
+      👑 PRO
+    </button>
+
+    <button id="bladeNavTrade"
+      class="blade-section-btn trade"
+      onclick="switchBladeSection('trade')">
+      🤝 TRADE
+    </button>
 
   </div>
 
-  <div class="content">
+  <div id="bladePublic" class="blade-section active">
 
-    <section class="hero">
-
-      <h1 id="heroTitle">
-        Adopt Me Server Finder
-      </h1>
-
-      <p id="heroText">
-        Browse live public Adopt Me servers,
-        view player counts and launch a selected
-        public server through Roblox.
-      </p>
-
-    </section>
-
-    <section class="stats">
-
-      <div class="stat">
-        <div class="stat-label">SERVERS</div>
-        <div id="serverCount" class="stat-value">0</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-label">PLAYERS</div>
-        <div id="playerCount" class="stat-value">0</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-label">OPEN SLOTS</div>
-        <div id="slotCount" class="stat-value">0</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-label">UPDATED</div>
-        <div id="updated" class="stat-value">--</div>
-      </div>
-
-    </section>
-
-    <!-- MAIN TABS -->
-
-    <div class="tabs">
-
-      <button id="tabAdopt"
-        class="tab active"
-        onclick="switchGame('adopt')">
-        🐾 Adopt Me
-      </button>
-
-      <button id="tabBlade"
-        class="tab"
-        onclick="switchGame('blade')">
-        ⚔️ Blade Ball
-      </button>
-
-      <button class="tab"
-        onclick="showSettings()">
-        ⚙️ Settings
-      </button>
-
-      <button class="tab"
-        onclick="showValue()">
-        💎 Value Checker
-      </button>
-
-    </div>
-
-
-    <!-- =================================================
-         BLADE BALL
-    ================================================= -->
-
-    <section id="bladePanel"
-      class="panel"
-      style="display:none;">
-
+    <div class="panel" style="margin:0">
       <div class="panel-head">
-
         <div>
-
-          <div class="panel-title">
-            ⚔️ Blade Ball
-          </div>
-
+          <div class="panel-title">🌐 Public Servers</div>
           <div class="panel-subtitle">
-            Select a Blade Ball section below.
-            Each section is separate.
+            Live public Blade Ball servers.
           </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- FOUR SECTIONS -->
-
-      <div class="blade-section-nav">
-
-        <button
-          id="bladeNavPublic"
-          class="blade-section-btn public active"
-          onclick="switchBladeSection('public')">
-
-          <span class="blade-section-icon">🌐</span>
-          <span>PUBLIC</span>
-
-        </button>
-
-        <button
-          id="bladeNavVoice"
-          class="blade-section-btn voice"
-          onclick="switchBladeSection('voice')">
-
-          <span class="blade-section-icon">🎙️</span>
-          <span>VOICE</span>
-
-        </button>
-
-        <button
-          id="bladeNavPro"
-          class="blade-section-btn pro"
-          onclick="switchBladeSection('pro')">
-
-          <span class="blade-section-icon">👑</span>
-          <span>PRO</span>
-
-        </button>
-
-        <button
-          id="bladeNavTrade"
-          class="blade-section-btn trade"
-          onclick="switchBladeSection('trade')">
-
-          <span class="blade-section-icon">🤝</span>
-          <span>TRADE</span>
-
-        </button>
-
-      </div>
-
-
-      <!-- PUBLIC -->
-
-      <div
-        id="bladePublic"
-        class="blade-section active">
-
-        <div class="panel"
-          style="margin:0;">
-
-          <div class="panel-head">
-
-            <div>
-
-              <div class="panel-title">
-                🌐 Blade Ball Public
-              </div>
-
-              <div class="panel-subtitle">
-                Browse public Blade Ball servers using your Worker.
-              </div>
-
-            </div>
-
-            <button
-              class="btn primary"
-              onclick="loadServers()">
-              🔄 Refresh
-            </button>
-
-          </div>
-
-          <p style="
-            color:var(--muted);
-            font-size:11px;
-            line-height:1.6;
-          ">
-            The public section uses the same live-server
-            finder below. Your Worker must return Blade Ball
-            servers for the Blade Ball Place ID.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <!-- VOICE -->
-
-      <div
-        id="bladeVoice"
-        class="blade-section">
-
-        <div class="special-mode">
-
-          <div class="special-icon">
-            🎙️
-          </div>
-
-          <div class="special-info">
-
-            <h2>
-              Voice Server
-            </h2>
-
-            <p>
-              Open the Blade Ball Voice Server experience
-              separately from the normal public section.
-            </p>
-
-            <div class="special-meta">
-
-              <span class="meta">
-                VOICE
-              </span>
-
-              <span class="meta">
-                PLACE ID: 15131065025
-              </span>
-
-            </div>
-
-          </div>
-
-          <div class="special-action">
-
-            <button
-              class="btn primary"
-              style="width:100%;"
-              onclick="openBladeMode('15131065025','Voice Server')">
-
-              🎙️ Open Voice
-
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- PRO -->
-
-      <div
-        id="bladePro"
-        class="blade-section">
-
-        <div class="special-mode">
-
-          <div class="special-icon">
-            👑
-          </div>
-
-          <div class="special-info">
-
-            <h2>
-              Pro Servers
-            </h2>
-
-            <p>
-              Open the Blade Ball Pro Servers experience
-              separately from the public server finder.
-            </p>
-
-            <div class="special-meta">
-
-              <span class="meta">
-                PRO
-              </span>
-
-              <span class="meta">
-                PLACE ID: 14732610803
-              </span>
-
-            </div>
-
-          </div>
-
-          <div class="special-action">
-
-            <button
-              class="btn"
-              style="
-                width:100%;
-                background:#3a2f12;
-                border-color:#66521c;
-                color:#ffd166;
-              "
-              onclick="openBladeMode('14732610803','Pro Servers')">
-
-              👑 Open Pro
-
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- TRADE -->
-
-      <div
-        id="bladeTrade"
-        class="blade-section">
-
-        <div class="special-mode">
-
-          <div class="special-icon">
-            🤝
-          </div>
-
-          <div class="special-info">
-
-            <h2>
-              Trade Plaza
-            </h2>
-
-            <p>
-              Open the Blade Ball Trade Plaza separately
-              for trading weapons and items.
-            </p>
-
-            <div class="special-meta">
-
-              <span class="meta">
-                TRADE
-              </span>
-
-              <span class="meta">
-                PLACE ID: 16581637217
-              </span>
-
-            </div>
-
-          </div>
-
-          <div class="special-action">
-
-            <button
-              class="btn join"
-              style="width:100%;"
-              onclick="openBladeMode('16581637217','Trade Plaza')">
-
-              🤝 Open Trade
-
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =================================================
-         SERVER FINDER
-    ================================================= -->
-
-    <section id="serverPanel"
-      class="panel">
-
-      <div class="panel-head">
-
-        <div>
-
-          <div class="panel-title">
-            Live Public Servers
-          </div>
-
-          <div class="panel-subtitle">
-            Public servers for the currently selected game.
-          </div>
-
         </div>
 
         <div class="controls">
-
-          <button class="btn primary"
-            onclick="loadServers()">
-            🔄 Refresh
-          </button>
-
-          <button class="btn"
-            onclick="sortServers('slots')">
-            Most Empty
-          </button>
-
-          <button class="btn"
-            onclick="sortServers('players')">
-            Fewest Players
-          </button>
-
-          <button class="btn"
-            onclick="sortServers('ping')">
-            Lowest Ping
-          </button>
-
+          <button class="btn primary" onclick="loadServers()">🔄 Refresh</button>
+          <button class="btn" onclick="sortServers('slots')">Most Empty</button>
+          <button class="btn" onclick="sortServers('players')">Fewest Players</button>
+          <button class="btn" onclick="sortServers('ping')">Lowest Ping</button>
         </div>
-
       </div>
 
-      <input
-        id="search"
+      <input id="search"
         class="search"
-        placeholder="Search JobId..."
-        oninput="renderServers()"
-      >
+        placeholder="Search Job ID..."
+        oninput="renderServers()">
 
-      <div id="serverGrid"
-        class="server-grid">
-
+      <div id="serverGrid" class="server-grid">
         <div class="loading">
-
           <div class="spinner"></div>
-
           Loading servers...
-
         </div>
-
       </div>
-
-    </section>
-
-
-    <!-- =================================================
-         SETTINGS
-    ================================================= -->
-
-    <section id="settingsPanel"
-      class="panel">
-
-      <div class="panel-head">
-
-        <div>
-
-          <div class="panel-title">
-            ⚙️ Settings
-          </div>
-
-          <div class="saved-note">
-            Settings are saved locally in this browser.
-          </div>
-
-        </div>
-
-        <div class="controls">
-
-          <button class="btn primary"
-            onclick="saveSettings()">
-            💾 Save Settings
-          </button>
-
-          <button class="btn"
-            onclick="resetSettings()">
-            Reset
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="settings-grid">
-
-        <div class="setting-card full-width">
-
-          <div class="setting-title">
-            Discord Webhook
-          </div>
-
-          <div class="setting-help">
-            Optional webhook URL for your own integrations.
-          </div>
-
-          <input
-            id="webhookUrl"
-            class="setting-input"
-            type="url"
-            placeholder="https://discord.com/api/webhooks/..."
-            autocomplete="off"
-          >
-
-        </div>
-
-        <div class="setting-card">
-
-          <div class="setting-title">
-            Minimum Value
-          </div>
-
-          <div class="setting-help">
-            Minimum total value for your local filter.
-          </div>
-
-          <input
-            id="minValue"
-            class="setting-input"
-            type="number"
-            min="0"
-            step="1"
-            placeholder="0"
-          >
-
-        </div>
-
-        <div class="setting-card">
-
-          <div class="setting-title">
-            Minimum Item Value
-          </div>
-
-          <div class="setting-help">
-            Ignore items below this value.
-          </div>
-
-          <input
-            id="minItemValue"
-            class="setting-input"
-            type="number"
-            min="0"
-            step="1"
-            placeholder="0"
-          >
-
-        </div>
-
-        <div class="setting-card full-width">
-
-          <div class="setting-title">
-            Filters
-          </div>
-
-          <div class="toggle-list">
-
-            <div class="toggle-row">
-
-              <div class="toggle-copy">
-
-                <div class="toggle-name">
-                  Skip Unchatable
-                </div>
-
-                <div class="toggle-description">
-                  Exclude entries you mark as unavailable for chat.
-                </div>
-
-              </div>
-
-              <label class="switch">
-
-                <input id="skipUnchatable"
-                  type="checkbox">
-
-                <span class="slider"></span>
-
-              </label>
-
-            </div>
-
-            <div class="toggle-row">
-
-              <div class="toggle-copy">
-
-                <div class="toggle-name">
-                  Skip Mobile
-                </div>
-
-                <div class="toggle-description">
-                  Exclude entries you mark as mobile.
-                </div>
-
-              </div>
-
-              <label class="switch">
-
-                <input id="skipMobile"
-                  type="checkbox">
-
-                <span class="slider"></span>
-
-              </label>
-
-            </div>
-
-            <div class="toggle-row">
-
-              <div class="toggle-copy">
-
-                <div class="toggle-name">
-                  PSN Linked
-                </div>
-
-                <div class="toggle-description">
-                  Local dashboard preference.
-                </div>
-
-              </div>
-
-              <label class="switch">
-
-                <input id="psnLinked"
-                  type="checkbox">
-
-                <span class="slider"></span>
-
-              </label>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="settings-actions">
-
-        <button class="btn primary"
-          onclick="saveSettings()">
-          ✅ Apply Settings
-        </button>
-
-        <button class="btn danger"
-          onclick="resetSettings()">
-          🗑️ Reset Defaults
-        </button>
-
-      </div>
-
-    </section>
-
-
-    <!-- =================================================
-         VALUE CHECKER
-    ================================================= -->
-
-    <section id="valuePanel"
-      class="panel">
-
-      <div class="panel-head">
-
-        <div class="panel-title">
-          💎 BEAM-Style Value Checker
-        </div>
-
-        <button class="btn"
-          onclick="clearValues()">
-          Clear
-        </button>
-
-      </div>
-
-      <div class="value-form">
-
-        <input
-          id="valueName"
-          class="input"
-          placeholder="Pet / item name"
-        >
-
-        <input
-          id="valueQty"
-          class="input"
-          type="number"
-          min="1"
-          value="1"
-        >
-
-        <button
-          class="btn primary"
-          onclick="addValue()">
-          + Add Item
-        </button>
-
-      </div>
-
-      <div class="total">
-
-        <div>
-          <small>TOTAL VALUE</small>
-        </div>
-
-        <strong id="totalValue">
-          0
-        </strong>
-
-      </div>
-
-      <div id="valueList"
-        class="value-list">
-
-        <div class="empty">
-          Add visible items to calculate their total.
-        </div>
-
-      </div>
-
-    </section>
+    </div>
 
   </div>
 
-</main>
+  <div id="bladeVoice" class="blade-section">
+    <div class="mode-card">
+      <div class="mode-icon">🎙️</div>
+      <div class="mode-info">
+        <h2>Voice Server</h2>
+        <p>
+          Browse the public servers for the Voice experience.
+        </p>
+        <div class="meta-list">
+          <span class="meta">VOICE</span>
+          <span class="meta">PLACE ID: 15131065025</span>
+        </div>
+      </div>
+      <button class="btn primary" onclick="switchMode('voice')">
+        🎙️ View Voice Servers
+      </button>
+    </div>
+  </div>
 
+  <div id="bladePro" class="blade-section">
+    <div class="mode-card">
+      <div class="mode-icon">👑</div>
+      <div class="mode-info">
+        <h2>Pro Servers</h2>
+        <p>
+          Browse the public servers for the Pro experience.
+        </p>
+        <div class="meta-list">
+          <span class="meta">PRO</span>
+          <span class="meta">PLACE ID: 14732610803</span>
+        </div>
+      </div>
+      <button class="btn" style="color:#ffd166" onclick="switchMode('pro')">
+        👑 View Pro Servers
+      </button>
+    </div>
+  </div>
+
+  <div id="bladeTrade" class="blade-section">
+    <div class="mode-card">
+      <div class="mode-icon">🤝</div>
+      <div class="mode-info">
+        <h2>Trade Plaza</h2>
+        <p>
+          Browse the public servers for the Trade Plaza experience.
+        </p>
+        <div class="meta-list">
+          <span class="meta">TRADE</span>
+          <span class="meta">PLACE ID: 16581637217</span>
+        </div>
+      </div>
+      <button class="btn join" onclick="switchMode('trade')">
+        🤝 View Trade Servers
+      </button>
+    </div>
+  </div>
+
+</section>
+
+<section id="serverPanel" class="panel">
+
+  <div class="panel-head">
+    <div>
+      <div class="panel-title" id="serverTitle">Blade Ball Public Servers</div>
+      <div class="panel-subtitle">
+        Select a server and press Join Server.
+      </div>
+    </div>
+  </div>
+
+  <div id="modeNotice"
+    style="display:none;margin-bottom:12px;padding:12px;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:11px">
+  </div>
+
+  <div id="serverGrid2" class="server-grid"></div>
+
+</section>
+
+</div>
+</main>
 </div>
 
 <div id="toast" class="toast"></div>
 
-
 <script>
-
-/* =====================================================
-   CONFIG
-===================================================== */
-
 const WORKER_URL =
   "https://weathered-haze-08aa.redonekowaithe1.workers.dev";
 
-const GAMES = {
-
-  adopt:{
-    name:"Adopt Me",
-    placeId:"920587237"
-  },
-
-  blade:{
-    name:"Blade Ball",
+const MODES = {
+  public:{
+    name:"Blade Ball Public",
     placeId:"13772394625"
+  },
+  voice:{
+    name:"Blade Ball Voice",
+    placeId:"15131065025"
+  },
+  pro:{
+    name:"Blade Ball Pro",
+    placeId:"14732610803"
+  },
+  trade:{
+    name:"Blade Ball Trade Plaza",
+    placeId:"16581637217"
   }
-
 };
 
-const BLADE_MODES = {
+let currentMode="public";
+let servers=[];
 
-  voice:"15131065025",
-
-  pro:"14732610803",
-
-  trade:"16581637217"
-
-};
-
-let currentGame = "adopt";
-let currentBladeSection = "public";
-let servers = [];
-let values = [];
-
-
-/* =====================================================
-   BLADE BALL SECTION SWITCHER
-===================================================== */
+function switchGame(game){
+  if(game==="adopt"){
+    window.location.href =
+      "https://www.roblox.com/games/920587237";
+    return;
+  }
+  currentMode="public";
+  switchBladeSection("public");
+}
 
 function switchBladeSection(section){
 
-  currentBladeSection = section;
+  currentMode=section;
 
-  const sections = {
+  ["public","voice","pro","trade"].forEach(key=>{
+    document.getElementById("blade"+key.charAt(0).toUpperCase()+key.slice(1))
+      .classList.toggle("active",key===section);
 
-    public:
-      document.getElementById("bladePublic"),
-
-    voice:
-      document.getElementById("bladeVoice"),
-
-    pro:
-      document.getElementById("bladePro"),
-
-    trade:
-      document.getElementById("bladeTrade")
-
-  };
-
-  Object.keys(sections).forEach(key => {
-
-    sections[key].classList.toggle(
-      "active",
-      key === section
-    );
-
+    document.getElementById("bladeNav"+key.charAt(0).toUpperCase()+key.slice(1))
+      .classList.toggle("active",key===section);
   });
 
+  const serverPanel=document.getElementById("serverPanel");
 
-  const buttons = {
+  serverPanel.style.display="block";
 
-    public:
-      document.getElementById("bladeNavPublic"),
+  document.getElementById("serverTitle").textContent =
+    MODES[section].name+" Servers";
 
-    voice:
-      document.getElementById("bladeNavVoice"),
-
-    pro:
-      document.getElementById("bladeNavPro"),
-
-    trade:
-      document.getElementById("bladeNavTrade")
-
-  };
-
-  Object.keys(buttons).forEach(key => {
-
-    buttons[key].classList.toggle(
-      "active",
-      key === section
-    );
-
-  });
-
-
-  /*
-    Public is the only section that needs
-    the live public server finder.
-  */
-
-  const serverPanel =
-    document.getElementById(
-      "serverPanel"
-    );
-
-  if(currentGame === "blade"){
-
-    serverPanel.style.display =
-      section === "public"
-        ? "block"
-        : "none";
-
-  }
-
-}
-
-
-/* =====================================================
-   BLADE BALL SPECIAL LAUNCH
-===================================================== */
-
-function openBladeMode(placeId,modeName){
-
-  showToast(
-    "Opening " + modeName + "..."
-  );
-
-  const url =
-    "https://www.roblox.com/games/start" +
-    "?placeId=" +
-    encodeURIComponent(placeId);
-
-  setTimeout(function(){
-
-    window.location.href = url;
-
-  },300);
-
-}
-
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-const SETTINGS_KEY =
-  "donie_roblox_toolkit_settings";
-
-const DEFAULT_SETTINGS = {
-
-  webhookUrl:"",
-  minValue:0,
-  minItemValue:0,
-  skipUnchatable:false,
-  skipMobile:false,
-  psnLinked:false
-
-};
-
-
-function getSettings(){
-
-  try{
-
-    const raw =
-      localStorage.getItem(
-        SETTINGS_KEY
-      );
-
-    if(!raw)
-      return {...DEFAULT_SETTINGS};
-
-    return {
-      ...DEFAULT_SETTINGS,
-      ...JSON.parse(raw)
-    };
-
-  }catch{
-
-    return {...DEFAULT_SETTINGS};
-
-  }
-
-}
-
-
-function loadSettings(){
-
-  const settings =
-    getSettings();
-
-  document.getElementById("webhookUrl").value =
-    settings.webhookUrl || "";
-
-  document.getElementById("minValue").value =
-    Number(settings.minValue || 0);
-
-  document.getElementById("minItemValue").value =
-    Number(settings.minItemValue || 0);
-
-  document.getElementById("skipUnchatable").checked =
-    Boolean(settings.skipUnchatable);
-
-  document.getElementById("skipMobile").checked =
-    Boolean(settings.skipMobile);
-
-  document.getElementById("psnLinked").checked =
-    Boolean(settings.psnLinked);
-
-}
-
-
-function collectSettings(){
-
-  return {
-
-    webhookUrl:
-      document.getElementById("webhookUrl").value.trim(),
-
-    minValue:
-      Math.max(
-        0,
-        Number(
-          document.getElementById("minValue").value
-        ) || 0
-      ),
-
-    minItemValue:
-      Math.max(
-        0,
-        Number(
-          document.getElementById("minItemValue").value
-        ) || 0
-      ),
-
-    skipUnchatable:
-      document.getElementById("skipUnchatable").checked,
-
-    skipMobile:
-      document.getElementById("skipMobile").checked,
-
-    psnLinked:
-      document.getElementById("psnLinked").checked
-
-  };
-
-}
-
-
-function saveSettings(){
-
-  try{
-
-    localStorage.setItem(
-      SETTINGS_KEY,
-      JSON.stringify(collectSettings())
-    );
-
-    showToast("Settings saved!");
-
-  }catch{
-
-    showToast("Could not save settings.");
-
-  }
-
-}
-
-
-function resetSettings(){
-
-  localStorage.setItem(
-    SETTINGS_KEY,
-    JSON.stringify(DEFAULT_SETTINGS)
-  );
-
-  loadSettings();
-
-  showToast("Settings reset.");
-
-}
-
-
-function showSettings(){
-
-  document.getElementById(
-    "settingsPanel"
-  ).scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-
-}
-
-
-/* =====================================================
-   VALUE DATABASE
-===================================================== */
-
-const VALUE_DATABASE = {
-
-  "shadow dragon":100,
-  "bat dragon":95,
-  "frost dragon":85,
-  "giraffe":80,
-  "owl":75,
-  "parrot":70,
-  "evil unicorn":65,
-  "crow":60,
-  "arctic reindeer":45,
-  "turtle":30,
-  "kangaroo":25
-
-};
-
-
-/* =====================================================
-   GAME SWITCHING
-===================================================== */
-
-function switchGame(game){
-
-  currentGame = game;
-
-  const data =
-    GAMES[game];
-
-  document.getElementById("pageTitle").textContent =
-    data.name;
-
-  document.getElementById("heroTitle").textContent =
-    data.name + " Server Finder";
-
-  document.getElementById("heroText").textContent =
-    `Browse live public ${data.name} servers,
-     view player counts and launch a selected
-     public server through Roblox.`;
-
-  document.getElementById("navAdopt")
-    .classList.toggle(
-      "active",
-      game === "adopt"
-    );
-
-  document.getElementById("navBlade")
-    .classList.toggle(
-      "active",
-      game === "blade"
-    );
-
-  document.getElementById("tabAdopt")
-    .classList.toggle(
-      "active",
-      game === "adopt"
-    );
-
-  document.getElementById("tabBlade")
-    .classList.toggle(
-      "active",
-      game === "blade"
-    );
-
-
-  const bladePanel =
-    document.getElementById(
-      "bladePanel"
-    );
-
-  if(game === "blade"){
-
-    bladePanel.style.display =
-      "block";
-
-    switchBladeSection(
-      currentBladeSection
-    );
-
-  }else{
-
-    bladePanel.style.display =
-      "none";
-
-    document.getElementById(
-      "serverPanel"
-    ).style.display =
-      "block";
-
-  }
-
-
-  document.getElementById("search").value = "";
+  document.getElementById("search").value="";
 
   loadServers();
-
 }
 
-
-function showValue(){
-
-  document.getElementById(
-    "valuePanel"
-  ).scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-
+function switchMode(mode){
+  switchBladeSection(mode);
+  scrollToServers();
 }
 
-
-/* =====================================================
-   SERVER API
-===================================================== */
-
-function getEndpoint(){
-
-  return (
-    `${WORKER_URL}/roblox-servers` +
-    `?placeId=${GAMES[currentGame].placeId}` +
-    `&limit=100`
-  );
-
+function scrollToServers(){
+  document.getElementById("serverPanel")
+    .scrollIntoView({behavior:"smooth",block:"start"});
 }
 
+function endpoint(){
+  return WORKER_URL+
+    "/roblox-servers?placeId="+
+    encodeURIComponent(MODES[currentMode].placeId)+
+    "&limit=100&_="+Date.now();
+}
 
 async function loadServers(){
 
-  /*
-    If Blade Ball is on a non-public section,
-    don't replace the section with server loading.
-  */
+  const grid=document.getElementById("serverGrid2");
 
-  if(
-    currentGame === "blade" &&
-    currentBladeSection !== "public"
-  ){
-
-    return;
-
-  }
-
-
-  const grid =
-    document.getElementById(
-      "serverGrid"
-    );
-
-  grid.innerHTML = `
+  grid.innerHTML=`
     <div class="loading">
       <div class="spinner"></div>
-      Loading ${escapeHtml(
-        GAMES[currentGame].name
-      )} servers...
+      Loading ${escapeHtml(MODES[currentMode].name)}...
     </div>
   `;
 
@@ -2162,58 +519,32 @@ async function loadServers(){
 
   try{
 
-    const response =
-      await fetch(
-        getEndpoint() +
-        "&_=" +
-        Date.now(),
-        {
-          method:"GET",
-          cache:"no-store"
-        }
-      );
+    const response=await fetch(endpoint(),{
+      method:"GET",
+      cache:"no-store"
+    });
 
-    if(!response.ok){
+    if(!response.ok)
+      throw new Error("Worker HTTP "+response.status);
 
-      throw new Error(
-        "Worker HTTP " +
-        response.status
-      );
+    const data=await response.json();
 
-    }
+    if(!data.success)
+      throw new Error(data.error||"Worker error");
 
-    const data =
-      await response.json();
-
-    if(!data.success){
-
-      throw new Error(
-        data.error ||
-        "Worker returned an error"
-      );
-
-    }
-
-    servers =
-      Array.isArray(data.servers)
-        ? data.servers
-        : [];
+    servers=Array.isArray(data.servers)
+      ? data.servers
+      : [];
 
     updateStats();
     renderServers();
-
     setStatus("Live",true);
 
-    document.getElementById(
-      "updated"
-    ).textContent =
-      new Date().toLocaleTimeString(
-        [],
-        {
-          hour:"numeric",
-          minute:"2-digit"
-        }
-      );
+    document.getElementById("updated").textContent =
+      new Date().toLocaleTimeString([],{
+        hour:"numeric",
+        minute:"2-digit"
+      });
 
   }catch(error){
 
@@ -2221,285 +552,159 @@ async function loadServers(){
 
     setStatus("Error",false);
 
-    grid.innerHTML = `
+    grid.innerHTML=`
       <div class="empty">
-
-        <h3 style="
-          color:white;
-          margin-bottom:7px;
-        ">
+        <h3 style="color:white;margin-bottom:7px">
           Couldn't load servers
         </h3>
-
-        <p>
-          ${escapeHtml(error.message)}
-        </p>
-
+        <p>${escapeHtml(error.message)}</p>
         <br>
-
-        <button
-          class="btn primary"
-          onclick="loadServers()">
+        <button class="btn primary" onclick="loadServers()">
           Try Again
         </button>
-
       </div>
     `;
-
   }
-
 }
-
-
-/* =====================================================
-   STATS
-===================================================== */
 
 function updateStats(){
 
-  const players =
-    servers.reduce(
-      (sum,s) =>
-        sum + Number(s.playing || 0),
-      0
-    );
+  const players=servers.reduce(
+    (sum,s)=>sum+Number(s.playing||0),0
+  );
 
-  const slots =
-    servers.reduce(
-      (sum,s) =>
-        sum + Number(s.availableSlots || 0),
-      0
-    );
+  const slots=servers.reduce(
+    (sum,s)=>sum+Number(s.availableSlots||0),0
+  );
 
-  document.getElementById("serverCount").textContent =
-    servers.length;
-
-  document.getElementById("playerCount").textContent =
-    players;
-
-  document.getElementById("slotCount").textContent =
-    slots;
-
+  document.getElementById("serverCount").textContent=servers.length;
+  document.getElementById("playerCount").textContent=players;
+  document.getElementById("slotCount").textContent=slots;
 }
-
-
-/* =====================================================
-   SORT
-===================================================== */
 
 function sortServers(type){
 
-  if(type === "slots"){
-
-    servers.sort(
-      (a,b) =>
-        Number(b.availableSlots || 0) -
-        Number(a.availableSlots || 0)
+  if(type==="slots")
+    servers.sort((a,b)=>
+      Number(b.availableSlots||0)-
+      Number(a.availableSlots||0)
     );
 
-  }
-
-  if(type === "players"){
-
-    servers.sort(
-      (a,b) =>
-        Number(a.playing || 0) -
-        Number(b.playing || 0)
+  if(type==="players")
+    servers.sort((a,b)=>
+      Number(a.playing||0)-
+      Number(b.playing||0)
     );
 
-  }
+  if(type==="ping")
+    servers.sort((a,b)=>{
+      const ap=Number(a.ping);
+      const bp=Number(b.ping);
 
-  if(type === "ping"){
+      if(!Number.isFinite(ap)) return 1;
+      if(!Number.isFinite(bp)) return -1;
 
-    servers.sort(
-      (a,b) => {
-
-        const aPing =
-          Number(a.ping);
-
-        const bPing =
-          Number(b.ping);
-
-        if(!Number.isFinite(aPing))
-          return 1;
-
-        if(!Number.isFinite(bPing))
-          return -1;
-
-        return aPing - bPing;
-
-      }
-    );
-
-  }
+      return ap-bp;
+    });
 
   renderServers();
-
 }
-
-
-/* =====================================================
-   SERVER RENDER
-===================================================== */
 
 function renderServers(){
 
-  const grid =
-    document.getElementById(
-      "serverGrid"
-    );
+  const grid=document.getElementById("serverGrid2");
 
-  const search =
-    document.getElementById(
-      "search"
-    ).value
-    .trim()
-    .toLowerCase();
+  const search=document.getElementById("search")
+    .value.trim().toLowerCase();
 
-  const visible =
-    servers.filter(server => {
+  const visible=servers.filter(server=>{
+    const id=String(
+      server.jobId||server.id||""
+    ).toLowerCase();
 
-      const id =
-        String(
-          server.jobId ||
-          server.id ||
-          ""
-        ).toLowerCase();
-
-      return id.includes(search);
-
-    });
-
+    return id.includes(search);
+  });
 
   if(!visible.length){
-
-    grid.innerHTML = `
+    grid.innerHTML=`
       <div class="empty">
-        No servers found.
+        No public servers found for this experience.
       </div>
     `;
-
     return;
-
   }
 
-
-  grid.innerHTML =
-    visible.map(
-      (server,index) =>
-        createServerCard(
-          server,
-          index
-        )
-    ).join("");
-
+  grid.innerHTML=visible.map(
+    (server,index)=>createServerCard(server,index)
+  ).join("");
 }
-
 
 function createServerCard(server,index){
 
-  const jobId =
-    server.jobId ||
-    server.id ||
-    "";
+  const jobId=server.jobId||server.id||"";
+  const playing=Number(server.playing||0);
+  const maxPlayers=Number(server.maxPlayers||0);
 
-  const playing =
-    Number(server.playing || 0);
+  const slots=Math.max(
+    maxPlayers-playing,
+    0
+  );
 
-  const maxPlayers =
-    Number(server.maxPlayers || 0);
+  const ping=server.ping!=null
+    ? server.ping+" ms"
+    : "N/A";
 
-  const slots =
-    Math.max(
-      maxPlayers - playing,
-      0
-    );
+  const fps=server.fps!=null
+    ? Math.round(Number(server.fps))
+    : "N/A";
 
-  const ping =
-    server.ping != null
-      ? `${server.ping} ms`
-      : "N/A";
-
-  const fps =
-    server.fps != null
-      ? Math.round(Number(server.fps))
-      : "N/A";
-
-  const joinUrl =
-    server.joinUrl ||
-    buildJoinUrl(jobId);
-
-  const full =
-    slots <= 0;
-
+  const full=slots<=0;
 
   return `
-
     <article class="server">
 
       <div class="server-top">
-
         <div class="server-name">
-          ${escapeHtml(
-            GAMES[currentGame].name
-          )} #${index + 1}
+          ${escapeHtml(MODES[currentMode].name)} #${index+1}
         </div>
 
-        <div class="open ${full ? "full":""}">
-          ${
-            full
-              ? "FULL"
-              : `${slots} OPEN`
-          }
+        <div class="open ${full?"full":""}">
+          ${full?"FULL":slots+" OPEN"}
         </div>
-
       </div>
 
       <div class="metrics">
 
         <div class="metric">
           <small>PLAYERS</small>
-          <strong>
-            ${playing}/${maxPlayers || "?"}
-          </strong>
+          <strong>${playing}/${maxPlayers||"?"}</strong>
         </div>
 
         <div class="metric">
           <small>PING</small>
-          <strong>
-            ${escapeHtml(String(ping))}
-          </strong>
+          <strong>${escapeHtml(String(ping))}</strong>
         </div>
 
         <div class="metric">
           <small>FPS</small>
-          <strong>
-            ${escapeHtml(String(fps))}
-          </strong>
+          <strong>${escapeHtml(String(fps))}</strong>
         </div>
 
       </div>
 
       <div class="job">
-
         <small>JOB ID</small>
-
-        <code>
-          ${escapeHtml(jobId)}
-        </code>
-
+        <code>${escapeHtml(jobId)}</code>
       </div>
 
       <div class="actions">
 
-        <button
-          class="btn join"
-          onclick='joinServer(${JSON.stringify(joinUrl)})'>
+        <button class="btn join"
+          onclick='joinServer(${JSON.stringify(jobId)})'>
           🎮 Join Server
         </button>
 
-        <button
-          class="btn"
+        <button class="btn"
           onclick='copyJobId(${JSON.stringify(jobId)})'>
           📋 Copy
         </button>
@@ -2507,302 +712,68 @@ function createServerCard(server,index){
       </div>
 
     </article>
-
   `;
-
 }
 
+function joinServer(jobId){
 
-/* =====================================================
-   ROBLOX JOIN
-===================================================== */
-
-function buildJoinUrl(jobId){
-
-  if(!jobId)
-    return "";
-
-  return (
-    "https://www.roblox.com/games/start" +
-    "?placeId=" +
-    encodeURIComponent(
-      GAMES[currentGame].placeId
-    ) +
-    "&gameInstanceId=" +
-    encodeURIComponent(jobId)
-  );
-
-}
-
-
-function joinServer(url){
-
-  if(!url){
-
-    showToast(
-      "No join URL available."
-    );
-
+  if(!jobId){
+    showToast("No Job ID available.");
     return;
-
   }
 
-  window.location.href = url;
+  const url=
+    "https://www.roblox.com/games/start"+
+    "?placeId="+
+    encodeURIComponent(MODES[currentMode].placeId)+
+    "&gameInstanceId="+
+    encodeURIComponent(jobId);
 
+  showToast("Opening Roblox...");
+
+  setTimeout(()=>{
+    window.location.href=url;
+  },250);
 }
-
-
-/* =====================================================
-   COPY JOB ID
-===================================================== */
 
 async function copyJobId(jobId){
 
   if(!jobId){
-
-    showToast(
-      "No JobId available."
-    );
-
+    showToast("No Job ID available.");
     return;
-
   }
 
   try{
-
-    await navigator.clipboard.writeText(
-      jobId
-    );
-
-    showToast(
-      "JobId copied!"
-    );
-
+    await navigator.clipboard.writeText(jobId);
+    showToast("Job ID copied!");
   }catch{
-
-    showToast(
-      "Copy failed."
-    );
-
+    showToast("Copy failed.");
   }
-
 }
-
-
-/* =====================================================
-   VALUE CHECKER
-===================================================== */
-
-function normalize(value){
-
-  return String(value)
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g," ");
-
-}
-
-
-function addValue(){
-
-  const nameInput =
-    document.getElementById(
-      "valueName"
-    );
-
-  const qtyInput =
-    document.getElementById(
-      "valueQty"
-    );
-
-  const name =
-    nameInput.value.trim();
-
-  const quantity =
-    Math.max(
-      1,
-      Number(qtyInput.value) || 1
-    );
-
-  if(!name){
-
-    showToast(
-      "Enter an item name."
-    );
-
-    return;
-
-  }
-
-  const value =
-    VALUE_DATABASE[
-      normalize(name)
-    ];
-
-  if(value === undefined){
-
-    showToast(
-      "Item isn't in your value database."
-    );
-
-    return;
-
-  }
-
-  values.push({
-    name,
-    value,
-    quantity
-  });
-
-  nameInput.value = "";
-  qtyInput.value = "1";
-
-  renderValues();
-
-}
-
-
-function renderValues(){
-
-  const list =
-    document.getElementById(
-      "valueList"
-    );
-
-  const totalElement =
-    document.getElementById(
-      "totalValue"
-    );
-
-  if(!values.length){
-
-    list.innerHTML =
-      `<div class="empty">
-        Add visible items to calculate their total.
-      </div>`;
-
-    totalElement.textContent =
-      "0";
-
-    return;
-
-  }
-
-  let total = 0;
-
-  list.innerHTML =
-    values.map(
-      (item,index)=>{
-
-        const subtotal =
-          item.value *
-          item.quantity;
-
-        total += subtotal;
-
-        return `
-
-          <div class="value-row">
-
-            <div class="value-name">
-              ${escapeHtml(item.name)}
-            </div>
-
-            <div class="value-price">
-              ${subtotal.toLocaleString()}
-            </div>
-
-            <div class="value-qty">
-              x${item.quantity}
-            </div>
-
-            <button
-              class="remove"
-              onclick="removeValue(${index})">
-              ×
-            </button>
-
-          </div>
-
-        `;
-
-      }
-    ).join("");
-
-  totalElement.textContent =
-    total.toLocaleString();
-
-}
-
-
-function removeValue(index){
-
-  values.splice(index,1);
-
-  renderValues();
-
-}
-
-
-function clearValues(){
-
-  values = [];
-
-  renderValues();
-
-}
-
-
-/* =====================================================
-   STATUS / TOAST / ESCAPE
-===================================================== */
 
 function setStatus(text,online){
 
-  document.getElementById(
-    "statusText"
-  ).textContent =
-    text;
+  document.getElementById("statusText").textContent=text;
 
-  document.getElementById(
-    "statusDot"
-  ).className =
-    "dot " +
-    (online ? "online" : "");
-
+  document.getElementById("statusDot").className =
+    "dot "+(online?"online":"");
 }
-
 
 let toastTimer;
 
 function showToast(message){
 
-  const toast =
-    document.getElementById(
-      "toast"
-    );
+  const toast=document.getElementById("toast");
 
-  toast.textContent =
-    message;
-
-  toast.classList.add(
-    "show"
-  );
+  toast.textContent=message;
+  toast.classList.add("show");
 
   clearTimeout(toastTimer);
 
-  toastTimer =
-    setTimeout(
-      () =>
-        toast.classList.remove(
-          "show"
-        ),
-      2200
-    );
-
+  toastTimer=setTimeout(()=>{
+    toast.classList.remove("show");
+  },2200);
 }
-
 
 function escapeHtml(value){
 
@@ -2812,25 +783,11 @@ function escapeHtml(value){
     .replaceAll(">","&gt;")
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
-
 }
 
+loadServers();
 
-/* =====================================================
-   START
-===================================================== */
-
-loadSettings();
-
-renderValues();
-
-switchGame("adopt");
-
-setInterval(
-  loadServers,
-  30000
-);
-
+setInterval(loadServers,30000);
 </script>
 
 </body>
