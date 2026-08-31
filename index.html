@@ -1,10 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DONIE • Blade Ball Finder</title>
+<title>DONIE • Adopt Me Rich Finder</title>
 
 <style>
 *{
@@ -25,6 +24,7 @@
   --green:#39e58c;
   --yellow:#ffd166;
   --red:#ff6170;
+  --pink:#ff75b5;
 }
 
 body{
@@ -41,7 +41,8 @@ body{
 }
 
 button,
-input{
+input,
+select{
   font:inherit;
 }
 
@@ -65,6 +66,7 @@ button{
   background:#090b11;
   border-right:1px solid var(--border);
   padding:22px 14px;
+  z-index:20;
 }
 
 .brand{
@@ -303,133 +305,10 @@ button{
   color:#76bdff;
 }
 
-.btn.danger{
-  background:#32161b;
-  border-color:#632832;
-  color:#ff8c98;
-}
-
-/* SECTION NAV */
-
-.section-nav{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:8px;
-  margin-bottom:16px;
-}
-
-.section-btn{
-  min-height:62px;
-  border:1px solid var(--border);
-  background:#0a0d14;
-  color:var(--muted);
-  border-radius:11px;
-  font-weight:950;
-}
-
-.section-btn:hover{
-  color:white;
-  border-color:#3b465e;
-}
-
-.section-btn.active{
-  color:white;
-  background:#151927;
-  border-color:var(--purple);
-}
-
-.section-btn.public.active{
-  border-color:var(--blue);
-}
-
-.section-btn.voice.active{
-  border-color:var(--purple);
-}
-
-.section-btn.pro.active{
-  border-color:var(--yellow);
-}
-
-.section-btn.trade.active{
-  border-color:var(--green);
-}
-
-.section-btn.rap.active{
-  border-color:#ffbf3d;
-  box-shadow:0 0 18px rgba(255,191,61,.08);
-}
-
-.section{
-  display:none;
-}
-
-.section.active{
-  display:block;
-}
-
-/* MODE CARDS */
-
-.mode{
-  display:grid;
-  grid-template-columns:80px 1fr auto;
-  gap:18px;
-  align-items:center;
-  padding:22px;
-  border:1px solid var(--border);
-  border-radius:14px;
-  background:#0b0f17;
-}
-
-.mode-icon{
-  width:68px;
-  height:68px;
-  display:grid;
-  place-items:center;
-  border-radius:16px;
-  background:#151927;
-  border:1px solid var(--border);
-  font-size:30px;
-}
-
-.mode h2{
-  font-size:19px;
-  margin-bottom:7px;
-}
-
-.mode p{
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.6;
-}
-
-.meta{
-  display:inline-block;
-  margin-top:10px;
-  margin-right:5px;
-  padding:5px 8px;
-  border-radius:999px;
-  background:#080b11;
-  border:1px solid var(--border);
-  color:#a2acc0;
-  font-size:9px;
-  font-weight:900;
-}
-
-/* SEARCH */
-
-.search{
-  width:100%;
-  background:#090c13;
-  color:white;
-  border:1px solid var(--border);
-  outline:none;
-  border-radius:9px;
-  padding:12px;
-  margin-bottom:12px;
-}
-
-.search:focus{
-  border-color:var(--purple);
+.btn.pink{
+  background:#351626;
+  border-color:#71304f;
+  color:#ff91c4;
 }
 
 /* FILTERS */
@@ -461,6 +340,60 @@ button{
   background:#171c2a;
 }
 
+.filter.rich.active{
+  border-color:var(--yellow);
+  color:var(--yellow);
+}
+
+/* SEARCH */
+
+.search{
+  width:100%;
+  background:#090c13;
+  color:white;
+  border:1px solid var(--border);
+  outline:none;
+  border-radius:9px;
+  padding:12px;
+  margin-bottom:12px;
+}
+
+.search:focus{
+  border-color:var(--purple);
+}
+
+/* SORT */
+
+.sort-row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin-bottom:14px;
+}
+
+.sort-label{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:900;
+}
+
+.sort-btn{
+  border:1px solid var(--border);
+  background:#0a0d14;
+  color:#9ba5ba;
+  border-radius:8px;
+  padding:8px 10px;
+  font-size:10px;
+  font-weight:950;
+}
+
+.sort-btn.active{
+  color:white;
+  border-color:var(--green);
+  background:#0d1914;
+}
+
 /* SERVERS */
 
 .server-grid{
@@ -474,16 +407,32 @@ button{
   background:#0a0d14;
   border-radius:13px;
   padding:15px;
+  position:relative;
+  overflow:hidden;
 }
 
-.server.rap{
+.server.rich{
   border-color:#70531a;
   background:
     linear-gradient(
       135deg,
-      rgba(255,209,102,.05),
+      rgba(255,209,102,.07),
       #0a0d14
     );
+}
+
+.server.top-rich{
+  border-color:#a67c20;
+  box-shadow:0 0 22px rgba(255,209,102,.07);
+}
+
+.rank{
+  position:absolute;
+  top:12px;
+  left:12px;
+  font-size:10px;
+  font-weight:950;
+  color:var(--muted);
 }
 
 .server-top{
@@ -491,6 +440,7 @@ button{
   justify-content:space-between;
   gap:10px;
   margin-bottom:11px;
+  padding-left:40px;
 }
 
 .server-name{
@@ -517,10 +467,54 @@ button{
   border:1px solid rgba(255,97,112,.18);
 }
 
-.badge.rap{
+.badge.rich{
   color:var(--yellow);
   background:rgba(255,209,102,.08);
   border:1px solid rgba(255,209,102,.2);
+}
+
+/* VALUE */
+
+.value-box{
+  border:1px solid #44391d;
+  background:#121007;
+  border-radius:10px;
+  padding:11px;
+  margin-bottom:10px;
+}
+
+.value-box.no-value{
+  border-color:var(--border);
+  background:#0b0e15;
+}
+
+.value-label{
+  color:var(--muted);
+  font-size:8px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.value-number{
+  color:var(--yellow);
+  font-size:20px;
+  font-weight:950;
+}
+
+.no-value .value-number{
+  color:#68738a;
+  font-size:13px;
+}
+
+.value-status{
+  margin-top:4px;
+  color:#8f7940;
+  font-size:8px;
+  font-weight:900;
+}
+
+.no-value .value-status{
+  color:#69748a;
 }
 
 /* METRICS */
@@ -590,7 +584,7 @@ button{
   color:#bbc4d5;
 }
 
-.player.rich{
+.player.rich-player{
   color:var(--yellow);
   border-color:#5d491c;
   background:#18150c;
@@ -607,7 +601,35 @@ button{
   flex:1;
 }
 
-/* STATES */
+/* INFO */
+
+.info{
+  padding:13px;
+  border:1px solid var(--border);
+  background:#0a0d14;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+}
+
+.info.success{
+  border-color:#204e39;
+  background:#0a1510;
+}
+
+.info.warning{
+  border-color:#5a471d;
+  background:#151108;
+}
+
+.info.error{
+  border-color:#5a2029;
+  background:#150a0d;
+  color:#d9a1a8;
+}
+
+/* LOADING */
 
 .loading,
 .empty{
@@ -645,34 +667,6 @@ button{
   to{
     transform:rotate(360deg);
   }
-}
-
-/* INFO */
-
-.info{
-  padding:13px;
-  border:1px solid var(--border);
-  background:#0a0d14;
-  border-radius:10px;
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.6;
-}
-
-.info.success{
-  border-color:#204e39;
-  background:#0a1510;
-}
-
-.info.warning{
-  border-color:#5a471d;
-  background:#151108;
-}
-
-.info.error{
-  border-color:#5a2029;
-  background:#150a0d;
-  color:#d9a1a8;
 }
 
 /* TOAST */
@@ -746,25 +740,8 @@ button{
     grid-column:1/-1;
   }
 
-  .section-nav{
-    grid-template-columns:repeat(2,1fr);
-  }
-
   .server-grid{
     grid-template-columns:1fr;
-  }
-
-  .mode{
-    grid-template-columns:1fr;
-    text-align:center;
-  }
-
-  .mode-icon{
-    margin:auto;
-  }
-
-  .mode button{
-    width:100%;
   }
 }
 
@@ -777,10 +754,6 @@ button{
   .content{
     width:94%;
     padding-top:20px;
-  }
-
-  .section-nav{
-    grid-template-columns:1fr 1fr;
   }
 
   .metrics{
@@ -820,10 +793,8 @@ button{
 
   <nav class="nav">
 
-    <button
-      class="active"
-      id="bladeNav">
-      ⚔️ Blade Ball
+    <button class="active">
+      🐾 Adopt Me
     </button>
 
   </nav>
@@ -834,21 +805,23 @@ button{
 
   <nav class="nav">
 
-    <button
-      onclick="loadServers()">
+    <button onclick="loadServers()">
       🔄 Refresh
     </button>
 
-    <button
-      onclick="switchSection('rap')">
+    <button onclick="setValueFilter(17000)">
       💰 17K+ Finder
+    </button>
+
+    <button onclick="setValueFilter(100000)">
+      🔥 100K+ Finder
     </button>
 
   </nav>
 
   <div class="sidebar-bottom">
-    DONIE Blade Ball Finder<br>
-    Public server tools
+    DONIE Adopt Me Rich Finder<br>
+    Reported-value server ranking
   </div>
 
 </aside>
@@ -860,7 +833,7 @@ button{
   <div class="topbar">
 
     <div class="page-title">
-      Blade Ball
+      Adopt Me • Rich Finder
     </div>
 
     <div class="connection">
@@ -885,13 +858,13 @@ button{
     <section class="hero">
 
       <h1>
-        Blade Ball Server Finder
+        🐾 DONIE Adopt Me Rich Finder
       </h1>
 
       <p>
-        Browse live public Blade Ball servers,
-        check available slots, search Job IDs,
-        and view verified RAP reports.
+        Find reported high-value Adopt Me servers and
+        automatically rank them from the highest reported
+        value to the lowest.
       </p>
 
     </section>
@@ -917,80 +890,36 @@ button{
 
       <div class="stat">
         <small>17K+ SERVERS</small>
-        <strong id="rapServerCount">0</strong>
+        <strong id="richCount">0</strong>
       </div>
 
       <div class="stat">
-        <small>UPDATED</small>
-        <strong id="updated">--</strong>
+        <small>TOP VALUE</small>
+        <strong id="topValue">N/A</strong>
       </div>
 
     </section>
 
-    <!-- MAIN PANEL -->
+    <!-- MAIN -->
 
     <div class="panel">
 
-      <!-- SECTION BUTTONS -->
+      <div class="panel-head">
 
-      <div class="section-nav">
+        <div>
 
-        <button
-          class="section-btn public active"
-          id="secPublic"
-          onclick="switchSection('public')">
-          🌐 PUBLIC
-        </button>
-
-        <button
-          class="section-btn voice"
-          id="secVoice"
-          onclick="switchSection('voice')">
-          🎙️ VOICE
-        </button>
-
-        <button
-          class="section-btn pro"
-          id="secPro"
-          onclick="switchSection('pro')">
-          👑 PRO
-        </button>
-
-        <button
-          class="section-btn trade"
-          id="secTrade"
-          onclick="switchSection('trade')">
-          🤝 TRADE
-        </button>
-
-        <button
-          class="section-btn rap"
-          id="secRap"
-          onclick="switchSection('rap')">
-          💰 17K+
-        </button>
-
-      </div>
-
-      <!-- PUBLIC -->
-
-      <div
-        id="publicSection"
-        class="section active">
-
-        <div class="panel-head">
-
-          <div>
-
-            <div class="title">
-              🌐 Public Servers
-            </div>
-
-            <div class="subtitle">
-              Live public Blade Ball servers from Roblox.
-            </div>
-
+          <div class="title">
+            🔥 Richest Adopt Me Servers
           </div>
+
+          <div class="subtitle">
+            Servers are ranked by the highest value
+            actually reported by your Worker/reporter.
+          </div>
+
+        </div>
+
+        <div class="controls">
 
           <button
             class="btn primary"
@@ -1000,232 +929,164 @@ button{
 
         </div>
 
-        <div class="filters">
+      </div>
 
-          <button
-            id="filterAll"
-            class="filter active"
-            onclick="setFilter('all')">
-            ALL
-          </button>
+      <!-- VALUE FILTERS -->
 
-          <button
-            id="filterOpen"
-            class="filter"
-            onclick="setFilter('open')">
-            OPEN SLOTS
-          </button>
+      <div class="filters">
 
-          <button
-            id="filterRap"
-            class="filter"
-            onclick="setFilter('rap')">
-            💰 17K+
-          </button>
+        <button
+          class="filter active"
+          id="filterAll"
+          onclick="setValueFilter(0)">
+          ALL
+        </button>
+
+        <button
+          class="filter rich"
+          id="filter17"
+          onclick="setValueFilter(17000)">
+          💰 17K+
+        </button>
+
+        <button
+          class="filter rich"
+          id="filter25"
+          onclick="setValueFilter(25000)">
+          💎 25K+
+        </button>
+
+        <button
+          class="filter rich"
+          id="filter50"
+          onclick="setValueFilter(50000)">
+          🔥 50K+
+        </button>
+
+        <button
+          class="filter rich"
+          id="filter100"
+          onclick="setValueFilter(100000)">
+          👑 100K+
+        </button>
+
+        <button
+          class="filter rich"
+          id="filter250"
+          onclick="setValueFilter(250000)">
+          🚀 250K+
+        </button>
+
+        <button
+          class="filter rich"
+          id="filter1m"
+          onclick="setValueFilter(1000000)">
+          💰 1M+
+        </button>
+
+        <button
+          class="filter"
+          id="filterOpen"
+          onclick="toggleOpenFilter()">
+          🟢 OPEN ONLY
+        </button>
+
+      </div>
+
+      <!-- SEARCH -->
+
+      <input
+        id="search"
+        class="search"
+        type="search"
+        autocomplete="off"
+        placeholder="Search Job ID..."
+        oninput="renderServers()">
+
+      <!-- SORT -->
+
+      <div class="sort-row">
+
+        <span class="sort-label">
+          SORT:
+        </span>
+
+        <button
+          id="sortValue"
+          class="sort-btn active"
+          onclick="setSort('value')">
+          💰 HIGHEST VALUE
+        </button>
+
+        <button
+          id="sortPlayers"
+          class="sort-btn"
+          onclick="setSort('players')">
+          👥 MOST PLAYERS
+        </button>
+
+        <button
+          id="sortPing"
+          class="sort-btn"
+          onclick="setSort('ping')">
+          📶 LOWEST PING
+        </button>
+
+      </div>
+
+      <div
+        id="serverGrid"
+        class="server-grid">
+
+        <div class="loading">
+
+          <div class="spinner"></div>
+
+          Loading Adopt Me servers...
 
         </div>
 
-        <input
-          id="search"
-          class="search"
-          type="search"
-          autocomplete="off"
-          placeholder="Search JobId..."
-          oninput="renderServers()">
+      </div>
 
-        <div
-          id="serverGrid"
-          class="server-grid">
+    </div>
 
-          <div class="loading">
+    <!-- INFO -->
 
-            <div class="spinner"></div>
+    <div class="panel">
 
-            Loading Blade Ball servers...
+      <div class="panel-head">
 
+        <div>
+
+          <div class="title">
+            💎 About Reported Values
+          </div>
+
+          <div class="subtitle">
+            How DONIE decides which servers are rich.
           </div>
 
         </div>
 
       </div>
 
-      <!-- VOICE -->
+      <div class="info warning">
 
-      <div
-        id="voiceSection"
-        class="section">
+        ⚠️ Roblox's normal public server list does not
+        provide players' Adopt Me inventory values.
 
-        <div class="mode">
+        <br><br>
 
-          <div class="mode-icon">
-            🎙️
-          </div>
+        DONIE therefore only displays a value when your
+        authorized Worker/reporter supplies one.
 
-          <div>
+        <br><br>
 
-            <h2>
-              Voice Server
-            </h2>
-
-            <p>
-              Open the Blade Ball Voice experience separately.
-            </p>
-
-            <span class="meta">
-              PLACE ID 15131065025
-            </span>
-
-          </div>
-
-          <button
-            class="btn primary"
-            onclick="openMode(
-              '15131065025',
-              'Voice Server'
-            )">
-            🎙️ Open Voice
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- PRO -->
-
-      <div
-        id="proSection"
-        class="section">
-
-        <div class="mode">
-
-          <div class="mode-icon">
-            👑
-          </div>
-
-          <div>
-
-            <h2>
-              Pro Servers
-            </h2>
-
-            <p>
-              Open the Blade Ball Pro Servers experience.
-            </p>
-
-            <span class="meta">
-              PLACE ID 14732610803
-            </span>
-
-          </div>
-
-          <button
-            class="btn gold"
-            onclick="openMode(
-              '14732610803',
-              'Pro Servers'
-            )">
-            👑 Open Pro
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- TRADE -->
-
-      <div
-        id="tradeSection"
-        class="section">
-
-        <div class="mode">
-
-          <div class="mode-icon">
-            🤝
-          </div>
-
-          <div>
-
-            <h2>
-              Trade Plaza
-            </h2>
-
-            <p>
-              Open the Blade Ball Trade Plaza separately.
-            </p>
-
-            <span class="meta">
-              PLACE ID 16581637217
-            </span>
-
-          </div>
-
-          <button
-            class="btn join"
-            onclick="openMode(
-              '16581637217',
-              'Trade Plaza'
-            )">
-            🤝 Open Trade
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- RAP -->
-
-      <div
-        id="rapSection"
-        class="section">
-
-        <div class="panel-head">
-
-          <div>
-
-            <div class="title">
-              💰 17K+ RAP Finder
-            </div>
-
-            <div class="subtitle">
-              Servers only appear here when the authorized
-              reporter has supplied verified RAP information
-              of 17,000 or higher.
-            </div>
-
-          </div>
-
-          <button
-            class="btn gold"
-            onclick="
-              setFilter('rap');
-              switchSection('public');
-            ">
-            Show 17K+
-          </button>
-
-        </div>
-
-        <div class="info warning">
-
-          ⚠️ Roblox's normal public server API does not
-          provide player RAP. The 17K+ value therefore comes
-          only from your authorized server reporter.
-
-        </div>
-
-        <br>
-
-        <div
-          id="rapGrid"
-          class="server-grid">
-
-          <div class="empty">
-
-            No 17K+ reported servers yet.
-
-          </div>
-
-        </div>
+        A server with no reported value is shown as
+        <strong style="color:white">
+          UNKNOWN
+        </strong>
+        rather than being given a fake value.
 
       </div>
 
@@ -1279,31 +1140,31 @@ button{
 <script>
 
 /* =========================================================
-   DONIE BLADE BALL FINDER
+   DONIE ADOPT ME RICH FINDER
    ========================================================= */
 
 const WORKER_URL =
   "https://weathered-haze-08aa.redonekowaithe1.workers.dev";
 
-const BLADE_PLACE_ID =
-  "13772394625";
-
-const RAP_THRESHOLD =
-  17000;
+const ADOPT_ME_PLACE_ID =
+  "920587237";
 
 const REFRESH_INTERVAL =
   30000;
 
-const MODES = {
-  voice:"15131065025",
-  pro:"14732610803",
-  trade:"16581637217"
-};
+const DEFAULT_THRESHOLD =
+  17000;
 
 let servers = [];
 
-let filter =
-  "all";
+let valueFilter =
+  0;
+
+let openOnly =
+  false;
+
+let sortMode =
+  "value";
 
 let loading =
   false;
@@ -1318,25 +1179,255 @@ function escapeHtml(value){
   return String(
     value ?? ""
   )
+
   .replaceAll(
     "&",
     "&amp;"
   )
+
   .replaceAll(
     "<",
     "&lt;"
   )
+
   .replaceAll(
     ">",
     "&gt;"
   )
+
   .replaceAll(
     '"',
     "&quot;"
   )
+
   .replaceAll(
     "'",
     "&#039;"
+  );
+
+}
+
+
+/*
+  Accept several possible names so the dashboard
+  works with different reporter/Worker formats.
+*/
+
+function getReportedValue(server){
+
+  const values = [
+
+    server.totalValue,
+    server.totalRap,
+    server.highestValue,
+    server.highestRap,
+    server.maxValue,
+    server.maxRAP,
+    server.value,
+    server.rap,
+    server.inventoryValue,
+    server.inventoryRap,
+    server.reportedValue,
+    server.reportedRap
+
+  ];
+
+  let highest = 0;
+
+  values.forEach(value => {
+
+    const number =
+      Number(value || 0);
+
+    if(
+      Number.isFinite(number) &&
+      number > highest
+    ){
+      highest = number;
+    }
+
+  });
+
+  /*
+    Also check a player list if the Worker
+    sends individual player values.
+  */
+
+  if(
+    Array.isArray(server.players)
+  ){
+
+    server.players.forEach(player => {
+
+      const playerValue =
+        Number(
+          player.value ??
+          player.rap ??
+          player.inventoryValue ??
+          0
+        );
+
+      if(
+        Number.isFinite(playerValue) &&
+        playerValue > highest
+      ){
+        highest = playerValue;
+      }
+
+    });
+
+  }
+
+  return highest;
+
+}
+
+
+function formatValue(value){
+
+  const number =
+    Number(value || 0);
+
+  if(!number){
+    return "N/A";
+  }
+
+  if(number >= 1000000){
+
+    return (
+      (number / 1000000)
+        .toFixed(
+          number >= 10000000
+            ? 0
+            : 1
+        ) +
+      "M"
+    );
+
+  }
+
+  if(number >= 1000){
+
+    return (
+      (number / 1000)
+        .toFixed(
+          number >= 100000
+            ? 0
+            : 1
+        ) +
+      "K"
+    );
+
+  }
+
+  return number.toLocaleString();
+
+}
+
+
+function getJobId(server){
+
+  return String(
+    server.jobId ||
+    server.id ||
+    server.jobID ||
+    ""
+  );
+
+}
+
+
+function getPlayers(server){
+
+  return Number(
+    server.playing ??
+    server.playerCount ??
+    server.playersCount ??
+    0
+  );
+
+}
+
+
+function getMaxPlayers(server){
+
+  return Number(
+    server.maxPlayers ??
+    server.maxPlayerCount ??
+    48
+  );
+
+}
+
+
+function getSlots(server){
+
+  const max =
+    getMaxPlayers(server);
+
+  const playing =
+    getPlayers(server);
+
+  return Number(
+    server.availableSlots ??
+    server.openSlots ??
+    Math.max(
+      max - playing,
+      0
+    )
+  );
+
+}
+
+
+function getPing(server){
+
+  const ping =
+    Number(
+      server.ping ??
+      server.averagePing ??
+      0
+    );
+
+  return ping > 0
+    ? Math.round(ping)
+    : 0;
+
+}
+
+
+function getFPS(server){
+
+  const fps =
+    Number(
+      server.fps ??
+      server.averageFps ??
+      0
+    );
+
+  return fps > 0
+    ? Math.round(fps)
+    : 0;
+
+}
+
+
+function buildJoin(jobId){
+
+  if(!jobId){
+    return "";
+  }
+
+  return (
+    "https://www.roblox.com/games/start" +
+    "?placeId=" +
+    encodeURIComponent(
+      ADOPT_ME_PLACE_ID
+    ) +
+    "&gameInstanceId=" +
+    encodeURIComponent(
+      jobId
+    )
   );
 
 }
@@ -1364,23 +1455,25 @@ function setStatus(
     "dot";
 
   if(state === "online"){
+
     dotEl.classList.add(
       "online"
     );
+
   }
 
   if(state === "error"){
+
     dotEl.classList.add(
       "error"
     );
+
   }
 
 }
 
 
-function toast(
-  message
-){
+function toast(message){
 
   const el =
     document.getElementById(
@@ -1400,10 +1493,13 @@ function toast(
 
   window.__toast =
     setTimeout(
-      () =>
+      () => {
+
         el.classList.remove(
           "show"
-        ),
+        );
+
+      },
       2200
     );
 
@@ -1411,133 +1507,42 @@ function toast(
 
 
 /* =========================================================
-   SECTION SWITCHING
+   FILTERS
    ========================================================= */
 
-function switchSection(
-  section
+function setValueFilter(
+  amount
 ){
 
-  const sections = [
-    "public",
-    "voice",
-    "pro",
-    "trade",
-    "rap"
+  valueFilter =
+    Number(amount || 0);
+
+  const buttons = [
+    ["filterAll",0],
+    ["filter17",17000],
+    ["filter25",25000],
+    ["filter50",50000],
+    ["filter100",100000],
+    ["filter250",250000],
+    ["filter1m",1000000]
   ];
 
-  sections.forEach(
-    name => {
+  buttons.forEach(
+    ([id,value]) => {
 
-      const sectionEl =
-        document.getElementById(
-          name + "Section"
-        );
+      const button =
+        document.getElementById(id);
 
-      const buttonEl =
-        document.getElementById(
-          "sec" +
-          name
-            .charAt(0)
-            .toUpperCase() +
-          name.slice(1)
-        );
+      if(button){
 
-      if(sectionEl){
-        sectionEl.classList.toggle(
+        button.classList.toggle(
           "active",
-          name === section
+          valueFilter === value
         );
-      }
 
-      if(buttonEl){
-        buttonEl.classList.toggle(
-          "active",
-          name === section
-        );
       }
 
     }
-  );
-
-  if(section === "rap"){
-    renderRAP();
-  }
-
-}
-
-
-/* =========================================================
-   ROBLOX MODE OPEN
-   ========================================================= */
-
-function openMode(
-  placeId,
-  name
-){
-
-  toast(
-    "Opening " +
-    name +
-    "..."
-  );
-
-  setTimeout(
-    () => {
-
-      window.location.href =
-        "https://www.roblox.com/games/start" +
-        "?placeId=" +
-        encodeURIComponent(
-          placeId
-        );
-
-    },
-    250
-  );
-
-}
-
-
-/* =========================================================
-   FILTER
-   ========================================================= */
-
-function setFilter(
-  type
-){
-
-  filter =
-    type;
-
-  const all =
-    document.getElementById(
-      "filterAll"
-    );
-
-  const open =
-    document.getElementById(
-      "filterOpen"
-    );
-
-  const rap =
-    document.getElementById(
-      "filterRap"
-    );
-
-  all.classList.toggle(
-    "active",
-    type === "all"
-  );
-
-  open.classList.toggle(
-    "active",
-    type === "open"
-  );
-
-  rap.classList.toggle(
-    "active",
-    type === "rap"
   );
 
   renderServers();
@@ -1545,81 +1550,53 @@ function setFilter(
 }
 
 
-/* =========================================================
-   RAP
-   ========================================================= */
+function toggleOpenFilter(){
 
-function serverRAP(
-  server
-){
+  openOnly =
+    !openOnly;
 
-  const a =
-    Number(
-      server.highestRap ||
-      0
+  const button =
+    document.getElementById(
+      "filterOpen"
     );
 
-  const b =
-    Number(
-      server.maxRAP ||
-      0
-    );
-
-  const c =
-    Number(
-      server.rap ||
-      0
-    );
-
-  return Math.max(
-    a,
-    b,
-    c
+  button.classList.toggle(
+    "active",
+    openOnly
   );
+
+  renderServers();
 
 }
 
 
-/* =========================================================
-   JOB ID
-   ========================================================= */
+function setSort(mode){
 
-function getJobId(
-  server
-){
+  sortMode =
+    mode;
 
-  return String(
-    server.jobId ||
-    server.id ||
-    ""
-  );
+  document
+    .getElementById("sortValue")
+    .classList.toggle(
+      "active",
+      mode === "value"
+    );
 
-}
+  document
+    .getElementById("sortPlayers")
+    .classList.toggle(
+      "active",
+      mode === "players"
+    );
 
+  document
+    .getElementById("sortPing")
+    .classList.toggle(
+      "active",
+      mode === "ping"
+    );
 
-/* =========================================================
-   JOIN URL
-   ========================================================= */
-
-function buildJoin(
-  jobId
-){
-
-  if(!jobId){
-    return "";
-  }
-
-  return (
-    "https://www.roblox.com/games/start" +
-    "?placeId=" +
-    encodeURIComponent(
-      BLADE_PLACE_ID
-    ) +
-    "&gameInstanceId=" +
-    encodeURIComponent(
-      jobId
-    )
-  );
+  renderServers();
 
 }
 
@@ -1644,11 +1621,8 @@ async function loadServers(){
 
   grid.innerHTML = `
     <div class="loading">
-
       <div class="spinner"></div>
-
-      Loading live Blade Ball servers...
-
+      Loading live Adopt Me servers...
     </div>
   `;
 
@@ -1664,7 +1638,7 @@ async function loadServers(){
       "/roblox-servers" +
       "?placeId=" +
       encodeURIComponent(
-        BLADE_PLACE_ID
+        ADOPT_ME_PLACE_ID
       ) +
       "&limit=100&_=" +
       Date.now();
@@ -1710,30 +1684,32 @@ async function loadServers(){
         ? data.servers
         : [];
 
+    /*
+      Normalize common server fields.
+    */
+
+    servers =
+      servers.map(
+        server => ({
+          ...server,
+
+          jobId:
+            getJobId(server),
+
+          reportedValue:
+            getReportedValue(server)
+
+        })
+      );
+
     updateStats();
 
     renderServers();
-
-    renderRAP();
 
     setStatus(
       "Live",
       "online"
     );
-
-    document
-      .getElementById(
-        "updated"
-      )
-      .textContent =
-      new Date()
-        .toLocaleTimeString(
-          [],
-          {
-            hour:"numeric",
-            minute:"2-digit"
-          }
-        );
 
     updateWorkerInfo(
       true,
@@ -1757,7 +1733,6 @@ async function loadServers(){
       "Unknown error";
 
     grid.innerHTML = `
-
       <div class="empty">
 
         <h3>
@@ -1765,9 +1740,7 @@ async function loadServers(){
         </h3>
 
         <p>
-          ${escapeHtml(
-            message
-          )}
+          ${escapeHtml(message)}
         </p>
 
         <br>
@@ -1778,16 +1751,7 @@ async function loadServers(){
           🔄 Try Again
         </button>
 
-        <br><br>
-
-        <button
-          class="btn blue"
-          onclick="checkWorker()">
-          ⚙️ Check Worker
-        </button>
-
       </div>
-
     `;
 
     updateWorkerInfo(
@@ -1800,6 +1764,795 @@ async function loadServers(){
 
     loading =
       false;
+
+  }
+
+}
+
+
+/* =========================================================
+   SORTING
+   ========================================================= */
+
+function sortServers(list){
+
+  const copy =
+    [...list];
+
+  copy.sort(
+    (a,b) => {
+
+      if(sortMode === "players"){
+
+        const difference =
+          getPlayers(b) -
+          getPlayers(a);
+
+        if(difference !== 0){
+          return difference;
+        }
+
+        return (
+          getReportedValue(b) -
+          getReportedValue(a)
+        );
+
+      }
+
+      if(sortMode === "ping"){
+
+        const pingA =
+          getPing(a);
+
+        const pingB =
+          getPing(b);
+
+        /*
+          Unknown ping goes to bottom.
+        */
+
+        if(!pingA && pingB){
+          return 1;
+        }
+
+        if(pingA && !pingB){
+          return -1;
+        }
+
+        if(
+          pingA &&
+          pingB &&
+          pingA !== pingB
+        ){
+
+          return pingA - pingB;
+
+        }
+
+        return (
+          getReportedValue(b) -
+          getReportedValue(a)
+        );
+
+      }
+
+      /*
+        DEFAULT:
+        HIGHEST REPORTED VALUE FIRST.
+      */
+
+      const valueDifference =
+        getReportedValue(b) -
+        getReportedValue(a);
+
+      if(valueDifference !== 0){
+
+        return valueDifference;
+
+      }
+
+      /*
+        If values are equal,
+        prefer more players.
+      */
+
+      const playerDifference =
+        getPlayers(b) -
+        getPlayers(a);
+
+      if(playerDifference !== 0){
+
+        return playerDifference;
+
+      }
+
+      /*
+        Finally prefer lower ping.
+      */
+
+      const pingA =
+        getPing(a);
+
+      const pingB =
+        getPing(b);
+
+      if(
+        pingA &&
+        pingB
+      ){
+
+        return pingA - pingB;
+
+      }
+
+      return 0;
+
+    }
+  );
+
+  return copy;
+
+}
+
+
+/* =========================================================
+   RENDER SERVERS
+   ========================================================= */
+
+function renderServers(){
+
+  const grid =
+    document.getElementById(
+      "serverGrid"
+    );
+
+  const searchEl =
+    document.getElementById(
+      "search"
+    );
+
+  const query =
+    (
+      searchEl?.value ||
+      ""
+    )
+    .trim()
+    .toLowerCase();
+
+  let visible =
+    servers.filter(
+      server => {
+
+        const jobId =
+          getJobId(server)
+            .toLowerCase();
+
+        const value =
+          getReportedValue(
+            server
+          );
+
+        const slots =
+          getSlots(server);
+
+        if(
+          query &&
+          !jobId.includes(query)
+        ){
+
+          return false;
+
+        }
+
+        if(
+          valueFilter > 0 &&
+          value < valueFilter
+        ){
+
+          return false;
+
+        }
+
+        if(
+          openOnly &&
+          slots <= 0
+        ){
+
+          return false;
+
+        }
+
+        return true;
+
+      }
+    );
+
+  visible =
+    sortServers(
+      visible
+    );
+
+  if(!visible.length){
+
+    if(!servers.length){
+
+      grid.innerHTML = `
+        <div class="empty">
+
+          <h3>
+            No live servers returned
+          </h3>
+
+          <p>
+            The Worker did not return any
+            Adopt Me public servers.
+          </p>
+
+        </div>
+      `;
+
+    }else{
+
+      grid.innerHTML = `
+        <div class="empty">
+
+          <h3>
+            No matching servers
+          </h3>
+
+          <p>
+            Try a lower value filter,
+            another Job ID, or turn off
+            OPEN ONLY.
+          </p>
+
+        </div>
+      `;
+
+    }
+
+    return;
+
+  }
+
+  grid.innerHTML =
+    visible
+      .map(
+        (
+          server,
+          index
+        ) =>
+          createCard(
+            server,
+            index
+          )
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   SERVER CARD
+   ========================================================= */
+
+function createCard(
+  server,
+  index
+){
+
+  const jobId =
+    getJobId(server);
+
+  const players =
+    getPlayers(server);
+
+  const maxPlayers =
+    getMaxPlayers(server);
+
+  const slots =
+    getSlots(server);
+
+  const ping =
+    getPing(server);
+
+  const fps =
+    getFPS(server);
+
+  const value =
+    getReportedValue(server);
+
+  const isRich =
+    value >=
+    DEFAULT_THRESHOLD;
+
+  const isTop =
+    index === 0 &&
+    value > 0;
+
+  const join =
+    server.joinUrl ||
+    buildJoin(jobId);
+
+  let rankText =
+    "#" +
+    (index + 1);
+
+  if(index === 0 && value > 0){
+    rankText = "🥇";
+  }
+
+  if(index === 1 && value > 0){
+    rankText = "🥈";
+  }
+
+  if(index === 2 && value > 0){
+    rankText = "🥉";
+  }
+
+  let badge;
+
+  if(value >= 1000000){
+
+    badge = `
+      <div class="badge rich">
+        💰 ${formatValue(value)}
+      </div>
+    `;
+
+  }else if(value >= 250000){
+
+    badge = `
+      <div class="badge rich">
+        🚀 ${formatValue(value)}
+      </div>
+    `;
+
+  }else if(value >= 100000){
+
+    badge = `
+      <div class="badge rich">
+        👑 ${formatValue(value)}
+      </div>
+    `;
+
+  }else if(value >= DEFAULT_THRESHOLD){
+
+    badge = `
+      <div class="badge rich">
+        💎 ${formatValue(value)}
+      </div>
+    `;
+
+  }else if(slots > 0){
+
+    badge = `
+      <div class="badge open">
+        ${slots} OPEN
+      </div>
+    `;
+
+  }else{
+
+    badge = `
+      <div class="badge full">
+        FULL
+      </div>
+    `;
+
+  }
+
+
+  /* PLAYER REPORTS */
+
+  const playerList =
+    Array.isArray(
+      server.players
+    )
+      ? server.players
+      : [];
+
+  const playersHtml =
+    playerList.length
+      ? `
+        <div class="players">
+
+          ${
+            playerList
+              .slice(0,12)
+              .map(
+                player => {
+
+                  const playerValue =
+                    Number(
+                      player.value ??
+                      player.rap ??
+                      player.inventoryValue ??
+                      0
+                    );
+
+                  const richPlayer =
+                    playerValue >=
+                    DEFAULT_THRESHOLD;
+
+                  const playerName =
+                    player.name ||
+                    player.username ||
+                    (
+                      "User " +
+                      (
+                        player.userId ||
+                        ""
+                      )
+                    );
+
+                  return `
+                    <span
+                      class="player ${
+                        richPlayer
+                          ? "rich-player"
+                          : ""
+                      }">
+
+                      ${escapeHtml(
+                        playerName
+                      )}
+
+                      ${
+                        richPlayer
+                          ? " 💰 " +
+                            escapeHtml(
+                              formatValue(
+                                playerValue
+                              )
+                            )
+                          : ""
+                      }
+
+                    </span>
+                  `;
+
+                }
+              )
+              .join("")
+          }
+
+        </div>
+      `
+      : "";
+
+
+  const valueBox =
+    value > 0
+      ? `
+        <div class="value-box">
+
+          <div class="value-label">
+            HIGHEST REPORTED VALUE
+          </div>
+
+          <div class="value-number">
+            ${formatValue(value)}
+          </div>
+
+          <div class="value-status">
+            ✓ REPORTED BY YOUR DATA SOURCE
+          </div>
+
+        </div>
+      `
+      : `
+        <div class="value-box no-value">
+
+          <div class="value-label">
+            HIGHEST REPORTED VALUE
+          </div>
+
+          <div class="value-number">
+            UNKNOWN
+          </div>
+
+          <div class="value-status">
+            No value was supplied
+          </div>
+
+        </div>
+      `;
+
+
+  return `
+
+    <article
+      class="server ${
+        isRich
+          ? "rich"
+          : ""
+      } ${
+        isTop
+          ? "top-rich"
+          : ""
+      }">
+
+      <div class="rank">
+        ${rankText}
+      </div>
+
+      <div class="server-top">
+
+        <div class="server-name">
+          Adopt Me Server
+        </div>
+
+        ${badge}
+
+      </div>
+
+      ${valueBox}
+
+      <div class="metrics">
+
+        <div class="metric">
+
+          <small>
+            PLAYERS
+          </small>
+
+          <strong>
+            ${players}/${maxPlayers}
+          </strong>
+
+        </div>
+
+        <div class="metric">
+
+          <small>
+            OPEN
+          </small>
+
+          <strong>
+            ${slots}
+          </strong>
+
+        </div>
+
+        <div class="metric">
+
+          <small>
+            PING
+          </small>
+
+          <strong>
+            ${
+              ping
+                ? ping + " ms"
+                : "N/A"
+            }
+          </strong>
+
+        </div>
+
+        <div class="metric">
+
+          <small>
+            FPS
+          </small>
+
+          <strong>
+            ${
+              fps
+                ? fps
+                : "N/A"
+            }
+          </strong>
+
+        </div>
+
+      </div>
+
+      ${playersHtml}
+
+      <div class="job">
+
+        <small>
+          JOB ID
+        </small>
+
+        <code>
+          ${
+            escapeHtml(
+              jobId ||
+              "N/A"
+            )
+          }
+        </code>
+
+      </div>
+
+      <div class="actions">
+
+        <button
+          class="btn join"
+          onclick='joinServer(
+            ${JSON.stringify(join)}
+          )'>
+
+          🎮 Join Server
+
+        </button>
+
+        <button
+          class="btn"
+          onclick='copyText(
+            ${JSON.stringify(jobId)}
+          )'>
+
+          📋 Copy
+
+        </button>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+function updateStats(){
+
+  let players =
+    0;
+
+  let slots =
+    0;
+
+  let rich =
+    0;
+
+  let highest =
+    0;
+
+  servers.forEach(
+    server => {
+
+      players +=
+        getPlayers(server);
+
+      slots +=
+        getSlots(server);
+
+      const value =
+        getReportedValue(
+          server
+        );
+
+      if(
+        value >=
+        DEFAULT_THRESHOLD
+      ){
+
+        rich++;
+
+      }
+
+      if(value > highest){
+
+        highest =
+          value;
+
+      }
+
+    }
+  );
+
+  document
+    .getElementById(
+      "serverCount"
+    )
+    .textContent =
+    servers.length;
+
+  document
+    .getElementById(
+      "playerCount"
+    )
+    .textContent =
+    players;
+
+  document
+    .getElementById(
+      "slotCount"
+    )
+    .textContent =
+    slots;
+
+  document
+    .getElementById(
+      "richCount"
+    )
+    .textContent =
+    rich;
+
+  document
+    .getElementById(
+      "topValue"
+    )
+    .textContent =
+    highest > 0
+      ? formatValue(highest)
+      : "N/A";
+
+}
+
+
+/* =========================================================
+   JOIN
+   ========================================================= */
+
+function joinServer(
+  url
+){
+
+  if(!url){
+
+    toast(
+      "No join URL available."
+    );
+
+    return;
+
+  }
+
+  toast(
+    "Opening Roblox..."
+  );
+
+  window.location.href =
+    url;
+
+}
+
+
+/* =========================================================
+   COPY
+   ========================================================= */
+
+async function copyText(
+  text
+){
+
+  if(!text){
+
+    toast(
+      "Nothing to copy."
+    );
+
+    return;
+
+  }
+
+  try{
+
+    await navigator
+      .clipboard
+      .writeText(
+        text
+      );
+
+    toast(
+      "Job ID copied!"
+    );
+
+  }catch{
+
+    toast(
+      "Copy failed."
+    );
 
   }
 
@@ -1873,26 +2626,22 @@ async function checkWorker(){
       <br><br>
 
       Service:
-      ${escapeHtml(
-        data.service ||
-        "DONIE Blade Ball Finder"
-      )}
+      ${
+        escapeHtml(
+          data.service ||
+          "DONIE Rich Finder"
+        )
+      }
 
       <br>
 
-      Place ID:
-      ${escapeHtml(
-        data.placeId ||
-        BLADE_PLACE_ID
-      )}
+      Adopt Me Place ID:
+      ${ADOPT_ME_PLACE_ID}
 
       <br>
 
       17K+ threshold:
-      ${Number(
-        data.rapThreshold ||
-        RAP_THRESHOLD
-      ).toLocaleString()}
+      ${DEFAULT_THRESHOLD.toLocaleString()}
 
       <br>
 
@@ -1900,7 +2649,7 @@ async function checkWorker(){
       ${
         data.kvConfigured
           ? "✅ Connected"
-          : "❌ Missing SERVERS binding"
+          : "⚠️ Not detected"
       }
 
       <br>
@@ -1943,10 +2692,7 @@ async function checkWorker(){
 
       <br><br>
 
-      Worker:
-      ${escapeHtml(
-        WORKER_URL
-      )}
+      Make sure your Worker is online.
 
     `;
 
@@ -1984,26 +2730,30 @@ function updateWorkerInfo(
       <br><br>
 
       Live servers:
-      ${Number(
-        data?.count ||
-        0
-      )}
+      ${
+        Number(
+          data?.count ||
+          servers.length ||
+          0
+        )
+      }
 
       <br>
 
-      17K+ threshold:
-      ${Number(
-        data?.rapThreshold ||
-        RAP_THRESHOLD
-      ).toLocaleString()}
+      Game:
+      Adopt Me
 
       <br>
 
-      Blade Ball:
-      ${escapeHtml(
-        data?.placeId ||
-        BLADE_PLACE_ID
-      )}
+      Place ID:
+      ${ADOPT_ME_PLACE_ID}
+
+      <br>
+
+      Ranking:
+      <strong style="color:white">
+        Highest reported value first
+      </strong>
 
     `;
 
@@ -2027,732 +2777,7 @@ function updateWorkerInfo(
       "Unknown Worker error"
     )}
 
-    <br><br>
-
-    Click
-    <strong style="color:white">
-      Check Worker
-    </strong>
-    for more information.
-
   `;
-
-}
-
-
-/* =========================================================
-   STATS
-   ========================================================= */
-
-function updateStats(){
-
-  let players =
-    0;
-
-  let slots =
-    0;
-
-  let rapServers =
-    0;
-
-  servers.forEach(
-    server => {
-
-      players +=
-        Number(
-          server.playing ||
-          0
-        );
-
-      const max =
-        Number(
-          server.maxPlayers ||
-          0
-        );
-
-      const playing =
-        Number(
-          server.playing ||
-          0
-        );
-
-      const available =
-        Number(
-          server.availableSlots ??
-          Math.max(
-            max -
-            playing,
-            0
-          )
-        );
-
-      slots +=
-        available;
-
-      if(
-        serverRAP(
-          server
-        ) >=
-        RAP_THRESHOLD
-      ){
-        rapServers++;
-      }
-
-    }
-  );
-
-  document
-    .getElementById(
-      "serverCount"
-    )
-    .textContent =
-    servers.length;
-
-  document
-    .getElementById(
-      "playerCount"
-    )
-    .textContent =
-    players;
-
-  document
-    .getElementById(
-      "slotCount"
-    )
-    .textContent =
-    slots;
-
-  document
-    .getElementById(
-      "rapServerCount"
-    )
-    .textContent =
-    rapServers;
-
-}
-
-
-/* =========================================================
-   RENDER SERVERS
-   ========================================================= */
-
-function renderServers(){
-
-  const grid =
-    document.getElementById(
-      "serverGrid"
-    );
-
-  const searchEl =
-    document.getElementById(
-      "search"
-    );
-
-  const query =
-    (
-      searchEl?.value ||
-      ""
-    )
-    .trim()
-    .toLowerCase();
-
-  let visible =
-    servers.filter(
-      server => {
-
-        const id =
-          getJobId(
-            server
-          )
-          .toLowerCase();
-
-        const rap =
-          serverRAP(
-            server
-          );
-
-        const playing =
-          Number(
-            server.playing ||
-            0
-          );
-
-        const max =
-          Number(
-            server.maxPlayers ||
-            0
-          );
-
-        const slots =
-          Number(
-            server.availableSlots ??
-            Math.max(
-              max -
-              playing,
-              0
-            )
-          );
-
-        if(
-          !id.includes(
-            query
-          )
-        ){
-          return false;
-        }
-
-        if(
-          filter === "open" &&
-          slots <= 0
-        ){
-          return false;
-        }
-
-        if(
-          filter === "rap" &&
-          rap <
-          RAP_THRESHOLD
-        ){
-          return false;
-        }
-
-        return true;
-
-      }
-    );
-
-  visible.sort(
-    (a,b) => {
-
-      const rapDifference =
-        serverRAP(b) -
-        serverRAP(a);
-
-      if(
-        rapDifference !== 0
-      ){
-        return rapDifference;
-      }
-
-      return (
-        Number(
-          b.playing ||
-          0
-        ) -
-        Number(
-          a.playing ||
-          0
-        )
-      );
-
-    }
-  );
-
-  if(
-    !visible.length
-  ){
-
-    if(
-      servers.length === 0
-    ){
-
-      grid.innerHTML = `
-
-        <div class="empty">
-
-          <h3>
-            No live servers returned
-          </h3>
-
-          <p>
-            Roblox did not return any public
-            Blade Ball servers right now.
-          </p>
-
-        </div>
-
-      `;
-
-    }else{
-
-      grid.innerHTML = `
-
-        <div class="empty">
-
-          <h3>
-            No matching servers
-          </h3>
-
-          <p>
-            Try another Job ID or filter.
-          </p>
-
-        </div>
-
-      `;
-
-    }
-
-    return;
-
-  }
-
-  grid.innerHTML =
-    visible
-      .map(
-        (
-          server,
-          index
-        ) =>
-          createCard(
-            server,
-            index
-          )
-      )
-      .join("");
-
-}
-
-
-/* =========================================================
-   SERVER CARD
-   ========================================================= */
-
-function createCard(
-  server,
-  index
-){
-
-  const jobId =
-    getJobId(
-      server
-    );
-
-  const playing =
-    Number(
-      server.playing ||
-      0
-    );
-
-  const maxPlayers =
-    Number(
-      server.maxPlayers ||
-      0
-    );
-
-  const slots =
-    Number(
-      server.availableSlots ??
-      Math.max(
-        maxPlayers -
-        playing,
-        0
-      )
-    );
-
-  const ping =
-    server.ping != null
-      ? (
-          Math.round(
-            Number(
-              server.ping
-            )
-          ) +
-          " ms"
-        )
-      : "N/A";
-
-  const fps =
-    server.fps != null
-      ? Math.round(
-          Number(
-            server.fps
-          )
-        )
-      : "N/A";
-
-  const rap =
-    serverRAP(
-      server
-    );
-
-  const join =
-    server.joinUrl ||
-    buildJoin(
-      jobId
-    );
-
-  const isRap =
-    rap >=
-    RAP_THRESHOLD;
-
-  const playerList =
-    Array.isArray(
-      server.players
-    )
-      ? server.players
-      : [];
-
-  const badge =
-    isRap
-      ? `
-        <div class="badge rap">
-          💰 ${rap.toLocaleString()} RAP
-        </div>
-      `
-      : slots > 0
-        ? `
-          <div class="badge open">
-            ${slots} OPEN
-          </div>
-        `
-        : `
-          <div class="badge full">
-            FULL
-          </div>
-        `;
-
-  const playersHtml =
-    playerList.length
-      ? `
-        <div class="players">
-
-          ${
-            playerList
-              .slice(
-                0,
-                12
-              )
-              .map(
-                player => {
-
-                  const playerRap =
-                    Number(
-                      player.rap ||
-                      0
-                    );
-
-                  const rich =
-                    playerRap >=
-                    RAP_THRESHOLD;
-
-                  const playerName =
-                    player.name ||
-                    player.username ||
-                    (
-                      "User " +
-                      player.userId
-                    );
-
-                  return `
-                    <span
-                      class="player ${
-                        rich
-                          ? "rich"
-                          : ""
-                      }">
-
-                      ${escapeHtml(
-                        playerName
-                      )}
-
-                      ${
-                        rich
-                          ? " 💰"
-                          : ""
-                      }
-
-                    </span>
-                  `;
-
-                }
-              )
-              .join("")
-          }
-
-        </div>
-      `
-      : "";
-
-  return `
-
-    <article
-      class="server ${
-        isRap
-          ? "rap"
-          : ""
-      }">
-
-      <div class="server-top">
-
-        <div class="server-name">
-          Blade Ball #${
-            index + 1
-          }
-        </div>
-
-        ${badge}
-
-      </div>
-
-      <div class="metrics">
-
-        <div class="metric">
-
-          <small>
-            PLAYERS
-          </small>
-
-          <strong>
-            ${
-              playing
-            }/${
-              maxPlayers ||
-              "?"
-            }
-          </strong>
-
-        </div>
-
-        <div class="metric">
-
-          <small>
-            OPEN
-          </small>
-
-          <strong>
-            ${
-              slots
-            }
-          </strong>
-
-        </div>
-
-        <div class="metric">
-
-          <small>
-            PING
-          </small>
-
-          <strong>
-            ${
-              escapeHtml(
-                ping
-              )
-            }
-          </strong>
-
-        </div>
-
-        <div class="metric">
-
-          <small>
-            RAP
-          </small>
-
-          <strong>
-            ${
-              rap > 0
-                ? rap.toLocaleString()
-                : "N/A"
-            }
-          </strong>
-
-        </div>
-
-      </div>
-
-      ${playersHtml}
-
-      <div class="job">
-
-        <small>
-          JOB ID
-        </small>
-
-        <code>
-          ${
-            escapeHtml(
-              jobId
-            )
-          }
-        </code>
-
-      </div>
-
-      <div class="actions">
-
-        <button
-          class="btn join"
-          onclick='joinServer(
-            ${JSON.stringify(
-              join
-            )}
-          )'>
-
-          🎮 Join Server
-
-        </button>
-
-        <button
-          class="btn"
-          onclick='copyText(
-            ${JSON.stringify(
-              jobId
-            )}
-          )'>
-
-          📋 Copy
-
-        </button>
-
-      </div>
-
-    </article>
-
-  `;
-
-}
-
-
-/* =========================================================
-   RAP GRID
-   ========================================================= */
-
-function renderRAP(){
-
-  const grid =
-    document.getElementById(
-      "rapGrid"
-    );
-
-  if(!grid){
-    return;
-  }
-
-  const matches =
-    servers
-      .filter(
-        server =>
-          serverRAP(
-            server
-          ) >=
-          RAP_THRESHOLD
-      )
-      .sort(
-        (a,b) =>
-          serverRAP(b) -
-          serverRAP(a)
-      );
-
-  if(
-    !matches.length
-  ){
-
-    grid.innerHTML = `
-
-      <div class="empty">
-
-        <h3>
-          No 17K+ servers yet
-        </h3>
-
-        <p>
-          Your authorized reporter has not
-          supplied a live server report with
-          RAP of 17,000 or higher.
-        </p>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-  grid.innerHTML =
-    matches
-      .map(
-        (
-          server,
-          index
-        ) =>
-          createCard(
-            server,
-            index
-          )
-      )
-      .join("");
-
-}
-
-
-/* =========================================================
-   JOIN SERVER
-   ========================================================= */
-
-function joinServer(
-  url
-){
-
-  if(!url){
-
-    toast(
-      "No join URL available."
-    );
-
-    return;
-
-  }
-
-  toast(
-    "Opening Roblox..."
-  );
-
-  window.location.href =
-    url;
-
-}
-
-
-/* =========================================================
-   COPY
-   ========================================================= */
-
-async function copyText(
-  text
-){
-
-  if(!text){
-
-    toast(
-      "Nothing to copy."
-    );
-
-    return;
-
-  }
-
-  try{
-
-    await navigator
-      .clipboard
-      .writeText(
-        text
-      );
-
-    toast(
-      "Job ID copied!"
-    );
-
-  }catch{
-
-    toast(
-      "Copy failed."
-    );
-
-  }
 
 }
 
@@ -2783,4 +2808,3 @@ setInterval(
 
 </body>
 </html>
-```
