@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DONIE • Blade Ball Toolkit</title>
+<title>DONIE • Blade Ball Finder</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+
 :root{
   --bg:#07080d;
   --panel:#0d1018;
@@ -15,20 +16,27 @@
   --text:#f4f6fb;
   --muted:#7f889b;
   --purple:#8b5cf6;
+  --purple2:#a78bfa;
   --green:#39e58c;
   --red:#ff5f6d;
   --yellow:#ffd166;
   --blue:#4da6ff;
 }
+
 body{
   min-height:100vh;
-  font-family:Inter,Arial,sans-serif;
+  font-family:Arial,Helvetica,sans-serif;
   color:var(--text);
-  background:radial-gradient(circle at 50% -10%,rgba(139,92,246,.16),transparent 35%),var(--bg);
+  background:
+    radial-gradient(circle at 50% -10%,rgba(139,92,246,.16),transparent 35%),
+    var(--bg);
 }
+
 button,input{font:inherit}
 button{cursor:pointer}
+
 .app{display:flex;min-height:100vh}
+
 .sidebar{
   width:235px;
   border-right:1px solid var(--border);
@@ -36,200 +44,583 @@ button{cursor:pointer}
   padding:22px 14px;
   position:fixed;
   inset:0 auto 0 0;
-  overflow-y:auto;
 }
-.brand{font-size:23px;font-weight:950;padding:8px 12px 25px}
-.brand span{color:#a78bfa}
+
+.brand{
+  font-size:23px;
+  font-weight:950;
+  padding:8px 12px 25px;
+}
+
+.brand span{color:var(--purple2)}
+
 .section-label{
-  color:#555e72;font-size:10px;font-weight:900;
-  letter-spacing:1.4px;padding:10px 12px
+  color:#555e72;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.4px;
+  padding:10px 12px;
 }
+
 .nav{display:grid;gap:5px}
+
 .nav button{
-  width:100%;border:1px solid transparent;background:transparent;
-  color:#9aa2b5;text-align:left;padding:12px;border-radius:9px;font-weight:800
+  width:100%;
+  border:1px solid transparent;
+  background:transparent;
+  color:#9aa2b5;
+  text-align:left;
+  padding:12px;
+  border-radius:9px;
+  font-weight:800;
 }
-.nav button:hover,.nav button.active{
-  background:#151927;border-color:#252c3d;color:white
+
+.nav button:hover,
+.nav button.active{
+  background:#151927;
+  border-color:#252c3d;
+  color:white;
 }
-.nav button.active{box-shadow:inset 2px 0 0 var(--purple)}
-.sidebar-bottom{margin-top:28px;color:#596276;font-size:11px;padding:12px}
-.main{margin-left:235px;width:calc(100% - 235px)}
+
+.nav button.active{
+  box-shadow:inset 2px 0 0 var(--purple);
+}
+
+.main{
+  margin-left:235px;
+  width:calc(100% - 235px);
+}
+
 .topbar{
-  height:65px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 28px;background:rgba(7,8,13,.85);
-  position:sticky;top:0;z-index:10;backdrop-filter:blur(10px)
+  height:65px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  background:rgba(7,8,13,.88);
+  position:sticky;
+  top:0;
+  z-index:10;
+  backdrop-filter:blur(10px);
 }
+
 .page-title{font-size:15px;font-weight:900}
-.connection{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--yellow)}
-.dot.online{background:var(--green);box-shadow:0 0 10px rgba(57,229,140,.6)}
-.content{width:min(1180px,94%);margin:auto;padding:30px 0 60px}
-.hero{
-  padding:26px;border:1px solid var(--border);border-radius:15px;
-  background:linear-gradient(135deg,rgba(139,92,246,.11),rgba(13,16,24,.95));
-  margin-bottom:18px
+
+.connection{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--muted);
+  font-size:12px;
 }
+
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--yellow);
+}
+
+.dot.online{
+  background:var(--green);
+  box-shadow:0 0 10px rgba(57,229,140,.6);
+}
+
+.content{
+  width:min(1180px,94%);
+  margin:auto;
+  padding:30px 0 60px;
+}
+
+.hero{
+  padding:26px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:
+    linear-gradient(135deg,rgba(139,92,246,.11),rgba(13,16,24,.95));
+  margin-bottom:18px;
+}
+
 .hero h1{font-size:27px;margin-bottom:7px}
 .hero p{color:var(--muted);font-size:13px;line-height:1.6}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
-.stat{border:1px solid var(--border);background:var(--panel);border-radius:13px;padding:17px}
-.stat-label{color:var(--muted);font-size:11px;margin-bottom:8px}
-.stat-value{font-size:23px;font-weight:950}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.stat{
+  border:1px solid var(--border);
+  background:var(--panel);
+  border-radius:13px;
+  padding:17px;
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:10px;
+  margin-bottom:8px;
+}
+
+.stat-value{
+  font-size:22px;
+  font-weight:950;
+}
+
 .tabs{
-  display:flex;gap:7px;margin-bottom:15px;
-  border-bottom:1px solid var(--border);overflow-x:auto
+  display:flex;
+  gap:7px;
+  margin-bottom:15px;
+  border-bottom:1px solid var(--border);
+  overflow-x:auto;
 }
+
 .tab{
-  background:transparent;color:var(--muted);border:0;
-  padding:11px 14px;border-bottom:2px solid transparent;
-  font-weight:900;white-space:nowrap
+  background:transparent;
+  color:var(--muted);
+  border:0;
+  padding:11px 14px;
+  border-bottom:2px solid transparent;
+  font-weight:900;
+  white-space:nowrap;
 }
-.tab.active{color:white;border-bottom-color:var(--purple)}
+
+.tab.active{
+  color:white;
+  border-bottom-color:var(--purple);
+}
+
 .panel{
-  border:1px solid var(--border);background:var(--panel);
-  border-radius:15px;padding:18px;margin-bottom:16px
+  border:1px solid var(--border);
+  background:var(--panel);
+  border-radius:15px;
+  padding:18px;
+  margin-bottom:16px;
 }
+
 .panel-head{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:10px;margin-bottom:15px
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:15px;
 }
+
 .panel-title{font-size:16px;font-weight:950}
-.panel-subtitle{color:var(--muted);font-size:11px;margin-top:5px;line-height:1.5}
-.controls{display:flex;flex-wrap:wrap;gap:8px}
+
+.panel-subtitle{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:5px;
+  line-height:1.5;
+}
+
+.controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
 .btn{
-  border:1px solid var(--border);background:var(--panel2);
-  color:white;border-radius:9px;padding:10px 13px;font-weight:850
+  border:1px solid var(--border);
+  background:var(--panel2);
+  color:white;
+  border-radius:9px;
+  padding:10px 13px;
+  font-weight:850;
 }
+
 .btn:hover{border-color:#3a4359}
-.btn.primary{background:var(--purple);border-color:var(--purple)}
-.btn.join{background:var(--green);color:#06150d;border-color:var(--green)}
-.blade-section-nav{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px
+
+.btn.primary{
+  background:var(--purple);
+  border-color:var(--purple);
 }
-.blade-section-btn{
-  min-height:64px;display:flex;align-items:center;justify-content:center;
-  gap:8px;border:1px solid var(--border);background:#0a0d14;
-  color:var(--muted);border-radius:11px;font-weight:950;transition:.18s
+
+.btn.join{
+  background:var(--green);
+  color:#06150d;
+  border-color:var(--green);
 }
-.blade-section-btn:hover{transform:translateY(-1px);border-color:#3a4359;color:white}
-.blade-section-btn.active{color:white;background:#151927}
-.blade-section-btn.public.active{border-color:var(--blue)}
-.blade-section-btn.voice.active{border-color:var(--purple)}
-.blade-section-btn.pro.active{border-color:var(--yellow)}
-.blade-section-btn.trade.active{border-color:var(--green)}
+
+.btn.high{
+  background:#34270b;
+  border-color:#6a5116;
+  color:var(--yellow);
+}
+
+.blade-nav{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.blade-nav button{
+  min-height:64px;
+  border:1px solid var(--border);
+  background:#0a0d14;
+  color:var(--muted);
+  border-radius:11px;
+  font-weight:950;
+  transition:.18s;
+}
+
+.blade-nav button:hover{
+  transform:translateY(-1px);
+  color:white;
+}
+
+.blade-nav button.active{
+  color:white;
+  background:#151927;
+  border-color:var(--purple);
+}
+
+.blade-nav .public.active{border-color:var(--blue)}
+.blade-nav .voice.active{border-color:var(--purple)}
+.blade-nav .pro.active{border-color:var(--yellow)}
+.blade-nav .trade.active{border-color:var(--green)}
+.blade-nav .high.active{
+  border-color:#ffb000;
+  box-shadow:0 0 20px rgba(255,177,0,.08);
+}
+
 .blade-section{display:none}
 .blade-section.active{display:block}
-.mode-card{
-  display:grid;grid-template-columns:80px 1fr auto;align-items:center;
-  gap:18px;padding:22px;border:1px solid var(--border);
-  border-radius:14px;background:linear-gradient(135deg,#0b0f17,#101522)
+
+.special-mode{
+  display:grid;
+  grid-template-columns:80px 1fr auto;
+  align-items:center;
+  gap:18px;
+  padding:22px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:linear-gradient(135deg,#0b0f17,#101522);
 }
-.mode-icon{
-  width:68px;height:68px;display:grid;place-items:center;
-  border-radius:16px;font-size:31px;background:#151927;border:1px solid #252c3d
+
+.special-icon{
+  width:68px;
+  height:68px;
+  display:grid;
+  place-items:center;
+  border-radius:16px;
+  font-size:31px;
+  background:#151927;
+  border:1px solid #252c3d;
 }
-.mode-info h2{font-size:19px;margin-bottom:7px}
-.mode-info p{color:var(--muted);font-size:11px;line-height:1.6}
-.meta-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+
+.special-info h2{font-size:19px;margin-bottom:7px}
+
+.special-info p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+}
+
+.meta-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:11px;
+}
+
 .meta{
-  padding:5px 8px;border-radius:999px;background:#080b11;
-  border:1px solid var(--border);color:#9ca5b8;font-size:9px;font-weight:900
+  padding:5px 8px;
+  border-radius:999px;
+  background:#080b11;
+  border:1px solid var(--border);
+  color:#9ca5b8;
+  font-size:9px;
+  font-weight:900;
 }
+
 .search{
-  width:100%;background:#090c13;color:white;border:1px solid var(--border);
-  outline:none;border-radius:9px;padding:12px 13px;margin-bottom:13px
+  width:100%;
+  background:#090c13;
+  color:white;
+  border:1px solid var(--border);
+  outline:none;
+  border-radius:9px;
+  padding:12px 13px;
+  margin-bottom:13px;
 }
+
 .search:focus{border-color:var(--purple)}
-.server-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.server{border:1px solid var(--border);background:#0a0d14;border-radius:13px;padding:15px}
-.server-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
-.server-name{font-weight:950}
-.open{
-  color:var(--green);background:rgba(57,229,140,.08);
-  border:1px solid rgba(57,229,140,.18);border-radius:999px;
-  padding:5px 8px;font-size:10px;font-weight:900
+
+.filterbar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:13px;
 }
-.full{color:var(--red);background:rgba(255,95,109,.08);border-color:rgba(255,95,109,.18)}
-.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
-.metric{background:var(--panel2);border-radius:8px;padding:9px}
-.metric small{display:block;color:var(--muted);font-size:9px;margin-bottom:4px}
-.metric strong{font-size:13px}
-.job{border:1px solid #1d2331;background:#070a10;border-radius:8px;padding:9px;margin-bottom:10px}
-.job small{display:block;color:var(--muted);font-size:9px;margin-bottom:4px}
-.job code{color:#cbd1df;font-size:10px;word-break:break-all}
+
+.filter-btn{
+  border:1px solid var(--border);
+  background:#090c13;
+  color:#9ca5b8;
+  padding:8px 11px;
+  border-radius:8px;
+  font-size:11px;
+  font-weight:900;
+}
+
+.filter-btn.active{
+  color:white;
+  border-color:var(--purple);
+  background:#151927;
+}
+
+.filter-btn.high.active{
+  color:var(--yellow);
+  border-color:#8a681c;
+  background:#251d0a;
+}
+
+.server-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.server{
+  border:1px solid var(--border);
+  background:#0a0d14;
+  border-radius:13px;
+  padding:15px;
+}
+
+.server.high-value{
+  border-color:#6d541a;
+  box-shadow:0 0 18px rgba(255,209,102,.05);
+}
+
+.server-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.server-name{font-weight:950}
+
+.badge{
+  border-radius:999px;
+  padding:5px 8px;
+  font-size:10px;
+  font-weight:900;
+}
+
+.open{
+  color:var(--green);
+  background:rgba(57,229,140,.08);
+  border:1px solid rgba(57,229,140,.18);
+}
+
+.full{
+  color:var(--red);
+  background:rgba(255,95,109,.08);
+  border-color:rgba(255,95,109,.18);
+}
+
+.valuable{
+  color:var(--yellow);
+  background:rgba(255,209,102,.08);
+  border:1px solid rgba(255,209,102,.2);
+}
+
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+  margin-bottom:10px;
+}
+
+.metric{
+  background:var(--panel2);
+  border-radius:8px;
+  padding:9px;
+}
+
+.metric small{
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+  margin-bottom:4px;
+}
+
+.metric strong{font-size:12px}
+
+.job{
+  border:1px solid #1d2331;
+  background:#070a10;
+  border-radius:8px;
+  padding:9px;
+  margin-bottom:10px;
+}
+
+.job small{
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+  margin-bottom:4px;
+}
+
+.job code{
+  color:#cbd1df;
+  font-size:10px;
+  word-break:break-all;
+}
+
 .actions{display:flex;gap:7px}
 .actions .join{flex:1}
-.loading{grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)}
+
+.loading{
+  grid-column:1/-1;
+  text-align:center;
+  padding:40px;
+  color:var(--muted);
+}
+
 .spinner{
-  width:27px;height:27px;border:3px solid #222838;border-top-color:var(--purple);
-  border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px
+  width:27px;
+  height:27px;
+  border:3px solid #222838;
+  border-top-color:var(--purple);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin:0 auto 10px;
 }
+
 @keyframes spin{to{transform:rotate(360deg)}}
+
 .empty{
-  grid-column:1/-1;text-align:center;color:var(--muted);
-  padding:30px;border:1px dashed var(--border);border-radius:10px
+  grid-column:1/-1;
+  text-align:center;
+  color:var(--muted);
+  padding:30px;
+  border:1px dashed var(--border);
+  border-radius:10px;
 }
+
+.note{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#090c13;
+}
+
 .toast{
-  position:fixed;left:50%;bottom:22px;transform:translate(-50%,80px);
-  opacity:0;background:#171c29;border:1px solid var(--border);
-  padding:11px 15px;border-radius:9px;font-size:12px;transition:.2s;z-index:50
+  position:fixed;
+  left:50%;
+  bottom:22px;
+  transform:translate(-50%,80px);
+  opacity:0;
+  background:#171c29;
+  border:1px solid var(--border);
+  padding:11px 15px;
+  border-radius:9px;
+  font-size:12px;
+  transition:.2s;
+  z-index:50;
 }
-.toast.show{transform:translate(-50%,0);opacity:1}
+
+.toast.show{
+  transform:translate(-50%,0);
+  opacity:1;
+}
+
+@media(max-width:950px){
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .blade-nav{grid-template-columns:repeat(3,1fr)}
+}
 
 @media(max-width:850px){
-  .sidebar{width:65px;padding:15px 8px}
-  .brand{font-size:0;text-align:center}
-  .brand span,.section-label,.sidebar-bottom{display:none}
-  .brand:after{content:"D";font-size:23px;color:#a78bfa}
-  .nav button{font-size:0;text-align:center}
-  .nav button:before{content:"•";font-size:20px}
-  .main{margin-left:65px;width:calc(100% - 65px)}
-  .stats{grid-template-columns:repeat(2,1fr)}
+  .sidebar{
+    width:65px;
+    padding:15px 8px;
+  }
+
+  .brand{
+    font-size:0;
+    text-align:center;
+  }
+
+  .brand span,
+  .section-label{display:none}
+
+  .brand:after{
+    content:"D";
+    font-size:23px;
+    color:var(--purple2);
+  }
+
+  .nav button{
+    font-size:0;
+    text-align:center;
+  }
+
+  .nav button:before{
+    content:"•";
+    font-size:20px;
+  }
+
+  .main{
+    margin-left:65px;
+    width:calc(100% - 65px);
+  }
+
   .server-grid{grid-template-columns:1fr}
-  .blade-section-nav{grid-template-columns:repeat(2,1fr)}
-  .mode-card{grid-template-columns:1fr;text-align:center}
-  .mode-icon{margin:auto}
-  .mode-card .btn{width:100%}
+  .special-mode{grid-template-columns:1fr;text-align:center}
+  .special-icon{margin:auto}
 }
+
 @media(max-width:550px){
   .topbar{padding:0 15px}
   .content{width:94%;padding-top:20px}
-  .panel-head{align-items:flex-start;flex-direction:column}
-  .controls{width:100%}
-  .controls .btn{flex:1}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .blade-nav{grid-template-columns:1fr 1fr}
+  .metrics{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
 <aside class="sidebar">
+
   <div class="brand">DONIE <span>TOOLS</span></div>
 
-  <div class="section-label">GAMES</div>
+  <div class="section-label">GAME</div>
+
   <nav class="nav">
-    <button onclick="switchGame('adopt')">🐾 Adopt Me</button>
-    <button class="active" onclick="switchGame('blade')">⚔️ Blade Ball</button>
+    <button class="active">⚔️ Blade Ball</button>
   </nav>
 
   <div class="section-label">TOOLS</div>
+
   <nav class="nav">
-    <button onclick="scrollToServers()">🔄 Servers</button>
+    <button onclick="loadServers()">🔄 Refresh</button>
+    <button onclick="showHighValue()">💰 17K+ Finder</button>
   </nav>
 
-  <div class="sidebar-bottom">
-    DONIE Toolkit<br>
-    Public server finder
-  </div>
 </aside>
 
 <main class="main">
 
 <div class="topbar">
-  <div id="pageTitle" class="page-title">Blade Ball</div>
+  <div class="page-title">Blade Ball</div>
+
   <div class="connection">
     <div id="statusDot" class="dot"></div>
     <span id="statusText">Connecting</span>
@@ -239,185 +630,270 @@ button{cursor:pointer}
 <div class="content">
 
 <section class="hero">
-  <h1 id="heroTitle">Blade Ball Server Finder</h1>
+
+  <h1>⚔️ Blade Ball Server Finder</h1>
+
   <p>
-    Choose between Public, Voice, Pro and Trade.
-    Each section has its own Roblox experience and public-server finder.
+    Find public Blade Ball servers and prioritize servers
+    with reported high-value data. The 17K+ filter only uses
+    values actually supplied by an authorized server reporter.
   </p>
+
 </section>
 
 <section class="stats">
+
   <div class="stat">
     <div class="stat-label">SERVERS</div>
     <div id="serverCount" class="stat-value">0</div>
   </div>
+
   <div class="stat">
     <div class="stat-label">PLAYERS</div>
     <div id="playerCount" class="stat-value">0</div>
   </div>
+
   <div class="stat">
     <div class="stat-label">OPEN SLOTS</div>
     <div id="slotCount" class="stat-value">0</div>
   </div>
+
+  <div class="stat">
+    <div class="stat-label">17K+ SERVERS</div>
+    <div id="highCount" class="stat-value">0</div>
+  </div>
+
   <div class="stat">
     <div class="stat-label">UPDATED</div>
     <div id="updated" class="stat-value">--</div>
   </div>
-</section>
 
-<div class="tabs">
-  <button class="tab" onclick="switchGame('adopt')">🐾 Adopt Me</button>
-  <button class="tab active" onclick="switchGame('blade')">⚔️ Blade Ball</button>
-</div>
+</section>
 
 <section class="panel">
 
-  <div class="panel-head">
-    <div>
-      <div class="panel-title">⚔️ Blade Ball</div>
-      <div class="panel-subtitle">
-        Public, Voice, Pro and Trade are separated below.
-      </div>
-    </div>
-  </div>
+<div class="blade-nav">
 
-  <div class="blade-section-nav">
+  <button id="navPublic"
+    class="active public"
+    onclick="switchSection('public')">
+    🌐 PUBLIC
+  </button>
 
-    <button id="bladeNavPublic"
-      class="blade-section-btn public active"
-      onclick="switchBladeSection('public')">
-      🌐 PUBLIC
-    </button>
+  <button id="navVoice"
+    class="voice"
+    onclick="switchSection('voice')">
+    🎙️ VOICE
+  </button>
 
-    <button id="bladeNavVoice"
-      class="blade-section-btn voice"
-      onclick="switchBladeSection('voice')">
-      🎙️ VOICE
-    </button>
+  <button id="navPro"
+    class="pro"
+    onclick="switchSection('pro')">
+    👑 PRO
+  </button>
 
-    <button id="bladeNavPro"
-      class="blade-section-btn pro"
-      onclick="switchBladeSection('pro')">
-      👑 PRO
-    </button>
+  <button id="navTrade"
+    class="trade"
+    onclick="switchSection('trade')">
+    🤝 TRADE
+  </button>
 
-    <button id="bladeNavTrade"
-      class="blade-section-btn trade"
-      onclick="switchBladeSection('trade')">
-      🤝 TRADE
-    </button>
+  <button id="navHigh"
+    class="high"
+    onclick="switchSection('high')">
+    💰 17K+
+  </button>
 
-  </div>
+</div>
 
-  <div id="bladePublic" class="blade-section active">
+<div id="publicSection" class="blade-section active">
 
-    <div class="panel" style="margin:0">
-      <div class="panel-head">
-        <div>
-          <div class="panel-title">🌐 Public Servers</div>
-          <div class="panel-subtitle">
-            Live public Blade Ball servers.
-          </div>
-        </div>
+  <div class="panel" style="margin:0">
 
-        <div class="controls">
-          <button class="btn primary" onclick="loadServers()">🔄 Refresh</button>
-          <button class="btn" onclick="sortServers('slots')">Most Empty</button>
-          <button class="btn" onclick="sortServers('players')">Fewest Players</button>
-          <button class="btn" onclick="sortServers('ping')">Lowest Ping</button>
+    <div class="panel-head">
+
+      <div>
+        <div class="panel-title">🌐 Public Servers</div>
+        <div class="panel-subtitle">
+          Live public Blade Ball servers.
         </div>
       </div>
 
-      <input id="search"
-        class="search"
-        placeholder="Search Job ID..."
-        oninput="renderServers()">
-
-      <div id="serverGrid" class="server-grid">
-        <div class="loading">
-          <div class="spinner"></div>
-          Loading servers...
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div id="bladeVoice" class="blade-section">
-    <div class="mode-card">
-      <div class="mode-icon">🎙️</div>
-      <div class="mode-info">
-        <h2>Voice Server</h2>
-        <p>
-          Browse the public servers for the Voice experience.
-        </p>
-        <div class="meta-list">
-          <span class="meta">VOICE</span>
-          <span class="meta">PLACE ID: 15131065025</span>
-        </div>
-      </div>
-      <button class="btn primary" onclick="switchMode('voice')">
-        🎙️ View Voice Servers
+      <button class="btn primary" onclick="loadServers()">
+        🔄 Refresh
       </button>
+
     </div>
+
+    <div class="filterbar">
+
+      <button
+        class="filter-btn active"
+        id="filterAll"
+        onclick="setFilter('all')">
+        ALL
+      </button>
+
+      <button
+        class="filter-btn"
+        id="filterOpen"
+        onclick="setFilter('open')">
+        OPEN SLOTS
+      </button>
+
+      <button
+        class="filter-btn high"
+        id="filterHigh"
+        onclick="setFilter('high')">
+        💰 17K+
+      </button>
+
+    </div>
+
+    <input
+      id="search"
+      class="search"
+      placeholder="Search JobId..."
+      oninput="renderServers()">
+
+    <div id="serverGrid" class="server-grid">
+
+      <div class="loading">
+        <div class="spinner"></div>
+        Loading Blade Ball servers...
+      </div>
+
+    </div>
+
   </div>
 
-  <div id="bladePro" class="blade-section">
-    <div class="mode-card">
-      <div class="mode-icon">👑</div>
-      <div class="mode-info">
-        <h2>Pro Servers</h2>
-        <p>
-          Browse the public servers for the Pro experience.
-        </p>
-        <div class="meta-list">
-          <span class="meta">PRO</span>
-          <span class="meta">PLACE ID: 14732610803</span>
+</div>
+
+<div id="voiceSection" class="blade-section">
+
+  <div class="special-mode">
+
+    <div class="special-icon">🎙️</div>
+
+    <div class="special-info">
+
+      <h2>Voice Server</h2>
+
+      <p>
+        Open the Blade Ball Voice experience separately.
+      </p>
+
+      <div class="meta-list">
+        <span class="meta">VOICE</span>
+        <span class="meta">PLACE ID 15131065025</span>
+      </div>
+
+    </div>
+
+    <button class="btn primary"
+      onclick="openExperience('15131065025')">
+      🎙️ Open Voice
+    </button>
+
+  </div>
+
+</div>
+
+<div id="proSection" class="blade-section">
+
+  <div class="special-mode">
+
+    <div class="special-icon">👑</div>
+
+    <div class="special-info">
+
+      <h2>Pro Servers</h2>
+
+      <p>
+        Open the Blade Ball Pro experience separately.
+      </p>
+
+      <div class="meta-list">
+        <span class="meta">PRO</span>
+        <span class="meta">PLACE ID 14732610803</span>
+      </div>
+
+    </div>
+
+    <button class="btn high"
+      onclick="openExperience('14732610803')">
+      👑 Open Pro
+    </button>
+
+  </div>
+
+</div>
+
+<div id="tradeSection" class="blade-section">
+
+  <div class="special-mode">
+
+    <div class="special-icon">🤝</div>
+
+    <div class="special-info">
+
+      <h2>Trade Plaza</h2>
+
+      <p>
+        Open the Blade Ball Trade Plaza.
+      </p>
+
+      <div class="meta-list">
+        <span class="meta">TRADE</span>
+        <span class="meta">PLACE ID 16581637217</span>
+      </div>
+
+    </div>
+
+    <button class="btn join"
+      onclick="openExperience('16581637217')">
+      🤝 Open Trade
+    </button>
+
+  </div>
+
+</div>
+
+<div id="highSection" class="blade-section">
+
+  <div class="panel" style="margin:0">
+
+    <div class="panel-head">
+
+      <div>
+        <div class="panel-title">💰 17K+ High Value</div>
+
+        <div class="panel-subtitle">
+          Shows servers with reported value of at least 17,000.
         </div>
       </div>
-      <button class="btn" style="color:#ffd166" onclick="switchMode('pro')">
-        👑 View Pro Servers
+
+      <button class="btn high" onclick="loadServers()">
+        🔄 Scan
       </button>
+
     </div>
-  </div>
 
-  <div id="bladeTrade" class="blade-section">
-    <div class="mode-card">
-      <div class="mode-icon">🤝</div>
-      <div class="mode-info">
-        <h2>Trade Plaza</h2>
-        <p>
-          Browse the public servers for the Trade Plaza experience.
-        </p>
-        <div class="meta-list">
-          <span class="meta">TRADE</span>
-          <span class="meta">PLACE ID: 16581637217</span>
-        </div>
-      </div>
-      <button class="btn join" onclick="switchMode('trade')">
-        🤝 View Trade Servers
-      </button>
+    <div class="note">
+      ⚠️ This is a reported-value system. Roblox's normal
+      public-server listing does not provide hidden player
+      inventories or trade values. A server appears here only
+      when your authorized reporter supplies a value of 17,000+
+      or greater.
     </div>
+
+    <br>
+
+    <div id="highGrid" class="server-grid"></div>
+
   </div>
 
-</section>
-
-<section id="serverPanel" class="panel">
-
-  <div class="panel-head">
-    <div>
-      <div class="panel-title" id="serverTitle">Blade Ball Public Servers</div>
-      <div class="panel-subtitle">
-        Select a server and press Join Server.
-      </div>
-    </div>
-  </div>
-
-  <div id="modeNotice"
-    style="display:none;margin-bottom:12px;padding:12px;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:11px">
-  </div>
-
-  <div id="serverGrid2" class="server-grid"></div>
+</div>
 
 </section>
 
@@ -428,90 +904,86 @@ button{cursor:pointer}
 <div id="toast" class="toast"></div>
 
 <script>
+
 const WORKER_URL =
   "https://weathered-haze-08aa.redonekowaithe1.workers.dev";
 
-const MODES = {
-  public:{
-    name:"Blade Ball Public",
-    placeId:"13772394625"
-  },
-  voice:{
-    name:"Blade Ball Voice",
-    placeId:"15131065025"
-  },
-  pro:{
-    name:"Blade Ball Pro",
-    placeId:"14732610803"
-  },
-  trade:{
-    name:"Blade Ball Trade Plaza",
-    placeId:"16581637217"
-  }
-};
+const BLADE_PLACE_ID =
+  "13772394625";
 
-let currentMode="public";
-let servers=[];
+const HIGH_VALUE =
+  17000;
 
-function switchGame(game){
-  if(game==="adopt"){
-    window.location.href =
-      "https://www.roblox.com/games/920587237";
-    return;
-  }
-  currentMode="public";
-  switchBladeSection("public");
-}
+let servers = [];
+let activeFilter = "all";
+let currentSection = "public";
 
-function switchBladeSection(section){
+function switchSection(section){
 
-  currentMode=section;
+  currentSection = section;
 
-  ["public","voice","pro","trade"].forEach(key=>{
-    document.getElementById("blade"+key.charAt(0).toUpperCase()+key.slice(1))
-      .classList.toggle("active",key===section);
+  const sections = {
+    public:document.getElementById("publicSection"),
+    voice:document.getElementById("voiceSection"),
+    pro:document.getElementById("proSection"),
+    trade:document.getElementById("tradeSection"),
+    high:document.getElementById("highSection")
+  };
 
-    document.getElementById("bladeNav"+key.charAt(0).toUpperCase()+key.slice(1))
-      .classList.toggle("active",key===section);
+  Object.entries(sections).forEach(([key,el])=>{
+    el.classList.toggle("active",key===section);
   });
 
-  const serverPanel=document.getElementById("serverPanel");
+  const buttons = {
+    public:document.getElementById("navPublic"),
+    voice:document.getElementById("navVoice"),
+    pro:document.getElementById("navPro"),
+    trade:document.getElementById("navTrade"),
+    high:document.getElementById("navHigh")
+  };
 
-  serverPanel.style.display="block";
+  Object.entries(buttons).forEach(([key,el])=>{
+    el.classList.toggle("active",key===section);
+  });
 
-  document.getElementById("serverTitle").textContent =
-    MODES[section].name+" Servers";
+  if(section==="high"){
+    renderHighValue();
+  }
 
-  document.getElementById("search").value="";
-
-  loadServers();
+  if(section==="public"){
+    renderServers();
+  }
 }
 
-function switchMode(mode){
-  switchBladeSection(mode);
-  scrollToServers();
+function showHighValue(){
+  switchSection("high");
 }
 
-function scrollToServers(){
-  document.getElementById("serverPanel")
-    .scrollIntoView({behavior:"smooth",block:"start"});
-}
+function setFilter(filter){
 
-function endpoint(){
-  return WORKER_URL+
-    "/roblox-servers?placeId="+
-    encodeURIComponent(MODES[currentMode].placeId)+
-    "&limit=100&_="+Date.now();
+  activeFilter = filter;
+
+  document.getElementById("filterAll")
+    .classList.toggle("active",filter==="all");
+
+  document.getElementById("filterOpen")
+    .classList.toggle("active",filter==="open");
+
+  document.getElementById("filterHigh")
+    .classList.toggle("active",filter==="high");
+
+  renderServers();
 }
 
 async function loadServers(){
 
-  const grid=document.getElementById("serverGrid2");
+  const grid =
+    document.getElementById("serverGrid");
 
-  grid.innerHTML=`
+  grid.innerHTML = `
     <div class="loading">
       <div class="spinner"></div>
-      Loading ${escapeHtml(MODES[currentMode].name)}...
+      Loading Blade Ball servers...
     </div>
   `;
 
@@ -519,28 +991,41 @@ async function loadServers(){
 
   try{
 
-    const response=await fetch(endpoint(),{
-      method:"GET",
-      cache:"no-store"
-    });
+    const url =
+      WORKER_URL +
+      "/roblox-servers" +
+      "?placeId=" +
+      encodeURIComponent(BLADE_PLACE_ID) +
+      "&limit=100&_=" +
+      Date.now();
+
+    const response =
+      await fetch(url,{
+        cache:"no-store"
+      });
 
     if(!response.ok)
       throw new Error("Worker HTTP "+response.status);
 
-    const data=await response.json();
+    const data =
+      await response.json();
 
     if(!data.success)
-      throw new Error(data.error||"Worker error");
+      throw new Error(data.error || "Worker error");
 
-    servers=Array.isArray(data.servers)
-      ? data.servers
-      : [];
+    servers =
+      Array.isArray(data.servers)
+        ? data.servers
+        : [];
 
     updateStats();
     renderServers();
+    renderHighValue();
+
     setStatus("Live",true);
 
-    document.getElementById("updated").textContent =
+    document.getElementById("updated")
+      .textContent =
       new Date().toLocaleTimeString([],{
         hour:"numeric",
         minute:"2-digit"
@@ -552,159 +1037,288 @@ async function loadServers(){
 
     setStatus("Error",false);
 
-    grid.innerHTML=`
+    grid.innerHTML = `
       <div class="empty">
         <h3 style="color:white;margin-bottom:7px">
           Couldn't load servers
         </h3>
+
         <p>${escapeHtml(error.message)}</p>
+
         <br>
-        <button class="btn primary" onclick="loadServers()">
+
+        <button class="btn primary"
+          onclick="loadServers()">
           Try Again
         </button>
       </div>
     `;
+
   }
 }
 
 function updateStats(){
 
-  const players=servers.reduce(
-    (sum,s)=>sum+Number(s.playing||0),0
-  );
+  let players = 0;
+  let slots = 0;
 
-  const slots=servers.reduce(
-    (sum,s)=>sum+Number(s.availableSlots||0),0
-  );
+  servers.forEach(s=>{
+    players += Number(s.playing || 0);
+    slots += Number(s.availableSlots || 0);
+  });
 
-  document.getElementById("serverCount").textContent=servers.length;
-  document.getElementById("playerCount").textContent=players;
-  document.getElementById("slotCount").textContent=slots;
+  const high =
+    servers.filter(s =>
+      Number(s.highValue || 0) >= HIGH_VALUE
+    ).length;
+
+  document.getElementById("serverCount")
+    .textContent = servers.length;
+
+  document.getElementById("playerCount")
+    .textContent = players;
+
+  document.getElementById("slotCount")
+    .textContent = slots;
+
+  document.getElementById("highCount")
+    .textContent = high;
 }
 
-function sortServers(type){
+function getVisibleServers(){
 
-  if(type==="slots")
-    servers.sort((a,b)=>
-      Number(b.availableSlots||0)-
-      Number(a.availableSlots||0)
-    );
+  const search =
+    document.getElementById("search")
+      .value
+      .trim()
+      .toLowerCase();
 
-  if(type==="players")
-    servers.sort((a,b)=>
-      Number(a.playing||0)-
-      Number(b.playing||0)
-    );
+  let list = servers.filter(server=>{
 
-  if(type==="ping")
-    servers.sort((a,b)=>{
-      const ap=Number(a.ping);
-      const bp=Number(b.ping);
-
-      if(!Number.isFinite(ap)) return 1;
-      if(!Number.isFinite(bp)) return -1;
-
-      return ap-bp;
-    });
-
-  renderServers();
-}
-
-function renderServers(){
-
-  const grid=document.getElementById("serverGrid2");
-
-  const search=document.getElementById("search")
-    .value.trim().toLowerCase();
-
-  const visible=servers.filter(server=>{
-    const id=String(
-      server.jobId||server.id||""
-    ).toLowerCase();
+    const id =
+      String(
+        server.jobId ||
+        server.id ||
+        ""
+      ).toLowerCase();
 
     return id.includes(search);
   });
 
+  if(activeFilter==="open"){
+    list =
+      list.filter(s =>
+        Number(s.availableSlots || 0) > 0
+      );
+  }
+
+  if(activeFilter==="high"){
+    list =
+      list.filter(s =>
+        Number(s.highValue || 0) >= HIGH_VALUE
+      );
+  }
+
+  list.sort((a,b)=>{
+    return Number(b.highValue || 0) -
+           Number(a.highValue || 0);
+  });
+
+  return list;
+}
+
+function renderServers(){
+
+  const grid =
+    document.getElementById("serverGrid");
+
+  const visible =
+    getVisibleServers();
+
   if(!visible.length){
-    grid.innerHTML=`
+
+    grid.innerHTML = `
       <div class="empty">
-        No public servers found for this experience.
+        No matching servers found.
       </div>
     `;
+
     return;
   }
 
-  grid.innerHTML=visible.map(
-    (server,index)=>createServerCard(server,index)
-  ).join("");
+  grid.innerHTML =
+    visible.map((server,index)=>
+      createServerCard(server,index)
+    ).join("");
+}
+
+function renderHighValue(){
+
+  const grid =
+    document.getElementById("highGrid");
+
+  const highServers =
+    servers
+      .filter(s =>
+        Number(s.highValue || 0) >= HIGH_VALUE
+      )
+      .sort((a,b)=>
+        Number(b.highValue || 0) -
+        Number(a.highValue || 0)
+      );
+
+  if(!highServers.length){
+
+    grid.innerHTML = `
+      <div class="empty">
+        No reported 17K+ servers yet.
+        <br><br>
+        Refresh after your server reporter has submitted data.
+      </div>
+    `;
+
+    return;
+  }
+
+  grid.innerHTML =
+    highServers.map((server,index)=>
+      createServerCard(server,index)
+    ).join("");
 }
 
 function createServerCard(server,index){
 
-  const jobId=server.jobId||server.id||"";
-  const playing=Number(server.playing||0);
-  const maxPlayers=Number(server.maxPlayers||0);
+  const jobId =
+    server.jobId ||
+    server.id ||
+    "";
 
-  const slots=Math.max(
-    maxPlayers-playing,
-    0
-  );
+  const playing =
+    Number(server.playing || 0);
 
-  const ping=server.ping!=null
-    ? server.ping+" ms"
-    : "N/A";
+  const maxPlayers =
+    Number(server.maxPlayers || 0);
 
-  const fps=server.fps!=null
-    ? Math.round(Number(server.fps))
-    : "N/A";
+  const slots =
+    Math.max(
+      Number(
+        server.availableSlots != null
+          ? server.availableSlots
+          : maxPlayers-playing
+      ),
+      0
+    );
 
-  const full=slots<=0;
+  const value =
+    Number(server.highValue || 0);
+
+  const ping =
+    server.ping != null
+      ? Math.round(Number(server.ping))+" ms"
+      : "N/A";
+
+  const fps =
+    server.fps != null
+      ? Math.round(Number(server.fps))
+      : "N/A";
+
+  const joinUrl =
+    server.joinUrl ||
+    buildJoinUrl(jobId);
+
+  const isHigh =
+    value >= HIGH_VALUE;
+
+  const full =
+    slots <= 0;
 
   return `
-    <article class="server">
+    <article class="server ${isHigh ? "high-value":""}">
 
       <div class="server-top">
+
         <div class="server-name">
-          ${escapeHtml(MODES[currentMode].name)} #${index+1}
+          Blade Ball #${index+1}
         </div>
 
-        <div class="open ${full?"full":""}">
-          ${full?"FULL":slots+" OPEN"}
+        <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+
+          ${
+            isHigh
+              ? `<div class="badge valuable">
+                   💰 ${formatValue(value)}
+                 </div>`
+              : ""
+          }
+
+          <div class="badge ${full ? "full":"open"}">
+            ${
+              full
+                ? "FULL"
+                : slots+" OPEN"
+            }
+          </div>
+
         </div>
+
       </div>
 
       <div class="metrics">
 
         <div class="metric">
           <small>PLAYERS</small>
-          <strong>${playing}/${maxPlayers||"?"}</strong>
+          <strong>
+            ${playing}/${maxPlayers || "?"}
+          </strong>
+        </div>
+
+        <div class="metric">
+          <small>VALUE</small>
+          <strong>
+            ${
+              value
+                ? formatValue(value)
+                : "N/A"
+            }
+          </strong>
         </div>
 
         <div class="metric">
           <small>PING</small>
-          <strong>${escapeHtml(String(ping))}</strong>
+          <strong>
+            ${escapeHtml(String(ping))}
+          </strong>
         </div>
 
         <div class="metric">
           <small>FPS</small>
-          <strong>${escapeHtml(String(fps))}</strong>
+          <strong>
+            ${escapeHtml(String(fps))}
+          </strong>
         </div>
 
       </div>
 
       <div class="job">
+
         <small>JOB ID</small>
-        <code>${escapeHtml(jobId)}</code>
+
+        <code>
+          ${escapeHtml(jobId)}
+        </code>
+
       </div>
 
       <div class="actions">
 
-        <button class="btn join"
-          onclick='joinServer(${JSON.stringify(jobId)})'>
+        <button
+          class="btn join"
+          onclick='joinServer(${JSON.stringify(joinUrl)})'>
           🎮 Join Server
         </button>
 
-        <button class="btn"
+        <button
+          class="btn"
           onclick='copyJobId(${JSON.stringify(jobId)})'>
           📋 Copy
         </button>
@@ -715,64 +1329,101 @@ function createServerCard(server,index){
   `;
 }
 
-function joinServer(jobId){
+function formatValue(value){
 
-  if(!jobId){
-    showToast("No Job ID available.");
+  value = Number(value)||0;
+
+  if(value>=1000000)
+    return (value/1000000).toFixed(1)+"M";
+
+  if(value>=1000)
+    return (value/1000).toFixed(1)+"K";
+
+  return value.toLocaleString();
+}
+
+function buildJoinUrl(jobId){
+
+  if(!jobId)
+    return "";
+
+  return (
+    "https://www.roblox.com/games/start" +
+    "?placeId=" +
+    encodeURIComponent(BLADE_PLACE_ID) +
+    "&gameInstanceId=" +
+    encodeURIComponent(jobId)
+  );
+}
+
+function joinServer(url){
+
+  if(!url){
+    showToast("No join URL available.");
     return;
   }
 
-  const url=
-    "https://www.roblox.com/games/start"+
-    "?placeId="+
-    encodeURIComponent(MODES[currentMode].placeId)+
-    "&gameInstanceId="+
-    encodeURIComponent(jobId);
+  window.location.href = url;
+}
 
-  showToast("Opening Roblox...");
+function openExperience(placeId){
+
+  showToast("Opening Blade Ball...");
 
   setTimeout(()=>{
-    window.location.href=url;
+    window.location.href =
+      "https://www.roblox.com/games/start?placeId="+
+      encodeURIComponent(placeId);
   },250);
 }
 
 async function copyJobId(jobId){
 
   if(!jobId){
-    showToast("No Job ID available.");
+    showToast("No JobId available.");
     return;
   }
 
   try{
+
     await navigator.clipboard.writeText(jobId);
-    showToast("Job ID copied!");
+
+    showToast("JobId copied!");
+
   }catch{
+
     showToast("Copy failed.");
+
   }
 }
 
 function setStatus(text,online){
 
-  document.getElementById("statusText").textContent=text;
+  document.getElementById("statusText")
+    .textContent = text;
 
-  document.getElementById("statusDot").className =
-    "dot "+(online?"online":"");
+  document.getElementById("statusDot")
+    .className =
+      "dot "+(online ? "online":"");
 }
 
 let toastTimer;
 
 function showToast(message){
 
-  const toast=document.getElementById("toast");
+  const toast =
+    document.getElementById("toast");
 
-  toast.textContent=message;
+  toast.textContent = message;
+
   toast.classList.add("show");
 
   clearTimeout(toastTimer);
 
-  toastTimer=setTimeout(()=>{
-    toast.classList.remove("show");
-  },2200);
+  toastTimer =
+    setTimeout(()=>{
+      toast.classList.remove("show");
+    },2200);
 }
 
 function escapeHtml(value){
@@ -788,6 +1439,7 @@ function escapeHtml(value){
 loadServers();
 
 setInterval(loadServers,30000);
+
 </script>
 
 </body>
