@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DONIE • Rich Finder</title>
+<title>DONIE • Adopt Me Rich Finder</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -223,7 +223,7 @@ color:var(--m);
 font-size:12px;
 line-height:1.6;
 margin-top:7px;
-max-width:650px
+max-width:700px
 }
 
 .stats{
@@ -379,7 +379,7 @@ gap:7px
 
 .server{
 display:grid;
-grid-template-columns:1.4fr .7fr .7fr .7fr .7fr auto;
+grid-template-columns:1.35fr .65fr .8fr .65fr .65fr auto;
 gap:9px;
 align-items:center;
 border:1px solid #1c2330;
@@ -673,7 +673,7 @@ display:none
 <i>D</i>
 <div>
 <b>DONIE</b>
-<small>RICH FINDER</small>
+<small>ADOPT ME RICH FINDER</small>
 </div>
 </div>
 
@@ -755,7 +755,7 @@ Dashboard
 </div>
 
 <div class="sub">
-DONIE Roblox toolkit
+DONIE • Adopt Me value scanner
 </div>
 
 </div>
@@ -782,12 +782,13 @@ DONIE Roblox toolkit
 <div>
 
 <h1>
-Rich Server Finder
+Adopt Me Rich Server Finder
 </h1>
 
 <p>
-Find public Roblox servers and sort them by player count,
-reported value, FPS and ping. Servers come from your DONIE Worker.
+Find live Adopt Me public servers and identify servers
+with reported <b>Adopt Me inventory value</b>.
+17K+ means an inventory value of at least $17,000.
 </p>
 
 </div>
@@ -809,12 +810,12 @@ Scan Servers
 <div class="stats">
 
 <div class="stat">
-<small>Servers</small>
+<small>Live Servers</small>
 <strong id="serverCount">0</strong>
 </div>
 
 <div class="stat">
-<small>17K+ Servers</small>
+<small>17K+ Adopt Me Servers</small>
 <strong id="hitCount">0</strong>
 </div>
 
@@ -824,7 +825,7 @@ Scan Servers
 </div>
 
 <div class="stat">
-<small>Highest Value</small>
+<small>Highest Adopt Me Value</small>
 <strong id="highestValue">$0</strong>
 </div>
 
@@ -871,7 +872,7 @@ Adopt Me
 <div class="gamefoot">
 
 <span class="tag">
-Rich pet servers
+17K+ inventory finder
 </span>
 
 <button
@@ -987,7 +988,7 @@ Select
 
 <div>
 <b>Public Servers</b>
-<small>Live results returned by your Worker.</small>
+<small>Live Adopt Me servers + reported inventory values.</small>
 </div>
 
 <span class="badge" id="scanStatus">
@@ -1007,7 +1008,7 @@ Most Players
 </option>
 
 <option value="value">
-Highest Value
+Highest Adopt Me Value
 </option>
 
 <option value="fps">
@@ -1049,7 +1050,7 @@ class="field"
 id="value"
 type="number"
 min="0"
-placeholder="Min value">
+placeholder="Min Adopt Me value">
 
 <button class="btn" onclick="applyFilters()">
 Apply
@@ -1060,7 +1061,7 @@ Apply
 <div class="servers" id="serverList">
 
 <div class="empty">
-Press <b>Scan Servers</b> to load live results.
+Press <b>Scan Servers</b> to load live Adopt Me results.
 </div>
 
 </div>
@@ -1105,8 +1106,8 @@ onclick="toggleAuto()">
 <div class="quickrow">
 
 <div>
-<b>17K+ High Value</b>
-<small>Only show rich servers</small>
+<b>17K+ Adopt Me Value</b>
+<small>Only show inventory value ≥ $17,000</small>
 </div>
 
 <div
@@ -1138,7 +1139,7 @@ onclick="toggleHigh()">
 
 <div>
 <b>Recent Hits</b>
-<small>Latest rich-server results</small>
+<small>Latest 17K+ Adopt Me inventory reports</small>
 </div>
 
 <span class="badge">
@@ -1151,10 +1152,13 @@ onclick="toggleHigh()">
 
 <div class="alert">
 
-<b>Waiting for reports</b>
+<b>
+Waiting for reports
+</b>
 
 <small>
-Rich servers will appear here after scanning.
+17K+ results appear when a trusted reporter
+sends an Adopt Me inventory value.
 </small>
 
 <strong>
@@ -1172,7 +1176,7 @@ Rich servers will appear here after scanning.
 
 <div>
 <b>Finder Config</b>
-<small>Current filters</small>
+<small>Current Adopt Me value filters</small>
 </div>
 
 </div>
@@ -1182,7 +1186,7 @@ Rich servers will appear here after scanning.
 <div class="setting">
 
 <div>
-<b>Minimum Value</b>
+<b>Minimum Adopt Me Value</b>
 <small>17,000+ when 17K mode is enabled</small>
 </div>
 
@@ -1228,15 +1232,12 @@ style="width:95px">
 <div class="toast" id="toast"></div>
 
 <script>
+
 /* =========================================
-   DONIE RICH FINDER
-   FIXED FRONTEND
+   DONIE ADOPT ME RICH FINDER
+   17K = ADOPT ME INVENTORY VALUE
    ========================================= */
 
-/*
-  IMPORTANT:
-  This is the Worker that was confirmed working.
-*/
 const WORKER_URL =
   "https://black-sun-c74c.redonekowaithe1.workers.dev";
 
@@ -1247,19 +1248,11 @@ const GAMES = {
   "Pet Simulator 99": ""
 };
 
+const ADOPT_ME_VALUE_THRESHOLD = 17000;
+
 let selected = "Adopt Me";
 let all = [];
 let autoTimer = null;
-
-/*
-  FALSE FILTER FIX:
-  Roblox public server data normally has:
-  rap = 0
-  value = 0
-
-  Therefore this starts OFF.
-  That lets all live Roblox servers appear.
-*/
 let highOnly = false;
 
 
@@ -1282,7 +1275,7 @@ function toast(msg){
 
   window._donieToast = setTimeout(() => {
     el.classList.remove("show");
-  }, 2500);
+  },2500);
 }
 
 
@@ -1294,16 +1287,53 @@ function num(v){
 }
 
 
-function valueOf(s){
+/*
+  IMPORTANT:
 
-  return num(
-    s.value ??
-    s.rap ??
-    s.RAP ??
-    s.totalRap ??
-    s.totalValue ??
-    s.reportedValue ??
-    s.serverValue
+  DO NOT USE:
+    rap
+    RAP
+    totalRap
+
+  Those are NOT Adopt Me inventory value.
+
+  17K is based ONLY on an explicit
+  Adopt Me inventory-value field.
+*/
+function adoptMeValueOf(server){
+
+  const values = [
+    server.adoptMeValue,
+    server.inventoryValue,
+    server.totalInventoryValue,
+    server.adoptMeInventoryValue
+  ];
+
+  for(const value of values){
+
+    if(
+      value !== undefined &&
+      value !== null &&
+      value !== ""
+    ){
+
+      const n = Number(value);
+
+      if(Number.isFinite(n)){
+        return n;
+      }
+    }
+  }
+
+  return 0;
+}
+
+
+function is17KPlus(server){
+
+  return (
+    adoptMeValueOf(server) >=
+    ADOPT_ME_VALUE_THRESHOLD
   );
 }
 
@@ -1442,17 +1472,23 @@ function selectGame(game){
   toast(game + " selected");
 
   if(GAMES[game]){
+
     refreshServers();
+
   }else{
 
     all = [];
 
-    $("scanStatus").textContent = "No ID";
+    $("scanStatus").textContent =
+      "No ID";
 
     render();
     updateHits();
 
-    toast(game + " has no Place ID configured");
+    toast(
+      game +
+      " has no Place ID configured"
+    );
   }
 }
 
@@ -1477,25 +1513,14 @@ async function refreshServers(){
     all = [];
 
     render();
+    updateStats();
     updateHits();
-
-    toast(
-      selected +
-      " has no Place ID configured"
-    );
 
     return;
   }
 
   try{
 
-    /*
-      CORRECT WORKER ENDPOINT:
-
-      /servers?placeId=920587237
-
-      NOT /roblox-servers
-    */
     const url =
       WORKER_URL.replace(/\/$/,"") +
       "/servers?placeId=" +
@@ -1517,11 +1542,8 @@ async function refreshServers(){
       }
     );
 
-    /*
-      Read as text first.
-      This makes Cloudflare errors easier to diagnose.
-    */
-    const text = await response.text();
+    const text =
+      await response.text();
 
     let data;
 
@@ -1529,10 +1551,10 @@ async function refreshServers(){
 
       data = JSON.parse(text);
 
-    }catch(parseError){
+    }catch(error){
 
       console.error(
-        "[DONIE] Worker returned non-JSON:",
+        "[DONIE] Invalid Worker response:",
         text
       );
 
@@ -1559,16 +1581,6 @@ async function refreshServers(){
       );
     }
 
-    /*
-      Your Worker returns:
-      {
-        success:true,
-        count:292,
-        liveCount:300,
-        reportedCount:0,
-        servers:[...]
-      }
-    */
     if(Array.isArray(data.servers)){
 
       all = data.servers;
@@ -1582,9 +1594,31 @@ async function refreshServers(){
       all = [];
     }
 
+    const reportedCount =
+      all.filter(
+        server =>
+          adoptMeValueOf(server) > 0
+      ).length;
+
+    const richCount =
+      all.filter(
+        server =>
+          is17KPlus(server)
+      ).length;
+
     console.log(
-      "[DONIE] Servers received:",
+      "[DONIE] Live servers:",
       all.length
+    );
+
+    console.log(
+      "[DONIE] Adopt Me value reports:",
+      reportedCount
+    );
+
+    console.log(
+      "[DONIE] 17K+ Adopt Me servers:",
+      richCount
     );
 
     status.textContent =
@@ -1600,7 +1634,9 @@ async function refreshServers(){
 
     toast(
       all.length +
-      " server(s) loaded"
+      " server(s) loaded • " +
+      richCount +
+      " 17K+"
     );
 
   }catch(error){
@@ -1651,39 +1687,37 @@ function filtered(){
   const configValue =
     num($("minValue").value);
 
-  /*
-    Normal mode:
-    Show every live Roblox server.
-
-    High mode:
-    Require 17K+ reported value.
-  */
   let minimumValue =
     manualValue;
 
+  /*
+    17K mode ALWAYS requires
+    at least 17,000 Adopt Me value.
+  */
   if(highOnly){
 
     minimumValue =
       Math.max(
-        17000,
+        ADOPT_ME_VALUE_THRESHOLD,
         configValue,
         manualValue
       );
   }
 
-  let list = all.filter(server => {
+  let list =
+    all.filter(server => {
 
-    const players =
-      playersOf(server);
+      const players =
+        playersOf(server);
 
-    const value =
-      valueOf(server);
+      const value =
+        adoptMeValueOf(server);
 
-    return (
-      players >= playerMin &&
-      value >= minimumValue
-    );
-  });
+      return (
+        players >= playerMin &&
+        value >= minimumValue
+      );
+    });
 
   const sortMode =
     $("sort").value;
@@ -1701,8 +1735,8 @@ function filtered(){
     if(sortMode === "value"){
 
       return (
-        valueOf(b) -
-        valueOf(a)
+        adoptMeValueOf(b) -
+        adoptMeValueOf(a)
       );
     }
 
@@ -1752,12 +1786,21 @@ function render(){
 
         list.innerHTML = `
           <div class="empty">
-            <b>No 17K+ reported servers found.</b><br>
-            Your Worker has live Roblox servers,
-            but they do not currently have reported
-            values of 17K+.<br><br>
-            Turn off <b>17K+ High Value</b>
+
+            <b>No 17K+ Adopt Me inventory reports found.</b>
+
+            <br>
+
+            Live Adopt Me servers are working,
+            but no reported inventory value is
+            currently ≥ $17,000.
+
+            <br><br>
+
+            Turn off
+            <b>17K+ Adopt Me Value</b>
             to see all live servers.
+
           </div>
         `;
 
@@ -1765,8 +1808,11 @@ function render(){
 
         list.innerHTML = `
           <div class="empty">
-            No servers match your current
-            player filters.
+
+            Live Adopt Me servers were found,
+            but none have a reported Adopt Me
+            inventory value matching your filter.
+
           </div>
         `;
       }
@@ -1776,7 +1822,7 @@ function render(){
       list.innerHTML = `
         <div class="empty">
           Press <b>Scan Servers</b>
-          to load live results.
+          to load live Adopt Me servers.
         </div>
       `;
     }
@@ -1799,7 +1845,7 @@ function render(){
         maxPlayersOf(server);
 
       const value =
-        valueOf(server);
+        adoptMeValueOf(server);
 
       const fps =
         fpsOf(server);
@@ -1822,6 +1868,11 @@ function render(){
           ? ping + "ms"
           : "—";
 
+      const richBadge =
+        is17KPlus(server)
+          ? `<span class="badge green">17K+</span>`
+          : "";
+
       return `
         <div class="server">
 
@@ -1834,6 +1885,10 @@ function render(){
             <small>
               ${esc(id)}
             </small>
+
+            <div style="margin-top:5px">
+              ${richBadge}
+            </div>
 
           </div>
 
@@ -1850,7 +1905,7 @@ function render(){
           <div class="sstat">
 
             <span>
-              Value
+              Adopt Me Value
             </span>
 
             ${valueText}
@@ -1900,26 +1955,32 @@ function render(){
 
 function updateStats(){
 
-  const data =
+  const visible =
     filtered();
 
+  /*
+    Server count = live servers
+    currently matching filters.
+  */
   $("serverCount").textContent =
-    data.length.toLocaleString();
+    visible.length.toLocaleString();
 
   $("playerCount").textContent =
-    data.reduce(
+    visible.reduce(
       (total,server) =>
         total + playersOf(server),
       0
     ).toLocaleString();
 
   /*
-    17K+ is based on reported server values.
+    17K+ means ONLY:
+    Adopt Me inventory value >= 17000
   */
   $("hitCount").textContent =
     all.filter(
       server =>
-        valueOf(server) >= 17000
+        adoptMeValueOf(server) >=
+        ADOPT_ME_VALUE_THRESHOLD
     ).length.toLocaleString();
 
   const highest =
@@ -1927,7 +1988,7 @@ function updateStats(){
       (max,server) =>
         Math.max(
           max,
-          valueOf(server)
+          adoptMeValueOf(server)
         ),
       0
     );
@@ -1947,12 +2008,13 @@ function updateHits(){
     [...all]
       .filter(
         server =>
-          valueOf(server) >= 17000
+          adoptMeValueOf(server) >=
+          ADOPT_ME_VALUE_THRESHOLD
       )
       .sort(
         (a,b) =>
-          valueOf(b) -
-          valueOf(a)
+          adoptMeValueOf(b) -
+          adoptMeValueOf(a)
       )
       .slice(0,4);
 
@@ -1962,17 +2024,17 @@ function updateHits(){
       <div class="alert">
 
         <b>
-          No 17K+ reports yet
+          No 17K+ Adopt Me reports yet
         </b>
 
         <small>
-          Live Roblox servers are working.
-          Rich values appear when your
-          reporter sends server data.
+          Live servers can be detected normally,
+          but a trusted value report is required
+          before a server can appear as 17K+.
         </small>
 
         <strong>
-          —
+          $17,000 minimum
         </strong>
 
       </div>
@@ -1987,7 +2049,7 @@ function updateHits(){
       <div class="alert">
 
         <b>
-          ${esc(selected)} rich server
+          ${esc(selected)} 17K+ server
         </b>
 
         <small>
@@ -1997,7 +2059,8 @@ function updateHits(){
         </small>
 
         <strong>
-          ${money(valueOf(server))}
+          Adopt Me Value:
+          ${money(adoptMeValueOf(server))}
         </strong>
 
       </div>
@@ -2051,6 +2114,7 @@ function applyFilters(){
 
   render();
   updateStats();
+  updateHits();
 }
 
 
@@ -2071,7 +2135,7 @@ function toggleHigh(){
 
   toast(
     highOnly
-      ? "17K+ filter enabled"
+      ? "17K+ Adopt Me value filter enabled"
       : "Showing all live servers"
   );
 }
@@ -2136,6 +2200,7 @@ function clearServers(){
     "badge";
 
   render();
+  updateStats();
   updateHits();
 
   toast(
@@ -2219,9 +2284,6 @@ render();
 updateStats();
 updateHits();
 
-/*
-  Automatically load live servers.
-*/
 refreshServers();
 
 </script>
