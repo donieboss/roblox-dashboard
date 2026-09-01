@@ -2,2685 +2,912 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DONIE • Rich Finder</title>
-
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#06070b;
-  --panel:#0c0f16;
-  --panel2:#11151e;
-  --panel3:#151a25;
-  --border:#202633;
-  --text:#f4f7fb;
-  --muted:#8c96a8;
-  --green:#39e58c;
-  --green2:#20b96b;
-  --red:#ff5c6c;
-  --yellow:#ffd166;
-  --blue:#5ca8ff;
-  --shadow:0 20px 60px rgba(0,0,0,.35);
+--bg:#06070b;--p:#0c0f16;--p2:#11151e;--p3:#151a25;
+--b:#202633;--t:#f4f7fb;--m:#8c96a8;--g:#39e58c;
+--r:#ff5c6c;--y:#ffd166;--bl:#5ca8ff
 }
-
 html,body{
-  min-height:100%;
-  background:
-    radial-gradient(circle at 80% -10%,rgba(57,229,140,.09),transparent 35%),
-    radial-gradient(circle at 10% 20%,rgba(92,168,255,.05),transparent 30%),
-    var(--bg);
-  color:var(--text);
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+min-height:100%;background:
+radial-gradient(circle at 80% -10%,#39e58c16,transparent 35%),
+radial-gradient(circle at 10% 20%,#5ca8ff0d,transparent 30%),var(--bg);
+color:var(--t);font:14px Inter,system-ui,-apple-system,Segoe UI,sans-serif
 }
-
-body{
-  overflow-x:hidden;
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.side{
+position:fixed;inset:0 auto 0 0;width:245px;background:#080a0ff7;
+border-right:1px solid var(--b);padding:20px 15px;z-index:20
 }
-
-button,input,select{
-  font:inherit;
+.logo{display:flex;gap:10px;align-items:center;padding:5px 9px 24px}
+.logo i{
+width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+background:linear-gradient(135deg,var(--g),#159254);color:#03130b;
+font-style:normal;font-weight:950
 }
-
-button{
-  cursor:pointer;
+.logo b{display:block;font-size:16px;letter-spacing:1px}
+.logo small{color:var(--m);font-size:10px}
+.label{
+color:#5f6878;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;
+font-weight:800;padding:0 10px 8px
 }
-
-.app{
-  display:flex;
-  min-height:100vh;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  width:250px;
-  background:rgba(8,10,15,.97);
-  border-right:1px solid var(--border);
-  padding:22px 16px;
-  z-index:20;
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  padding:6px 10px 24px;
-}
-
-.logo-mark{
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(135deg,var(--green),#1a9c5b);
-  color:#03130b;
-  font-weight:950;
-  box-shadow:0 0 28px rgba(57,229,140,.18);
-}
-
-.logo-text strong{
-  display:block;
-  font-size:16px;
-  letter-spacing:.8px;
-}
-
-.logo-text span{
-  color:var(--muted);
-  font-size:11px;
-}
-
-.nav-label{
-  color:#5f6878;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:1.5px;
-  font-weight:800;
-  padding:0 11px 8px;
-}
-
-.nav{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-
+.nav{display:grid;gap:4px}
 .nav button{
-  border:1px solid transparent;
-  background:transparent;
-  color:#9aa4b5;
-  width:100%;
-  text-align:left;
-  padding:11px 12px;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  transition:.18s;
+width:100%;border:1px solid transparent;background:transparent;color:#9aa4b5;
+text-align:left;padding:10px 12px;border-radius:9px
 }
-
-.nav button:hover{
-  background:#10141c;
-  color:white;
+.nav button:hover{background:#10141c;color:white}
+.nav button.active{background:#39e58c12;border-color:#39e58c2b;color:var(--g)}
+.status{
+position:absolute;left:15px;right:15px;bottom:17px;
+border:1px solid var(--b);background:#0b0e14;border-radius:11px;padding:11px;
+display:flex;justify-content:space-between;font-size:11px;color:#7f899a
 }
-
-.nav button.active{
-  background:rgba(57,229,140,.09);
-  border-color:rgba(57,229,140,.16);
-  color:var(--green);
+.online{color:var(--g)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--g);margin-right:5px}
+.main{margin-left:245px;width:calc(100% - 245px)}
+.top{
+height:66px;border-bottom:1px solid var(--b);padding:0 28px;
+display:flex;align-items:center;justify-content:space-between;
+background:#06070bcc;backdrop-filter:blur(15px);position:sticky;top:0;z-index:10
 }
-
-.nav-icon{
-  width:22px;
-  text-align:center;
+.title{font-size:14px;font-weight:800}
+.sub{font-size:10px;color:var(--m);margin-top:2px}
+.actions{display:flex;gap:8px;align-items:center}
+.btn,.field{
+border:1px solid var(--b);background:#0c1017;color:#d6dce5;
+border-radius:8px;padding:9px 12px
 }
-
-.sidebar-bottom{
-  position:absolute;
-  left:16px;
-  right:16px;
-  bottom:18px;
-}
-
-.status-box{
-  border:1px solid var(--border);
-  background:#0b0e14;
-  border-radius:12px;
-  padding:12px;
-}
-
-.status-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:12px;
-}
-
-.status-dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 12px rgba(57,229,140,.7);
-}
-
-/* MAIN */
-
-.main{
-  margin-left:250px;
-  width:calc(100% - 250px);
-  min-height:100vh;
-}
-
-.topbar{
-  height:68px;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 30px;
-  background:rgba(6,7,11,.78);
-  backdrop-filter:blur(18px);
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-.page-title{
-  font-size:14px;
-  font-weight:800;
-}
-
-.page-sub{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:2px;
-}
-
-.top-actions{
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-
-.top-btn{
-  border:1px solid var(--border);
-  background:#0c1017;
-  color:#cbd2dd;
-  border-radius:9px;
-  padding:8px 12px;
-  font-size:12px;
-}
-
-.top-btn:hover{
-  border-color:#394354;
-  color:white;
-}
-
-.user-pill{
-  border:1px solid var(--border);
-  border-radius:9px;
-  padding:7px 11px;
-  color:#aeb7c5;
-  font-size:12px;
-}
-
-.content{
-  padding:30px;
-  max-width:1450px;
-  margin:auto;
-}
-
-/* HERO */
-
-.hero{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  gap:20px;
-  margin-bottom:25px;
-}
-
-.hero h1{
-  font-size:31px;
-  letter-spacing:-1px;
-  line-height:1.1;
-}
-
-.hero p{
-  margin-top:8px;
-  color:var(--muted);
-  max-width:650px;
-  font-size:13px;
-  line-height:1.6;
-}
-
-.hero-actions{
-  display:flex;
-  gap:8px;
-}
-
+.btn:hover{background:#141923;border-color:#394354}
 .primary{
-  border:0;
-  color:#04150d;
-  background:var(--green);
-  padding:11px 16px;
-  border-radius:9px;
-  font-weight:850;
-  box-shadow:0 8px 25px rgba(57,229,140,.13);
+border:0;background:var(--g);color:#04150d;font-weight:900;
+border-radius:8px;padding:10px 14px
 }
-
-.primary:hover{
-  filter:brightness(1.08);
+.content{max-width:1450px;margin:auto;padding:28px}
+.hero{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:22px}
+h1{font-size:30px;letter-spacing:-1px}
+.hero p{color:var(--m);font-size:12px;line-height:1.6;margin-top:7px;max-width:650px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:20px}
+.card,.stat{
+border:1px solid var(--b);background:#0c0f16f2;border-radius:13px;
+box-shadow:0 15px 50px #00000035
 }
-
-.secondary{
-  border:1px solid var(--border);
-  color:#d9dfe8;
-  background:#0d1118;
-  padding:11px 16px;
-  border-radius:9px;
+.stat{padding:16px}
+.stat small{color:var(--m);font-size:10px}
+.stat strong{display:block;font-size:24px;margin-top:10px}
+.grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,.8fr);gap:15px}
+.card{overflow:hidden;margin-bottom:15px}
+.head{
+padding:15px 16px;border-bottom:1px solid var(--b);
+display:flex;justify-content:space-between;align-items:center
 }
-
-.secondary:hover{
-  background:#131822;
-}
-
-/* STATS */
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin-bottom:24px;
-}
-
-.stat{
-  border:1px solid var(--border);
-  background:linear-gradient(180deg,#0d1118,#0a0d13);
-  border-radius:13px;
-  padding:17px;
-  box-shadow:var(--shadow);
-}
-
-.stat-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.stat-label{
-  color:var(--muted);
-  font-size:11px;
-}
-
-.stat-icon{
-  color:#596477;
-}
-
-.stat-value{
-  font-size:25px;
-  font-weight:900;
-  margin-top:12px;
-}
-
-.stat-foot{
-  color:#647083;
-  font-size:10px;
-  margin-top:5px;
-}
-
-/* GRID */
-
-.grid{
-  display:grid;
-  grid-template-columns:minmax(0,1.6fr) minmax(300px,.8fr);
-  gap:16px;
-}
-
-.card{
-  border:1px solid var(--border);
-  background:rgba(12,15,22,.94);
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:var(--shadow);
-}
-
-.card-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:16px 17px;
-  border-bottom:1px solid var(--border);
-}
-
-.card-title{
-  font-size:13px;
-  font-weight:850;
-}
-
-.card-desc{
-  color:#687386;
-  font-size:10px;
-  margin-top:3px;
-}
-
-.card-body{
-  padding:15px;
-}
-
-/* GAMES */
-
-.games{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
+.head b{font-size:13px}
+.head small{display:block;color:#687386;font-size:10px;margin-top:3px}
+.body{padding:14px}
+.games{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
 .game{
-  border:1px solid var(--border);
-  background:#0b0f16;
-  border-radius:12px;
-  padding:14px;
-  transition:.18s;
+border:1px solid var(--b);background:#0b0f16;border-radius:11px;padding:13px
 }
-
-.game:hover{
-  transform:translateY(-1px);
-  border-color:#354052;
+.game.selected{border-color:#39e58c66;box-shadow:inset 0 0 0 1px #39e58c0d}
+.gametop{display:flex;align-items:center;gap:10px}
+.icon{
+width:39px;height:39px;border-radius:10px;background:#171c27;
+display:grid;place-items:center;font-size:18px
 }
-
-.game.selected{
-  border-color:rgba(57,229,140,.45);
-  box-shadow:inset 0 0 0 1px rgba(57,229,140,.06);
+.game b{font-size:12px}
+.game small{display:block;color:#667185;font-size:9px;margin-top:3px}
+.gamefoot{
+display:flex;justify-content:space-between;align-items:center;margin-top:13px
 }
-
-.game-top{
-  display:flex;
-  align-items:center;
-  gap:11px;
+.tag{font-size:9px;color:#8994a6}
+.select{
+border:1px solid var(--b);background:#111620;color:#d5dbe4;
+border-radius:7px;padding:6px 9px;font-size:10px
 }
-
-.game-icon{
-  width:40px;
-  height:40px;
-  border-radius:10px;
-  display:grid;
-  place-items:center;
-  background:#171c27;
-  font-size:18px;
-}
-
-.game-name{
-  font-weight:800;
-  font-size:13px;
-}
-
-.game-id{
-  color:#667185;
-  font-size:9px;
-  margin-top:3px;
-}
-
-.game-bottom{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:14px;
-}
-
-.game-tag{
-  color:#8b96a8;
-  font-size:10px;
-}
-
-.select-btn{
-  border:1px solid var(--border);
-  background:#111620;
-  color:#d5dbe4;
-  border-radius:7px;
-  padding:6px 9px;
-  font-size:10px;
-}
-
-.select-btn:hover{
-  border-color:var(--green);
-  color:var(--green);
-}
-
-/* SERVER FINDER */
-
-.filters{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:13px;
-}
-
-.field{
-  border:1px solid var(--border);
-  background:#0a0e14;
-  color:#cbd2dd;
-  border-radius:8px;
-  padding:9px 10px;
-  outline:none;
-  min-width:120px;
-}
-
-.field:focus{
-  border-color:#3b4658;
-}
-
-.server-list{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.field{outline:none;min-width:110px;padding:8px 9px}
+.field:focus{border-color:#465265}
+.servers{display:grid;gap:7px}
 .server{
-  display:grid;
-  grid-template-columns:1.3fr .7fr .7fr .7fr auto;
-  gap:10px;
-  align-items:center;
-  border:1px solid #1c2330;
-  background:#0a0e14;
-  border-radius:9px;
-  padding:11px;
+display:grid;grid-template-columns:1.4fr .7fr .7fr .7fr .7fr auto;
+gap:9px;align-items:center;border:1px solid #1c2330;
+background:#0a0e14;border-radius:9px;padding:10px
 }
-
-.server:hover{
-  border-color:#303a4a;
-}
-
-.server-name{
-  font-size:11px;
-  font-weight:800;
-}
-
-.server-id{
-  color:#5f6b7d;
-  font-size:9px;
-  margin-top:3px;
-  word-break:break-all;
-}
-
-.server-stat{
-  font-size:11px;
-  color:#b9c2ce;
-}
-
-.server-stat span{
-  display:block;
-  color:#5f6979;
-  font-size:9px;
-  margin-bottom:2px;
-}
-
+.server:hover{border-color:#303a4a}
+.server b{font-size:10px}
+.server small{display:block;color:#5f6b7d;font-size:8px;margin-top:3px;word-break:break-all}
+.sstat{font-size:10px;color:#c2cad5}
+.sstat span{display:block;color:#606b7d;font-size:8px;margin-bottom:2px}
 .join{
-  border:1px solid rgba(57,229,140,.22);
-  color:var(--green);
-  background:rgba(57,229,140,.07);
-  border-radius:7px;
-  padding:7px 10px;
-  font-size:10px;
-  font-weight:800;
+border:1px solid #39e58c38;background:#39e58c0d;color:var(--g);
+border-radius:7px;padding:7px 10px;font-size:9px;font-weight:850
 }
-
-.join:hover{
-  background:rgba(57,229,140,.13);
+.badge{font-size:9px;padding:5px 7px;border-radius:6px;background:#141a23;color:#8893a4}
+.green{color:var(--g);background:#39e58c0d}
+.quick{display:grid;gap:8px}
+.quickrow{
+border:1px solid var(--b);background:#0a0e14;border-radius:9px;padding:11px;
+display:flex;justify-content:space-between;align-items:center
 }
-
-/* RIGHT SIDE */
-
-.quick{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.quick-item{
-  border:1px solid var(--border);
-  background:#0a0e14;
-  border-radius:9px;
-  padding:12px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.quick-left strong{
-  display:block;
-  font-size:11px;
-}
-
-.quick-left span{
-  color:#626d7f;
-  font-size:9px;
-}
-
-.badge{
-  font-size:9px;
-  padding:5px 7px;
-  border-radius:6px;
-  background:#141a23;
-  color:#8893a4;
-}
-
-.badge.green{
-  color:var(--green);
-  background:rgba(57,229,140,.08);
-}
-
-.alert{
-  border:1px solid var(--border);
-  border-radius:9px;
-  padding:12px;
-  background:#0a0e14;
-  margin-bottom:8px;
-}
-
-.alert:last-child{
-  margin-bottom:0;
-}
-
-.alert-title{
-  font-size:11px;
-  font-weight:800;
-}
-
-.alert-time{
-  color:#626d7e;
-  font-size:9px;
-  margin-top:4px;
-}
-
-.alert-value{
-  color:var(--green);
-  font-size:11px;
-  font-weight:850;
-  margin-top:7px;
-}
-
-/* SETTINGS */
-
-.settings{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.setting{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  border:1px solid var(--border);
-  background:#0a0e14;
-  border-radius:9px;
-  padding:12px;
-}
-
-.setting strong{
-  font-size:11px;
-}
-
-.setting small{
-  display:block;
-  color:#667184;
-  font-size:9px;
-  margin-top:3px;
-}
-
+.quickrow b{display:block;font-size:10px}
+.quickrow small{color:#626d7f;font-size:8px}
 .toggle{
-  width:38px;
-  height:21px;
-  border-radius:30px;
-  border:1px solid #2b3341;
-  background:#141923;
-  position:relative;
-  cursor:pointer;
-  flex:none;
+width:37px;height:20px;border-radius:20px;border:1px solid #2b3341;
+background:#141923;position:relative
 }
-
-.toggle::after{
-  content:"";
-  position:absolute;
-  width:15px;
-  height:15px;
-  border-radius:50%;
-  left:2px;
-  top:2px;
-  background:#697486;
-  transition:.2s;
+.toggle:after{
+content:"";position:absolute;width:14px;height:14px;left:2px;top:2px;
+border-radius:50%;background:#697486;transition:.2s
 }
-
-.toggle.on{
-  background:rgba(57,229,140,.18);
-  border-color:rgba(57,229,140,.4);
+.toggle.on{background:#39e58c2d;border-color:#39e58c66}
+.toggle.on:after{left:19px;background:var(--g)}
+.alert{
+border:1px solid var(--b);background:#0a0e14;border-radius:9px;padding:11px;
+margin-bottom:7px
 }
-
-.toggle.on::after{
-  left:19px;
-  background:var(--green);
+.alert b{font-size:10px}
+.alert small{display:block;color:#626d7e;font-size:8px;margin-top:3px}
+.alert strong{display:block;color:var(--g);font-size:10px;margin-top:6px}
+.setting{
+display:flex;justify-content:space-between;align-items:center;
+border:1px solid var(--b);background:#0a0e14;border-radius:9px;padding:11px;
+margin-bottom:8px
 }
-
-/* MODAL */
-
-.modal-bg{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  backdrop-filter:blur(7px);
-  display:none;
-  place-items:center;
-  z-index:100;
+.setting b{font-size:10px}
+.setting small{display:block;color:#667184;font-size:8px;margin-top:3px}
+.empty{
+padding:22px;text-align:center;border:1px dashed #252d3a;
+border-radius:9px;color:#697487;font-size:10px
 }
-
-.modal{
-  width:min(470px,calc(100% - 30px));
-  border:1px solid var(--border);
-  background:#0b0f16;
-  border-radius:14px;
-  box-shadow:0 30px 100px rgba(0,0,0,.6);
-  padding:20px;
-}
-
-.modal h2{
-  font-size:17px;
-}
-
-.modal p{
-  color:#7e899a;
-  font-size:11px;
-  line-height:1.6;
-  margin-top:7px;
-}
-
-.modal-actions{
-  display:flex;
-  gap:8px;
-  justify-content:flex-end;
-  margin-top:18px;
-}
-
-/* TOAST */
-
+.mobile{display:none}
 .toast{
-  position:fixed;
-  right:22px;
-  bottom:22px;
-  background:#111720;
-  border:1px solid #293343;
-  color:#e4e9f0;
-  border-radius:9px;
-  padding:11px 14px;
-  font-size:11px;
-  box-shadow:0 15px 45px rgba(0,0,0,.4);
-  transform:translateY(20px);
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  z-index:200;
+position:fixed;right:20px;bottom:20px;background:#111720;
+border:1px solid #293343;border-radius:8px;padding:10px 13px;
+font-size:10px;opacity:0;transform:translateY(15px);transition:.2s;z-index:99
 }
-
-.toast.show{
-  transform:translateY(0);
-  opacity:1;
-}
-
-/* MOBILE */
-
-.mobile-menu{
-  display:none;
-  border:1px solid var(--border);
-  background:#0c1017;
-  color:white;
-  border-radius:8px;
-  padding:7px 10px;
-}
-
+.toast.show{opacity:1;transform:none}
 @media(max-width:1050px){
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .grid{
-    grid-template-columns:1fr;
-  }
+.stats{grid-template-columns:repeat(2,1fr)}
+.grid{grid-template-columns:1fr}
 }
-
 @media(max-width:760px){
-
-  .sidebar{
-    transform:translateX(-100%);
-    transition:.25s;
-  }
-
-  .sidebar.open{
-    transform:translateX(0);
-  }
-
-  .main{
-    margin-left:0;
-    width:100%;
-  }
-
-  .mobile-menu{
-    display:block;
-  }
-
-  .content{
-    padding:18px;
-  }
-
-  .topbar{
-    padding:0 15px;
-  }
-
-  .hero{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .hero h1{
-    font-size:25px;
-  }
-
-  .stats{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .games{
-    grid-template-columns:1fr;
-  }
-
-  .server{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .server-name{
-    grid-column:1/-1;
-  }
+.side{transform:translateX(-100%);transition:.2s}
+.side.open{transform:none}
+.main{margin-left:0;width:100%}
+.mobile{display:block}
+.top{padding:0 14px}
+.content{padding:17px}
+.hero{flex-direction:column;align-items:start}
+.games{grid-template-columns:1fr}
+.server{grid-template-columns:1fr 1fr}
+.server>div:first-child{grid-column:1/-1}
 }
-
 @media(max-width:480px){
-
-  .stats{
-    grid-template-columns:1fr;
-  }
-
-  .top-actions .top-btn{
-    display:none;
-  }
-
-  .server{
-    grid-template-columns:1fr;
-  }
-
-  .server-name{
-    grid-column:auto;
-  }
+.stats{grid-template-columns:1fr}
+.server{grid-template-columns:1fr}
+.server>div:first-child{grid-column:auto}
+.actions .btn{display:none}
 }
 </style>
 </head>
-
 <body>
 
 <div class="app">
 
-<!-- SIDEBAR -->
+<aside class="side" id="side">
+<div class="logo">
+<i>D</i>
+<div><b>DONIE</b><small>RICH FINDER</small></div>
+</div>
 
-<aside class="sidebar" id="sidebar">
+<div class="label">Workspace</div>
+<nav class="nav">
+<button class="active" data-page="Dashboard">⌂　Dashboard</button>
+<button data-page="Server Finder">◈　Server Finder</button>
+<button data-page="Games">▦　Games</button>
+<button data-page="Alerts">♢　Alerts</button>
+<button data-page="Settings">⚙　Settings</button>
+</nav>
 
-  <div class="logo">
-    <div class="logo-mark">D</div>
+<div class="label" style="margin-top:20px">Games</div>
+<nav class="nav">
+<button onclick="selectGame('Adopt Me')">🐾　Adopt Me</button>
+<button onclick="selectGame('Blade Ball')">⚔　Blade Ball</button>
+<button onclick="selectGame('MM2')">🔪　MM2</button>
+<button onclick="selectGame('Pet Simulator 99')">🐱　Pet Simulator 99</button>
+</nav>
 
-    <div class="logo-text">
-      <strong>DONIE</strong>
-      <span>RICH FINDER</span>
-    </div>
-  </div>
-
-  <div class="nav-label">Workspace</div>
-
-  <nav class="nav">
-
-    <button class="active" data-page="dashboard">
-      <span class="nav-icon">⌂</span>
-      Dashboard
-    </button>
-
-    <button data-page="servers">
-      <span class="nav-icon">◈</span>
-      Server Finder
-    </button>
-
-    <button data-page="games">
-      <span class="nav-icon">▦</span>
-      Games
-    </button>
-
-    <button data-page="alerts">
-      <span class="nav-icon">♢</span>
-      Alerts
-    </button>
-
-    <button data-page="settings">
-      <span class="nav-icon">⚙</span>
-      Settings
-    </button>
-
-  </nav>
-
-  <div class="nav-label" style="margin-top:22px;">
-    Games
-  </div>
-
-  <nav class="nav">
-
-    <button onclick="selectGame('Adopt Me')">
-      <span class="nav-icon">🐾</span>
-      Adopt Me
-    </button>
-
-    <button onclick="selectGame('Blade Ball')">
-      <span class="nav-icon">⚔</span>
-      Blade Ball
-    </button>
-
-    <button onclick="selectGame('MM2')">
-      <span class="nav-icon">🔪</span>
-      MM2
-    </button>
-
-    <button onclick="selectGame('Pet Simulator 99')">
-      <span class="nav-icon">🐱</span>
-      Pet Simulator 99
-    </button>
-
-  </nav>
-
-  <div class="sidebar-bottom">
-
-    <div class="status-box">
-
-      <div class="status-row">
-
-        <span style="color:#7f899a;">
-          System
-        </span>
-
-        <span style="display:flex;align-items:center;gap:6px;">
-          <i class="status-dot"></i>
-          Online
-        </span>
-
-      </div>
-
-    </div>
-
-  </div>
-
+<div class="status">
+<span>System</span>
+<span class="online"><i class="dot"></i>Online</span>
+</div>
 </aside>
-
-
-<!-- MAIN -->
 
 <main class="main">
 
-<header class="topbar">
+<header class="top">
+<div style="display:flex;gap:10px;align-items:center">
+<button class="btn mobile" onclick="side.classList.toggle('open')">☰</button>
+<div>
+<div class="title" id="pageTitle">Dashboard</div>
+<div class="sub">DONIE Roblox toolkit</div>
+</div>
+</div>
 
-  <div style="display:flex;align-items:center;gap:10px;">
-
-    <button class="mobile-menu" id="mobileMenu">
-      ☰
-    </button>
-
-    <div>
-
-      <div class="page-title" id="pageTitle">
-        Dashboard
-      </div>
-
-      <div class="page-sub">
-        DONIE Roblox toolkit
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="top-actions">
-
-    <button class="top-btn" onclick="refreshServers()">
-      ↻ Refresh
-    </button>
-
-    <button class="top-btn" onclick="showModal()">
-      ⚡ Scan
-    </button>
-
-    <div class="user-pill">
-      DONIE
-    </div>
-
-  </div>
-
+<div class="actions">
+<button class="btn" onclick="refreshServers()">↻ Refresh</button>
+<button class="btn" onclick="refreshServers()">⚡ Scan</button>
+</div>
 </header>
-
 
 <section class="content">
 
-<!-- HERO -->
-
 <div class="hero">
-
-  <div>
-
-    <h1>
-      Rich Server Finder
-    </h1>
-
-    <p>
-      Find public Roblox servers, sort them by players and
-      reported value, and quickly open a server from your dashboard.
-    </p>
-
-  </div>
-
-  <div class="hero-actions">
-
-    <button class="secondary" onclick="clearServers()">
-      Clear
-    </button>
-
-    <button class="primary" onclick="refreshServers()">
-      Scan Servers
-    </button>
-
-  </div>
-
+<div>
+<h1>Rich Server Finder</h1>
+<p>
+Find public Roblox servers and sort them by player count,
+reported value, FPS and ping. Servers come from your DONIE Worker.
+</p>
 </div>
-
-
-<!-- STATS -->
+<div>
+<button class="btn" onclick="clearServers()">Clear</button>
+<button class="primary" onclick="refreshServers()">Scan Servers</button>
+</div>
+</div>
 
 <div class="stats">
-
-  <div class="stat">
-
-    <div class="stat-top">
-      <span class="stat-label">
-        Servers
-      </span>
-
-      <span class="stat-icon">
-        ◈
-      </span>
-    </div>
-
-    <div class="stat-value" id="serverCount">
-      0
-    </div>
-
-    <div class="stat-foot">
-      Currently displayed
-    </div>
-
-  </div>
-
-
-  <div class="stat">
-
-    <div class="stat-top">
-      <span class="stat-label">
-        Hits 24h
-      </span>
-
-      <span class="stat-icon">
-        ✦
-      </span>
-    </div>
-
-    <div class="stat-value" id="hitCount">
-      0
-    </div>
-
-    <div class="stat-foot">
-      Reported rich servers
-    </div>
-
-  </div>
-
-
-  <div class="stat">
-
-    <div class="stat-top">
-      <span class="stat-label">
-        Players
-      </span>
-
-      <span class="stat-icon">
-        ♙
-      </span>
-    </div>
-
-    <div class="stat-value" id="playerCount">
-      0
-    </div>
-
-    <div class="stat-foot">
-      Across displayed servers
-    </div>
-
-  </div>
-
-
-  <div class="stat">
-
-    <div class="stat-top">
-      <span class="stat-label">
-        Highest Value
-      </span>
-
-      <span class="stat-icon">
-        ◆
-      </span>
-    </div>
-
-    <div class="stat-value" id="highestValue">
-      $0
-    </div>
-
-    <div class="stat-foot">
-      Reported server value
-    </div>
-
-  </div>
-
+<div class="stat">
+<small>Servers</small>
+<strong id="serverCount">0</strong>
 </div>
-
-
-<!-- GRID -->
+<div class="stat">
+<small>17K+ Servers</small>
+<strong id="hitCount">0</strong>
+</div>
+<div class="stat">
+<small>Players</small>
+<strong id="playerCount">0</strong>
+</div>
+<div class="stat">
+<small>Highest Value</small>
+<strong id="highestValue">$0</strong>
+</div>
+</div>
 
 <div class="grid">
 
 <div>
 
-
-<!-- GAME SELECTION -->
-
-<div class="card" style="margin-bottom:16px;">
-
-  <div class="card-head">
-
-    <div>
-
-      <div class="card-title">
-        Game Selection
-      </div>
-
-      <div class="card-desc">
-        Choose which Roblox experience to scan.
-      </div>
-
-    </div>
-
-    <span class="badge green" id="selectedGameBadge">
-      Adopt Me
-    </span>
-
-  </div>
-
-
-  <div class="card-body">
-
-    <div class="games">
-
-
-      <div class="game selected" data-game="Adopt Me">
-
-        <div class="game-top">
-
-          <div class="game-icon">
-            🐾
-          </div>
-
-          <div>
-
-            <div class="game-name">
-              Adopt Me
-            </div>
-
-            <div class="game-id">
-              Place ID: 920587237
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="game-bottom">
-
-          <span class="game-tag">
-            Rich pet servers
-          </span>
-
-          <button
-            class="select-btn"
-            onclick="selectGame('Adopt Me')">
-            Select
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <div class="game" data-game="Blade Ball">
-
-        <div class="game-top">
-
-          <div class="game-icon">
-            ⚔
-          </div>
-
-          <div>
-
-            <div class="game-name">
-              Blade Ball
-            </div>
-
-            <div class="game-id">
-              Place ID: 13772394625
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="game-bottom">
-
-          <span class="game-tag">
-            Reported value
-          </span>
-
-          <button
-            class="select-btn"
-            onclick="selectGame('Blade Ball')">
-            Select
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <div class="game" data-game="MM2">
-
-        <div class="game-top">
-
-          <div class="game-icon">
-            🔪
-          </div>
-
-          <div>
-
-            <div class="game-name">
-              MM2
-            </div>
-
-            <div class="game-id">
-              Murder Mystery 2
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="game-bottom">
-
-          <span class="game-tag">
-            Inventory reports
-          </span>
-
-          <button
-            class="select-btn"
-            onclick="selectGame('MM2')">
-            Select
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <div class="game" data-game="Pet Simulator 99">
-
-        <div class="game-top">
-
-          <div class="game-icon">
-            🐱
-          </div>
-
-          <div>
-
-            <div class="game-name">
-              Pet Simulator 99
-            </div>
-
-            <div class="game-id">
-              RAP scanner
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="game-bottom">
-
-          <span class="game-tag">
-            Rich servers
-          </span>
-
-          <button
-            class="select-btn"
-            onclick="selectGame('Pet Simulator 99')">
-            Select
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
+<div class="card">
+<div class="head">
+<div>
+<b>Game Selection</b>
+<small>Choose the Roblox experience to scan.</small>
+</div>
+<span class="badge green" id="selectedGame">Adopt Me</span>
 </div>
 
+<div class="body">
+<div class="games">
 
-<!-- SERVER FINDER -->
+<div class="game selected" data-game="Adopt Me">
+<div class="gametop">
+<div class="icon">🐾</div>
+<div>
+<b>Adopt Me</b>
+<small>Place ID: 920587237</small>
+</div>
+</div>
+<div class="gamefoot">
+<span class="tag">Rich pet servers</span>
+<button class="select" onclick="selectGame('Adopt Me')">Select</button>
+</div>
+</div>
+
+<div class="game" data-game="Blade Ball">
+<div class="gametop">
+<div class="icon">⚔</div>
+<div>
+<b>Blade Ball</b>
+<small>Place ID: 13772394625</small>
+</div>
+</div>
+<div class="gamefoot">
+<span class="tag">Reported value</span>
+<button class="select" onclick="selectGame('Blade Ball')">Select</button>
+</div>
+</div>
+
+<div class="game" data-game="MM2">
+<div class="gametop">
+<div class="icon">🔪</div>
+<div>
+<b>MM2</b>
+<small>Murder Mystery 2</small>
+</div>
+</div>
+<div class="gamefoot">
+<span class="tag">Inventory reports</span>
+<button class="select" onclick="selectGame('MM2')">Select</button>
+</div>
+</div>
+
+<div class="game" data-game="Pet Simulator 99">
+<div class="gametop">
+<div class="icon">🐱</div>
+<div>
+<b>Pet Simulator 99</b>
+<small>Rich server scanner</small>
+</div>
+</div>
+<div class="gamefoot">
+<span class="tag">Rich servers</span>
+<button class="select" onclick="selectGame('Pet Simulator 99')">Select</button>
+</div>
+</div>
+
+</div>
+</div>
+</div>
 
 <div class="card">
+<div class="head">
+<div>
+<b>Public Servers</b>
+<small>Live results returned by your Worker.</small>
+</div>
+<span class="badge" id="scanStatus">Waiting</span>
+</div>
 
-  <div class="card-head">
+<div class="body">
 
-    <div>
+<div class="filters">
+<select class="field" id="sort">
+<option value="players">Most Players</option>
+<option value="value">Highest Value</option>
+<option value="fps">Highest FPS</option>
+<option value="ping">Lowest Ping</option>
+<option value="newest">Newest</option>
+</select>
 
-      <div class="card-title">
-        Public Servers
-      </div>
+<select class="field" id="players">
+<option value="0">Any Players</option>
+<option value="10">10+ Players</option>
+<option value="20">20+ Players</option>
+<option value="30">30+ Players</option>
+</select>
 
-      <div class="card-desc">
-        Servers returned by your backend.
-      </div>
+<input class="field" id="value" type="number" min="0" placeholder="Min value">
 
-    </div>
+<button class="btn" onclick="applyFilters()">Apply</button>
+</div>
 
-    <span class="badge" id="scanStatus">
-      Waiting
-    </span>
-
-  </div>
-
-
-  <div class="card-body">
-
-    <div class="filters">
-
-      <select class="field" id="sortSelect">
-        <option value="players">
-          Most Players
-        </option>
-
-        <option value="value">
-          Highest Value
-        </option>
-
-        <option value="fps">
-          Highest FPS
-        </option>
-
-        <option value="newest">
-          Newest
-        </option>
-      </select>
-
-
-      <select class="field" id="playerFilter">
-
-        <option value="0">
-          Any Players
-        </option>
-
-        <option value="10">
-          10+ Players
-        </option>
-
-        <option value="20">
-          20+ Players
-        </option>
-
-        <option value="30">
-          30+ Players
-        </option>
-
-      </select>
-
-
-      <input
-        class="field"
-        id="valueFilter"
-        type="number"
-        min="0"
-        placeholder="Min value">
-
-
-      <button
-        class="secondary"
-        onclick="applyFilters()">
-        Apply
-      </button>
-
-    </div>
-
-
-    <div class="server-list" id="serverList">
-
-      <div class="server">
-
-        <div>
-
-          <div class="server-name">
-            No servers loaded
-          </div>
-
-          <div class="server-id">
-            Press Scan Servers to load your backend results.
-          </div>
-
-        </div>
-
-        <div class="server-stat">
-          <span>Players</span>
-          —
-        </div>
-
-        <div class="server-stat">
-          <span>Value</span>
-          —
-        </div>
-
-        <div class="server-stat">
-          <span>FPS</span>
-          —
-        </div>
-
-        <button
-          class="join"
-          onclick="showToast('Scan for a server first')">
-          Join
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
+<div class="servers" id="serverList">
+<div class="empty">Press <b>Scan Servers</b> to load live results.</div>
 </div>
 
 </div>
+</div>
 
-
-<!-- RIGHT COLUMN -->
+</div>
 
 <div>
 
-
-<!-- QUICK CONTROLS -->
-
-<div class="card" style="margin-bottom:16px;">
-
-  <div class="card-head">
-
-    <div>
-
-      <div class="card-title">
-        Quick Controls
-      </div>
-
-      <div class="card-desc">
-        Finder settings
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="card-body">
-
-    <div class="quick">
-
-
-      <div class="quick-item">
-
-        <div class="quick-left">
-
-          <strong>
-            Auto Refresh
-          </strong>
-
-          <span>
-            Refresh server list
-          </span>
-
-        </div>
-
-        <div
-          class="toggle"
-          data-toggle="refresh"
-          onclick="toggleSetting(this)">
-        </div>
-
-      </div>
-
-
-      <div class="quick-item">
-
-        <div class="quick-left">
-
-          <strong>
-            High Value Only
-          </strong>
-
-          <span>
-            Use minimum value filter
-          </span>
-
-        </div>
-
-        <div
-          class="toggle on"
-          data-toggle="highValue"
-          onclick="toggleSetting(this)">
-        </div>
-
-      </div>
-
-
-      <div class="quick-item">
-
-        <div class="quick-left">
-
-          <strong>
-            Rich Server Alerts
-          </strong>
-
-          <span>
-            Show hit notifications
-          </span>
-
-        </div>
-
-        <div
-          class="toggle on"
-          data-toggle="alerts"
-          onclick="toggleSetting(this)">
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
+<div class="card">
+<div class="head">
+<div>
+<b>Quick Controls</b>
+<small>Finder settings</small>
+</div>
 </div>
 
+<div class="body">
+<div class="quick">
 
-<!-- RECENT HITS -->
-
-<div class="card" style="margin-bottom:16px;">
-
-  <div class="card-head">
-
-    <div>
-
-      <div class="card-title">
-        Recent Hits
-      </div>
-
-      <div class="card-desc">
-        Latest reported values
-      </div>
-
-    </div>
-
-    <span class="badge">
-      24h
-    </span>
-
-  </div>
-
-
-  <div class="card-body">
-
-    <div class="alert">
-
-      <div class="alert-title">
-        Waiting for reports
-      </div>
-
-      <div class="alert-time">
-        Backend reports will appear here.
-      </div>
-
-      <div class="alert-value">
-        —
-      </div>
-
-    </div>
-
-
-    <div class="alert">
-
-      <div class="alert-title">
-        Discord alerts
-      </div>
-
-      <div class="alert-time">
-        Connect your Worker webhook separately.
-      </div>
-
-      <div class="alert-value">
-        READY
-      </div>
-
-    </div>
-
-  </div>
-
+<div class="quickrow">
+<div><b>Auto Refresh</b><small>Refresh every 30 seconds</small></div>
+<div class="toggle" id="autoToggle" onclick="toggleAuto()"></div>
 </div>
 
+<div class="quickrow">
+<div><b>17K+ High Value</b><small>Only show rich servers</small></div>
+<div class="toggle on" id="highToggle" onclick="toggleHigh()"></div>
+</div>
 
-<!-- CONFIG -->
+<div class="quickrow">
+<div><b>Rich Alerts</b><small>Show finder notifications</small></div>
+<div class="toggle on"></div>
+</div>
+
+</div>
+</div>
+</div>
 
 <div class="card">
+<div class="head">
+<div>
+<b>Recent Hits</b>
+<small>Latest rich-server results</small>
+</div>
+<span class="badge">17K+</span>
+</div>
 
-  <div class="card-head">
+<div class="body" id="recentHits">
+<div class="alert">
+<b>Waiting for reports</b>
+<small>Rich servers will appear here after scanning.</small>
+<strong>—</strong>
+</div>
+</div>
+</div>
 
-    <div>
+<div class="card">
+<div class="head">
+<div>
+<b>Finder Config</b>
+<small>Current filters</small>
+</div>
+</div>
 
-      <div class="card-title">
-        Finder Config
-      </div>
+<div class="body">
 
-      <div class="card-desc">
-        Current game settings
-      </div>
+<div class="setting">
+<div>
+<b>Minimum Value</b>
+<small>17,000+ default</small>
+</div>
+<input class="field" id="minValue" type="number" value="17000" min="0" style="width:95px">
+</div>
 
-    </div>
-
-  </div>
-
-
-  <div class="card-body">
-
-    <div class="settings">
-
-
-      <div class="setting">
-
-        <div>
-
-          <strong>
-            Minimum Value
-          </strong>
-
-          <small id="minValueText">
-            17,000+
-          </small>
-
-        </div>
-
-        <input
-          id="minValue"
-          type="number"
-          value="17000"
-          min="0"
-          class="field"
-          style="width:100px;min-width:0;padding:7px;"
-          onchange="updateMinValue()">
-
-      </div>
-
-
-      <div class="setting">
-
-        <div>
-
-          <strong>
-            Player Minimum
-          </strong>
-
-          <small>
-            Minimum server population
-          </small>
-
-        </div>
-
-        <input
-          id="minPlayers"
-          type="number"
-          value="0"
-          min="0"
-          class="field"
-          style="width:100px;min-width:0;padding:7px;"
-          onchange="applyFilters()">
-
-      </div>
-
-    </div>
-
-  </div>
-
+<div class="setting">
+<div>
+<b>Minimum Players</b>
+<small>Server population</small>
+</div>
+<input class="field" id="minPlayers" type="number" value="0" min="0" style="width:95px">
 </div>
 
 </div>
+</div>
 
+</div>
 </div>
 
 </section>
-
 </main>
-
 </div>
 
-
-<!-- MODAL -->
-
-<div class="modal-bg" id="modalBg">
-
-  <div class="modal">
-
-    <h2>
-      Start Server Scan
-    </h2>
-
-    <p>
-      Scan your configured backend for public server data.
-      This dashboard does not request or collect Roblox account
-      cookies, passwords, or .ROBLOSECURITY.
-    </p>
-
-    <div class="modal-actions">
-
-      <button
-        class="secondary"
-        onclick="hideModal()">
-        Cancel
-      </button>
-
-      <button
-        class="primary"
-        onclick="hideModal();refreshServers();">
-        Start Scan
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- TOAST -->
-
-<div class="toast" id="toast">
-  Done
-</div>
-
+<div class="toast" id="toast"></div>
 
 <script>
-
-/* =====================================================
+/* ==============================
    DONIE RICH FINDER
-   =====================================================
+   ============================== */
 
-   IMPORTANT:
-   Put your Cloudflare Worker URL here.
+const WORKER_URL="https://weathered-haze-08aa.redonekowaithe1.workers.dev";
 
-   Example:
-   const WORKER_URL =
-     "https://your-worker.workers.dev";
-
-   ===================================================== */
-
-const WORKER_URL = "";
-
-
-const GAMES = {
-
-  "Adopt Me":{
-    placeId:"920587237"
-  },
-
-  "Blade Ball":{
-    placeId:"13772394625"
-  },
-
-  "MM2":{
-    placeId:""
-  },
-
-  "Pet Simulator 99":{
-    placeId:""
-  }
-
+const GAMES={
+"Adopt Me":"920587237",
+"Blade Ball":"13772394625",
+"MM2":"",
+"Pet Simulator 99":""
 };
 
+let selected="Adopt Me";
+let all=[];
+let autoTimer=null;
+let highOnly=true;
 
-let selectedGame = "Adopt Me";
-let allServers = [];
-let autoRefreshTimer = null;
+/* ---------- HELPERS ---------- */
 
+const $=id=>document.getElementById(id);
 
-/* TOAST */
-
-function showToast(message){
-
-  const toast =
-    document.getElementById("toast");
-
-  toast.textContent = message;
-
-  toast.classList.add("show");
-
-  clearTimeout(window.toastTimer);
-
-  window.toastTimer =
-    setTimeout(function(){
-
-      toast.classList.remove("show");
-
-    },2200);
-
+function toast(msg){
+$("toast").textContent=msg;
+$("toast").classList.add("show");
+clearTimeout(window._toast);
+window._toast=setTimeout(()=>$("toast").classList.remove("show"),2200);
 }
 
+function num(v){
+return Number(v)||0;
+}
 
-/* MOBILE MENU */
+function valueOf(s){
+return num(
+s.value ??
+s.rap ??
+s.RAP ??
+s.totalRap ??
+s.totalValue ??
+s.reportedValue ??
+s.serverValue
+);
+}
 
-document
-  .getElementById("mobileMenu")
-  .addEventListener("click",function(){
+function playersOf(s){
+return num(
+s.players ??
+s.playing ??
+s.playerCount ??
+s.currentPlayers
+);
+}
 
-    document
-      .getElementById("sidebar")
-      .classList.toggle("open");
+function maxPlayersOf(s){
+return num(
+s.maxPlayers ??
+s.maxPlayersAllowed ??
+s.capacity
+)||48;
+}
 
-  });
+function fpsOf(s){
+return num(s.fps??s.FPS);
+}
 
+function pingOf(s){
+return num(s.ping??s.Ping);
+}
 
-/* NAVIGATION */
+function idOf(s){
+return String(
+s.id ??
+s.jobId ??
+s.serverId ??
+s.instanceId ??
+"unknown"
+);
+}
 
-document
-  .querySelectorAll(".nav button[data-page]")
-  .forEach(function(button){
+function updatedOf(s){
+return num(s.updatedAt??s.timestamp??s.createdAt);
+}
 
-    button.addEventListener("click",function(){
+function money(v){
+v=num(v);
+if(v>=1000000)return "$"+(v/1000000).toFixed(1).replace(".0","")+"M";
+if(v>=1000)return "$"+(v/1000).toFixed(1).replace(".0","")+"K";
+return "$"+v.toLocaleString();
+}
 
-      document
-        .querySelectorAll(".nav button[data-page]")
-        .forEach(function(b){
+function esc(v){
+return String(v)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+}
 
-          b.classList.remove("active");
-
-        });
-
-      button.classList.add("active");
-
-      const page =
-        button.dataset.page;
-
-      const titles = {
-
-        dashboard:"Dashboard",
-        servers:"Server Finder",
-        games:"Games",
-        alerts:"Alerts",
-        settings:"Settings"
-
-      };
-
-      document
-        .getElementById("pageTitle")
-        .textContent =
-          titles[page] || "Dashboard";
-
-      document
-        .getElementById("sidebar")
-        .classList.remove("open");
-
-    });
-
-  });
-
-
-/* SELECT GAME */
+/* ---------- GAME ---------- */
 
 function selectGame(game){
+selected=game;
+$("selectedGame").textContent=game;
 
-  selectedGame = game;
+document.querySelectorAll(".game").forEach(x=>{
+x.classList.toggle("selected",x.dataset.game===game);
+});
 
-  document
-    .getElementById("selectedGameBadge")
-    .textContent = game;
+toast(game+" selected");
 
-  document
-    .querySelectorAll(".game")
-    .forEach(function(card){
-
-      card.classList.toggle(
-        "selected",
-        card.dataset.game === game
-      );
-
-    });
-
-  showToast(game + " selected");
-
+if(GAMES[game]) refreshServers();
 }
 
-
-/* MODAL */
-
-function showModal(){
-
-  document
-    .getElementById("modalBg")
-    .style.display = "grid";
-
-}
-
-
-function hideModal(){
-
-  document
-    .getElementById("modalBg")
-    .style.display = "none";
-
-}
-
-
-/* SETTINGS */
-
-function toggleSetting(element){
-
-  element.classList.toggle("on");
-
-  const type =
-    element.dataset.toggle;
-
-  if(type === "refresh"){
-
-    if(element.classList.contains("on")){
-
-      startAutoRefresh();
-
-    }else{
-
-      stopAutoRefresh();
-
-    }
-
-  }
-
-  applyFilters();
-
-}
-
-
-/* MINIMUM VALUE */
-
-function updateMinValue(){
-
-  const value =
-    Number(
-      document.getElementById("minValue").value
-    ) || 0;
-
-  document
-    .getElementById("minValueText")
-    .textContent =
-      value.toLocaleString() + "+";
-
-  applyFilters();
-
-}
-
-
-/* REFRESH SERVERS */
+/* ---------- SERVER REQUEST ---------- */
 
 async function refreshServers(){
 
-  const status =
-    document.getElementById("scanStatus");
+const status=$("scanStatus");
+status.textContent="Scanning";
 
-  status.textContent = "Scanning";
+const place=GAMES[selected];
 
-
-  /*
-    If no Worker URL has been entered,
-    use demo data so the dashboard still works.
-  */
-
-  if(!WORKER_URL){
-
-    status.textContent = "Demo";
-
-    demoServers();
-
-    showToast(
-      "Demo mode — add your Worker URL for live data"
-    );
-
-    return;
-
-  }
-
-
-  const game =
-    GAMES[selectedGame];
-
-
-  if(!game || !game.placeId){
-
-    status.textContent = "No ID";
-
-    showToast(
-      selectedGame +
-      " does not have a Place ID configured yet."
-    );
-
-    return;
-
-  }
-
-
-  try{
-
-    const url =
-      WORKER_URL.replace(/\/$/,"") +
-      "/roblox-servers?placeId=" +
-      encodeURIComponent(game.placeId);
-
-
-    const response =
-      await fetch(url,{
-        method:"GET",
-        headers:{
-          "Accept":"application/json"
-        }
-      });
-
-
-    if(!response.ok){
-
-      throw new Error(
-        "HTTP " + response.status
-      );
-
-    }
-
-
-    const data =
-      await response.json();
-
-
-    allServers =
-      Array.isArray(data.servers)
-        ? data.servers
-        : [];
-
-
-    status.textContent = "Live";
-
-    renderServers();
-
-    updateStats();
-
-
-    showToast(
-      allServers.length +
-      " server(s) loaded"
-    );
-
-
-  }catch(error){
-
-    console.error(error);
-
-    status.textContent = "Error";
-
-    showToast(
-      "Worker request failed"
-    );
-
-  }
-
+if(!place){
+status.textContent="No ID";
+all=[];
+render();
+toast(selected+" has no Place ID configured");
+return;
 }
 
+try{
 
-/* DEMO SERVERS */
+const url=
+WORKER_URL.replace(/\/$/,"")+
+"/roblox-servers?placeId="+encodeURIComponent(place);
 
-function demoServers(){
+const r=await fetch(url,{
+headers:{Accept:"application/json"},
+cache:"no-store"
+});
 
-  allServers = [
+if(!r.ok)throw Error("HTTP "+r.status);
 
-    {
-      id:"demo-server-01",
-      players:34,
-      maxPlayers:48,
-      value:28500,
-      fps:60,
-      updatedAt:Date.now()
-    },
+const data=await r.json();
 
-    {
-      id:"demo-server-02",
-      players:27,
-      maxPlayers:48,
-      value:22000,
-      fps:59,
-      updatedAt:Date.now()-30000
-    },
+all=Array.isArray(data.servers)
+?data.servers
+:Array.isArray(data.data)
+?data.data
+:[];
 
-    {
-      id:"demo-server-03",
-      players:19,
-      maxPlayers:48,
-      value:17500,
-      fps:60,
-      updatedAt:Date.now()-60000
-    },
+status.textContent="Live";
 
-    {
-      id:"demo-server-04",
-      players:42,
-      maxPlayers:48,
-      value:51000,
-      fps:60,
-      updatedAt:Date.now()-90000
-    }
+render();
+updateStats();
+updateHits();
 
-  ];
+toast(all.length+" server(s) loaded");
 
-  renderServers();
+}catch(e){
 
-  updateStats();
+console.error(e);
+status.textContent="Error";
+toast("Worker request failed");
 
 }
-
-
-/* FILTERS */
-
-function applyFilters(){
-
-  renderServers();
-
-  updateStats();
-
 }
 
+/* ---------- FILTER ---------- */
 
-function getFilteredServers(){
+function filtered(){
 
-  const playerFilter =
-    Number(
-      document.getElementById("playerFilter").value
-    ) || 0;
+const playerMin=Math.max(
+num($("players").value),
+num($("minPlayers").value)
+);
 
+const manualValue=num($("value").value);
+const configValue=num($("minValue").value);
 
-  const customPlayers =
-    Number(
-      document.getElementById("minPlayers").value
-    ) || 0;
+const minimum=highOnly
+?Math.max(17000,configValue,manualValue)
+:manualValue;
 
+let list=all.filter(s=>
+playersOf(s)>=playerMin &&
+valueOf(s)>=minimum
+);
 
-  const manualValue =
-    Number(
-      document.getElementById("valueFilter").value
-    ) || 0;
+const sort=$("sort").value;
 
+list.sort((a,b)=>{
 
-  const configValue =
-    Number(
-      document.getElementById("minValue").value
-    ) || 0;
+if(sort==="players")
+return playersOf(b)-playersOf(a);
 
+if(sort==="value")
+return valueOf(b)-valueOf(a);
 
-  const highValueToggle =
-    document.querySelector(
-      '[data-toggle="highValue"]'
-    );
+if(sort==="fps")
+return fpsOf(b)-fpsOf(a);
 
+if(sort==="ping")
+return (pingOf(a)||9999)-(pingOf(b)||9999);
 
-  const highValueEnabled =
-    highValueToggle &&
-    highValueToggle.classList.contains("on");
+return updatedOf(b)-updatedOf(a);
 
+});
 
-  const finalValue =
-    highValueEnabled
-      ? Math.max(
-          manualValue,
-          configValue
-        )
-      : manualValue;
-
-
-  const finalPlayers =
-    Math.max(
-      playerFilter,
-      customPlayers
-    );
-
-
-  let result =
-    allServers.filter(function(server){
-
-      const players =
-        Number(server.players) || 0;
-
-      const value =
-        Number(server.value) || 0;
-
-      return (
-        players >= finalPlayers &&
-        value >= finalValue
-      );
-
-    });
-
-
-  const sort =
-    document.getElementById("sortSelect").value;
-
-
-  result.sort(function(a,b){
-
-    if(sort === "players"){
-
-      return (
-        Number(b.players)||0
-      ) -
-      (
-        Number(a.players)||0
-      );
-
-    }
-
-
-    if(sort === "value"){
-
-      return (
-        Number(b.value)||0
-      ) -
-      (
-        Number(a.value)||0
-      );
-
-    }
-
-
-    if(sort === "fps"){
-
-      return (
-        Number(b.fps)||0
-      ) -
-      (
-        Number(a.fps)||0
-      );
-
-    }
-
-
-    return (
-      Number(b.updatedAt)||0
-    ) -
-    (
-      Number(a.updatedAt)||0
-    );
-
-  });
-
-
-  return result;
-
+return list;
 }
 
+/* ---------- RENDER ---------- */
 
-/* RENDER SERVERS */
+function render(){
 
-function renderServers(){
+const list=$("serverList");
+const data=filtered();
 
-  const list =
-    document.getElementById("serverList");
-
-
-  const servers =
-    getFilteredServers();
-
-
-  if(!servers.length){
-
-    list.innerHTML = `
-
-      <div class="server">
-
-        <div>
-
-          <div class="server-name">
-            No matching servers
-          </div>
-
-          <div class="server-id">
-            Try lowering the player or value filters.
-          </div>
-
-        </div>
-
-        <div class="server-stat">
-          <span>Players</span>
-          —
-        </div>
-
-        <div class="server-stat">
-          <span>Value</span>
-          —
-        </div>
-
-        <div class="server-stat">
-          <span>FPS</span>
-          —
-        </div>
-
-        <button
-          class="join"
-          onclick="refreshServers()">
-          Scan
-        </button>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  list.innerHTML =
-    servers.map(function(server){
-
-      const id =
-        server.id ||
-        server.jobId ||
-        "unknown";
-
-
-      const players =
-        Number(server.players) || 0;
-
-
-      const maxPlayers =
-        Number(server.maxPlayers) || 48;
-
-
-      const value =
-        Number(server.value) || 0;
-
-
-      const fps =
-        Number(server.fps) || 0;
-
-
-      const safeId =
-        escapeHTML(id);
-
-
-      return `
-
-        <div class="server">
-
-          <div>
-
-            <div class="server-name">
-              Rich ${escapeHTML(selectedGame)} Server
-            </div>
-
-            <div class="server-id">
-              ${safeId}
-            </div>
-
-          </div>
-
-
-          <div class="server-stat">
-
-            <span>
-              Players
-            </span>
-
-            ${players}/${maxPlayers}
-
-          </div>
-
-
-          <div class="server-stat">
-
-            <span>
-              Value
-            </span>
-
-            ${formatValue(value)}
-
-          </div>
-
-
-          <div class="server-stat">
-
-            <span>
-              FPS
-            </span>
-
-            ${fps || "—"}
-
-          </div>
-
-
-          <button
-            class="join"
-            onclick="joinServer('${escapeJS(id)}')">
-            Join
-          </button>
-
-        </div>
-
-      `;
-
-    }).join("");
-
+if(!data.length){
+list.innerHTML=
+'<div class="empty">No matching servers found.<br>Try lowering your filters or scan again.</div>';
+updateStats();
+return;
 }
 
+list.innerHTML=data.map(s=>{
 
-/* JOIN */
+const id=idOf(s);
+const p=playersOf(s);
+const max=maxPlayersOf(s);
+const value=valueOf(s);
+const fps=fpsOf(s);
+const ping=pingOf(s);
 
-function joinServer(serverId){
+return `
+<div class="server">
 
-  const game =
-    GAMES[selectedGame];
+<div>
+<b>${esc(selected)} Server</b>
+<small>${esc(id)}</small>
+</div>
 
+<div class="sstat">
+<span>Players</span>
+${p}/${max}
+</div>
 
-  if(!game || !game.placeId){
+<div class="sstat">
+<span>Value</span>
+${money(value)}
+</div>
 
-    showToast(
-      "Place ID is not configured"
-    );
+<div class="sstat">
+<span>FPS</span>
+${fps||"—"}
+</div>
 
-    return;
+<div class="sstat">
+<span>Ping</span>
+${ping?ping+"ms":"—"}
+</div>
 
-  }
+<button class="join"
+onclick="joinServer(${JSON.stringify(id)})">
+Join
+</button>
 
+</div>`;
+}).join("");
 
-  const url =
-    "https://www.roblox.com/games/start" +
-    "?placeId=" +
-    encodeURIComponent(game.placeId) +
-    "&gameInstanceId=" +
-    encodeURIComponent(serverId);
-
-
-  window.open(
-    url,
-    "_blank",
-    "noopener,noreferrer"
-  );
-
+updateStats();
 }
 
-
-/* STATS */
+/* ---------- STATS ---------- */
 
 function updateStats(){
 
-  const filtered =
-    getFilteredServers();
+const data=filtered();
 
+$("serverCount").textContent=data.length;
 
-  const players =
-    filtered.reduce(
-      function(sum,server){
+$("playerCount").textContent=
+data.reduce((x,s)=>x+playersOf(s),0);
 
-        return sum +
-          (Number(server.players)||0);
+$("hitCount").textContent=
+data.filter(s=>valueOf(s)>=17000).length;
 
-      },
-      0
-    );
+const highest=data.reduce(
+(x,s)=>Math.max(x,valueOf(s)),0
+);
 
-
-  const highest =
-    filtered.reduce(
-      function(max,server){
-
-        return Math.max(
-          max,
-          Number(server.value)||0
-        );
-
-      },
-      0
-    );
-
-
-  const minimum =
-    Number(
-      document.getElementById("minValue").value
-    ) || 0;
-
-
-  document
-    .getElementById("serverCount")
-    .textContent =
-      filtered.length;
-
-
-  document
-    .getElementById("playerCount")
-    .textContent =
-      players;
-
-
-  document
-    .getElementById("highestValue")
-    .textContent =
-      formatValue(highest);
-
-
-  document
-    .getElementById("hitCount")
-    .textContent =
-      filtered.filter(function(server){
-
-        return (
-          Number(server.value)||0
-        ) >= minimum;
-
-      }).length;
-
+$("highestValue").textContent=money(highest);
 }
 
+/* ---------- RECENT HITS ---------- */
 
-/* FORMAT VALUE */
+function updateHits(){
 
-function formatValue(value){
+const rich=[...all]
+.filter(s=>valueOf(s)>=17000)
+.sort((a,b)=>valueOf(b)-valueOf(a))
+.slice(0,4);
 
-  value =
-    Number(value) || 0;
-
-
-  if(value >= 1000000){
-
-    return "$" +
-      (value/1000000)
-        .toFixed(1)
-        .replace(".0","") +
-      "M";
-
-  }
-
-
-  if(value >= 1000){
-
-    return "$" +
-      (value/1000)
-        .toFixed(1)
-        .replace(".0","") +
-      "K";
-
-  }
-
-
-  return "$" +
-    value.toLocaleString();
-
+if(!rich.length){
+$("recentHits").innerHTML=
+`<div class="alert">
+<b>No 17K+ hits yet</b>
+<small>Scan again when your Worker has server reports.</small>
+<strong>—</strong>
+</div>`;
+return;
 }
 
-
-/* ESCAPE HTML */
-
-function escapeHTML(value){
-
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
+$("recentHits").innerHTML=rich.map(s=>`
+<div class="alert">
+<b>${esc(selected)} rich server</b>
+<small>${playersOf(s)} players • ${pingOf(s)||"—"}ms ping</small>
+<strong>${money(valueOf(s))}</strong>
+</div>
+`).join("");
 }
 
+/* ---------- JOIN ---------- */
 
-/* ESCAPE JS */
+function joinServer(id){
 
-function escapeJS(value){
+const place=GAMES[selected];
 
-  return String(value)
-    .replaceAll("\\","\\\\")
-    .replaceAll("'","\\'")
-    .replaceAll("\n","\\n")
-    .replaceAll("\r","\\r");
-
+if(!place||!id||id==="unknown"){
+toast("Server ID unavailable");
+return;
 }
 
+const url=
+"https://www.roblox.com/games/start"+
+"?placeId="+encodeURIComponent(place)+
+"&gameInstanceId="+encodeURIComponent(id);
 
-/* AUTO REFRESH */
-
-function startAutoRefresh(){
-
-  stopAutoRefresh();
-
-  autoRefreshTimer =
-    setInterval(
-      refreshServers,
-      30000
-    );
-
+window.open(url,"_blank","noopener,noreferrer");
 }
 
+/* ---------- CONTROLS ---------- */
 
-function stopAutoRefresh(){
-
-  if(autoRefreshTimer){
-
-    clearInterval(
-      autoRefreshTimer
-    );
-
-    autoRefreshTimer = null;
-
-  }
-
+function applyFilters(){
+render();
+updateStats();
 }
 
+function toggleHigh(){
 
-/* CLEAR */
+highOnly=!highOnly;
+
+$("highToggle").classList.toggle("on",highOnly);
+
+render();
+updateStats();
+
+toast(
+highOnly
+?"17K+ filter enabled"
+:"17K+ filter disabled"
+);
+}
+
+function toggleAuto(){
+
+const el=$("autoToggle");
+
+if(el.classList.contains("on")){
+el.classList.remove("on");
+clearInterval(autoTimer);
+autoTimer=null;
+toast("Auto refresh disabled");
+return;
+}
+
+el.classList.add("on");
+refreshServers();
+
+autoTimer=setInterval(refreshServers,30000);
+
+toast("Auto refresh enabled");
+}
 
 function clearServers(){
 
-  allServers = [];
-
-  renderServers();
-
-  updateStats();
-
-  document
-    .getElementById("scanStatus")
-    .textContent =
-      "Cleared";
-
-  showToast(
-    "Server list cleared"
-  );
-
+all=[];
+$("scanStatus").textContent="Cleared";
+render();
+updateHits();
+toast("Server list cleared");
 }
 
+/* ---------- NAV ---------- */
 
-/* CLOSE MODAL */
+document.querySelectorAll(".nav button[data-page]")
+.forEach(btn=>{
+btn.onclick=()=>{
+document.querySelectorAll(".nav button[data-page]")
+.forEach(x=>x.classList.remove("active"));
 
-document
-  .getElementById("modalBg")
-  .addEventListener("click",function(event){
+btn.classList.add("active");
+$("pageTitle").textContent=btn.dataset.page;
 
-    if(event.target.id === "modalBg"){
+$("side").classList.remove("open");
+};
+});
 
-      hideModal();
+/* ---------- FILTER EVENTS ---------- */
 
-    }
+["sort","players","value","minValue","minPlayers"]
+.forEach(id=>{
+$(id).addEventListener("change",applyFilters);
+});
 
-  });
+/* ---------- START ---------- */
 
-
-/* FILTER EVENTS */
-
-document
-  .getElementById("sortSelect")
-  .addEventListener("change",applyFilters);
-
-
-document
-  .getElementById("playerFilter")
-  .addEventListener("change",applyFilters);
-
-
-/* STARTUP */
-
-updateMinValue();
-
+render();
+updateStats();
 </script>
-
 </body>
 </html>
