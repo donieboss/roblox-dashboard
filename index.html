@@ -1,49 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DONIE • Rich Finder</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+--bg:#06070b;
+--p:#0c0f16;
+--p2:#11151e;
+--p3:#151a25;
+--b:#202633;
+--t:#f4f7fb;
+--m:#8c96a8;
+--g:#39e58c;
+--r:#ff5c6c;
+--y:#ffd166;
+--bl:#5ca8ff
+}
+
+html,body{
+min-height:100%;
+background:
+radial-gradient(circle at 80% -10%,#39e58c16,transparent 35%),
+radial-gradient(circle at 10% 20%,#5ca8ff0d,transparent 30%),
+var(--bg);
+color:var(--t);
+font:14px Inter,system-ui,-apple-system,Segoe UI,sans-serif
+}
+
+button,input,select{font:inherit}
+button{cursor:pointer}
+
+.app{
+display:flex;
+min-height:100vh
+}
+
+.side{
+position:fixed;
+inset:0 auto 0 0;
+width:245px;
+background:#080a0ff7;
+border-right:1px solid var(--b);
+padding:20px 15px;
+z-index:20
+}
+
+.logo{
+display:flex;
+gap:10px;
+align-items:center;
+padding:5px 9px 24px
+}
+
+.logo i{
+width:38px;
+height:38px;
+border-radius:11px;
+display:grid;
+place-items:center;
+background:linear-gradient(135deg,var(--g),#159254);
+color:#03130b;
+font-style:normal;
+font-weight:950
+}
+
+.logo b{
+display:block;
+font-size:16px;
+letter-spacing:1px
+}
+
+.logo small{
+color:var(--m);
+font-size:10px
+}
+
+.label{
+color:#5f6878;
+font-size:10px;
+text-transform:uppercase;
+letter-spacing:1.5px;
+font-weight:800;
+padding:0 10px 8px
+}
+
+.nav{
+display:grid;
+gap:4px
+}
+
+.nav button{
+width:100%;
+border:1px solid transparent;
+background:transparent;
+color:#9aa4b5;
+text-align:left;
+padding:10px 12px;
+border-radius:9px
+}
+
+.nav button:hover{
+background:#10141c;
+color:white
+}
+
+.nav button.active{
+background:#39e58c12;
+border-color:#39e58c2b;
+color:var(--g)
+}
+
+.status{
+position:absolute;
+left:15px;
+right:15px;
+bottom:17px;
+border:1px solid var(--b);
+background:#0b0e14;
+border-radius:11px;
+padding:11px;
+display:flex;
+justify-content:space-between;
+font-size:11px;
+color:#7f899a
+}
+
+.online{color:var(--g)}
+
+.dot{
+display:inline-block;
+width:7px;
+height:7px;
+border-radius:50%;
+background:var(--g);
+margin-right:5px
+}
+
+.main{
+margin-left:245px;
+width:calc(100% - 245px)
+}
+
+.top{
+height:66px;
+border-bottom:1px solid var(--b);
+padding:0 28px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:#06070bcc;
+backdrop-filter:blur(15px);
+position:sticky;
+top:0;
+z-index:10
+}
+
+.title{
+font-size:14px;
+font-weight:800
+}
+
+.sub{
+font-size:10px;
+color:var(--m);
+margin-top:2px
+}
+
+.actions{
+display:flex;
+gap:8px;
+align-items:center
+}
+
+.btn,.field{
+border:1px solid var(--b);
+background:#0c1017;
+color:#d6dce5;
+border-radius:8px;
+padding:9px 12px
+}
+
+.btn:hover{
+background:#141923;
+border-color:#394354
+}
+
+.primary{
+border:0;
+background:var(--g);
+color:#04150d;
+font-weight:900;
+border-radius:8px;
+padding:10px 14px
+}
+
+.content{
+max-width:1450px;
+margin:auto;
+padding:28px
+}
+
+.hero{
+display:flex;
+justify-content:space-between;
+gap:20px;
+align-items:end;
+margin-bottom:22px
+}
+
+h1{
+font-size:30px;
+letter-spacing:-1px
+}
+
+.hero p{
+color:var(--m);
+font-size:12px;
+line-height:1.6;
+margin-top:7px;
+max-width:650px
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:11px;
+margin-bottom:20px
+}
+
+.card,.stat{
+border:1px solid var(--b);
+background:#0c0f16f2;
+border-radius:13px;
+box-shadow:0 15px 50px #00000035
+}
+
+.stat{
+padding:16px
+}
+
+.stat small{
+color:var(--m);
+font-size:10px
+}
+
+.stat strong{
+display:block;
+font-size:24px;
+margin-top:10px
+}
+
+.grid{
+display:grid;
+grid-template-columns:minmax(0,1.6fr) minmax(300px,.8fr);
+gap:15px
+}
+
+.card{
+overflow:hidden;
+margin-bottom:15px
+}
+
+.head{
+padding:15px 16px;
+border-bottom:1px solid var(--b);
+display:flex;
+justify-content:space-between;
+align-items:center
+}
+
+.head b{
+font-size:13px
+}
+
+.head small{
+display:block;
+color:#687386;
+font-size:10px;
+margin-top:3px
+}
+
+.body{
+padding:14px
+}
+
+.games{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:9px
+}
+
+.game{
+border:1px solid var(--b);
+background:#0b0f16;
+border-radius:11px;
+padding:13px
+}
+
+.game.selected{
+border-color:#39e58c66;
+box-shadow:inset 0 0 0 1px #39e58c0d
+}
+
+.gametop{
+display:flex;
+align-items:center;
+gap:10px
+}
+
+.icon{
+width:39px;
+height:39px;
+border-radius:10px;
+background:#171c27;
+display:grid;
+place-items:center;
+font-size:18px
+}
+
+.game b{
+font-size:12px
+}
+
+.game small{
+display:block;
+color:#667185;
+font-size:9px;
+margin-top:3px
+}
+
+.gamefoot{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:13px
+}
+
+.tag{
+font-size:9px;
+color:#8994a6
+}
+
+.select{
+border:1px solid var(--b);
+background:#111620;
+color:#d5dbe4;
+border-radius:7px;
+padding:6px 9px;
+font-size:10px
+}
+
+.filters{
+display:flex;
+gap:7px;
+flex-wrap:wrap;
+margin-bottom:12px
+}
+
+.field{
+outline:none;
+min-width:110px;
+padding:8px 9px
+}
+
+.field:focus{
+border-color:#465265
+}
+
+.servers{
+display:grid;
+gap:7px
+}
+
+.server{
+display:grid;
+grid-template-columns:1.4fr .7fr .7fr .7fr .7fr auto;
+gap:9px;
+align-items:center;
+border:1px solid #1c2330;
+background:#0a0e14;
+border-radius:9px;
+padding:10px
+}
+
+.server:hover{
+border-color:#303a4a
+}
+
+.server b{
+font-size:10px
+}
+
+.server small{
+display:block;
+color:#5f6b7d;
+font-size:8px;
+margin-top:3px;
+word-break:break-all
+}
+
+.sstat{
+font-size:10px;
+color:#c2cad5
+}
+
+.sstat span{
+display:block;
+color:#606b7d;
+font-size:8px;
+margin-bottom:2px
+}
+
+.join{
+border:1px solid #39e58c38;
+background:#39e58c0d;
+color:var(--g);
+border-radius:7px;
+padding:7px 10px;
+font-size:9px;
+font-weight:850
+}
+
+.join:hover{
+background:#39e58c20
+}
+
+.badge{
+font-size:9px;
+padding:5px 7px;
+border-radius:6px;
+background:#141a23;
+color:#8893a4
+}
+
+.green{
+color:var(--g);
+background:#39e58c0d
+}
+
+.quick{
+display:grid;
+gap:8px
+}
+
+.quickrow{
+border:1px solid var(--b);
+background:#0a0e14;
+border-radius:9px;
+padding:11px;
+display:flex;
+justify-content:space-between;
+align-items:center
+}
+
+.quickrow b{
+display:block;
+font-size:10px
+}
+
+.quickrow small{
+color:#626d7f;
+font-size:8px
+}
+
+.toggle{
+width:37px;
+height:20px;
+border-radius:20px;
+border:1px solid #2b3341;
+background:#141923;
+position:relative
+}
+
+.toggle:after{
+content:"";
+position:absolute;
+width:14px;
+height:14px;
+left:2px;
+top:2px;
+border-radius:50%;
+background:#697486;
+transition:.2s
+}
+
+.toggle.on{
+background:#39e58c2d;
+border-color:#39e58c66
+}
+
+.toggle.on:after{
+left:19px;
+background:var(--g)
+}
+
+.alert{
+border:1px solid var(--b);
+background:#0a0e14;
+border-radius:9px;
+padding:11px;
+margin-bottom:7px
+}
+
+.alert b{
+font-size:10px
+}
+
+.alert small{
+display:block;
+color:#626d7e;
+font-size:8px;
+margin-top:3px
+}
+
+.alert strong{
+display:block;
+color:var(--g);
+font-size:10px;
+margin-top:6px
+}
+
+.setting{
+display:flex;
+justify-content:space-between;
+align-items:center;
+border:1px solid var(--b);
+background:#0a0e14;
+border-radius:9px;
+padding:11px;
+margin-bottom:8px
+}
+
+.setting b{
+font-size:10px
+}
+
+.setting small{
+display:block;
+color:#667184;
+font-size:8px;
+margin-top:3px
+}
+
+.empty{
+padding:22px;
+text-align:center;
+border:1px dashed #252d3a;
+border-radius:9px;
+color:#697487;
+font-size:10px;
+line-height:1.7
+}
+
+.mobile{
+display:none
+}
+
+.toast{
+position:fixed;
+right:20px;
+bottom:20px;
+background:#111720;
+border:1px solid #293343;
+border-radius:8px;
+padding:10px 13px;
+font-size:10px;
+opacity:0;
+transform:translateY(15px);
+transition:.2s;
+z-index:99;
+max-width:350px
+}
+
+.toast.show{
+opacity:1;
+transform:none
+}
+
+@media(max-width:1050px){
+
+.stats{
+grid-template-columns:repeat(2,1fr)
+}
+
+.grid{
+grid-template-columns:1fr
+}
+
+}
+
+@media(max-width:760px){
+
+.side{
+transform:translateX(-100%);
+transition:.2s
+}
+
+.side.open{
+transform:none
+}
+
+.main{
+margin-left:0;
+width:100%
+}
+
+.mobile{
+display:block
+}
+
+.top{
+padding:0 14px
+}
+
+.content{
+padding:17px
+}
+
+.hero{
+flex-direction:column;
+align-items:start
+}
+
+.games{
+grid-template-columns:1fr
+}
+
+.server{
+grid-template-columns:1fr 1fr
+}
+
+.server>div:first-child{
+grid-column:1/-1
+}
+
+}
+
+@media(max-width:480px){
+
+.stats{
+grid-template-columns:1fr
+}
+
+.server{
+grid-template-columns:1fr
+}
+
+.server>div:first-child{
+grid-column:auto
+}
+
+.actions .btn{
+display:none
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="side" id="side">
+
+<div class="logo">
+<i>D</i>
+<div>
+<b>DONIE</b>
+<small>RICH FINDER</small>
+</div>
+</div>
+
+<div class="label">Workspace</div>
+
+<nav class="nav">
+
+<button class="active" data-page="Dashboard">
+⌂　Dashboard
+</button>
+
+<button data-page="Server Finder">
+◈　Server Finder
+</button>
+
+<button data-page="Games">
+▦　Games
+</button>
+
+<button data-page="Alerts">
+♢　Alerts
+</button>
+
+<button data-page="Settings">
+⚙　Settings
+</button>
+
+</nav>
+
+<div class="label" style="margin-top:20px">
+Games
+</div>
+
+<nav class="nav">
+
+<button onclick="selectGame('Adopt Me')">
+🐾　Adopt Me
+</button>
+
+<button onclick="selectGame('Blade Ball')">
+⚔　Blade Ball
+</button>
+
+<button onclick="selectGame('MM2')">
+🔪　MM2
+</button>
+
+<button onclick="selectGame('Pet Simulator 99')">
+🐱　Pet Simulator 99
+</button>
+
+</nav>
+
+<div class="status">
+<span>System</span>
+<span class="online">
+<i class="dot"></i>Online
+</span>
+</div>
+
+</aside>
+
+<main class="main">
+
+<header class="top">
+
+<div style="display:flex;gap:10px;align-items:center">
+
+<button
+class="btn mobile"
+onclick="document.getElementById('side').classList.toggle('open')">
+☰
+</button>
+
+<div>
+
+<div class="title" id="pageTitle">
+Dashboard
+</div>
+
+<div class="sub">
+DONIE Roblox toolkit
+</div>
+
+</div>
+</div>
+
+<div class="actions">
+
+<button class="btn" onclick="refreshServers()">
+↻ Refresh
+</button>
+
+<button class="btn" onclick="refreshServers()">
+⚡ Scan
+</button>
+
+</div>
+
+</header>
+
+<section class="content">
+
+<div class="hero">
+
+<div>
+
+<h1>
+Rich Server Finder
+</h1>
+
+<p>
+Find public Roblox servers and sort them by player count,
+reported value, FPS and ping. Servers come from your DONIE Worker.
+</p>
+
+</div>
+
+<div>
+
+<button class="btn" onclick="clearServers()">
+Clear
+</button>
+
+<button class="primary" onclick="refreshServers()">
+Scan Servers
+</button>
+
+</div>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<small>Servers</small>
+<strong id="serverCount">0</strong>
+</div>
+
+<div class="stat">
+<small>17K+ Servers</small>
+<strong id="hitCount">0</strong>
+</div>
+
+<div class="stat">
+<small>Players</small>
+<strong id="playerCount">0</strong>
+</div>
+
+<div class="stat">
+<small>Highest Value</small>
+<strong id="highestValue">$0</strong>
+</div>
+
+</div>
+
+<div class="grid">
+
+<div>
+
+<div class="card">
+
+<div class="head">
+
+<div>
+<b>Game Selection</b>
+<small>Choose the Roblox experience to scan.</small>
+</div>
+
+<span class="badge green" id="selectedGame">
+Adopt Me
+</span>
+
+</div>
+
+<div class="body">
+
+<div class="games">
+
+<div class="game selected" data-game="Adopt Me">
+
+<div class="gametop">
+
+<div class="icon">
+🐾
+</div>
+
+<div>
+<b>Adopt Me</b>
+<small>Place ID: 920587237</small>
+</div>
+
+</div>
+
+<div class="gamefoot">
+
+<span class="tag">
+Rich pet servers
+</span>
+
+<button
+class="select"
+onclick="selectGame('Adopt Me')">
+Select
+</button>
+
+</div>
+
+</div>
+
+<div class="game" data-game="Blade Ball">
+
+<div class="gametop">
+
+<div class="icon">
+⚔
+</div>
+
+<div>
+<b>Blade Ball</b>
+<small>Place ID: 13772394625</small>
+</div>
+
+</div>
+
+<div class="gamefoot">
+
+<span class="tag">
+Reported value
+</span>
+
+<button
+class="select"
+onclick="selectGame('Blade Ball')">
+Select
+</button>
+
+</div>
+
+</div>
+
+<div class="game" data-game="MM2">
+
+<div class="gametop">
+
+<div class="icon">
+🔪
+</div>
+
+<div>
+<b>MM2</b>
+<small>Murder Mystery 2</small>
+</div>
+
+</div>
+
+<div class="gamefoot">
+
+<span class="tag">
+Inventory reports
+</span>
+
+<button
+class="select"
+onclick="selectGame('MM2')">
+Select
+</button>
+
+</div>
+
+</div>
+
+<div class="game" data-game="Pet Simulator 99">
+
+<div class="gametop">
+
+<div class="icon">
+🐱
+</div>
+
+<div>
+<b>Pet Simulator 99</b>
+<small>Rich server scanner</small>
+</div>
+
+</div>
+
+<div class="gamefoot">
+
+<span class="tag">
+Rich servers
+</span>
+
+<button
+class="select"
+onclick="selectGame('Pet Simulator 99')">
+Select
+</button>
+
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="card">
+
+<div class="head">
+
+<div>
+<b>Public Servers</b>
+<small>Live results returned by your Worker.</small>
+</div>
+
+<span class="badge" id="scanStatus">
+Waiting
+</span>
+
+</div>
+
+<div class="body">
+
+<div class="filters">
+
+<select class="field" id="sort">
+
+<option value="players">
+Most Players
+</option>
+
+<option value="value">
+Highest Value
+</option>
+
+<option value="fps">
+Highest FPS
+</option>
+
+<option value="ping">
+Lowest Ping
+</option>
+
+<option value="newest">
+Newest
+</option>
+
+</select>
+
+<select class="field" id="players">
+
+<option value="0">
+Any Players
+</option>
+
+<option value="10">
+10+ Players
+</option>
+
+<option value="20">
+20+ Players
+</option>
+
+<option value="30">
+30+ Players
+</option>
+
+</select>
+
+<input
+class="field"
+id="value"
+type="number"
+min="0"
+placeholder="Min value">
+
+<button class="btn" onclick="applyFilters()">
+Apply
+</button>
+
+</div>
+
+<div class="servers" id="serverList">
+
+<div class="empty">
+Press <b>Scan Servers</b> to load live results.
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+<div>
+
+<div class="card">
+
+<div class="head">
+
+<div>
+<b>Quick Controls</b>
+<small>Finder settings</small>
+</div>
+
+</div>
+
+<div class="body">
+
+<div class="quick">
+
+<div class="quickrow">
+
+<div>
+<b>Auto Refresh</b>
+<small>Refresh every 30 seconds</small>
+</div>
+
+<div
+class="toggle"
+id="autoToggle"
+onclick="toggleAuto()">
+</div>
+
+</div>
+
+<div class="quickrow">
+
+<div>
+<b>17K+ High Value</b>
+<small>Only show rich servers</small>
+</div>
+
+<div
+class="toggle"
+id="highToggle"
+onclick="toggleHigh()">
+</div>
+
+</div>
+
+<div class="quickrow">
+
+<div>
+<b>Rich Alerts</b>
+<small>Show finder notifications</small>
+</div>
+
+<div class="toggle on"></div>
+
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="card">
+
+<div class="head">
+
+<div>
+<b>Recent Hits</b>
+<small>Latest rich-server results</small>
+</div>
+
+<span class="badge">
+17K+
+</span>
+
+</div>
+
+<div class="body" id="recentHits">
+
+<div class="alert">
+
+<b>Waiting for reports</b>
+
+<small>
+Rich servers will appear here after scanning.
+</small>
+
+<strong>
+—
+</strong>
+
+</div>
+
+</div>
+</div>
+
+<div class="card">
+
+<div class="head">
+
+<div>
+<b>Finder Config</b>
+<small>Current filters</small>
+</div>
+
+</div>
+
+<div class="body">
+
+<div class="setting">
+
+<div>
+<b>Minimum Value</b>
+<small>17,000+ when 17K mode is enabled</small>
+</div>
+
+<input
+class="field"
+id="minValue"
+type="number"
+value="17000"
+min="0"
+style="width:95px">
+
+</div>
+
+<div class="setting">
+
+<div>
+<b>Minimum Players</b>
+<small>Server population</small>
+</div>
+
+<input
+class="field"
+id="minPlayers"
+type="number"
+value="0"
+min="0"
+style="width:95px">
+
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
 /* =========================================
-   DONIE RICH FINDER - FIXED
+   DONIE RICH FINDER
+   FIXED FRONTEND
    ========================================= */
-
-const WORKER_URL="https://black-sun-c74c.redonekowaithe1.workers.dev";
-
-const GAMES={
-  "Adopt Me":"920587237",
-  "Blade Ball":"13772394625",
-  "MM2":"",
-  "Pet Simulator 99":""
-};
-
-let selected="Adopt Me";
-let all=[];
-let autoTimer=null;
 
 /*
   IMPORTANT:
-  Normal Roblox servers have value/rap = 0.
-  Therefore the dashboard starts by showing ALL
-  live Roblox servers instead of hiding them.
+  This is the Worker that was confirmed working.
 */
-let highOnly=false;
+const WORKER_URL =
+  "https://black-sun-c74c.redonekowaithe1.workers.dev";
 
-/* ---------- HELPERS ---------- */
+const GAMES = {
+  "Adopt Me": "920587237",
+  "Blade Ball": "13772394625",
+  "MM2": "",
+  "Pet Simulator 99": ""
+};
 
-const $=id=>document.getElementById(id);
+let selected = "Adopt Me";
+let all = [];
+let autoTimer = null;
+
+/*
+  FALSE FILTER FIX:
+  Roblox public server data normally has:
+  rap = 0
+  value = 0
+
+  Therefore this starts OFF.
+  That lets all live Roblox servers appear.
+*/
+let highOnly = false;
+
+
+/* =========================================
+   HELPERS
+   ========================================= */
+
+const $ = id => document.getElementById(id);
 
 function toast(msg){
-  $("toast").textContent=msg;
-  $("toast").classList.add("show");
-  clearTimeout(window._toast);
-  window._toast=setTimeout(
-    ()=>$("toast").classList.remove("show"),
-    2200
-  );
+
+  const el = $("toast");
+
+  if(!el) return;
+
+  el.textContent = msg;
+  el.classList.add("show");
+
+  clearTimeout(window._donieToast);
+
+  window._donieToast = setTimeout(() => {
+    el.classList.remove("show");
+  }, 2500);
 }
+
 
 function num(v){
-  const n=Number(v);
-  return Number.isFinite(n)?n:0;
+
+  const n = Number(v);
+
+  return Number.isFinite(n) ? n : 0;
 }
 
+
 function valueOf(s){
+
   return num(
     s.value ??
     s.rap ??
@@ -55,7 +1307,9 @@ function valueOf(s){
   );
 }
 
+
 function playersOf(s){
+
   return num(
     s.players ??
     s.playing ??
@@ -64,7 +1318,9 @@ function playersOf(s){
   );
 }
 
+
 function maxPlayersOf(s){
+
   return num(
     s.maxPlayers ??
     s.maxPlayersAllowed ??
@@ -72,15 +1328,27 @@ function maxPlayersOf(s){
   ) || 48;
 }
 
+
 function fpsOf(s){
-  return num(s.fps ?? s.FPS);
+
+  return num(
+    s.fps ??
+    s.FPS
+  );
 }
+
 
 function pingOf(s){
-  return num(s.ping ?? s.Ping);
+
+  return num(
+    s.ping ??
+    s.Ping
+  );
 }
 
+
 function idOf(s){
+
   return String(
     s.id ??
     s.jobId ??
@@ -91,30 +1359,56 @@ function idOf(s){
   );
 }
 
-function updatedOf(s){
-  let v=s.updatedAt ?? s.timestamp ?? s.createdAt ?? 0;
 
-  if(typeof v==="string"){
-    const parsed=Date.parse(v);
-    if(!Number.isNaN(parsed)) return parsed;
+function updatedOf(s){
+
+  const v =
+    s.updatedAt ??
+    s.timestamp ??
+    s.createdAt ??
+    0;
+
+  if(typeof v === "string"){
+
+    const date = Date.parse(v);
+
+    if(!Number.isNaN(date)){
+      return date;
+    }
   }
 
   return num(v);
 }
 
+
 function money(v){
-  v=num(v);
 
-  if(v>=1000000)
-    return "$"+(v/1000000).toFixed(1).replace(".0","")+"M";
+  v = num(v);
 
-  if(v>=1000)
-    return "$"+(v/1000).toFixed(1).replace(".0","")+"K";
+  if(v >= 1000000){
 
-  return "$"+v.toLocaleString();
+    return "$" +
+      (v / 1000000)
+      .toFixed(1)
+      .replace(".0","") +
+      "M";
+  }
+
+  if(v >= 1000){
+
+    return "$" +
+      (v / 1000)
+      .toFixed(1)
+      .replace(".0","") +
+      "K";
+  }
+
+  return "$" + v.toLocaleString();
 }
 
+
 function esc(v){
+
   return String(v)
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
@@ -123,49 +1417,72 @@ function esc(v){
     .replaceAll("'","&#039;");
 }
 
-/* ---------- GAME ---------- */
+
+/* =========================================
+   GAME SELECTION
+   ========================================= */
 
 function selectGame(game){
 
-  selected=game;
+  selected = game;
 
-  $("selectedGame").textContent=game;
+  $("selectedGame").textContent = game;
 
-  document.querySelectorAll(".game").forEach(x=>{
-    x.classList.toggle(
-      "selected",
-      x.dataset.game===game
-    );
-  });
+  document
+    .querySelectorAll(".game")
+    .forEach(card => {
 
-  toast(game+" selected");
+      card.classList.toggle(
+        "selected",
+        card.dataset.game === game
+      );
+
+    });
+
+  toast(game + " selected");
 
   if(GAMES[game]){
     refreshServers();
-  }
-}
+  }else{
 
-/* ---------- SERVER REQUEST ---------- */
+    all = [];
 
-async function refreshServers(){
-
-  const status=$("scanStatus");
-
-  status.textContent="Scanning";
-  status.className="badge";
-
-  const place=GAMES[selected];
-
-  if(!place){
-
-    status.textContent="No ID";
-
-    all=[];
+    $("scanStatus").textContent = "No ID";
 
     render();
     updateHits();
 
-    toast(selected+" has no Place ID configured");
+    toast(game + " has no Place ID configured");
+  }
+}
+
+
+/* =========================================
+   SERVER REQUEST
+   ========================================= */
+
+async function refreshServers(){
+
+  const status = $("scanStatus");
+
+  status.textContent = "Scanning";
+  status.className = "badge";
+
+  const place = GAMES[selected];
+
+  if(!place){
+
+    status.textContent = "No ID";
+
+    all = [];
+
+    render();
+    updateHits();
+
+    toast(
+      selected +
+      " has no Place ID configured"
+    );
 
     return;
   }
@@ -173,50 +1490,68 @@ async function refreshServers(){
   try{
 
     /*
-      FIX #1:
-      Use the WORKING /servers endpoint.
+      CORRECT WORKER ENDPOINT:
+
+      /servers?placeId=920587237
+
+      NOT /roblox-servers
     */
-    const url=
-      WORKER_URL.replace(/\/$/,"")+
-      "/servers?placeId="+
+    const url =
+      WORKER_URL.replace(/\/$/,"") +
+      "/servers?placeId=" +
       encodeURIComponent(place);
 
-    console.log("DONIE requesting:",url);
+    console.log(
+      "[DONIE] Requesting:",
+      url
+    );
 
-    const r=await fetch(url,{
-      method:"GET",
-      headers:{
-        "Accept":"application/json"
-      },
-      cache:"no-store"
-    });
+    const response = await fetch(
+      url,
+      {
+        method:"GET",
+        headers:{
+          "Accept":"application/json"
+        },
+        cache:"no-store"
+      }
+    );
 
     /*
-      Read the response as text first so a Cloudflare
-      error page cannot cause an unexplained JSON error.
+      Read as text first.
+      This makes Cloudflare errors easier to diagnose.
     */
-    const text=await r.text();
+    const text = await response.text();
 
     let data;
 
     try{
-      data=JSON.parse(text);
-    }catch(err){
-      console.error("Worker returned non-JSON:",text);
+
+      data = JSON.parse(text);
+
+    }catch(parseError){
+
+      console.error(
+        "[DONIE] Worker returned non-JSON:",
+        text
+      );
+
       throw new Error(
         "Worker returned invalid JSON"
       );
     }
 
-    if(!r.ok){
+    if(!response.ok){
+
       throw new Error(
         data.error ||
         data.message ||
-        ("HTTP "+r.status)
+        "HTTP " + response.status
       );
     }
 
-    if(data.success===false){
+    if(data.success === false){
+
       throw new Error(
         data.error ||
         data.message ||
@@ -225,125 +1560,189 @@ async function refreshServers(){
     }
 
     /*
-      Accept the response format from your Worker.
+      Your Worker returns:
+      {
+        success:true,
+        count:292,
+        liveCount:300,
+        reportedCount:0,
+        servers:[...]
+      }
     */
     if(Array.isArray(data.servers)){
-      all=data.servers;
+
+      all = data.servers;
+
     }else if(Array.isArray(data.data)){
-      all=data.data;
+
+      all = data.data;
+
     }else{
-      all=[];
+
+      all = [];
     }
 
     console.log(
-      "DONIE servers received:",
-      all.length,
-      data
+      "[DONIE] Servers received:",
+      all.length
     );
 
-    status.textContent=
-      "Live • "+all.length;
+    status.textContent =
+      "Live • " +
+      all.length;
 
-    status.className="badge green";
-
-    render();
-    updateStats();
-    updateHits();
-
-    toast(all.length+" server(s) loaded");
-
-  }catch(e){
-
-    console.error("DONIE Worker error:",e);
-
-    all=[];
-
-    status.textContent="Error";
-    status.className="badge";
+    status.className =
+      "badge green";
 
     render();
     updateStats();
     updateHits();
 
     toast(
-      "Worker error: "+
-      (e.message||"request failed")
+      all.length +
+      " server(s) loaded"
+    );
+
+  }catch(error){
+
+    console.error(
+      "[DONIE] Worker request failed:",
+      error
+    );
+
+    all = [];
+
+    status.textContent = "Error";
+    status.className = "badge";
+
+    render();
+    updateStats();
+    updateHits();
+
+    toast(
+      "Worker error: " +
+      (error.message || "request failed")
     );
   }
 }
 
-/* ---------- FILTER ---------- */
+
+/* =========================================
+   FILTER
+   ========================================= */
 
 function filtered(){
 
-  const playerMin=Math.max(
-    num($("players").value),
-    num($("minPlayers").value)
-  );
+  const playerSelect =
+    num($("players").value);
 
-  const manualValue=num($("value").value);
-  const configValue=num($("minValue").value);
+  const configPlayers =
+    num($("minPlayers").value);
+
+  const playerMin =
+    Math.max(
+      playerSelect,
+      configPlayers
+    );
+
+  const manualValue =
+    num($("value").value);
+
+  const configValue =
+    num($("minValue").value);
 
   /*
-    When High Value is OFF:
-    show normal Roblox servers.
+    Normal mode:
+    Show every live Roblox server.
 
-    When High Value is ON:
-    only show servers with 17K+ reported value.
+    High mode:
+    Require 17K+ reported value.
   */
-  let minimum=manualValue;
+  let minimumValue =
+    manualValue;
 
   if(highOnly){
-    minimum=Math.max(
-      17000,
-      configValue,
-      manualValue
-    );
+
+    minimumValue =
+      Math.max(
+        17000,
+        configValue,
+        manualValue
+      );
   }
 
-  let list=all.filter(s=>{
+  let list = all.filter(server => {
 
-    const players=playersOf(s);
-    const value=valueOf(s);
+    const players =
+      playersOf(server);
+
+    const value =
+      valueOf(server);
 
     return (
-      players>=playerMin &&
-      value>=minimum
+      players >= playerMin &&
+      value >= minimumValue
     );
   });
 
-  const sort=$("sort").value;
+  const sortMode =
+    $("sort").value;
 
-  list.sort((a,b)=>{
+  list.sort((a,b) => {
 
-    if(sort==="players")
-      return playersOf(b)-playersOf(a);
+    if(sortMode === "players"){
 
-    if(sort==="value")
-      return valueOf(b)-valueOf(a);
-
-    if(sort==="fps")
-      return fpsOf(b)-fpsOf(a);
-
-    if(sort==="ping"){
       return (
-        (pingOf(a)||9999)-
-        (pingOf(b)||9999)
+        playersOf(b) -
+        playersOf(a)
       );
     }
 
-    return updatedOf(b)-updatedOf(a);
+    if(sortMode === "value"){
+
+      return (
+        valueOf(b) -
+        valueOf(a)
+      );
+    }
+
+    if(sortMode === "fps"){
+
+      return (
+        fpsOf(b) -
+        fpsOf(a)
+      );
+    }
+
+    if(sortMode === "ping"){
+
+      return (
+        (pingOf(a) || 999999) -
+        (pingOf(b) || 999999)
+      );
+    }
+
+    return (
+      updatedOf(b) -
+      updatedOf(a)
+    );
   });
 
   return list;
 }
 
-/* ---------- RENDER ---------- */
+
+/* =========================================
+   RENDER
+   ========================================= */
 
 function render(){
 
-  const list=$("serverList");
-  const data=filtered();
+  const list =
+    $("serverList");
+
+  const data =
+    filtered();
 
   if(!data.length){
 
@@ -351,26 +1750,35 @@ function render(){
 
       if(highOnly){
 
-        list.innerHTML=
-          '<div class="empty">'+
-          '<b>No 17K+ reported servers found.</b><br>'+
-          'Turn off <b>17K+ High Value</b> to see all live Roblox servers.'+
-          '</div>';
+        list.innerHTML = `
+          <div class="empty">
+            <b>No 17K+ reported servers found.</b><br>
+            Your Worker has live Roblox servers,
+            but they do not currently have reported
+            values of 17K+.<br><br>
+            Turn off <b>17K+ High Value</b>
+            to see all live servers.
+          </div>
+        `;
 
       }else{
 
-        list.innerHTML=
-          '<div class="empty">'+
-          'No servers match your player/filter settings.'+
-          '</div>';
+        list.innerHTML = `
+          <div class="empty">
+            No servers match your current
+            player filters.
+          </div>
+        `;
       }
 
     }else{
 
-      list.innerHTML=
-        '<div class="empty">'+
-        'Press <b>Scan Servers</b> to load live results.'+
-        '</div>';
+      list.innerHTML = `
+        <div class="empty">
+          Press <b>Scan Servers</b>
+          to load live results.
+        </div>
+      `;
     }
 
     updateStats();
@@ -378,154 +1786,218 @@ function render(){
     return;
   }
 
-  list.innerHTML=data.map(s=>{
+  list.innerHTML =
+    data.map(server => {
 
-    const id=idOf(s);
-    const p=playersOf(s);
-    const max=maxPlayersOf(s);
-    const value=valueOf(s);
-    const fps=fpsOf(s);
-    const ping=pingOf(s);
+      const id =
+        idOf(server);
 
-    const valueLabel=
-      value>0
-      ?money(value)
-      :"Unreported";
+      const players =
+        playersOf(server);
 
-    const fpsLabel=
-      fps>0
-      ?fps.toFixed(1)
-      :"—";
+      const maxPlayers =
+        maxPlayersOf(server);
 
-    const pingLabel=
-      ping>0
-      ?ping+"ms"
-      :"—";
+      const value =
+        valueOf(server);
 
-    return `
-      <div class="server">
+      const fps =
+        fpsOf(server);
 
-        <div>
-          <b>${esc(selected)} Server</b>
-          <small>${esc(id)}</small>
+      const ping =
+        pingOf(server);
+
+      const valueText =
+        value > 0
+          ? money(value)
+          : "Unreported";
+
+      const fpsText =
+        fps > 0
+          ? fps.toFixed(1)
+          : "—";
+
+      const pingText =
+        ping > 0
+          ? ping + "ms"
+          : "—";
+
+      return `
+        <div class="server">
+
+          <div>
+
+            <b>
+              ${esc(selected)} Server
+            </b>
+
+            <small>
+              ${esc(id)}
+            </small>
+
+          </div>
+
+          <div class="sstat">
+
+            <span>
+              Players
+            </span>
+
+            ${players}/${maxPlayers}
+
+          </div>
+
+          <div class="sstat">
+
+            <span>
+              Value
+            </span>
+
+            ${valueText}
+
+          </div>
+
+          <div class="sstat">
+
+            <span>
+              FPS
+            </span>
+
+            ${fpsText}
+
+          </div>
+
+          <div class="sstat">
+
+            <span>
+              Ping
+            </span>
+
+            ${pingText}
+
+          </div>
+
+          <button
+            class="join"
+            onclick="joinServer(${JSON.stringify(id)})">
+
+            Join
+
+          </button>
+
         </div>
+      `;
 
-        <div class="sstat">
-          <span>Players</span>
-          ${p}/${max}
-        </div>
-
-        <div class="sstat">
-          <span>Value</span>
-          ${valueLabel}
-        </div>
-
-        <div class="sstat">
-          <span>FPS</span>
-          ${fpsLabel}
-        </div>
-
-        <div class="sstat">
-          <span>Ping</span>
-          ${pingLabel}
-        </div>
-
-        <button
-          class="join"
-          onclick="joinServer(${JSON.stringify(id)})">
-          Join
-        </button>
-
-      </div>
-    `;
-
-  }).join("");
+    }).join("");
 
   updateStats();
 }
 
-/* ---------- STATS ---------- */
+
+/* =========================================
+   STATS
+   ========================================= */
 
 function updateStats(){
 
-  /*
-    Servers = currently displayed servers.
-  */
-  const data=filtered();
+  const data =
+    filtered();
 
-  $("serverCount").textContent=data.length;
+  $("serverCount").textContent =
+    data.length.toLocaleString();
 
-  $("playerCount").textContent=
+  $("playerCount").textContent =
     data.reduce(
-      (total,s)=>total+playersOf(s),
+      (total,server) =>
+        total + playersOf(server),
+      0
+    ).toLocaleString();
+
+  /*
+    17K+ is based on reported server values.
+  */
+  $("hitCount").textContent =
+    all.filter(
+      server =>
+        valueOf(server) >= 17000
+    ).length.toLocaleString();
+
+  const highest =
+    all.reduce(
+      (max,server) =>
+        Math.max(
+          max,
+          valueOf(server)
+        ),
       0
     );
 
-  /*
-    17K+ count is calculated from ALL
-    received servers, not only the current
-    filter.
-  */
-  $("hitCount").textContent=
-    all.filter(
-      s=>valueOf(s)>=17000
-    ).length;
-
-  const highest=all.reduce(
-    (max,s)=>Math.max(
-      max,
-      valueOf(s)
-    ),
-    0
-  );
-
-  $("highestValue").textContent=
+  $("highestValue").textContent =
     money(highest);
 }
 
-/* ---------- RECENT HITS ---------- */
+
+/* =========================================
+   RECENT HITS
+   ========================================= */
 
 function updateHits(){
 
-  const rich=[...all]
-    .filter(
-      s=>valueOf(s)>=17000
-    )
-    .sort(
-      (a,b)=>valueOf(b)-valueOf(a)
-    )
-    .slice(0,4);
+  const rich =
+    [...all]
+      .filter(
+        server =>
+          valueOf(server) >= 17000
+      )
+      .sort(
+        (a,b) =>
+          valueOf(b) -
+          valueOf(a)
+      )
+      .slice(0,4);
 
   if(!rich.length){
 
-    $("recentHits").innerHTML=`
+    $("recentHits").innerHTML = `
       <div class="alert">
-        <b>No 17K+ reports yet</b>
+
+        <b>
+          No 17K+ reports yet
+        </b>
+
         <small>
-          Live Roblox servers are shown normally.
-          Rich values appear when your reporter sends data.
+          Live Roblox servers are working.
+          Rich values appear when your
+          reporter sends server data.
         </small>
-        <strong>—</strong>
+
+        <strong>
+          —
+        </strong>
+
       </div>
     `;
 
     return;
   }
 
-  $("recentHits").innerHTML=
-    rich.map(s=>`
+  $("recentHits").innerHTML =
+    rich.map(server => `
 
       <div class="alert">
 
-        <b>${esc(selected)} rich server</b>
+        <b>
+          ${esc(selected)} rich server
+        </b>
 
         <small>
-          ${playersOf(s)} players •
-          ${pingOf(s)||"—"}ms ping
+          ${playersOf(server)}
+          players •
+          ${pingOf(server) || "—"}ms ping
         </small>
 
         <strong>
-          ${money(valueOf(s))}
+          ${money(valueOf(server))}
         </strong>
 
       </div>
@@ -533,30 +2005,34 @@ function updateHits(){
     `).join("");
 }
 
-/* ---------- JOIN ---------- */
+
+/* =========================================
+   JOIN SERVER
+   ========================================= */
 
 function joinServer(id){
 
-  const place=GAMES[selected];
+  const place =
+    GAMES[selected];
 
   if(
     !place ||
     !id ||
-    id==="unknown"
+    id === "unknown"
   ){
-    toast("Server ID unavailable");
+
+    toast(
+      "Server ID unavailable"
+    );
+
     return;
   }
 
-  /*
-    Roblox decides whether the specific
-    public server can be opened.
-  */
-  const url=
-    "https://www.roblox.com/games/start"+
-    "?placeId="+
-    encodeURIComponent(place)+
-    "&gameInstanceId="+
+  const url =
+    "https://www.roblox.com/games/start" +
+    "?placeId=" +
+    encodeURIComponent(place) +
+    "&gameInstanceId=" +
     encodeURIComponent(id);
 
   window.open(
@@ -566,7 +2042,10 @@ function joinServer(id){
   );
 }
 
-/* ---------- CONTROLS ---------- */
+
+/* =========================================
+   FILTER CONTROLS
+   ========================================= */
 
 function applyFilters(){
 
@@ -574,9 +2053,11 @@ function applyFilters(){
   updateStats();
 }
 
+
 function toggleHigh(){
 
-  highOnly=!highOnly;
+  highOnly =
+    !highOnly;
 
   $("highToggle")
     .classList
@@ -595,70 +2076,104 @@ function toggleHigh(){
   );
 }
 
+
+/* =========================================
+   AUTO REFRESH
+   ========================================= */
+
 function toggleAuto(){
 
-  const el=$("autoToggle");
+  const toggle =
+    $("autoToggle");
 
-  if(el.classList.contains("on")){
+  if(
+    toggle.classList.contains("on")
+  ){
 
-    el.classList.remove("on");
+    toggle.classList.remove("on");
 
-    clearInterval(autoTimer);
+    clearInterval(
+      autoTimer
+    );
 
-    autoTimer=null;
+    autoTimer = null;
 
-    toast("Auto refresh disabled");
+    toast(
+      "Auto refresh disabled"
+    );
 
     return;
   }
 
-  el.classList.add("on");
+  toggle.classList.add("on");
 
   refreshServers();
 
-  autoTimer=setInterval(
-    refreshServers,
-    30000
-  );
+  autoTimer =
+    setInterval(
+      refreshServers,
+      30000
+    );
 
-  toast("Auto refresh enabled");
+  toast(
+    "Auto refresh enabled"
+  );
 }
+
+
+/* =========================================
+   CLEAR
+   ========================================= */
 
 function clearServers(){
 
-  all=[];
+  all = [];
 
-  $("scanStatus").textContent="Cleared";
-  $("scanStatus").className="badge";
+  $("scanStatus").textContent =
+    "Cleared";
+
+  $("scanStatus").className =
+    "badge";
 
   render();
   updateHits();
 
-  toast("Server list cleared");
+  toast(
+    "Server list cleared"
+  );
 }
 
-/* ---------- NAV ---------- */
+
+/* =========================================
+   NAVIGATION
+   ========================================= */
 
 document
   .querySelectorAll(
     ".nav button[data-page]"
   )
-  .forEach(btn=>{
+  .forEach(button => {
 
-    btn.onclick=()=>{
+    button.onclick = () => {
 
       document
         .querySelectorAll(
           ".nav button[data-page]"
         )
-        .forEach(x=>
-          x.classList.remove("active")
-        );
+        .forEach(item => {
 
-      btn.classList.add("active");
+          item.classList.remove(
+            "active"
+          );
 
-      $("pageTitle").textContent=
-        btn.dataset.page;
+        });
+
+      button.classList.add(
+        "active"
+      );
+
+      $("pageTitle").textContent =
+        button.dataset.page;
 
       $("side")
         .classList
@@ -666,7 +2181,10 @@ document
     };
   });
 
-/* ---------- FILTER EVENTS ---------- */
+
+/* =========================================
+   FILTER EVENTS
+   ========================================= */
 
 [
   "sort",
@@ -674,29 +2192,39 @@ document
   "value",
   "minValue",
   "minPlayers"
-].forEach(id=>{
+].forEach(id => {
 
-  $(id).addEventListener(
+  const element =
+    $(id);
+
+  if(!element) return;
+
+  element.addEventListener(
     "input",
     applyFilters
   );
 
-  $(id).addEventListener(
+  element.addEventListener(
     "change",
     applyFilters
   );
 });
 
-/* ---------- START ---------- */
+
+/* =========================================
+   START
+   ========================================= */
 
 render();
 updateStats();
 updateHits();
 
 /*
-  Automatically scan when the dashboard loads.
-  This removes the need to press Scan manually.
+  Automatically load live servers.
 */
 refreshServers();
 
 </script>
+
+</body>
+</html>
