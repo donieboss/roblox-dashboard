@@ -1,10 +1,8 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
 <title>DONIE • Rich Finder</title>
 
 <style>
@@ -44,9 +42,7 @@ body{
   overflow-x:hidden;
 }
 
-button,
-input,
-select{
+button,input,select{
   font:inherit;
 }
 
@@ -67,7 +63,7 @@ button{
   top:0;
   bottom:0;
   width:250px;
-  background:rgba(8,10,15,.96);
+  background:rgba(8,10,15,.97);
   border-right:1px solid var(--border);
   padding:22px 16px;
   z-index:20;
@@ -192,7 +188,7 @@ button{
   align-items:center;
   justify-content:space-between;
   padding:0 30px;
-  background:rgba(6,7,11,.75);
+  background:rgba(6,7,11,.78);
   backdrop-filter:blur(18px);
   position:sticky;
   top:0;
@@ -263,7 +259,7 @@ button{
 .hero p{
   margin-top:8px;
   color:var(--muted);
-  max-width:600px;
+  max-width:650px;
   font-size:13px;
   line-height:1.6;
 }
@@ -335,7 +331,6 @@ button{
   font-size:25px;
   font-weight:900;
   margin-top:12px;
-  letter-spacing:-.5px;
 }
 
 .stat-foot{
@@ -417,5 +412,2275 @@ button{
 
 .game-icon{
   width:40px;
-  height:
-```
+  height:40px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  background:#171c27;
+  font-size:18px;
+}
+
+.game-name{
+  font-weight:800;
+  font-size:13px;
+}
+
+.game-id{
+  color:#667185;
+  font-size:9px;
+  margin-top:3px;
+}
+
+.game-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:14px;
+}
+
+.game-tag{
+  color:#8b96a8;
+  font-size:10px;
+}
+
+.select-btn{
+  border:1px solid var(--border);
+  background:#111620;
+  color:#d5dbe4;
+  border-radius:7px;
+  padding:6px 9px;
+  font-size:10px;
+}
+
+.select-btn:hover{
+  border-color:var(--green);
+  color:var(--green);
+}
+
+/* SERVER FINDER */
+
+.filters{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:13px;
+}
+
+.field{
+  border:1px solid var(--border);
+  background:#0a0e14;
+  color:#cbd2dd;
+  border-radius:8px;
+  padding:9px 10px;
+  outline:none;
+  min-width:120px;
+}
+
+.field:focus{
+  border-color:#3b4658;
+}
+
+.server-list{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.server{
+  display:grid;
+  grid-template-columns:1.3fr .7fr .7fr .7fr auto;
+  gap:10px;
+  align-items:center;
+  border:1px solid #1c2330;
+  background:#0a0e14;
+  border-radius:9px;
+  padding:11px;
+}
+
+.server:hover{
+  border-color:#303a4a;
+}
+
+.server-name{
+  font-size:11px;
+  font-weight:800;
+}
+
+.server-id{
+  color:#5f6b7d;
+  font-size:9px;
+  margin-top:3px;
+  word-break:break-all;
+}
+
+.server-stat{
+  font-size:11px;
+  color:#b9c2ce;
+}
+
+.server-stat span{
+  display:block;
+  color:#5f6979;
+  font-size:9px;
+  margin-bottom:2px;
+}
+
+.join{
+  border:1px solid rgba(57,229,140,.22);
+  color:var(--green);
+  background:rgba(57,229,140,.07);
+  border-radius:7px;
+  padding:7px 10px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.join:hover{
+  background:rgba(57,229,140,.13);
+}
+
+/* RIGHT SIDE */
+
+.quick{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.quick-item{
+  border:1px solid var(--border);
+  background:#0a0e14;
+  border-radius:9px;
+  padding:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.quick-left strong{
+  display:block;
+  font-size:11px;
+}
+
+.quick-left span{
+  color:#626d7f;
+  font-size:9px;
+}
+
+.badge{
+  font-size:9px;
+  padding:5px 7px;
+  border-radius:6px;
+  background:#141a23;
+  color:#8893a4;
+}
+
+.badge.green{
+  color:var(--green);
+  background:rgba(57,229,140,.08);
+}
+
+.alert{
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:12px;
+  background:#0a0e14;
+  margin-bottom:8px;
+}
+
+.alert:last-child{
+  margin-bottom:0;
+}
+
+.alert-title{
+  font-size:11px;
+  font-weight:800;
+}
+
+.alert-time{
+  color:#626d7e;
+  font-size:9px;
+  margin-top:4px;
+}
+
+.alert-value{
+  color:var(--green);
+  font-size:11px;
+  font-weight:850;
+  margin-top:7px;
+}
+
+/* SETTINGS */
+
+.settings{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.setting{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  border:1px solid var(--border);
+  background:#0a0e14;
+  border-radius:9px;
+  padding:12px;
+}
+
+.setting strong{
+  font-size:11px;
+}
+
+.setting small{
+  display:block;
+  color:#667184;
+  font-size:9px;
+  margin-top:3px;
+}
+
+.toggle{
+  width:38px;
+  height:21px;
+  border-radius:30px;
+  border:1px solid #2b3341;
+  background:#141923;
+  position:relative;
+  cursor:pointer;
+  flex:none;
+}
+
+.toggle::after{
+  content:"";
+  position:absolute;
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  left:2px;
+  top:2px;
+  background:#697486;
+  transition:.2s;
+}
+
+.toggle.on{
+  background:rgba(57,229,140,.18);
+  border-color:rgba(57,229,140,.4);
+}
+
+.toggle.on::after{
+  left:19px;
+  background:var(--green);
+}
+
+/* MODAL */
+
+.modal-bg{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(7px);
+  display:none;
+  place-items:center;
+  z-index:100;
+}
+
+.modal{
+  width:min(470px,calc(100% - 30px));
+  border:1px solid var(--border);
+  background:#0b0f16;
+  border-radius:14px;
+  box-shadow:0 30px 100px rgba(0,0,0,.6);
+  padding:20px;
+}
+
+.modal h2{
+  font-size:17px;
+}
+
+.modal p{
+  color:#7e899a;
+  font-size:11px;
+  line-height:1.6;
+  margin-top:7px;
+}
+
+.modal-actions{
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+  margin-top:18px;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  background:#111720;
+  border:1px solid #293343;
+  color:#e4e9f0;
+  border-radius:9px;
+  padding:11px 14px;
+  font-size:11px;
+  box-shadow:0 15px 45px rgba(0,0,0,.4);
+  transform:translateY(20px);
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  z-index:200;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* MOBILE */
+
+.mobile-menu{
+  display:none;
+  border:1px solid var(--border);
+  background:#0c1017;
+  color:white;
+  border-radius:8px;
+  padding:7px 10px;
+}
+
+@media(max-width:1050px){
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:760px){
+
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.25s;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .main{
+    margin-left:0;
+    width:100%;
+  }
+
+  .mobile-menu{
+    display:block;
+  }
+
+  .content{
+    padding:18px;
+  }
+
+  .topbar{
+    padding:0 15px;
+  }
+
+  .hero{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .hero h1{
+    font-size:25px;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .games{
+    grid-template-columns:1fr;
+  }
+
+  .server{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .server-name{
+    grid-column:1/-1;
+  }
+}
+
+@media(max-width:480px){
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .top-actions .top-btn{
+    display:none;
+  }
+
+  .server{
+    grid-template-columns:1fr;
+  }
+
+  .server-name{
+    grid-column:auto;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="logo">
+    <div class="logo-mark">D</div>
+
+    <div class="logo-text">
+      <strong>DONIE</strong>
+      <span>RICH FINDER</span>
+    </div>
+  </div>
+
+  <div class="nav-label">Workspace</div>
+
+  <nav class="nav">
+
+    <button class="active" data-page="dashboard">
+      <span class="nav-icon">⌂</span>
+      Dashboard
+    </button>
+
+    <button data-page="servers">
+      <span class="nav-icon">◈</span>
+      Server Finder
+    </button>
+
+    <button data-page="games">
+      <span class="nav-icon">▦</span>
+      Games
+    </button>
+
+    <button data-page="alerts">
+      <span class="nav-icon">♢</span>
+      Alerts
+    </button>
+
+    <button data-page="settings">
+      <span class="nav-icon">⚙</span>
+      Settings
+    </button>
+
+  </nav>
+
+  <div class="nav-label" style="margin-top:22px;">
+    Games
+  </div>
+
+  <nav class="nav">
+
+    <button onclick="selectGame('Adopt Me')">
+      <span class="nav-icon">🐾</span>
+      Adopt Me
+    </button>
+
+    <button onclick="selectGame('Blade Ball')">
+      <span class="nav-icon">⚔</span>
+      Blade Ball
+    </button>
+
+    <button onclick="selectGame('MM2')">
+      <span class="nav-icon">🔪</span>
+      MM2
+    </button>
+
+    <button onclick="selectGame('Pet Simulator 99')">
+      <span class="nav-icon">🐱</span>
+      Pet Simulator 99
+    </button>
+
+  </nav>
+
+  <div class="sidebar-bottom">
+
+    <div class="status-box">
+
+      <div class="status-row">
+
+        <span style="color:#7f899a;">
+          System
+        </span>
+
+        <span style="display:flex;align-items:center;gap:6px;">
+          <i class="status-dot"></i>
+          Online
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+  <div style="display:flex;align-items:center;gap:10px;">
+
+    <button class="mobile-menu" id="mobileMenu">
+      ☰
+    </button>
+
+    <div>
+
+      <div class="page-title" id="pageTitle">
+        Dashboard
+      </div>
+
+      <div class="page-sub">
+        DONIE Roblox toolkit
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="top-actions">
+
+    <button class="top-btn" onclick="refreshServers()">
+      ↻ Refresh
+    </button>
+
+    <button class="top-btn" onclick="showModal()">
+      ⚡ Scan
+    </button>
+
+    <div class="user-pill">
+      DONIE
+    </div>
+
+  </div>
+
+</header>
+
+
+<section class="content">
+
+<!-- HERO -->
+
+<div class="hero">
+
+  <div>
+
+    <h1>
+      Rich Server Finder
+    </h1>
+
+    <p>
+      Find public Roblox servers, sort them by players and
+      reported value, and quickly open a server from your dashboard.
+    </p>
+
+  </div>
+
+  <div class="hero-actions">
+
+    <button class="secondary" onclick="clearServers()">
+      Clear
+    </button>
+
+    <button class="primary" onclick="refreshServers()">
+      Scan Servers
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- STATS -->
+
+<div class="stats">
+
+  <div class="stat">
+
+    <div class="stat-top">
+      <span class="stat-label">
+        Servers
+      </span>
+
+      <span class="stat-icon">
+        ◈
+      </span>
+    </div>
+
+    <div class="stat-value" id="serverCount">
+      0
+    </div>
+
+    <div class="stat-foot">
+      Currently displayed
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-top">
+      <span class="stat-label">
+        Hits 24h
+      </span>
+
+      <span class="stat-icon">
+        ✦
+      </span>
+    </div>
+
+    <div class="stat-value" id="hitCount">
+      0
+    </div>
+
+    <div class="stat-foot">
+      Reported rich servers
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-top">
+      <span class="stat-label">
+        Players
+      </span>
+
+      <span class="stat-icon">
+        ♙
+      </span>
+    </div>
+
+    <div class="stat-value" id="playerCount">
+      0
+    </div>
+
+    <div class="stat-foot">
+      Across displayed servers
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-top">
+      <span class="stat-label">
+        Highest Value
+      </span>
+
+      <span class="stat-icon">
+        ◆
+      </span>
+    </div>
+
+    <div class="stat-value" id="highestValue">
+      $0
+    </div>
+
+    <div class="stat-foot">
+      Reported server value
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- GRID -->
+
+<div class="grid">
+
+<div>
+
+
+<!-- GAME SELECTION -->
+
+<div class="card" style="margin-bottom:16px;">
+
+  <div class="card-head">
+
+    <div>
+
+      <div class="card-title">
+        Game Selection
+      </div>
+
+      <div class="card-desc">
+        Choose which Roblox experience to scan.
+      </div>
+
+    </div>
+
+    <span class="badge green" id="selectedGameBadge">
+      Adopt Me
+    </span>
+
+  </div>
+
+
+  <div class="card-body">
+
+    <div class="games">
+
+
+      <div class="game selected" data-game="Adopt Me">
+
+        <div class="game-top">
+
+          <div class="game-icon">
+            🐾
+          </div>
+
+          <div>
+
+            <div class="game-name">
+              Adopt Me
+            </div>
+
+            <div class="game-id">
+              Place ID: 920587237
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="game-bottom">
+
+          <span class="game-tag">
+            Rich pet servers
+          </span>
+
+          <button
+            class="select-btn"
+            onclick="selectGame('Adopt Me')">
+            Select
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="game" data-game="Blade Ball">
+
+        <div class="game-top">
+
+          <div class="game-icon">
+            ⚔
+          </div>
+
+          <div>
+
+            <div class="game-name">
+              Blade Ball
+            </div>
+
+            <div class="game-id">
+              Place ID: 13772394625
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="game-bottom">
+
+          <span class="game-tag">
+            Reported value
+          </span>
+
+          <button
+            class="select-btn"
+            onclick="selectGame('Blade Ball')">
+            Select
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="game" data-game="MM2">
+
+        <div class="game-top">
+
+          <div class="game-icon">
+            🔪
+          </div>
+
+          <div>
+
+            <div class="game-name">
+              MM2
+            </div>
+
+            <div class="game-id">
+              Murder Mystery 2
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="game-bottom">
+
+          <span class="game-tag">
+            Inventory reports
+          </span>
+
+          <button
+            class="select-btn"
+            onclick="selectGame('MM2')">
+            Select
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="game" data-game="Pet Simulator 99">
+
+        <div class="game-top">
+
+          <div class="game-icon">
+            🐱
+          </div>
+
+          <div>
+
+            <div class="game-name">
+              Pet Simulator 99
+            </div>
+
+            <div class="game-id">
+              RAP scanner
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="game-bottom">
+
+          <span class="game-tag">
+            Rich servers
+          </span>
+
+          <button
+            class="select-btn"
+            onclick="selectGame('Pet Simulator 99')">
+            Select
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- SERVER FINDER -->
+
+<div class="card">
+
+  <div class="card-head">
+
+    <div>
+
+      <div class="card-title">
+        Public Servers
+      </div>
+
+      <div class="card-desc">
+        Servers returned by your backend.
+      </div>
+
+    </div>
+
+    <span class="badge" id="scanStatus">
+      Waiting
+    </span>
+
+  </div>
+
+
+  <div class="card-body">
+
+    <div class="filters">
+
+      <select class="field" id="sortSelect">
+        <option value="players">
+          Most Players
+        </option>
+
+        <option value="value">
+          Highest Value
+        </option>
+
+        <option value="fps">
+          Highest FPS
+        </option>
+
+        <option value="newest">
+          Newest
+        </option>
+      </select>
+
+
+      <select class="field" id="playerFilter">
+
+        <option value="0">
+          Any Players
+        </option>
+
+        <option value="10">
+          10+ Players
+        </option>
+
+        <option value="20">
+          20+ Players
+        </option>
+
+        <option value="30">
+          30+ Players
+        </option>
+
+      </select>
+
+
+      <input
+        class="field"
+        id="valueFilter"
+        type="number"
+        min="0"
+        placeholder="Min value">
+
+
+      <button
+        class="secondary"
+        onclick="applyFilters()">
+        Apply
+      </button>
+
+    </div>
+
+
+    <div class="server-list" id="serverList">
+
+      <div class="server">
+
+        <div>
+
+          <div class="server-name">
+            No servers loaded
+          </div>
+
+          <div class="server-id">
+            Press Scan Servers to load your backend results.
+          </div>
+
+        </div>
+
+        <div class="server-stat">
+          <span>Players</span>
+          —
+        </div>
+
+        <div class="server-stat">
+          <span>Value</span>
+          —
+        </div>
+
+        <div class="server-stat">
+          <span>FPS</span>
+          —
+        </div>
+
+        <button
+          class="join"
+          onclick="showToast('Scan for a server first')">
+          Join
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+
+<!-- RIGHT COLUMN -->
+
+<div>
+
+
+<!-- QUICK CONTROLS -->
+
+<div class="card" style="margin-bottom:16px;">
+
+  <div class="card-head">
+
+    <div>
+
+      <div class="card-title">
+        Quick Controls
+      </div>
+
+      <div class="card-desc">
+        Finder settings
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card-body">
+
+    <div class="quick">
+
+
+      <div class="quick-item">
+
+        <div class="quick-left">
+
+          <strong>
+            Auto Refresh
+          </strong>
+
+          <span>
+            Refresh server list
+          </span>
+
+        </div>
+
+        <div
+          class="toggle"
+          data-toggle="refresh"
+          onclick="toggleSetting(this)">
+        </div>
+
+      </div>
+
+
+      <div class="quick-item">
+
+        <div class="quick-left">
+
+          <strong>
+            High Value Only
+          </strong>
+
+          <span>
+            Use minimum value filter
+          </span>
+
+        </div>
+
+        <div
+          class="toggle on"
+          data-toggle="highValue"
+          onclick="toggleSetting(this)">
+        </div>
+
+      </div>
+
+
+      <div class="quick-item">
+
+        <div class="quick-left">
+
+          <strong>
+            Rich Server Alerts
+          </strong>
+
+          <span>
+            Show hit notifications
+          </span>
+
+        </div>
+
+        <div
+          class="toggle on"
+          data-toggle="alerts"
+          onclick="toggleSetting(this)">
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- RECENT HITS -->
+
+<div class="card" style="margin-bottom:16px;">
+
+  <div class="card-head">
+
+    <div>
+
+      <div class="card-title">
+        Recent Hits
+      </div>
+
+      <div class="card-desc">
+        Latest reported values
+      </div>
+
+    </div>
+
+    <span class="badge">
+      24h
+    </span>
+
+  </div>
+
+
+  <div class="card-body">
+
+    <div class="alert">
+
+      <div class="alert-title">
+        Waiting for reports
+      </div>
+
+      <div class="alert-time">
+        Backend reports will appear here.
+      </div>
+
+      <div class="alert-value">
+        —
+      </div>
+
+    </div>
+
+
+    <div class="alert">
+
+      <div class="alert-title">
+        Discord alerts
+      </div>
+
+      <div class="alert-time">
+        Connect your Worker webhook separately.
+      </div>
+
+      <div class="alert-value">
+        READY
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- CONFIG -->
+
+<div class="card">
+
+  <div class="card-head">
+
+    <div>
+
+      <div class="card-title">
+        Finder Config
+      </div>
+
+      <div class="card-desc">
+        Current game settings
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card-body">
+
+    <div class="settings">
+
+
+      <div class="setting">
+
+        <div>
+
+          <strong>
+            Minimum Value
+          </strong>
+
+          <small id="minValueText">
+            17,000+
+          </small>
+
+        </div>
+
+        <input
+          id="minValue"
+          type="number"
+          value="17000"
+          min="0"
+          class="field"
+          style="width:100px;min-width:0;padding:7px;"
+          onchange="updateMinValue()">
+
+      </div>
+
+
+      <div class="setting">
+
+        <div>
+
+          <strong>
+            Player Minimum
+          </strong>
+
+          <small>
+            Minimum server population
+          </small>
+
+        </div>
+
+        <input
+          id="minPlayers"
+          type="number"
+          value="0"
+          min="0"
+          class="field"
+          style="width:100px;min-width:0;padding:7px;"
+          onchange="applyFilters()">
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div class="modal-bg" id="modalBg">
+
+  <div class="modal">
+
+    <h2>
+      Start Server Scan
+    </h2>
+
+    <p>
+      Scan your configured backend for public server data.
+      This dashboard does not request or collect Roblox account
+      cookies, passwords, or .ROBLOSECURITY.
+    </p>
+
+    <div class="modal-actions">
+
+      <button
+        class="secondary"
+        onclick="hideModal()">
+        Cancel
+      </button>
+
+      <button
+        class="primary"
+        onclick="hideModal();refreshServers();">
+        Start Scan
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div class="toast" id="toast">
+  Done
+</div>
+
+
+<script>
+
+/* =====================================================
+   DONIE RICH FINDER
+   =====================================================
+
+   IMPORTANT:
+   Put your Cloudflare Worker URL here.
+
+   Example:
+   const WORKER_URL =
+     "https://your-worker.workers.dev";
+
+   ===================================================== */
+
+const WORKER_URL = "";
+
+
+const GAMES = {
+
+  "Adopt Me":{
+    placeId:"920587237"
+  },
+
+  "Blade Ball":{
+    placeId:"13772394625"
+  },
+
+  "MM2":{
+    placeId:""
+  },
+
+  "Pet Simulator 99":{
+    placeId:""
+  }
+
+};
+
+
+let selectedGame = "Adopt Me";
+let allServers = [];
+let autoRefreshTimer = null;
+
+
+/* TOAST */
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer =
+    setTimeout(function(){
+
+      toast.classList.remove("show");
+
+    },2200);
+
+}
+
+
+/* MOBILE MENU */
+
+document
+  .getElementById("mobileMenu")
+  .addEventListener("click",function(){
+
+    document
+      .getElementById("sidebar")
+      .classList.toggle("open");
+
+  });
+
+
+/* NAVIGATION */
+
+document
+  .querySelectorAll(".nav button[data-page]")
+  .forEach(function(button){
+
+    button.addEventListener("click",function(){
+
+      document
+        .querySelectorAll(".nav button[data-page]")
+        .forEach(function(b){
+
+          b.classList.remove("active");
+
+        });
+
+      button.classList.add("active");
+
+      const page =
+        button.dataset.page;
+
+      const titles = {
+
+        dashboard:"Dashboard",
+        servers:"Server Finder",
+        games:"Games",
+        alerts:"Alerts",
+        settings:"Settings"
+
+      };
+
+      document
+        .getElementById("pageTitle")
+        .textContent =
+          titles[page] || "Dashboard";
+
+      document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    });
+
+  });
+
+
+/* SELECT GAME */
+
+function selectGame(game){
+
+  selectedGame = game;
+
+  document
+    .getElementById("selectedGameBadge")
+    .textContent = game;
+
+  document
+    .querySelectorAll(".game")
+    .forEach(function(card){
+
+      card.classList.toggle(
+        "selected",
+        card.dataset.game === game
+      );
+
+    });
+
+  showToast(game + " selected");
+
+}
+
+
+/* MODAL */
+
+function showModal(){
+
+  document
+    .getElementById("modalBg")
+    .style.display = "grid";
+
+}
+
+
+function hideModal(){
+
+  document
+    .getElementById("modalBg")
+    .style.display = "none";
+
+}
+
+
+/* SETTINGS */
+
+function toggleSetting(element){
+
+  element.classList.toggle("on");
+
+  const type =
+    element.dataset.toggle;
+
+  if(type === "refresh"){
+
+    if(element.classList.contains("on")){
+
+      startAutoRefresh();
+
+    }else{
+
+      stopAutoRefresh();
+
+    }
+
+  }
+
+  applyFilters();
+
+}
+
+
+/* MINIMUM VALUE */
+
+function updateMinValue(){
+
+  const value =
+    Number(
+      document.getElementById("minValue").value
+    ) || 0;
+
+  document
+    .getElementById("minValueText")
+    .textContent =
+      value.toLocaleString() + "+";
+
+  applyFilters();
+
+}
+
+
+/* REFRESH SERVERS */
+
+async function refreshServers(){
+
+  const status =
+    document.getElementById("scanStatus");
+
+  status.textContent = "Scanning";
+
+
+  /*
+    If no Worker URL has been entered,
+    use demo data so the dashboard still works.
+  */
+
+  if(!WORKER_URL){
+
+    status.textContent = "Demo";
+
+    demoServers();
+
+    showToast(
+      "Demo mode — add your Worker URL for live data"
+    );
+
+    return;
+
+  }
+
+
+  const game =
+    GAMES[selectedGame];
+
+
+  if(!game || !game.placeId){
+
+    status.textContent = "No ID";
+
+    showToast(
+      selectedGame +
+      " does not have a Place ID configured yet."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    const url =
+      WORKER_URL.replace(/\/$/,"") +
+      "/roblox-servers?placeId=" +
+      encodeURIComponent(game.placeId);
+
+
+    const response =
+      await fetch(url,{
+        method:"GET",
+        headers:{
+          "Accept":"application/json"
+        }
+      });
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP " + response.status
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    allServers =
+      Array.isArray(data.servers)
+        ? data.servers
+        : [];
+
+
+    status.textContent = "Live";
+
+    renderServers();
+
+    updateStats();
+
+
+    showToast(
+      allServers.length +
+      " server(s) loaded"
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    status.textContent = "Error";
+
+    showToast(
+      "Worker request failed"
+    );
+
+  }
+
+}
+
+
+/* DEMO SERVERS */
+
+function demoServers(){
+
+  allServers = [
+
+    {
+      id:"demo-server-01",
+      players:34,
+      maxPlayers:48,
+      value:28500,
+      fps:60,
+      updatedAt:Date.now()
+    },
+
+    {
+      id:"demo-server-02",
+      players:27,
+      maxPlayers:48,
+      value:22000,
+      fps:59,
+      updatedAt:Date.now()-30000
+    },
+
+    {
+      id:"demo-server-03",
+      players:19,
+      maxPlayers:48,
+      value:17500,
+      fps:60,
+      updatedAt:Date.now()-60000
+    },
+
+    {
+      id:"demo-server-04",
+      players:42,
+      maxPlayers:48,
+      value:51000,
+      fps:60,
+      updatedAt:Date.now()-90000
+    }
+
+  ];
+
+  renderServers();
+
+  updateStats();
+
+}
+
+
+/* FILTERS */
+
+function applyFilters(){
+
+  renderServers();
+
+  updateStats();
+
+}
+
+
+function getFilteredServers(){
+
+  const playerFilter =
+    Number(
+      document.getElementById("playerFilter").value
+    ) || 0;
+
+
+  const customPlayers =
+    Number(
+      document.getElementById("minPlayers").value
+    ) || 0;
+
+
+  const manualValue =
+    Number(
+      document.getElementById("valueFilter").value
+    ) || 0;
+
+
+  const configValue =
+    Number(
+      document.getElementById("minValue").value
+    ) || 0;
+
+
+  const highValueToggle =
+    document.querySelector(
+      '[data-toggle="highValue"]'
+    );
+
+
+  const highValueEnabled =
+    highValueToggle &&
+    highValueToggle.classList.contains("on");
+
+
+  const finalValue =
+    highValueEnabled
+      ? Math.max(
+          manualValue,
+          configValue
+        )
+      : manualValue;
+
+
+  const finalPlayers =
+    Math.max(
+      playerFilter,
+      customPlayers
+    );
+
+
+  let result =
+    allServers.filter(function(server){
+
+      const players =
+        Number(server.players) || 0;
+
+      const value =
+        Number(server.value) || 0;
+
+      return (
+        players >= finalPlayers &&
+        value >= finalValue
+      );
+
+    });
+
+
+  const sort =
+    document.getElementById("sortSelect").value;
+
+
+  result.sort(function(a,b){
+
+    if(sort === "players"){
+
+      return (
+        Number(b.players)||0
+      ) -
+      (
+        Number(a.players)||0
+      );
+
+    }
+
+
+    if(sort === "value"){
+
+      return (
+        Number(b.value)||0
+      ) -
+      (
+        Number(a.value)||0
+      );
+
+    }
+
+
+    if(sort === "fps"){
+
+      return (
+        Number(b.fps)||0
+      ) -
+      (
+        Number(a.fps)||0
+      );
+
+    }
+
+
+    return (
+      Number(b.updatedAt)||0
+    ) -
+    (
+      Number(a.updatedAt)||0
+    );
+
+  });
+
+
+  return result;
+
+}
+
+
+/* RENDER SERVERS */
+
+function renderServers(){
+
+  const list =
+    document.getElementById("serverList");
+
+
+  const servers =
+    getFilteredServers();
+
+
+  if(!servers.length){
+
+    list.innerHTML = `
+
+      <div class="server">
+
+        <div>
+
+          <div class="server-name">
+            No matching servers
+          </div>
+
+          <div class="server-id">
+            Try lowering the player or value filters.
+          </div>
+
+        </div>
+
+        <div class="server-stat">
+          <span>Players</span>
+          —
+        </div>
+
+        <div class="server-stat">
+          <span>Value</span>
+          —
+        </div>
+
+        <div class="server-stat">
+          <span>FPS</span>
+          —
+        </div>
+
+        <button
+          class="join"
+          onclick="refreshServers()">
+          Scan
+        </button>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  list.innerHTML =
+    servers.map(function(server){
+
+      const id =
+        server.id ||
+        server.jobId ||
+        "unknown";
+
+
+      const players =
+        Number(server.players) || 0;
+
+
+      const maxPlayers =
+        Number(server.maxPlayers) || 48;
+
+
+      const value =
+        Number(server.value) || 0;
+
+
+      const fps =
+        Number(server.fps) || 0;
+
+
+      const safeId =
+        escapeHTML(id);
+
+
+      return `
+
+        <div class="server">
+
+          <div>
+
+            <div class="server-name">
+              Rich ${escapeHTML(selectedGame)} Server
+            </div>
+
+            <div class="server-id">
+              ${safeId}
+            </div>
+
+          </div>
+
+
+          <div class="server-stat">
+
+            <span>
+              Players
+            </span>
+
+            ${players}/${maxPlayers}
+
+          </div>
+
+
+          <div class="server-stat">
+
+            <span>
+              Value
+            </span>
+
+            ${formatValue(value)}
+
+          </div>
+
+
+          <div class="server-stat">
+
+            <span>
+              FPS
+            </span>
+
+            ${fps || "—"}
+
+          </div>
+
+
+          <button
+            class="join"
+            onclick="joinServer('${escapeJS(id)}')">
+            Join
+          </button>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* JOIN */
+
+function joinServer(serverId){
+
+  const game =
+    GAMES[selectedGame];
+
+
+  if(!game || !game.placeId){
+
+    showToast(
+      "Place ID is not configured"
+    );
+
+    return;
+
+  }
+
+
+  const url =
+    "https://www.roblox.com/games/start" +
+    "?placeId=" +
+    encodeURIComponent(game.placeId) +
+    "&gameInstanceId=" +
+    encodeURIComponent(serverId);
+
+
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+}
+
+
+/* STATS */
+
+function updateStats(){
+
+  const filtered =
+    getFilteredServers();
+
+
+  const players =
+    filtered.reduce(
+      function(sum,server){
+
+        return sum +
+          (Number(server.players)||0);
+
+      },
+      0
+    );
+
+
+  const highest =
+    filtered.reduce(
+      function(max,server){
+
+        return Math.max(
+          max,
+          Number(server.value)||0
+        );
+
+      },
+      0
+    );
+
+
+  const minimum =
+    Number(
+      document.getElementById("minValue").value
+    ) || 0;
+
+
+  document
+    .getElementById("serverCount")
+    .textContent =
+      filtered.length;
+
+
+  document
+    .getElementById("playerCount")
+    .textContent =
+      players;
+
+
+  document
+    .getElementById("highestValue")
+    .textContent =
+      formatValue(highest);
+
+
+  document
+    .getElementById("hitCount")
+    .textContent =
+      filtered.filter(function(server){
+
+        return (
+          Number(server.value)||0
+        ) >= minimum;
+
+      }).length;
+
+}
+
+
+/* FORMAT VALUE */
+
+function formatValue(value){
+
+  value =
+    Number(value) || 0;
+
+
+  if(value >= 1000000){
+
+    return "$" +
+      (value/1000000)
+        .toFixed(1)
+        .replace(".0","") +
+      "M";
+
+  }
+
+
+  if(value >= 1000){
+
+    return "$" +
+      (value/1000)
+        .toFixed(1)
+        .replace(".0","") +
+      "K";
+
+  }
+
+
+  return "$" +
+    value.toLocaleString();
+
+}
+
+
+/* ESCAPE HTML */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* ESCAPE JS */
+
+function escapeJS(value){
+
+  return String(value)
+    .replaceAll("\\","\\\\")
+    .replaceAll("'","\\'")
+    .replaceAll("\n","\\n")
+    .replaceAll("\r","\\r");
+
+}
+
+
+/* AUTO REFRESH */
+
+function startAutoRefresh(){
+
+  stopAutoRefresh();
+
+  autoRefreshTimer =
+    setInterval(
+      refreshServers,
+      30000
+    );
+
+}
+
+
+function stopAutoRefresh(){
+
+  if(autoRefreshTimer){
+
+    clearInterval(
+      autoRefreshTimer
+    );
+
+    autoRefreshTimer = null;
+
+  }
+
+}
+
+
+/* CLEAR */
+
+function clearServers(){
+
+  allServers = [];
+
+  renderServers();
+
+  updateStats();
+
+  document
+    .getElementById("scanStatus")
+    .textContent =
+      "Cleared";
+
+  showToast(
+    "Server list cleared"
+  );
+
+}
+
+
+/* CLOSE MODAL */
+
+document
+  .getElementById("modalBg")
+  .addEventListener("click",function(event){
+
+    if(event.target.id === "modalBg"){
+
+      hideModal();
+
+    }
+
+  });
+
+
+/* FILTER EVENTS */
+
+document
+  .getElementById("sortSelect")
+  .addEventListener("change",applyFilters);
+
+
+document
+  .getElementById("playerFilter")
+  .addEventListener("change",applyFilters);
+
+
+/* STARTUP */
+
+updateMinValue();
+
+</script>
+
+</body>
+</html>
