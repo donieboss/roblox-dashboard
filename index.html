@@ -1,1157 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DONIE • Adopt Me Rich Finder</title>
-
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0
-}
-
-:root{
-  --bg:#050608;
-  --panel:#0a0d12;
-  --panel2:#0e1218;
-  --panel3:#131821;
-  --panel4:#181e28;
-  --border:#222a35;
-  --border2:#2c3542;
-  --text:#eef2f7;
-  --muted:#7f8a99;
-  --green:#35e58b;
-  --green2:#1bb96a;
-  --red:#ff5265;
-  --yellow:#ffd166;
-  --blue:#6ea8ff;
-  --purple:#a879ff;
-}
-
-html,
-body{
-  width:100%;
-  min-height:100%;
-  background:#030405;
-  color:var(--text);
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,
-  BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-}
-
-body{
-  overflow-x:hidden;
-}
-
-button,
-input,
-textarea{
-  font:inherit;
-}
-
-button{
-  border:1px solid var(--border2);
-  background:var(--panel3);
-  color:var(--text);
-  padding:9px 13px;
-  border-radius:7px;
-  cursor:pointer;
-  font-size:11px;
-  font-weight:800;
-  transition:.15s;
-}
-
-button:hover{
-  background:var(--panel4);
-  border-color:#3a4656;
-  transform:translateY(-1px);
-}
-
-button:active{
-  transform:translateY(0);
-}
-
-/* =========================
-   APP
-========================= */
-
-.app{
-  min-height:100vh;
-  background:
-    radial-gradient(
-      circle at 50% -20%,
-      rgba(73,91,117,.17),
-      transparent 38%
-    ),
-    linear-gradient(
-      180deg,
-      #050608 0%,
-      #07090d 45%,
-      #050608 100%
-    );
-}
-
-/* =========================
-   TOP BAR
-========================= */
-
-.topbar{
-  height:52px;
-  border-bottom:1px solid #1b212a;
-  background:rgba(7,9,12,.96);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 16px;
-  position:sticky;
-  top:0;
-  z-index:100;
-  backdrop-filter:blur(14px);
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:13px;
-  font-weight:900;
-  letter-spacing:.08em;
-}
-
-.logo{
-  width:28px;
-  height:28px;
-  border-radius:7px;
-  display:grid;
-  place-items:center;
-  background:
-    linear-gradient(145deg,#27313d,#0b0e13);
-  border:1px solid #303a47;
-  box-shadow:
-    inset 0 1px rgba(255,255,255,.05),
-    0 0 18px rgba(53,229,139,.05);
-}
-
-.logo span{
-  color:var(--green);
-  font-size:12px;
-}
-
-.top-actions{
-  display:flex;
-  align-items:center;
-  gap:7px;
-}
-
-.top-btn{
-  background:#0c1016;
-}
-
-.status-pill{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  border:1px solid var(--border);
-  background:#0b0e13;
-  border-radius:99px;
-  padding:6px 10px;
-  color:var(--muted);
-  font-size:10px;
-  font-weight:800;
-}
-
-.dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:var(--red);
-  box-shadow:0 0 8px rgba(255,82,101,.35);
-}
-
-.dot.online{
-  background:var(--green);
-  box-shadow:0 0 9px rgba(53,229,139,.45);
-}
-
-/* =========================
-   MAIN
-========================= */
-
-.wrap{
-  max-width:1500px;
-  margin:auto;
-  padding:18px;
-}
-
-.page-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  gap:15px;
-  margin-bottom:14px;
-}
-
-.title h1{
-  font-size:24px;
-  font-weight:900;
-  letter-spacing:-.03em;
-}
-
-.title p{
-  margin-top:5px;
-  color:var(--muted);
-  font-size:11px;
-}
-
-.head-actions{
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-}
-
-/* =========================
-   STATS
-========================= */
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:9px;
-  margin-bottom:12px;
-}
-
-.stat{
-  position:relative;
-  overflow:hidden;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(19,24,32,.98),
-      rgba(10,13,18,.98)
-    );
-  border:1px solid var(--border);
-  border-radius:9px;
-  padding:13px;
-}
-
-.stat:before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  width:2px;
-  background:#2c3542;
-}
-
-.stat.green:before{
-  background:var(--green);
-}
-
-.stat.blue:before{
-  background:var(--blue);
-}
-
-.stat.yellow:before{
-  background:var(--yellow);
-}
-
-.stat.red:before{
-  background:var(--red);
-}
-
-.stat-label{
-  color:#747f8e;
-  font-size:9px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.1em;
-}
-
-.stat-value{
-  margin-top:6px;
-  font-size:21px;
-  font-weight:900;
-}
-
-.stat-sub{
-  margin-top:3px;
-  color:#687382;
-  font-size:9px;
-}
-
-/* =========================
-   WORKSPACE
-========================= */
-
-.workspace{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 390px;
-  gap:12px;
-}
-
-/* =========================
-   CONSOLE WINDOW
-========================= */
-
-.console-window{
-  min-width:0;
-  overflow:hidden;
-  border:1px solid var(--border);
-  border-radius:10px;
-  background:#080a0e;
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.25),
-    inset 0 1px rgba(255,255,255,.025);
-}
-
-/* Window bar */
-
-.window-bar{
-  height:43px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 11px;
-  background:#0d1015;
-  border-bottom:1px solid var(--border);
-}
-
-.window-left{
-  display:flex;
-  align-items:center;
-  gap:11px;
-}
-
-.window-dots{
-  display:flex;
-  gap:5px;
-}
-
-.window-dots i{
-  display:block;
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#343b46;
-}
-
-.window-title{
-  color:#aeb7c4;
-  font-size:10px;
-  font-weight:800;
-}
-
-.safe{
-  border:1px solid #285b43;
-  background:#0d2118;
-  color:#6de7a6;
-  border-radius:5px;
-  padding:4px 7px;
-  font-size:8px;
-  font-weight:900;
-}
-
-/* Tabs */
-
-.tabs{
-  height:38px;
-  display:flex;
-  align-items:stretch;
-  background:#0a0d12;
-  border-bottom:1px solid var(--border);
-}
-
-.tab{
-  display:flex;
-  align-items:center;
-  padding:0 13px;
-  border-right:1px solid var(--border);
-  color:#707b8a;
-  font-size:10px;
-  cursor:pointer;
-}
-
-.tab.active{
-  color:#dfe5ed;
-  background:#0e1218;
-  box-shadow:inset 0 -2px var(--green);
-}
-
-/* Editor */
-
-.editor{
-  display:grid;
-  grid-template-columns:43px minmax(0,1fr);
-  min-height:380px;
-  background:#07090d;
-}
-
-.line-numbers{
-  padding:14px 8px;
-  background:#090c11;
-  border-right:1px solid #171c24;
-  text-align:right;
-  color:#424b58;
-  font:12px/1.7 Consolas,"Courier New",monospace;
-  user-select:none;
-  overflow:hidden;
-}
-
-#code{
-  width:100%;
-  min-height:380px;
-  resize:vertical;
-  border:0;
-  outline:0;
-  padding:14px;
-  background:#07090d;
-  color:#cbd4df;
-  font:12px/1.7 Consolas,"Courier New",monospace;
-  tab-size:2;
-}
-
-#code::selection{
-  background:#234d38;
-}
-
-/* Toolbar */
-
-.toolbar{
-  min-height:47px;
-  display:flex;
-  align-items:center;
-  gap:6px;
-  padding:8px;
-  background:#0c1015;
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  flex-wrap:wrap;
-}
-
-.run{
-  background:#103523;
-  border-color:#276e49;
-  color:#78edac;
-}
-
-.run:hover{
-  background:#15472e;
-}
-
-.danger{
-  color:#ff9aa6;
-}
-
-/* Console */
-
-.output-head{
-  height:35px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 11px;
-  background:#0a0d12;
-  border-bottom:1px solid var(--border);
-}
-
-.output-title{
-  font-size:9px;
-  color:#7f8998;
-  text-transform:uppercase;
-  letter-spacing:.09em;
-  font-weight:900;
-}
-
-.output-actions{
-  color:#515b68;
-  font-size:9px;
-}
-
-.console-output{
-  height:170px;
-  overflow:auto;
-  padding:9px 11px;
-  background:#06080b;
-  font:11px/1.65 Consolas,"Courier New",monospace;
-}
-
-.console-output::-webkit-scrollbar,
-.server-list::-webkit-scrollbar{
-  width:6px;
-}
-
-.console-output::-webkit-scrollbar-thumb,
-.server-list::-webkit-scrollbar-thumb{
-  background:#252d38;
-  border-radius:20px;
-}
-
-.log-line{
-  white-space:pre-wrap;
-  word-break:break-word;
-}
-
-.log-time{
-  color:#3e4753;
-}
-
-.log-info{
-  color:#7da9e9;
-}
-
-.log-ok{
-  color:#52df91;
-}
-
-.log-error{
-  color:#ff6879;
-}
-
-.log-warn{
-  color:#e3bf62;
-}
-
-/* =========================
-   SERVER PANEL
-========================= */
-
-.server-panel{
-  min-width:0;
-  border:1px solid var(--border);
-  border-radius:10px;
-  overflow:hidden;
-  background:#090c11;
-}
-
-.server-header{
-  min-height:43px;
-  padding:0 12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background:#0d1015;
-  border-bottom:1px solid var(--border);
-}
-
-.server-title{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size:10px;
-  font-weight:900;
-}
-
-.server-title .mini-dot{
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 8px rgba(53,229,139,.4);
-}
-
-.server-count{
-  color:#697584;
-  font-size:9px;
-}
-
-/* Search */
-
-.filters{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:6px;
-  padding:9px;
-  border-bottom:1px solid var(--border);
-  background:#0a0d12;
-}
-
-.filters input{
-  width:100%;
-  min-width:0;
-  background:#080b10;
-  border:1px solid var(--border);
-  border-radius:6px;
-  padding:8px 9px;
-  outline:0;
-  color:var(--text);
-  font-size:10px;
-}
-
-.filters input:focus{
-  border-color:#354354;
-}
-
-.filters button{
-  padding:8px 11px;
-}
-
-/* Server list */
-
-.server-list{
-  max-height:610px;
-  overflow:auto;
-  padding:8px;
-}
-
-.server-card{
-  position:relative;
-  margin-bottom:7px;
-  padding:10px;
-  background:#0d1117;
-  border:1px solid #202733;
-  border-radius:7px;
-  transition:.15s;
-}
-
-.server-card:hover{
-  border-color:#303b49;
-  background:#10151c;
-}
-
-.server-card.rich{
-  border-color:#286747;
-  box-shadow:inset 2px 0 var(--green);
-}
-
-.server-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:6px;
-}
-
-.badge{
-  display:inline-flex;
-  align-items:center;
-  width:max-content;
-  max-width:100%;
-  border:1px solid #27303b;
-  border-radius:99px;
-  padding:3px 6px;
-  color:#7e8998;
-  background:#0a0d12;
-  font-size:7px;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.badge.rich{
-  color:#65e89e;
-  border-color:#275a42;
-  background:#0b1b13;
-}
-
-.value-label{
-  margin-top:9px;
-  color:#697584;
-  font-size:8px;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-}
-
-.value{
-  margin-top:2px;
-  color:var(--green);
-  font-size:20px;
-  line-height:1.2;
-  font-weight:950;
-}
-
-.server-meta{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:4px;
-  margin-top:9px;
-}
-
-.meta{
-  background:#090c11;
-  border:1px solid #1d242e;
-  border-radius:5px;
-  padding:5px;
-}
-
-.meta-label{
-  color:#566170;
-  font-size:7px;
-  text-transform:uppercase;
-}
-
-.meta-value{
-  margin-top:2px;
-  color:#b5bfcb;
-  font-size:9px;
-  font-weight:800;
-}
-
-.join{
-  width:100%;
-  margin-top:7px;
-  padding:8px;
-  background:#10151c;
-}
-
-.join:hover{
-  border-color:#326e50;
-  color:#78edac;
-}
-
-/* Empty */
-
-.empty{
-  padding:42px 16px;
-  text-align:center;
-  color:#626d7c;
-  font-size:10px;
-  line-height:1.6;
-}
-
-.empty strong{
-  display:block;
-  color:#929dab;
-  margin-bottom:4px;
-}
-
-/* =========================
-   NOTICE
-========================= */
-
-.notice{
-  display:flex;
-  align-items:flex-start;
-  gap:8px;
-  margin:9px;
-  padding:9px;
-  border:1px solid #202832;
-  border-radius:6px;
-  background:#0b0f14;
-  color:#707b89;
-  font-size:9px;
-  line-height:1.5;
-}
-
-.notice-icon{
-  color:var(--blue);
-  font-weight:900;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:1050px){
-
-  .workspace{
-    grid-template-columns:1fr;
-  }
-
-  .server-list{
-    max-height:none;
-  }
-
-}
-
-@media(max-width:700px){
-
-  .wrap{
-    padding:10px;
-  }
-
-  .topbar{
-    padding:0 10px;
-  }
-
-  .top-actions .top-btn{
-    display:none;
-  }
-
-  .page-head{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .editor{
-    min-height:320px;
-  }
-
-  #code{
-    min-height:320px;
-  }
-
-}
-
-@media(max-width:430px){
-
-  .stats{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .stat-value{
-    font-size:18px;
-  }
-
-  .server-meta{
-    grid-template-columns:1fr;
-  }
-
-}
-</style>
-</head>
-
-<body>
-
-<div class="app">
-
-  <!-- TOP BAR -->
-  <div class="topbar">
-
-    <div class="brand">
-      <div class="logo">
-        <span>DN</span>
-      </div>
-      DONIE
-    </div>
-
-    <div class="top-actions">
-
-      <button class="top-btn" id="refresh">
-        ↻ REFRESH
-      </button>
-
-      <button class="top-btn" id="clearConsole">
-        CLEAR
-      </button>
-
-      <div class="status-pill">
-        <span class="dot" id="topDot"></span>
-        <span id="topStatus">OFFLINE</span>
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <main class="wrap">
-
-    <!-- PAGE HEADER -->
-
-    <div class="page-head">
-
-      <div class="title">
-
-        <h1>Adopt Me Rich Finder</h1>
-
-        <p>
-          Server intelligence dashboard • Safe dashboard mode
-        </p>
-
-      </div>
-
-      <div class="head-actions">
-
-        <button id="load">
-          LOAD SERVERS
-        </button>
-
-        <button id="statsCmd">
-          SERVER STATS
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- STATS -->
-
-    <div class="stats">
-
-      <div class="stat green">
-
-        <div class="stat-label">
-          Live Servers
-        </div>
-
-        <div class="stat-value" id="count">
-          0
-        </div>
-
-        <div class="stat-sub">
-          Current results
-        </div>
-
-      </div>
-
-
-      <div class="stat green">
-
-        <div class="stat-label">
-          17K+ Servers
-        </div>
-
-        <div class="stat-value" id="rich">
-          0
-        </div>
-
-        <div class="stat-sub">
-          Reported value ≥ $17,000
-        </div>
-
-      </div>
-
-
-      <div class="stat blue">
-
-        <div class="stat-label">
-          Reported
-        </div>
-
-        <div class="stat-value" id="reported">
-          0
-        </div>
-
-        <div class="stat-sub">
-          Server reports
-        </div>
-
-      </div>
-
-
-      <div class="stat yellow">
-
-        <div class="stat-label">
-          Worker
-        </div>
-
-        <div class="stat-value" id="online">
-          OFFLINE
-        </div>
-
-        <div class="stat-sub" id="workerSub">
-          Waiting for connection
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- WORKSPACE -->
-
-    <div class="workspace">
-
-
-      <!-- CONSOLE -->
-
-      <section class="console-window">
-
-        <div class="window-bar">
-
-          <div class="window-left">
-
-            <div class="window-dots">
-              <i></i>
-              <i></i>
-              <i></i>
-            </div>
-
-            <div class="window-title">
-              DONIE Console
-            </div>
-
-          </div>
-
-          <div class="safe">
-            SAFE MODE
-          </div>
-
-        </div>
-
-
-        <div class="tabs">
-
-          <div class="tab active">
-            console.js
-          </div>
-
-          <div class="tab">
-            server-data
-          </div>
-
-          <div class="tab">
-            output
-          </div>
-
-        </div>
-
-
-        <div class="notice">
-
-          <div class="notice-icon">
-            ●
-          </div>
-
-          <div>
-            Dashboard console only. Commands here control the
-            DONIE dashboard and do not inject scripts into Roblox
-            or bypass Roblox security.
-          </div>
-
-        </div>
-
-
-        <div class="editor">
-
-          <div class="line-numbers" id="lines">
-            1<br>
-            2<br>
-            3<br>
-            4<br>
-            5<br>
-            6<br>
-            7<br>
-            8<br>
-            9<br>
-            10
-          </div>
-
-
-          <textarea
-            id="code"
-            spellcheck="false"
-            autocomplete="off"
-          >// DONIE dashboard console
-
-log("DONIE console ready");
-
-servers();
-
-stats();</textarea>
-
-        </div>
-
-
-        <div class="toolbar">
-
-          <button
-            class="run"
-            id="run"
-          >
-            ▶ RUN SAFE COMMANDS
-          </button>
-
-          <button id="loadCmd">
-            LOAD SERVER DATA
-          </button>
-
-          <button id="statsCommand">
-            SHOW STATS
-          </button>
-
-          <button
-            class="danger"
-            id="clearOutput"
-          >
-            CLEAR OUTPUT
-          </button>
-
-        </div>
-
-
-        <div class="output-head">
-
-          <div class="output-title">
-            Console Output
-          </div>
-
-          <div class="output-actions">
-            DONIE / SAFE
-          </div>
-
-        </div>
-
-
-        <div
-          class="console-output"
-          id="log"
-        ></div>
-
-      </section>
-
-
-      <!-- SERVER PANEL -->
-
-      <aside class="server-panel">
-
-        <div class="server-header">
-
-          <div class="server-title">
-
-            <span class="mini-dot"></span>
-
-            LIVE SERVERS
-
-          </div>
-
-          <div
-            class="server-count"
-            id="status"
-          >
-            Ready
-          </div>
-
-        </div>
-
-
-        <div class="filters">
-
-          <input
-            id="minPlayers"
-            type="number"
-            min="0"
-            value="0"
-            placeholder="Minimum players"
-          >
-
-          <button id="filterLoad">
-            LOAD
-          </button>
-
-        </div>
-
-
-        <div
-          class="server-list"
-          id="grid"
-        >
-
-          <div class="empty">
-
-            <strong>No server data loaded</strong>
-
-            Press LOAD SERVERS to retrieve the current
-            dashboard server data.
-
-          </div>
-
-        </div>
-
-      </aside>
-
-    </div>
-
-  </main>
-
-</div>
-
-
 <script>
 
 /* =========================================
@@ -1167,40 +13,124 @@ const PLACE_ID =
 const THRESHOLD =
   17000;
 
-
-/* =========================================
-   STATE
-========================================= */
-
 let allServers = [];
 
 
 /* =========================================
-   HELPERS
+   DOM
 ========================================= */
 
 const $ = id =>
   document.getElementById(id);
 
 
-function num(value){
+/* =========================================
+   VALUE PARSER
+   Supports:
+   17000
+   "17000"
+   "$17,000"
+   "17K"
+   "17k"
+   "17.5K"
+   "$17.5K"
+   "1.2M"
+   ========================================= */
 
-  const n = Number(value);
+function parseValue(value){
+
+  if(
+    value === null ||
+    value === undefined ||
+    value === ""
+  ){
+    return 0;
+  }
+
+  if(typeof value === "number"){
+    return Number.isFinite(value)
+      ? value
+      : 0;
+  }
+
+  let s =
+    String(value)
+      .trim()
+      .replace(/[$,\s]/g,"")
+      .toUpperCase();
+
+  if(!s){
+    return 0;
+  }
+
+  s = s.replace(/USD$/,"");
+
+  const match =
+    s.match(/^(-?\d+(?:\.\d+)?)([KMB])?$/);
+
+  if(!match){
+
+    const plain =
+      Number(
+        s.replace(/[^0-9.-]/g,"")
+      );
+
+    return Number.isFinite(plain)
+      ? plain
+      : 0;
+  }
+
+  let n =
+    Number(match[1]);
+
+  if(!Number.isFinite(n)){
+    return 0;
+  }
+
+  const suffix =
+    match[2];
+
+  if(suffix === "K")
+    n *= 1000;
+
+  if(suffix === "M")
+    n *= 1000000;
+
+  if(suffix === "B")
+    n *= 1000000000;
 
   return Number.isFinite(n)
     ? n
     : 0;
-
 }
 
+
+/* =========================================
+   NORMAL NUMBER
+========================================= */
+
+function num(value){
+  return parseValue(value);
+}
+
+
+/* =========================================
+   MONEY
+========================================= */
 
 function money(value){
 
   return "$" +
-    num(value).toLocaleString("en-US");
+    Math.round(
+      parseValue(value)
+    ).toLocaleString("en-US");
 
 }
 
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
 
 function esc(value){
 
@@ -1219,60 +149,90 @@ function esc(value){
 }
 
 
+/* =========================================
+   GET SERVER VALUE
+
+   IMPORTANT:
+   Do not use ?? here because a field can
+   exist but contain 0.
+
+   We check every possible field until we
+   find an actual numeric value.
+========================================= */
+
 function valueOf(server){
 
-  return num(
+  const fields = [
+    server.adoptMeValue,
+    server.adoptMeInventoryValue,
+    server.inventoryValue,
+    server.totalInventoryValue,
+    server.reportedValue,
+    server.value,
+    server.rap,
+    server.RAP
+  ];
 
-    server.adoptMeValue ??
-    server.inventoryValue ??
-    server.totalInventoryValue ??
-    server.adoptMeInventoryValue ??
-    server.value ??
-    server.rap ??
-    server.RAP ??
-    server.reportedValue
+  for(const field of fields){
 
-  );
+    const parsed =
+      parseValue(field);
 
+    if(parsed > 0){
+      return parsed;
+    }
+
+  }
+
+  return 0;
 }
 
+
+/* =========================================
+   SERVER ID
+========================================= */
 
 function idOf(server){
 
   return String(
-
-    server.serverId ??
-    server.jobId ??
-    server.id ??
-    server.instanceId ??
+    server.serverId ||
+    server.jobId ||
+    server.id ||
+    server.instanceId ||
     ""
-
-  );
+  ).trim();
 
 }
 
 
+/* =========================================
+   PLAYER COUNT
+========================================= */
+
 function playerCount(server){
 
   return num(
-
     server.players ??
     server.playing ??
-    server.playerCount
-
+    server.playerCount ??
+    0
   );
 
 }
 
 
 /* =========================================
-   CONSOLE LOG
+   CONSOLE
 ========================================= */
 
 function log(message,type="info"){
 
   const container =
     $("log");
+
+  if(!container){
+    return;
+  }
 
   const line =
     document.createElement("div");
@@ -1312,13 +272,23 @@ function log(message,type="info"){
 
 function updateLines(){
 
+  const code =
+    $("code");
+
+  const lines =
+    $("lines");
+
+  if(!code || !lines){
+    return;
+  }
+
   const count =
     Math.max(
       1,
-      $("code").value.split("\n").length
+      code.value.split("\n").length
     );
 
-  $("lines").innerHTML =
+  lines.innerHTML =
     Array.from(
       {length:count},
       (_,i) => i + 1
@@ -1333,30 +303,123 @@ function updateLines(){
 
 function setWorkerStatus(online){
 
-  $("online").textContent =
-    online
-      ? "ONLINE"
-      : "OFFLINE";
+  const onlineEl =
+    $("online");
 
-  $("online").style.color =
-    online
-      ? "var(--green)"
-      : "var(--red)";
+  const topStatus =
+    $("topStatus");
 
-  $("topStatus").textContent =
-    online
-      ? "ONLINE"
-      : "OFFLINE";
+  const topDot =
+    $("topDot");
 
-  $("topDot").classList.toggle(
-    "online",
-    online
-  );
+  const workerSub =
+    $("workerSub");
 
-  $("workerSub").textContent =
-    online
-      ? "Worker responding"
-      : "Waiting for connection";
+  if(onlineEl){
+
+    onlineEl.textContent =
+      online
+        ? "ONLINE"
+        : "OFFLINE";
+
+    onlineEl.style.color =
+      online
+        ? "var(--green)"
+        : "var(--red)";
+  }
+
+  if(topStatus){
+
+    topStatus.textContent =
+      online
+        ? "ONLINE"
+        : "OFFLINE";
+  }
+
+  if(topDot){
+
+    topDot.classList.toggle(
+      "online",
+      online
+    );
+  }
+
+  if(workerSub){
+
+    workerSub.textContent =
+      online
+        ? "Worker responding"
+        : "Worker unreachable";
+  }
+
+}
+
+
+/* =========================================
+   HEALTH CHECK
+
+   Uses /health separately so the dashboard
+   can tell the difference between:
+
+   Worker offline
+   vs
+   Worker online with zero servers
+========================================= */
+
+async function checkWorker(){
+
+  try{
+
+    const response =
+      await fetch(
+        `${WORKER_URL}/health?t=${Date.now()}`,
+        {
+          method:"GET",
+          cache:"no-store"
+        }
+      );
+
+    if(!response.ok){
+
+      throw new Error(
+        `Health HTTP ${response.status}`
+      );
+
+    }
+
+    const data =
+      await response.json();
+
+    if(!data.success){
+
+      throw new Error(
+        data.error ||
+        "Worker health check failed"
+      );
+
+    }
+
+    setWorkerStatus(true);
+
+    log(
+      "Worker connection: ONLINE",
+      "ok"
+    );
+
+    return true;
+
+  }catch(error){
+
+    setWorkerStatus(false);
+
+    log(
+      "Worker connection failed: " +
+      error.message,
+      "error"
+    );
+
+    return false;
+  }
 
 }
 
@@ -1367,10 +430,17 @@ function setWorkerStatus(online){
 
 function joinServer(id){
 
-  if(!id){
+  const serverId =
+    String(id || "").trim();
+
+  if(
+    !serverId ||
+    serverId === "unknown" ||
+    serverId === "null"
+  ){
 
     log(
-      "No valid Job ID was supplied for this server.",
+      "No valid Job ID was supplied.",
       "error"
     );
 
@@ -1379,38 +449,50 @@ function joinServer(id){
     );
 
     return;
-
   }
 
-
   const robloxUrl =
-    `roblox://placeId=${PLACE_ID}&gameInstanceId=${encodeURIComponent(id)}`;
+    `roblox://placeId=${PLACE_ID}&gameInstanceId=${encodeURIComponent(serverId)}`;
 
   const webUrl =
-    `https://www.roblox.com/games/start?placeId=${PLACE_ID}&gameInstanceId=${encodeURIComponent(id)}`;
-
+    `https://www.roblox.com/games/start?placeId=${PLACE_ID}&gameInstanceId=${encodeURIComponent(serverId)}`;
 
   log(
-    "Opening Roblox join request for server " + id,
+    "Opening Roblox server " +
+    serverId,
     "ok"
   );
 
-
   /*
-    Safe dashboard behavior:
-    The browser asks Roblox to open the specified
-    public game instance. Roblox ultimately controls
-    whether the join succeeds.
+    Try Roblox protocol first.
   */
 
   window.location.href =
     robloxUrl;
 
+  /*
+    If Roblox doesn't open, provide the
+    normal web join page.
+  */
 
   setTimeout(() => {
 
-    window.location.href =
-      webUrl;
+    if(
+      document.visibilityState === "visible"
+    ){
+
+      log(
+        "Roblox did not open automatically. Opening web join page.",
+        "warn"
+      );
+
+      window.open(
+        webUrl,
+        "_blank",
+        "noopener,noreferrer"
+      );
+
+    }
 
   },1800);
 
@@ -1418,55 +500,74 @@ function joinServer(id){
 
 
 /* =========================================
-   RENDER SERVERS
+   RENDER
 ========================================= */
 
 function render(data){
 
   allServers =
-    Array.isArray(data.servers)
+    Array.isArray(data?.servers)
       ? data.servers
       : [];
 
+
+  /* ---------------------------------------
+     COUNTS
+  --------------------------------------- */
 
   $("count").textContent =
     allServers.length;
 
 
-  $("rich").textContent =
+  const richCount =
     allServers.filter(
       server =>
         valueOf(server) >= THRESHOLD
     ).length;
 
 
+  $("rich").textContent =
+    richCount;
+
+
+  /*
+    Worker normally returns reportedCount.
+  */
+
   $("reported").textContent =
     num(
-      data.reportedCount ??
-      data.reports ??
+      data?.reportedCount ??
+      data?.reports?.count ??
       0
     );
 
 
   setWorkerStatus(
-    !!data.success
+    data?.success === true
   );
 
+
+  /* ---------------------------------------
+     EMPTY
+  --------------------------------------- */
 
   if(!allServers.length){
 
     $("grid").innerHTML = `
       <div class="empty">
         <strong>No servers found</strong>
-        The Worker responded successfully, but
-        no server records were returned.
+        The Worker is online, but it returned
+        no server records.
       </div>
     `;
 
     return;
-
   }
 
+
+  /* ---------------------------------------
+     SERVER CARDS
+  --------------------------------------- */
 
   $("grid").innerHTML =
     allServers.map(server => {
@@ -1520,6 +621,7 @@ function render(data){
           <div class="value-label">
             Adopt Me Value
           </div>
+
 
           <div class="value">
             ${money(value)}
@@ -1583,14 +685,19 @@ function render(data){
     }).join("");
 
 
+  /*
+    Attach Join buttons.
+  */
+
   document
     .querySelectorAll(".join")
     .forEach(button => {
 
-      button.onclick = () =>
-        joinServer(
-          button.dataset.id
-        );
+      button.onclick =
+        () =>
+          joinServer(
+            button.dataset.id
+          );
 
     });
 
@@ -1608,7 +715,7 @@ async function load(){
 
 
   log(
-    "Requesting live server data..."
+    "Requesting server data..."
   );
 
 
@@ -1630,24 +737,46 @@ async function load(){
       `&t=${Date.now()}`;
 
 
+    log(
+      "GET /servers"
+    );
+
+
     const response =
       await fetch(
         url,
         {
           method:"GET",
-          cache:"no-store"
+          cache:"no-store",
+          headers:{
+            "Accept":
+              "application/json"
+          }
         }
       );
 
 
-    const data =
-      await response.json();
+    const text =
+      await response.text();
 
 
-    if(
-      !response.ok ||
-      !data.success
-    ){
+    let data;
+
+    try{
+
+      data =
+        JSON.parse(text);
+
+    }catch{
+
+      throw new Error(
+        `Worker returned invalid JSON (${response.status})`
+      );
+
+    }
+
+
+    if(!response.ok){
 
       throw new Error(
         data.error ||
@@ -1655,6 +784,23 @@ async function load(){
       );
 
     }
+
+
+    if(data.success !== true){
+
+      throw new Error(
+        data.error ||
+        "Worker returned success=false"
+      );
+
+    }
+
+
+    /*
+      Worker is definitely alive.
+    */
+
+    setWorkerStatus(true);
 
 
     render(data);
@@ -1667,6 +813,13 @@ async function load(){
       );
 
 
+    const rich =
+      allServers.filter(
+        server =>
+          valueOf(server) >= THRESHOLD
+      ).length;
+
+
     $("status").textContent =
       `${count} loaded`;
 
@@ -1677,25 +830,57 @@ async function load(){
     );
 
 
+    log(
+      `Detected ${rich} server(s) at $17K+.`,
+      rich > 0
+        ? "ok"
+        : "info"
+    );
+
+
+    /*
+      Useful diagnostics.
+    */
+
+    if(data.liveCount !== undefined){
+
+      log(
+        `Roblox live servers: ${num(data.liveCount)}`
+      );
+
+    }
+
+    if(data.reportedCount !== undefined){
+
+      log(
+        `Reported servers: ${num(data.reportedCount)}`
+      );
+
+    }
+
+
   }catch(error){
 
     setWorkerStatus(false);
-
 
     $("status").textContent =
       "Error";
 
 
     $("grid").innerHTML = `
-
       <div class="empty">
 
         <strong>Worker request failed</strong>
 
         ${esc(error.message)}
 
-      </div>
+        <br><br>
 
+        <small>
+          Check ${esc(WORKER_URL)}/health
+        </small>
+
+      </div>
     `;
 
 
@@ -1711,7 +896,7 @@ async function load(){
 
 
 /* =========================================
-   SHOW STATS
+   STATS
 ========================================= */
 
 function showStats(){
@@ -1727,12 +912,14 @@ function showStats(){
     `Servers loaded: ${allServers.length}`
   );
 
+
   log(
     `17K+ servers: ${richCount}`,
     richCount > 0
       ? "ok"
       : "info"
   );
+
 
   log(
     `Worker status: ${$("online").textContent}`,
@@ -1760,24 +947,11 @@ function runSafe(){
 
 
   /*
-    This console is intentionally limited to
-    dashboard commands. It never evaluates arbitrary
-    JavaScript from the editor.
+    Dashboard-only commands.
   */
 
   const dangerous =
-    /\b(
-      eval|
-      Function|
-      fetch|
-      XMLHttpRequest|
-      WebSocket|
-      loadstring|
-      require|
-      getfenv|
-      setfenv|
-      game:GetService
-    )\b/ix.test(code);
+    /\b(eval|Function|XMLHttpRequest|WebSocket|loadstring|require|getfenv|setfenv)\b/i.test(code);
 
 
   if(dangerous){
@@ -1788,7 +962,6 @@ function runSafe(){
     );
 
     return;
-
   }
 
 
@@ -1821,11 +994,12 @@ function runSafe(){
   }
 
 
-  const logs = [
-    ...code.matchAll(
-      /\blog\s*\(\s*["']([^"']*)["']\s*\)/gi
-    )
-  ];
+  const logs =
+    [
+      ...code.matchAll(
+        /\blog\s*\(\s*["']([^"']*)["']\s*\)/gi
+      )
+    ];
 
 
   logs.forEach(match => {
@@ -1854,7 +1028,48 @@ function runSafe(){
 
 
 /* =========================================
-   BUTTON EVENTS
+   TEST 17K PARSER
+========================================= */
+
+function test17K(){
+
+  const tests = [
+    "$17,000",
+    "17K",
+    "17k",
+    "17.5K",
+    "$17.5K",
+    "17000"
+  ];
+
+
+  log(
+    "Testing value parser..."
+  );
+
+
+  tests.forEach(test => {
+
+    const parsed =
+      parseValue(test);
+
+    const rich =
+      parsed >= THRESHOLD;
+
+    log(
+      `${test} -> ${parsed} -> ${rich ? "17K+" : "below 17K"}`,
+      rich
+        ? "ok"
+        : "warn"
+    );
+
+  });
+
+}
+
+
+/* =========================================
+   BUTTONS
 ========================================= */
 
 $("load").onclick =
@@ -1907,7 +1122,7 @@ $("code").addEventListener(
 
 
 /* =========================================
-   KEYBOARD SHORTCUT
+   KEYBOARD
 ========================================= */
 
 $("code").addEventListener(
@@ -1943,10 +1158,33 @@ log(
 );
 
 log(
-  "Ready for server data."
+  "Testing Worker connection..."
 );
 
-</script>
 
-</body>
-</html>
+/*
+  First check /health.
+  Then load the servers automatically.
+*/
+
+(async () => {
+
+  const online =
+    await checkWorker();
+
+  if(online){
+
+    await load();
+
+  }else{
+
+    log(
+      "Worker is unreachable. Check the Worker URL.",
+      "error"
+    );
+
+  }
+
+})();
+
+</script>
