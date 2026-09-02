@@ -1,3 +1,4 @@
+```html
 <script>
 
 /* =========================================
@@ -7,21 +8,17 @@
 const WORKER_URL =
   "https://black-sun-c74c.redonekowaithe1.workers.dev";
 
-const PLACE_ID =
-  "920587237";
-
-const THRESHOLD =
-  17000;
+const PLACE_ID = "920587237";
+const THRESHOLD = 17000;
 
 let allServers = [];
 
 
 /* =========================================
-   DOM
+   DOM HELPER
 ========================================= */
 
-const $ = id =>
-  document.getElementById(id);
+const $ = id => document.getElementById(id);
 
 
 /* =========================================
@@ -32,75 +29,96 @@ const $ = id =>
    "$17,000"
    "17K"
    "17k"
+   "17 K"
+   "$17K"
    "17.5K"
    "$17.5K"
    "1.2M"
-   ========================================= */
+   "$1.2M"
+   "2B"
+   "$17,000 USD"
+========================================= */
 
-function parseValue(value){
+function parseValue(value) {
 
-  if(
-    value === null ||
-    value === undefined ||
-    value === ""
-  ){
+  if (value === null || value === undefined) {
     return 0;
   }
 
-  if(typeof value === "number"){
-    return Number.isFinite(value)
-      ? value
-      : 0;
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : 0;
   }
 
-  let s =
-    String(value)
-      .trim()
-      .replace(/[$,\s]/g,"")
-      .toUpperCase();
+  let s = String(value)
+    .trim()
+    .toUpperCase();
 
-  if(!s){
+  if (!s) {
     return 0;
   }
 
-  s = s.replace(/USD$/,"");
+  /* Remove currency / formatting text */
+  s = s
+    .replace(/\$/g, "")
+    .replace(/,/g, "")
+    .replace(/\s+/g, "")
+    .replace(/USD$/i, "");
 
-  const match =
-    s.match(/^(-?\d+(?:\.\d+)?)([KMB])?$/);
-
-  if(!match){
-
-    const plain =
-      Number(
-        s.replace(/[^0-9.-]/g,"")
-      );
-
-    return Number.isFinite(plain)
-      ? plain
-      : 0;
-  }
-
-  let n =
-    Number(match[1]);
-
-  if(!Number.isFinite(n)){
+  if (!s) {
     return 0;
   }
 
-  const suffix =
-    match[2];
+  /*
+    Match:
+    17000
+    17K
+    17.5K
+    1.2M
+    2B
+  */
+  const match = s.match(
+    /^([-+]?(?:\d+(?:\.\d*)?|\.\d+))(K|M|B)?$/
+  );
 
-  if(suffix === "K")
-    n *= 1000;
+  if (!match) {
 
-  if(suffix === "M")
-    n *= 1000000;
+    /*
+      Fallback for strings such as:
+      "$17,000 USD value"
+    */
+    const fallbackMatch = s.match(
+      /[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:K|M|B)?/
+    );
 
-  if(suffix === "B")
-    n *= 1000000000;
+    if (!fallbackMatch) {
+      return 0;
+    }
 
-  return Number.isFinite(n)
-    ? n
+    return parseValue(fallbackMatch[0]);
+  }
+
+  let number = Number(match[1]);
+
+  if (!Number.isFinite(number)) {
+    return 0;
+  }
+
+  const suffix = match[2];
+
+  if (suffix === "K") {
+    number *= 1000;
+  }
+
+  else if (suffix === "M") {
+    number *= 1000000;
+  }
+
+  else if (suffix === "B") {
+    number *= 1000000000;
+  }
+
+  return Number.isFinite(number)
+    ? number
     : 0;
 }
 
@@ -109,7 +127,7 @@ function parseValue(value){
    NORMAL NUMBER
 ========================================= */
 
-function num(value){
+function num(value) {
   return parseValue(value);
 }
 
@@ -118,7 +136,7 @@ function num(value){
    MONEY
 ========================================= */
 
-function money(value){
+function money(value) {
 
   return "$" +
     Math.round(
@@ -132,17 +150,17 @@ function money(value){
    ESCAPE HTML
 ========================================= */
 
-function esc(value){
+function esc(value) {
 
   return String(value ?? "")
     .replace(
       /[&<>"']/g,
       char => ({
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#39;"
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
       }[char])
     );
 
@@ -150,17 +168,14 @@ function esc(value){
 
 
 /* =========================================
-   GET SERVER VALUE
-
-   IMPORTANT:
-   Do not use ?? here because a field can
-   exist but contain 0.
-
-   We check every possible field until we
-   find an actual numeric value.
+   SERVER VALUE
 ========================================= */
 
-function valueOf(server){
+function valueOf(server) {
+
+  if (!server || typeof server !== "object") {
+    return 0;
+  }
 
   const fields = [
     server.adoptMeValue,
@@ -173,12 +188,11 @@ function valueOf(server){
     server.RAP
   ];
 
-  for(const field of fields){
+  for (const field of fields) {
 
-    const parsed =
-      parseValue(field);
+    const parsed = parseValue(field);
 
-    if(parsed > 0){
+    if (parsed > 0) {
       return parsed;
     }
 
@@ -192,13 +206,17 @@ function valueOf(server){
    SERVER ID
 ========================================= */
 
-function idOf(server){
+function idOf(server) {
+
+  if (!server) {
+    return "";
+  }
 
   return String(
-    server.serverId ||
-    server.jobId ||
-    server.id ||
-    server.instanceId ||
+    server.serverId ??
+    server.jobId ??
+    server.id ??
+    server.instanceId ??
     ""
   ).trim();
 
@@ -209,7 +227,11 @@ function idOf(server){
    PLAYER COUNT
 ========================================= */
 
-function playerCount(server){
+function playerCount(server) {
+
+  if (!server) {
+    return 0;
+  }
 
   return num(
     server.players ??
@@ -225,32 +247,32 @@ function playerCount(server){
    CONSOLE
 ========================================= */
 
-function log(message,type="info"){
+function log(message, type = "info") {
 
-  const container =
-    $("log");
+  const container = $("log");
 
-  if(!container){
+  if (!container) {
     return;
   }
 
-  const line =
-    document.createElement("div");
+  const line = document.createElement("div");
 
   const time =
     new Date().toLocaleTimeString();
 
-  let cls =
-    "log-info";
+  let cls = "log-info";
 
-  if(type === "ok")
+  if (type === "ok") {
     cls = "log-ok";
+  }
 
-  if(type === "error")
+  else if (type === "error") {
     cls = "log-error";
+  }
 
-  if(type === "warn")
+  else if (type === "warn") {
     cls = "log-warn";
+  }
 
   line.className =
     "log-line " + cls;
@@ -270,15 +292,12 @@ function log(message,type="info"){
    LINE NUMBERS
 ========================================= */
 
-function updateLines(){
+function updateLines() {
 
-  const code =
-    $("code");
+  const code = $("code");
+  const lines = $("lines");
 
-  const lines =
-    $("lines");
-
-  if(!code || !lines){
+  if (!code || !lines) {
     return;
   }
 
@@ -290,8 +309,8 @@ function updateLines(){
 
   lines.innerHTML =
     Array.from(
-      {length:count},
-      (_,i) => i + 1
+      { length: count },
+      (_, i) => i + 1
     ).join("<br>");
 
 }
@@ -301,26 +320,17 @@ function updateLines(){
    WORKER STATUS
 ========================================= */
 
-function setWorkerStatus(online){
+function setWorkerStatus(online) {
 
-  const onlineEl =
-    $("online");
+  const onlineEl = $("online");
+  const topStatus = $("topStatus");
+  const topDot = $("topDot");
+  const workerSub = $("workerSub");
 
-  const topStatus =
-    $("topStatus");
-
-  const topDot =
-    $("topDot");
-
-  const workerSub =
-    $("workerSub");
-
-  if(onlineEl){
+  if (onlineEl) {
 
     onlineEl.textContent =
-      online
-        ? "ONLINE"
-        : "OFFLINE";
+      online ? "ONLINE" : "OFFLINE";
 
     onlineEl.style.color =
       online
@@ -328,28 +338,29 @@ function setWorkerStatus(online){
         : "var(--red)";
   }
 
-  if(topStatus){
+  if (topStatus) {
 
     topStatus.textContent =
-      online
-        ? "ONLINE"
-        : "OFFLINE";
+      online ? "ONLINE" : "OFFLINE";
+
   }
 
-  if(topDot){
+  if (topDot) {
 
     topDot.classList.toggle(
       "online",
       online
     );
+
   }
 
-  if(workerSub){
+  if (workerSub) {
 
     workerSub.textContent =
       online
         ? "Worker responding"
         : "Worker unreachable";
+
   }
 
 }
@@ -357,29 +368,22 @@ function setWorkerStatus(online){
 
 /* =========================================
    HEALTH CHECK
-
-   Uses /health separately so the dashboard
-   can tell the difference between:
-
-   Worker offline
-   vs
-   Worker online with zero servers
 ========================================= */
 
-async function checkWorker(){
+async function checkWorker() {
 
-  try{
+  try {
 
     const response =
       await fetch(
         `${WORKER_URL}/health?t=${Date.now()}`,
         {
-          method:"GET",
-          cache:"no-store"
+          method: "GET",
+          cache: "no-store"
         }
       );
 
-    if(!response.ok){
+    if (!response.ok) {
 
       throw new Error(
         `Health HTTP ${response.status}`
@@ -390,7 +394,7 @@ async function checkWorker(){
     const data =
       await response.json();
 
-    if(!data.success){
+    if (!data.success) {
 
       throw new Error(
         data.error ||
@@ -408,7 +412,9 @@ async function checkWorker(){
 
     return true;
 
-  }catch(error){
+  }
+
+  catch (error) {
 
     setWorkerStatus(false);
 
@@ -419,6 +425,7 @@ async function checkWorker(){
     );
 
     return false;
+
   }
 
 }
@@ -428,16 +435,16 @@ async function checkWorker(){
    JOIN SERVER
 ========================================= */
 
-function joinServer(id){
+function joinServer(id) {
 
   const serverId =
     String(id || "").trim();
 
-  if(
+  if (
     !serverId ||
     serverId === "unknown" ||
     serverId === "null"
-  ){
+  ) {
 
     log(
       "No valid Job ID was supplied.",
@@ -452,10 +459,13 @@ function joinServer(id){
   }
 
   const robloxUrl =
-    `roblox://placeId=${PLACE_ID}&gameInstanceId=${encodeURIComponent(serverId)}`;
+    `roblox://placeId=${PLACE_ID}` +
+    `&gameInstanceId=${encodeURIComponent(serverId)}`;
 
   const webUrl =
-    `https://www.roblox.com/games/start?placeId=${PLACE_ID}&gameInstanceId=${encodeURIComponent(serverId)}`;
+    `https://www.roblox.com/games/start` +
+    `?placeId=${PLACE_ID}` +
+    `&gameInstanceId=${encodeURIComponent(serverId)}`;
 
   log(
     "Opening Roblox server " +
@@ -463,23 +473,14 @@ function joinServer(id){
     "ok"
   );
 
-  /*
-    Try Roblox protocol first.
-  */
-
   window.location.href =
     robloxUrl;
 
-  /*
-    If Roblox doesn't open, provide the
-    normal web join page.
-  */
-
   setTimeout(() => {
 
-    if(
+    if (
       document.visibilityState === "visible"
-    ){
+    ) {
 
       log(
         "Roblox did not open automatically. Opening web join page.",
@@ -494,7 +495,7 @@ function joinServer(id){
 
     }
 
-  },1800);
+  }, 1800);
 
 }
 
@@ -503,688 +504,7 @@ function joinServer(id){
    RENDER
 ========================================= */
 
-function render(data){
+function render(data) {
 
-  allServers =
-    Array.isArray(data?.servers)
-      ? data.servers
-      : [];
-
-
-  /* ---------------------------------------
-     COUNTS
-  --------------------------------------- */
-
-  $("count").textContent =
-    allServers.length;
-
-
-  const richCount =
-    allServers.filter(
-      server =>
-        valueOf(server) >= THRESHOLD
-    ).length;
-
-
-  $("rich").textContent =
-    richCount;
-
-
-  /*
-    Worker normally returns reportedCount.
-  */
-
-  $("reported").textContent =
-    num(
-      data?.reportedCount ??
-      data?.reports?.count ??
-      0
-    );
-
-
-  setWorkerStatus(
-    data?.success === true
-  );
-
-
-  /* ---------------------------------------
-     EMPTY
-  --------------------------------------- */
-
-  if(!allServers.length){
-
-    $("grid").innerHTML = `
-      <div class="empty">
-        <strong>No servers found</strong>
-        The Worker is online, but it returned
-        no server records.
-      </div>
-    `;
-
-    return;
-  }
-
-
-  /* ---------------------------------------
-     SERVER CARDS
-  --------------------------------------- */
-
-  $("grid").innerHTML =
-    allServers.map(server => {
-
-      const value =
-        valueOf(server);
-
-      const rich =
-        value >= THRESHOLD;
-
-      const id =
-        idOf(server);
-
-      const players =
-        playerCount(server);
-
-      const ping =
-        server.ping == null
-          ? "—"
-          : esc(server.ping) + " ms";
-
-      const fps =
-        server.fps == null
-          ? "—"
-          : esc(server.fps);
-
-      const source =
-        esc(
-          server.source ||
-          "roblox"
-        );
-
-
-      return `
-
-        <div class="server-card ${rich ? "rich" : ""}">
-
-          <div class="server-top">
-
-            <span class="badge ${rich ? "rich" : ""}">
-              ${rich ? "17K+ RICH" : "LIVE SERVER"}
-            </span>
-
-            <span class="badge">
-              ${source}
-            </span>
-
-          </div>
-
-
-          <div class="value-label">
-            Adopt Me Value
-          </div>
-
-
-          <div class="value">
-            ${money(value)}
-          </div>
-
-
-          <div class="server-meta">
-
-            <div class="meta">
-
-              <div class="meta-label">
-                Players
-              </div>
-
-              <div class="meta-value">
-                ${players}
-              </div>
-
-            </div>
-
-
-            <div class="meta">
-
-              <div class="meta-label">
-                Ping
-              </div>
-
-              <div class="meta-value">
-                ${ping}
-              </div>
-
-            </div>
-
-
-            <div class="meta">
-
-              <div class="meta-label">
-                FPS
-              </div>
-
-              <div class="meta-value">
-                ${fps}
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <button
-            class="join"
-            data-id="${esc(id)}"
-          >
-            JOIN SERVER
-          </button>
-
-        </div>
-
-      `;
-
-    }).join("");
-
-
-  /*
-    Attach Join buttons.
-  */
-
-  document
-    .querySelectorAll(".join")
-    .forEach(button => {
-
-      button.onclick =
-        () =>
-          joinServer(
-            button.dataset.id
-          );
-
-    });
-
-}
-
-
-/* =========================================
-   LOAD SERVERS
-========================================= */
-
-async function load(){
-
-  $("status").textContent =
-    "Loading...";
-
-
-  log(
-    "Requesting server data..."
-  );
-
-
-  try{
-
-    const minPlayers =
-      Math.max(
-        0,
-        num(
-          $("minPlayers").value
-        )
-      );
-
-
-    const url =
-      `${WORKER_URL}/servers` +
-      `?placeId=${encodeURIComponent(PLACE_ID)}` +
-      `&minPlayers=${encodeURIComponent(minPlayers)}` +
-      `&t=${Date.now()}`;
-
-
-    log(
-      "GET /servers"
-    );
-
-
-    const response =
-      await fetch(
-        url,
-        {
-          method:"GET",
-          cache:"no-store",
-          headers:{
-            "Accept":
-              "application/json"
-          }
-        }
-      );
-
-
-    const text =
-      await response.text();
-
-
-    let data;
-
-    try{
-
-      data =
-        JSON.parse(text);
-
-    }catch{
-
-      throw new Error(
-        `Worker returned invalid JSON (${response.status})`
-      );
-
-    }
-
-
-    if(!response.ok){
-
-      throw new Error(
-        data.error ||
-        `HTTP ${response.status}`
-      );
-
-    }
-
-
-    if(data.success !== true){
-
-      throw new Error(
-        data.error ||
-        "Worker returned success=false"
-      );
-
-    }
-
-
-    /*
-      Worker is definitely alive.
-    */
-
-    setWorkerStatus(true);
-
-
-    render(data);
-
-
-    const count =
-      num(
-        data.count ??
-        allServers.length
-      );
-
-
-    const rich =
-      allServers.filter(
-        server =>
-          valueOf(server) >= THRESHOLD
-      ).length;
-
-
-    $("status").textContent =
-      `${count} loaded`;
-
-
-    log(
-      `Loaded ${count} server records.`,
-      "ok"
-    );
-
-
-    log(
-      `Detected ${rich} server(s) at $17K+.`,
-      rich > 0
-        ? "ok"
-        : "info"
-    );
-
-
-    /*
-      Useful diagnostics.
-    */
-
-    if(data.liveCount !== undefined){
-
-      log(
-        `Roblox live servers: ${num(data.liveCount)}`
-      );
-
-    }
-
-    if(data.reportedCount !== undefined){
-
-      log(
-        `Reported servers: ${num(data.reportedCount)}`
-      );
-
-    }
-
-
-  }catch(error){
-
-    setWorkerStatus(false);
-
-    $("status").textContent =
-      "Error";
-
-
-    $("grid").innerHTML = `
-      <div class="empty">
-
-        <strong>Worker request failed</strong>
-
-        ${esc(error.message)}
-
-        <br><br>
-
-        <small>
-          Check ${esc(WORKER_URL)}/health
-        </small>
-
-      </div>
-    `;
-
-
-    log(
-      "Worker error: " +
-      error.message,
-      "error"
-    );
-
-  }
-
-}
-
-
-/* =========================================
-   STATS
-========================================= */
-
-function showStats(){
-
-  const richCount =
-    allServers.filter(
-      server =>
-        valueOf(server) >= THRESHOLD
-    ).length;
-
-
-  log(
-    `Servers loaded: ${allServers.length}`
-  );
-
-
-  log(
-    `17K+ servers: ${richCount}`,
-    richCount > 0
-      ? "ok"
-      : "info"
-  );
-
-
-  log(
-    `Worker status: ${$("online").textContent}`,
-    $("online").textContent === "ONLINE"
-      ? "ok"
-      : "warn"
-  );
-
-}
-
-
-/* =========================================
-   SAFE CONSOLE
-========================================= */
-
-function runSafe(){
-
-  const code =
-    $("code").value;
-
-
-  log(
-    "Running dashboard commands..."
-  );
-
-
-  /*
-    Dashboard-only commands.
-  */
-
-  const dangerous =
-    /\b(eval|Function|XMLHttpRequest|WebSocket|loadstring|require|getfenv|setfenv)\b/i.test(code);
-
-
-  if(dangerous){
-
-    log(
-      "Blocked: unsupported external/injection command detected.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  let recognized =
-    false;
-
-
-  if(
-    /\bservers\s*\(/i.test(code) ||
-    /\bload\s*\(/i.test(code)
-  ){
-
-    recognized =
-      true;
-
-    load();
-
-  }
-
-
-  if(
-    /\bstats\s*\(/i.test(code)
-  ){
-
-    recognized =
-      true;
-
-    showStats();
-
-  }
-
-
-  const logs =
-    [
-      ...code.matchAll(
-        /\blog\s*\(\s*["']([^"']*)["']\s*\)/gi
-      )
-    ];
-
-
-  logs.forEach(match => {
-
-    recognized =
-      true;
-
-    log(
-      match[1],
-      "ok"
-    );
-
-  });
-
-
-  if(!recognized){
-
-    log(
-      "No recognized safe dashboard commands found.",
-      "warn"
-    );
-
-  }
-
-}
-
-
-/* =========================================
-   TEST 17K PARSER
-========================================= */
-
-function test17K(){
-
-  const tests = [
-    "$17,000",
-    "17K",
-    "17k",
-    "17.5K",
-    "$17.5K",
-    "17000"
-  ];
-
-
-  log(
-    "Testing value parser..."
-  );
-
-
-  tests.forEach(test => {
-
-    const parsed =
-      parseValue(test);
-
-    const rich =
-      parsed >= THRESHOLD;
-
-    log(
-      `${test} -> ${parsed} -> ${rich ? "17K+" : "below 17K"}`,
-      rich
-        ? "ok"
-        : "warn"
-    );
-
-  });
-
-}
-
-
-/* =========================================
-   BUTTONS
-========================================= */
-
-$("load").onclick =
-  load;
-
-$("filterLoad").onclick =
-  load;
-
-$("refresh").onclick =
-  load;
-
-$("loadCmd").onclick =
-  load;
-
-$("statsCmd").onclick =
-  showStats;
-
-$("statsCommand").onclick =
-  showStats;
-
-$("run").onclick =
-  runSafe;
-
-
-$("clearConsole").onclick =
-  () => {
-
-    $("log").innerHTML = "";
-
-    log(
-      "Console cleared.",
-      "ok"
-    );
-
-  };
-
-
-$("clearOutput").onclick =
-  () => {
-
-    $("log").innerHTML = "";
-
-  };
-
-
-$("code").addEventListener(
-  "input",
-  updateLines
-);
-
-
-/* =========================================
-   KEYBOARD
-========================================= */
-
-$("code").addEventListener(
-  "keydown",
-  event => {
-
-    if(
-      event.ctrlKey &&
-      event.key === "Enter"
-    ){
-
-      event.preventDefault();
-
-      runSafe();
-
-    }
-
-  }
-);
-
-
-/* =========================================
-   INITIALIZE
-========================================= */
-
-updateLines();
-
-setWorkerStatus(false);
-
-log(
-  "DONIE Safe Console initialized.",
-  "ok"
-);
-
-log(
-  "Testing Worker connection..."
-);
-
-
-/*
-  First check /health.
-  Then load the servers automatically.
-*/
-
-(async () => {
-
-  const online =
-    await checkWorker();
-
-  if(online){
-
-    await load();
-
-  }else{
-
-    log(
-      "Worker is unreachable. Check the Worker URL.",
-      "error"
-    );
-
-  }
-
-})();
-
-</script>
+  all
+```
