@@ -1,57 +1,992 @@
-```js
-/* =========================================
-   JOIN SERVER
-   ========================================= */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DONIE • Adopt Me Rich Finder</title>
 
-function joinServer(id) {
-  const place = GAMES[selected];
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
-  if (!place) {
-    toast("Game Place ID unavailable");
-    return;
-  }
-
-  if (!id || id === "unknown" || id === "null") {
-    toast("Server Job ID unavailable");
-    return;
-  }
-
-  const serverId = String(id).trim();
-
-  console.log("[DONIE] Place ID:", place);
-  console.log("[DONIE] Server Job ID:", serverId);
-
-  // Roblox desktop-app deep link
-  const robloxUrl =
-    "roblox://placeId=" +
-    encodeURIComponent(place) +
-    "&gameInstanceId=" +
-    encodeURIComponent(serverId);
-
-  // Official Roblox web launcher fallback
-  const webUrl =
-    "https://www.roblox.com/games/start" +
-    "?placeId=" +
-    encodeURIComponent(place) +
-    "&gameInstanceId=" +
-    encodeURIComponent(serverId);
-
-  console.log("[DONIE] Roblox deep link:", robloxUrl);
-  console.log("[DONIE] Web launcher:", webUrl);
-
-  // Create a real link click so browsers allow the Roblox protocol
-  const link = document.createElement("a");
-  link.href = robloxUrl;
-  link.style.display = "none";
-
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-
-  // Give Roblox a moment to launch.
-  // If it didn't launch, open the official web launcher.
-  setTimeout(() => {
-    window.open(webUrl, "_blank", "noopener");
-  }, 2500);
+:root{
+  --bg:#06070b;
+  --panel:#0c0f16;
+  --panel2:#11151e;
+  --panel3:#151a25;
+  --border:#202735;
+  --text:#f4f7fb;
+  --muted:#8e99aa;
+  --green:#39e58c;
+  --red:#ff5265;
+  --yellow:#ffd166;
+  --blue:#6ea8ff;
 }
-```
+
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh
+}
+
+button,input,textarea{
+  font:inherit
+}
+
+button{
+  border:1px solid var(--border);
+  background:var(--panel2);
+  color:var(--text);
+  padding:10px 14px;
+  border-radius:9px;
+  cursor:pointer;
+  font-weight:700
+}
+
+button:hover{
+  border-color:var(--green)
+}
+
+.wrap{
+  max-width:1450px;
+  margin:auto;
+  padding:20px
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:16px
+}
+
+h1{
+  font-size:27px
+}
+
+.sub{
+  color:var(--muted);
+  margin-top:5px
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:15px
+}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:15px
+}
+
+.label{
+  font-size:11px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.6px
+}
+
+.big{
+  font-size:24px;
+  font-weight:900;
+  margin-top:7px
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:1fr 390px;
+  gap:15px
+}
+
+.executor,
+.servers{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden
+}
+
+.topbar{
+  height:48px;
+  background:var(--panel2);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 12px
+}
+
+.tabs{
+  display:flex;
+  gap:4px;
+  height:100%;
+  align-items:end
+}
+
+.tab{
+  padding:14px 12px 12px;
+  color:var(--muted);
+  font-size:12px;
+  cursor:pointer;
+  border-bottom:2px solid transparent
+}
+
+.tab.active{
+  color:var(--text);
+  border-color:var(--green)
+}
+
+.editor-wrap{
+  display:grid;
+  grid-template-columns:44px 1fr;
+  min-height:360px;
+  background:#080a0f
+}
+
+.lines{
+  background:#0b0e14;
+  color:#505968;
+  text-align:right;
+  padding:15px 10px;
+  font:13px/1.65 Consolas,monospace;
+  user-select:none
+}
+
+textarea{
+  width:100%;
+  height:100%;
+  min-height:360px;
+  resize:vertical;
+  border:0;
+  outline:0;
+  background:#080a0f;
+  color:#dce3ec;
+  padding:14px;
+  font:13px/1.65 Consolas,monospace
+}
+
+.toolbar{
+  display:flex;
+  gap:8px;
+  padding:10px;
+  border-top:1px solid var(--border);
+  background:var(--panel2);
+  flex-wrap:wrap
+}
+
+.run{
+  background:#153b29;
+  border-color:#246f49;
+  color:#8ff0ba
+}
+
+.clear{
+  color:#ff9aa6
+}
+
+.console{
+  border-top:1px solid var(--border);
+  background:#07090d
+}
+
+.console-head{
+  padding:9px 12px;
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  border-bottom:1px solid var(--border)
+}
+
+.log{
+  height:150px;
+  overflow:auto;
+  padding:10px;
+  font:12px/1.6 Consolas,monospace;
+  color:#aeb8c7
+}
+
+.log .ok{
+  color:var(--green)
+}
+
+.log .err{
+  color:var(--red)
+}
+
+.log .info{
+  color:var(--blue)
+}
+
+.side-head{
+  padding:15px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center
+}
+
+.filters{
+  padding:12px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  gap:8px
+}
+
+input{
+  background:var(--panel2);
+  border:1px solid var(--border);
+  color:var(--text);
+  padding:10px;
+  border-radius:9px;
+  width:100%;
+  outline:0
+}
+
+.grid{
+  padding:12px;
+  display:grid;
+  gap:10px;
+  max-height:625px;
+  overflow:auto
+}
+
+.server{
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:12px
+}
+
+.server.rich{
+  border-color:var(--green)
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin:6px 0
+}
+
+.badge{
+  font-size:10px;
+  border:1px solid var(--border);
+  padding:4px 7px;
+  border-radius:99px;
+  color:var(--muted)
+}
+
+.value{
+  font-size:22px;
+  font-weight:900;
+  color:var(--green);
+  margin:7px 0
+}
+
+.join{
+  width:100%;
+  margin-top:9px
+}
+
+.empty{
+  text-align:center;
+  color:var(--muted);
+  padding:35px 15px
+}
+
+.notice{
+  padding:10px 12px;
+  background:#10141d;
+  border:1px solid var(--border);
+  border-radius:9px;
+  color:var(--muted);
+  font-size:11px;
+  margin:12px
+}
+
+@media(max-width:1050px){
+  .layout{
+    grid-template-columns:1fr
+  }
+
+  .grid{
+    max-height:none
+  }
+}
+
+@media(max-width:650px){
+  .stats{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .wrap{
+    padding:12px
+  }
+
+  header{
+    align-items:flex-start;
+    flex-direction:column
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header>
+  <div>
+    <h1>DONIE • Adopt Me Rich Finder</h1>
+    <div class="sub">
+      Live servers + reported Adopt Me inventory values
+    </div>
+  </div>
+
+  <div class="actions">
+    <button id="refresh">REFRESH SERVERS</button>
+    <button id="clearConsole" class="clear">CLEAR CONSOLE</button>
+  </div>
+</header>
+
+<div class="stats">
+
+  <div class="card">
+    <div class="label">Servers</div>
+    <div class="big" id="count">0</div>
+  </div>
+
+  <div class="card">
+    <div class="label">17K+ Servers</div>
+    <div class="big" id="rich">0</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Reported</div>
+    <div class="big" id="reported">0</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Worker</div>
+    <div class="big" id="online">OFFLINE</div>
+  </div>
+
+</div>
+
+<div class="layout">
+
+<section class="executor">
+
+  <div class="topbar">
+
+    <div class="tabs">
+      <div class="tab active">DONIE Console</div>
+      <div class="tab">New Document</div>
+    </div>
+
+    <span class="badge">SAFE MODE</span>
+
+  </div>
+
+  <div class="notice">
+    This panel is a dashboard console only.
+    It does not inject scripts into Roblox or bypass Roblox security.
+  </div>
+
+  <div class="editor-wrap">
+
+    <div class="lines" id="lines">
+      1<br>
+      2<br>
+      3<br>
+      4<br>
+      5<br>
+      6<br>
+      7<br>
+      8<br>
+      9<br>
+      10<br>
+      11<br>
+      12
+    </div>
+
+    <textarea id="editor" spellcheck="false">// DONIE dashboard console
+// Safe commands:
+log("DONIE console ready");
+servers();
+stats();</textarea>
+
+  </div>
+
+  <div class="toolbar">
+
+    <button class="run" id="run">
+      ▶ RUN SAFE COMMANDS
+    </button>
+
+    <button id="loadCmd">
+      LOAD SERVER DATA
+    </button>
+
+    <button id="statsCmd">
+      SHOW STATS
+    </button>
+
+  </div>
+
+  <div class="console">
+
+    <div class="console-head">
+      Console Output
+    </div>
+
+    <div class="log" id="log"></div>
+
+  </div>
+
+</section>
+
+<aside class="servers">
+
+  <div class="side-head">
+    <b>LIVE SERVERS</b>
+    <span id="status" class="badge">Ready</span>
+  </div>
+
+  <div class="filters">
+
+    <input
+      id="minPlayers"
+      type="number"
+      min="0"
+      value="0"
+      placeholder="Minimum players"
+    >
+
+    <button id="load">
+      LOAD
+    </button>
+
+  </div>
+
+  <div id="grid" class="grid">
+
+    <div class="empty">
+      Press LOAD to fetch live servers.
+    </div>
+
+  </div>
+
+</aside>
+
+</div>
+</div>
+
+<script>
+
+const WORKER_URL =
+  "https://black-sun-c74c.redonekowaithe1.workers.dev";
+
+const PLACE_ID = "920587237";
+
+const THRESHOLD = 17000;
+
+const $ = id => document.getElementById(id);
+
+let allServers = [];
+
+
+function num(v){
+
+  const n = Number(v);
+
+  return Number.isFinite(n) ? n : 0;
+
+}
+
+
+function money(v){
+
+  return "$" + num(v).toLocaleString("en-US");
+
+}
+
+
+function esc(v){
+
+  return String(v ?? "").replace(
+    /[&<>"']/g,
+    c => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[c])
+  );
+
+}
+
+
+function valueOf(s){
+
+  return num(
+    s.adoptMeValue ??
+    s.inventoryValue ??
+    s.totalInventoryValue ??
+    s.adoptMeInventoryValue ??
+    s.value ??
+    s.rap ??
+    s.RAP ??
+    s.reportedValue
+  );
+
+}
+
+
+function idOf(s){
+
+  return String(
+    s.serverId ??
+    s.jobId ??
+    s.id ??
+    s.instanceId ??
+    ""
+  );
+
+}
+
+
+function log(msg,type="info"){
+
+  const el = $("log");
+
+  const line = document.createElement("div");
+
+  line.className = type;
+
+  line.textContent =
+    "[" +
+    new Date().toLocaleTimeString() +
+    "] " +
+    msg;
+
+  el.appendChild(line);
+
+  el.scrollTop = el.scrollHeight;
+
+}
+
+
+function updateLines(){
+
+  const n =
+    $("editor").value.split("\n").length;
+
+  $("lines").innerHTML =
+    Array.from(
+      {length:Math.max(n,1)},
+      (_,i) => i + 1
+    ).join("<br>");
+
+}
+
+
+function joinServer(id){
+
+  if(!id){
+
+    log(
+      "This server has no valid Job ID.",
+      "err"
+    );
+
+    alert(
+      "This server has no valid Job ID."
+    );
+
+    return;
+  }
+
+  const robloxUrl =
+    `roblox://placeId=${PLACE_ID}&gameInstanceId=${encodeURIComponent(id)}`;
+
+  const webUrl =
+    `https://www.roblox.com/games/start?placeId=${PLACE_ID}&gameInstanceId=${encodeURIComponent(id)}`;
+
+  log(
+    "Opening Roblox join link for server " + id,
+    "ok"
+  );
+
+  window.location.href = robloxUrl;
+
+  setTimeout(() => {
+    window.location.href = webUrl;
+  },2000);
+
+}
+
+
+function render(data){
+
+  allServers =
+    Array.isArray(data.servers)
+      ? data.servers
+      : [];
+
+  $("count").textContent =
+    allServers.length;
+
+  $("rich").textContent =
+    allServers.filter(
+      s => valueOf(s) >= THRESHOLD
+    ).length;
+
+  $("reported").textContent =
+    data.reportedCount ?? 0;
+
+  $("online").textContent =
+    data.success
+      ? "ONLINE"
+      : "ERROR";
+
+  $("online").style.color =
+    data.success
+      ? "var(--green)"
+      : "var(--red)";
+
+
+  if(!allServers.length){
+
+    $("grid").innerHTML =
+      '<div class="empty">' +
+      'No servers found. Make sure your Worker and reporter are running.' +
+      '</div>';
+
+    return;
+  }
+
+
+  $("grid").innerHTML =
+    allServers.map(s => {
+
+      const value = valueOf(s);
+
+      const rich =
+        value >= THRESHOLD;
+
+      const id = idOf(s);
+
+      const players =
+        num(
+          s.players ??
+          s.playing ??
+          s.playerCount
+        );
+
+      const ping =
+        s.ping == null
+          ? "—"
+          : esc(s.ping) + " ms";
+
+      const fps =
+        s.fps == null
+          ? "—"
+          : esc(s.fps);
+
+
+      return `
+      <div class="server ${rich ? "rich" : ""}">
+
+        <div class="row">
+
+          <span class="badge">
+            ${rich ? "17K+ RICH" : "LIVE SERVER"}
+          </span>
+
+          <span class="badge">
+            ${esc(s.source || "roblox")}
+          </span>
+
+        </div>
+
+        <div class="label">
+          Adopt Me Value
+        </div>
+
+        <div class="value">
+          ${money(value)}
+        </div>
+
+        <div class="row">
+          <span>Players</span>
+          <b>${players}</b>
+        </div>
+
+        <div class="row">
+          <span>Ping</span>
+          <b>${ping}</b>
+        </div>
+
+        <div class="row">
+          <span>FPS</span>
+          <b>${fps}</b>
+        </div>
+
+        <button
+          class="join"
+          data-id="${esc(id)}"
+        >
+          JOIN SERVER
+        </button>
+
+      </div>
+      `;
+
+    }).join("");
+
+
+  document
+    .querySelectorAll(".join")
+    .forEach(b => {
+
+      b.onclick = () =>
+        joinServer(b.dataset.id);
+
+    });
+
+}
+
+
+async function load(){
+
+  $("status").textContent =
+    "Loading…";
+
+  log(
+    "Requesting live server data..."
+  );
+
+
+  try{
+
+    const min =
+      Math.max(
+        0,
+        num($("minPlayers").value)
+      );
+
+
+    const r = await fetch(
+
+      `${WORKER_URL}/servers?placeId=${PLACE_ID}&minPlayers=${min}&t=${Date.now()}`,
+
+      {
+        cache:"no-store"
+      }
+
+    );
+
+
+    const data =
+      await r.json();
+
+
+    if(
+      !r.ok ||
+      !data.success
+    ){
+
+      throw new Error(
+        data.error ||
+        `HTTP ${r.status}`
+      );
+
+    }
+
+
+    render(data);
+
+
+    $("status").textContent =
+      `${data.count ?? allServers.length} loaded`;
+
+
+    log(
+      `Loaded ${data.count ?? allServers.length} servers.`,
+      "ok"
+    );
+
+
+  }catch(e){
+
+    $("online").textContent =
+      "ERROR";
+
+    $("online").style.color =
+      "var(--red)";
+
+    $("status").textContent =
+      "Error";
+
+
+    $("grid").innerHTML =
+      `<div class="empty">
+        Worker error: ${esc(e.message)}
+      </div>`;
+
+
+    log(
+      "Worker error: " + e.message,
+      "err"
+    );
+
+  }
+
+}
+
+
+function showStats(){
+
+  log(
+    `Servers: ${allServers.length}`
+  );
+
+  log(
+    `17K+ servers: ${
+      allServers.filter(
+        s => valueOf(s) >= THRESHOLD
+      ).length
+    }`
+  );
+
+  log(
+    `Worker: ${$("online").textContent}`,
+    "ok"
+  );
+
+}
+
+
+function runSafe(){
+
+  const code =
+    $("editor").value;
+
+  log(
+    "Running safe dashboard commands..."
+  );
+
+
+  const allowed =
+    /\b(log|servers|stats|load)\s*\(/;
+
+
+  if(!allowed.test(code)){
+
+    log(
+      "No recognized safe dashboard commands found.",
+      "err"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    /\b(eval|fetch|XMLHttpRequest|WebSocket|loadstring|game:GetService|require)\b/i
+      .test(code)
+  ){
+
+    log(
+      "Blocked: external/injection commands are not allowed in this dashboard console.",
+      "err"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    code.includes("servers(")
+  ){
+
+    load();
+
+  }
+
+
+  if(
+    code.includes("stats(")
+  ){
+
+    showStats();
+
+  }
+
+
+  const matches = [
+    ...code.matchAll(
+      /log\(["']([^"']*)["']\)/g
+    )
+  ];
+
+
+  matches.forEach(
+    m => log(m[1],"ok")
+  );
+
+}
+
+
+$("load").onclick =
+  load;
+
+$("refresh").onclick =
+  load;
+
+$("clearConsole").onclick =
+  () => {
+    $("log").innerHTML = "";
+  };
+
+$("loadCmd").onclick =
+  load;
+
+$("statsCmd").onclick =
+  showStats;
+
+$("run").onclick =
+  runSafe;
+
+$("editor").addEventListener(
+  "input",
+  updateLines
+);
+
+
+updateLines();
+
+log(
+  "DONIE Safe Console initialized.",
+  "ok"
+);
+
+</script>
+
+</body>
+</html>
