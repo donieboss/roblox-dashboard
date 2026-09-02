@@ -1,246 +1,837 @@
-const CORS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type,X-Reporter-Token"
-};
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-const PLACE_ID = "920587237";
+<title>DONIE • Adopt Me Rich Finder</title>
 
-const TTL = 120000; // 2 minutes
-const MIN_RICH_VALUE = 17000; // 17K+
-const ROBLOX_MAX_PAGES = 3;
-
-
-/* =========================================================
-   RESPONSE
-========================================================= */
-
-function json(data, status = 200) {
-  return new Response(
-    JSON.stringify(data, null, 2),
-    {
-      status,
-      headers: {
-        ...CORS,
-        "Content-Type": "application/json; charset=utf-8",
-        "Cache-Control": "no-store"
-      }
-    }
-  );
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
-function errorJson(message, status = 500, extra = {}) {
-  return json(
-    {
-      success: false,
-      error: String(message || "Unknown error"),
-      ...extra
-    },
-    status
-  );
+:root{
+  --bg:#050608;
+  --panel:#0b0f14;
+  --panel2:#10151c;
+  --border:#1d2731;
+  --text:#f2f5f7;
+  --muted:#7e8994;
+  --green:#38ff88;
+  --green2:#16c967;
+  --red:#ff4f5e;
+  --yellow:#ffd34d;
+  --blue:#45a7ff;
 }
 
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top,#101a17 0%,#050608 45%);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
 
-/* =========================================================
-   NUMBER PARSER
-========================================================= */
+button,
+input,
+select{
+  font:inherit;
+}
 
-function num(value, fallback = 0) {
-  if (value === null || value === undefined || value === "") {
-    return fallback;
+button{
+  cursor:pointer;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+  height:72px;
+  border-bottom:1px solid var(--border);
+  background:rgba(5,6,8,.94);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  backdrop-filter:blur(10px);
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logoIcon{
+  width:40px;
+  height:40px;
+  border:1px solid rgba(56,255,136,.4);
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  color:var(--green);
+  font-weight:900;
+  box-shadow:0 0 20px rgba(56,255,136,.1);
+}
+
+.logoText{
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:.5px;
+}
+
+.logoText span{
+  color:var(--green);
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.statusDot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--yellow);
+  box-shadow:0 0 10px rgba(255,211,77,.5);
+}
+
+.statusDot.online{
+  background:var(--green);
+  box-shadow:0 0 12px rgba(56,255,136,.7);
+}
+
+.statusDot.offline{
+  background:var(--red);
+  box-shadow:0 0 12px rgba(255,79,94,.6);
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.container{
+  width:min(1400px,94%);
+  margin:28px auto 50px;
+}
+
+.hero{
+  margin-bottom:25px;
+}
+
+.hero h1{
+  font-size:34px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.hero h1 span{
+  color:var(--green);
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+
+.stat{
+  background:linear-gradient(180deg,#0d1218,#090d12);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:18px;
+  min-height:105px;
+}
+
+.statLabel{
+  color:var(--muted);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  margin-bottom:10px;
+}
+
+.statValue{
+  font-size:27px;
+  font-weight:900;
+}
+
+.statValue.green{
+  color:var(--green);
+}
+
+/* =========================
+   CONTROLS
+========================= */
+
+.controls{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.control{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.control label{
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+}
+
+.control input,
+.control select{
+  width:150px;
+  height:40px;
+  background:#070a0e;
+  border:1px solid var(--border);
+  color:var(--text);
+  border-radius:8px;
+  padding:0 11px;
+  outline:none;
+}
+
+.control input:focus,
+.control select:focus{
+  border-color:var(--green2);
+}
+
+.btn{
+  align-self:end;
+  height:40px;
+  border-radius:8px;
+  padding:0 17px;
+  border:1px solid var(--border);
+  background:#11171d;
+  color:var(--text);
+  font-weight:800;
+}
+
+.btn:hover{
+  border-color:#34414c;
+}
+
+.btn.green{
+  background:var(--green2);
+  border-color:var(--green2);
+  color:#031008;
+}
+
+.btn.green:hover{
+  background:var(--green);
+}
+
+.btn:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message{
+  display:none;
+  padding:14px 16px;
+  border-radius:10px;
+  margin-bottom:18px;
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:var(--muted);
+  font-size:13px;
+}
+
+.message.show{
+  display:block;
+}
+
+.message.error{
+  border-color:rgba(255,79,94,.4);
+  color:#ff8b94;
+}
+
+.message.success{
+  border-color:rgba(56,255,136,.35);
+  color:var(--green);
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.panel{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+}
+
+.panelHeader{
+  height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  border-bottom:1px solid var(--border);
+}
+
+.panelTitle{
+  font-weight:900;
+}
+
+.panelSub{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.tableWrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:850px;
+}
+
+thead{
+  background:#080b0f;
+}
+
+th{
+  text-align:left;
+  color:#68737e;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.6px;
+  padding:13px 15px;
+  border-bottom:1px solid var(--border);
+}
+
+td{
+  padding:14px 15px;
+  border-bottom:1px solid #141b22;
+  font-size:13px;
+}
+
+tbody tr:hover{
+  background:#0e141a;
+}
+
+.serverId{
+  font-family:monospace;
+  color:#aeb8c1;
+  max-width:230px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.value{
+  color:var(--green);
+  font-weight:900;
+  font-size:15px;
+}
+
+.richBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 9px;
+  border-radius:999px;
+  background:rgba(56,255,136,.1);
+  border:1px solid rgba(56,255,136,.28);
+  color:var(--green);
+  font-size:11px;
+  font-weight:900;
+}
+
+.normalBadge{
+  display:inline-flex;
+  padding:5px 9px;
+  border-radius:999px;
+  background:#12171d;
+  border:1px solid var(--border);
+  color:var(--muted);
+  font-size:11px;
+}
+
+.joinBtn{
+  height:32px;
+  padding:0 12px;
+  border-radius:7px;
+  border:1px solid rgba(69,167,255,.3);
+  background:rgba(69,167,255,.08);
+  color:var(--blue);
+  font-size:12px;
+  font-weight:800;
+}
+
+.joinBtn:hover{
+  background:rgba(69,167,255,.16);
+}
+
+.empty{
+  padding:55px 20px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.empty strong{
+  display:block;
+  color:var(--text);
+  font-size:17px;
+  margin-bottom:7px;
+}
+
+/* =========================
+   DEBUG
+========================= */
+
+.debug{
+  margin-top:20px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:17px;
+}
+
+.debugTitle{
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.debugGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.debugBox{
+  background:#080b0f;
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:12px;
+}
+
+.debugBox small{
+  display:block;
+  color:var(--muted);
+  margin-bottom:5px;
+}
+
+.debugBox strong{
+  font-size:14px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+  .stats{
+    grid-template-columns:repeat(2,1fr);
   }
 
-  if (typeof value === "number") {
-    return Number.isFinite(value) ? value : fallback;
+  .debugGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+  .header{
+    padding:0 15px;
   }
 
-  const n = Number(value);
+  .logoText{
+    font-size:16px;
+  }
 
-  return Number.isFinite(n) ? n : fallback;
+  .container{
+    width:94%;
+  }
+
+  .hero h1{
+    font-size:27px;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .control,
+  .control input,
+  .control select{
+    width:100%;
+  }
+
+  .btn{
+    width:100%;
+  }
+
+  .debugGrid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="logo">
+    <div class="logoIcon">D</div>
+    <div class="logoText">
+      DONIE <span>RICH FINDER</span>
+    </div>
+  </div>
+
+  <div class="status">
+    <span id="statusDot" class="statusDot"></span>
+    <span id="statusText">Checking Worker...</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <h1>Adopt Me <span>Rich Finder</span></h1>
+    <p>
+      Find reported Adopt Me servers with inventory values of
+      <strong>17K+</strong>.
+    </p>
+  </section>
+
+  <section class="stats">
+
+    <div class="stat">
+      <div class="statLabel">Live Servers</div>
+      <div id="liveCount" class="statValue">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="statLabel">Reported Servers</div>
+      <div id="reportedCount" class="statValue">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="statLabel">17K+ Servers</div>
+      <div id="richCount" class="statValue green">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="statLabel">Threshold</div>
+      <div id="threshold" class="statValue green">$17.0K</div>
+    </div>
+
+  </section>
+
+  <section class="controls">
+
+    <div class="control">
+      <label>Minimum Players</label>
+      <input
+        id="minPlayers"
+        type="number"
+        min="0"
+        value="0"
+        placeholder="0"
+      >
+    </div>
+
+    <div class="control">
+      <label>Minimum Value</label>
+      <input
+        id="minValue"
+        type="text"
+        value="17K"
+        placeholder="17K"
+      >
+    </div>
+
+    <div class="control">
+      <label>Show</label>
+      <select id="showFilter">
+        <option value="all">All Servers</option>
+        <option value="rich">17K+ Only</option>
+      </select>
+    </div>
+
+    <button
+      id="refreshBtn"
+      class="btn green"
+      onclick="loadServers()"
+    >
+      Refresh Servers
+    </button>
+
+    <button
+      class="btn"
+      onclick="checkWorker()"
+    >
+      Check Worker
+    </button>
+
+  </section>
+
+  <div id="message" class="message"></div>
+
+  <section class="panel">
+
+    <div class="panelHeader">
+      <div>
+        <div class="panelTitle">Server Finder</div>
+        <div class="panelSub" id="serverSub">
+          Waiting for server data...
+        </div>
+      </div>
+
+      <div class="panelSub" id="lastUpdate">
+        —
+      </div>
+    </div>
+
+    <div class="tableWrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Server</th>
+            <th>Players</th>
+            <th>Value</th>
+            <th>Status</th>
+            <th>Ping</th>
+            <th>FPS</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="serverBody">
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+  <section class="debug">
+
+    <div class="debugTitle">Worker Diagnostics</div>
+
+    <div class="debugGrid">
+
+      <div class="debugBox">
+        <small>Worker</small>
+        <strong id="debugWorker">Checking...</strong>
+      </div>
+
+      <div class="debugBox">
+        <small>KV</small>
+        <strong id="debugKV">Unknown</strong>
+      </div>
+
+      <div class="debugBox">
+        <small>Reporter</small>
+        <strong id="debugReporter">Unknown</strong>
+      </div>
+
+      <div class="debugBox">
+        <small>Threshold</small>
+        <strong id="debugThreshold">$17.0K</strong>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const WORKER_URL =
+  "https://black-sun-c74c.redonekowaithe1.workers.dev";
+
+const PLACE_ID =
+  "920587237";
+
+const THRESHOLD =
+  17000;
+
+let allServers = [];
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(id){
+  return document.getElementById(id);
 }
 
 
 /* =========================================================
-   ADOPT ME VALUE PARSER
-   Supports:
-
-   17000
-   "17000"
-   "$17,000"
-   "17,000"
-   "17K"
-   "17k"
-   "17K+"
-   "$17K"
-   "$17K+"
-   "17.5K"
-   "1.2M"
-   "1.2B"
-   "17K RICH"
-   "Adopt Me Value: 17K"
+   VALUE PARSER
 ========================================================= */
 
-function parseValue(value, fallback = 0) {
-  if (
+function parseValue(value){
+
+  if(
     value === null ||
     value === undefined ||
     value === ""
-  ) {
-    return fallback;
-  }
-
-  if (typeof value === "number") {
-    return Number.isFinite(value) ? value : fallback;
-  }
-
-  let s = String(value)
-    .trim()
-    .toUpperCase();
-
-  if (!s) {
-    return fallback;
-  }
-
-  // Remove currency symbols
-  s = s.replace(/[$€£¥₽]/g, "");
-
-  // Remove commas
-  s = s.replace(/,/g, "");
-
-  // Remove spaces
-  s = s.replace(/\s+/g, "");
-
-  // Remove plus signs
-  s = s.replace(/\+/g, "");
-
-  // Remove common currency words
-  s = s.replace(/USD$/i, "");
-  s = s.replace(/DOLLARS?$/i, "");
-
-  /*
-     Exact values:
-     17000
-     17K
-     17.5K
-     1.2M
-     1B
-  */
-
-  const exact = s.match(
-    /^(-?(?:\d+(?:\.\d*)?|\.\d+))(K|M|B)?$/
-  );
-
-  if (exact) {
-    let n = Number(exact[1]);
-
-    if (!Number.isFinite(n)) {
-      return fallback;
-    }
-
-    const suffix = exact[2];
-
-    if (suffix === "K") {
-      n *= 1000;
-    }
-
-    if (suffix === "M") {
-      n *= 1000000;
-    }
-
-    if (suffix === "B") {
-      n *= 1000000000;
-    }
-
-    return Number.isFinite(n) ? n : fallback;
-  }
-
-  /*
-     Embedded values:
-     "17K RICH"
-     "ADOPT ME VALUE: 17K"
-     "$17K+"
-  */
-
-  const embedded = s.match(
-    /(-?(?:\d+(?:\.\d*)?|\.\d+))(K|M|B)?/
-  );
-
-  if (embedded) {
-    let n = Number(embedded[1]);
-
-    if (!Number.isFinite(n)) {
-      return fallback;
-    }
-
-    if (embedded[2] === "K") {
-      n *= 1000;
-    }
-
-    if (embedded[2] === "M") {
-      n *= 1000000;
-    }
-
-    if (embedded[2] === "B") {
-      n *= 1000000000;
-    }
-
-    return Number.isFinite(n) ? n : fallback;
-  }
-
-  return fallback;
-}
-
-
-/* =========================================================
-   MONEY
-========================================================= */
-
-function formatMoney(value) {
-  const n = parseValue(value, 0);
-
-  if (n >= 1000000000) {
-    return "$" + (n / 1000000000).toFixed(1) + "B";
-  }
-
-  if (n >= 1000000) {
-    return "$" + (n / 1000000).toFixed(1) + "M";
-  }
-
-  if (n >= 1000) {
-    return "$" + (n / 1000).toFixed(1) + "K";
-  }
-
-  return "$" + n.toLocaleString("en-US");
-}
-
-
-/* =========================================================
-   ADOPT ME VALUE FIELD DETECTION
-========================================================= */
-
-function getAdoptMeValue(report) {
-  if (!report || typeof report !== "object") {
+  ){
     return 0;
   }
 
+  if(typeof value === "number"){
+    return Number.isFinite(value)
+      ? value
+      : 0;
+  }
+
+  let s =
+    String(value)
+      .trim()
+      .toUpperCase();
+
+  if(!s){
+    return 0;
+  }
+
+  s = s
+    .replace(/[$€£¥₽]/g,"")
+    .replace(/,/g,"")
+    .replace(/\s+/g,"")
+    .replace(/\+/g,"");
+
+  const match =
+    s.match(
+      /(-?(?:\d+(?:\.\d*)?|\.\d+))(K|M|B)?/
+    );
+
+  if(!match){
+    return 0;
+  }
+
+  let number =
+    Number(match[1]);
+
+  if(!Number.isFinite(number)){
+    return 0;
+  }
+
+  const suffix =
+    match[2];
+
+  if(suffix === "K"){
+    number *= 1000;
+  }
+
+  if(suffix === "M"){
+    number *= 1000000;
+  }
+
+  if(suffix === "B"){
+    number *= 1000000000;
+  }
+
+  return Number.isFinite(number)
+    ? number
+    : 0;
+}
+
+
+/* =========================================================
+   MONEY FORMAT
+========================================================= */
+
+function formatMoney(value){
+
+  const n =
+    parseValue(value);
+
+  if(n >= 1000000000){
+    return "$" +
+      (n / 1000000000).toFixed(1) +
+      "B";
+  }
+
+  if(n >= 1000000){
+    return "$" +
+      (n / 1000000).toFixed(1) +
+      "M";
+  }
+
+  if(n >= 1000){
+    return "$" +
+      (n / 1000).toFixed(1) +
+      "K";
+  }
+
+  return "$" +
+    Math.round(n).toLocaleString("en-US");
+}
+
+
+/* =========================================================
+   SERVER VALUE
+========================================================= */
+
+function getServerValue(server){
+
   const candidates = [
-    report.adoptMeValue,
-    report.inventoryValue,
-    report.totalInventoryValue,
-    report.adoptMeInventoryValue,
-    report.reportedValue,
-    report.value,
-    report.inventory,
-    report.totalValue,
-    report.estimatedValue
+    server.adoptMeValue,
+    server.inventoryValue,
+    server.totalInventoryValue,
+    server.adoptMeInventoryValue,
+    server.reportedValue,
+    server.value,
+    server.totalValue,
+    server.estimatedValue
   ];
 
   let best = 0;
 
-  for (const candidate of candidates) {
-    const parsed = parseValue(candidate, 0);
+  for(const value of candidates){
 
-    if (parsed > best) {
+    const parsed =
+      parseValue(value);
+
+    if(parsed > best){
       best = parsed;
     }
   }
@@ -253,1230 +844,615 @@ function getAdoptMeValue(report) {
    RICH CHECK
 ========================================================= */
 
-function isRich17K(value) {
-  return parseValue(value, 0) >= MIN_RICH_VALUE;
+function isRich(server){
+
+  return (
+    getServerValue(server) >=
+    THRESHOLD
+  );
 }
 
 
 /* =========================================================
-   ROBLOX API
+   SAFE TEXT
 ========================================================= */
 
-async function fetchJson(url) {
-  let lastError = null;
+function escapeHTML(value){
 
-  for (let attempt = 0; attempt < 3; attempt++) {
-    try {
-      const response = await fetch(url, {
-        headers: {
-          "Accept": "application/json",
-          "User-Agent": "DONIE-Rich-Finder/1.0"
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function showMessage(
+  text,
+  type = ""
+){
+
+  const box =
+    $("message");
+
+  box.textContent =
+    text;
+
+  box.className =
+    "message show " +
+    type;
+}
+
+function hideMessage(){
+
+  $("message").className =
+    "message";
+}
+
+
+/* =========================================================
+   WORKER CHECK
+========================================================= */
+
+async function checkWorker(){
+
+  const dot =
+    $("statusDot");
+
+  const status =
+    $("statusText");
+
+  const debug =
+    $("debugWorker");
+
+  dot.className =
+    "statusDot";
+
+  status.textContent =
+    "Checking Worker...";
+
+  debug.textContent =
+    "Checking...";
+
+  try{
+
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/health?ts=" +
+        Date.now(),
+        {
+          cache:"no-store"
         }
-      });
-
-      if (response.ok) {
-        return await response.json();
-      }
-
-      lastError = new Error(
-        `Roblox API HTTP ${response.status}`
       );
 
-      if (response.status === 429) {
-        await new Promise(resolve =>
-          setTimeout(
-            resolve,
-            1500 * (attempt + 1)
-          )
-        );
-      }
-    } catch (error) {
-      lastError = error;
+    if(!response.ok){
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+    }
 
-      await new Promise(resolve =>
-        setTimeout(
-          resolve,
-          1000 * (attempt + 1)
+    const data =
+      await response.json();
+
+    if(!data.success){
+      throw new Error(
+        data.error ||
+        "Worker returned an error"
+      );
+    }
+
+    dot.className =
+      "statusDot online";
+
+    status.textContent =
+      "Worker Online";
+
+    debug.textContent =
+      "ONLINE";
+
+    $("debugKV").textContent =
+      data.kvConfigured
+        ? "CONNECTED"
+        : "MISSING";
+
+    $("debugReporter").textContent =
+      data.reporterConfigured
+        ? "CONFIGURED"
+        : "NOT CONFIGURED";
+
+    $("debugThreshold").textContent =
+      data.thresholdFormatted ||
+      formatMoney(
+        data.threshold ||
+        THRESHOLD
+      );
+
+    $("threshold").textContent =
+      data.thresholdFormatted ||
+      formatMoney(
+        data.threshold ||
+        THRESHOLD
+      );
+
+    return true;
+
+  }catch(error){
+
+    dot.className =
+      "statusDot offline";
+
+    status.textContent =
+      "Worker Offline";
+
+    debug.textContent =
+      "OFFLINE";
+
+    showMessage(
+      "Worker connection failed: " +
+      error.message,
+      "error"
+    );
+
+    return false;
+  }
+}
+
+
+/* =========================================================
+   LOAD SERVERS
+========================================================= */
+
+async function loadServers(){
+
+  const button =
+    $("refreshBtn");
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "Loading...";
+
+  hideMessage();
+
+  try{
+
+    const minPlayers =
+      Math.max(
+        0,
+        Number(
+          $("minPlayers").value ||
+          0
         )
       );
-    }
-  }
 
-  throw (
-    lastError ||
-    new Error("Roblox API request failed")
-  );
+    const minValue =
+      parseValue(
+        $("minValue").value
+      );
+
+    const params =
+      new URLSearchParams();
+
+    params.set(
+      "placeId",
+      PLACE_ID
+    );
+
+    if(minPlayers > 0){
+      params.set(
+        "minPlayers",
+        String(minPlayers)
+      );
+    }
+
+    if(minValue > 0){
+      params.set(
+        "minValue",
+        String(minValue)
+      );
+    }
+
+    params.set(
+      "ts",
+      String(Date.now())
+    );
+
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/servers?" +
+        params.toString(),
+        {
+          cache:"no-store"
+        }
+      );
+
+    if(!response.ok){
+      throw new Error(
+        "Worker HTTP " +
+        response.status
+      );
+    }
+
+    const data =
+      await response.json();
+
+    if(!data.success){
+      throw new Error(
+        data.error ||
+        "Server request failed"
+      );
+    }
+
+    allServers =
+      Array.isArray(data.servers)
+        ? data.servers
+        : [];
+
+    renderServers();
+
+    $("liveCount").textContent =
+      data.liveCount ?? 0;
+
+    $("reportedCount").textContent =
+      data.reportedCount ?? 0;
+
+    $("richCount").textContent =
+      data.rich17KCount ?? 0;
+
+    $("threshold").textContent =
+      data.thresholdFormatted ||
+      formatMoney(
+        data.threshold ||
+        THRESHOLD
+      );
+
+    $("debugKV").textContent =
+      data.kvConfigured
+        ? "CONNECTED"
+        : "MISSING";
+
+    $("debugReporter").textContent =
+      data.reporterConfigured
+        ? "CONFIGURED"
+        : "NOT CONFIGURED";
+
+    $("debugThreshold").textContent =
+      data.thresholdFormatted ||
+      formatMoney(
+        data.threshold ||
+        THRESHOLD
+      );
+
+    $("serverSub").textContent =
+      data.count +
+      " server" +
+      (
+        data.count === 1
+          ? ""
+          : "s"
+      ) +
+      " found";
+
+    $("lastUpdate").textContent =
+      new Date().toLocaleTimeString();
+
+    if(data.robloxError){
+
+      showMessage(
+        "Roblox API warning: " +
+        data.robloxError,
+        "error"
+      );
+
+    }else if(data.reportError){
+
+      showMessage(
+        "Report/KV warning: " +
+        data.reportError,
+        "error"
+      );
+
+    }else{
+
+      showMessage(
+        "Server list updated successfully.",
+        "success"
+      );
+
+      setTimeout(
+        hideMessage,
+        2500
+      );
+    }
+
+  }catch(error){
+
+    allServers = [];
+
+    renderServers();
+
+    showMessage(
+      "Could not load servers: " +
+      error.message,
+      "error"
+    );
+
+  }finally{
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "Refresh Servers";
+  }
 }
 
 
 /* =========================================================
-   LIVE ROBLOX SERVERS
+   RENDER
 ========================================================= */
 
-async function getLiveServers(placeId) {
-  const servers = [];
-  let cursor = "";
+function renderServers(){
 
-  for (
-    let page = 0;
-    page < ROBLOX_MAX_PAGES;
-    page++
-  ) {
-    let api =
-      `https://games.roblox.com/v1/games/` +
-      `${encodeURIComponent(placeId)}` +
-      `/servers/Public?sortOrder=Desc&limit=100`;
+  const body =
+    $("serverBody");
 
-    if (cursor) {
-      api +=
-        `&cursor=${encodeURIComponent(cursor)}`;
-    }
+  const filter =
+    $("showFilter").value;
 
-    const data = await fetchJson(api);
+  let servers =
+    [...allServers];
 
-    for (const server of data.data || []) {
-      if (!server || !server.id) {
-        continue;
+  if(filter === "rich"){
+
+    servers =
+      servers.filter(
+        server =>
+          isRich(server)
+      );
+  }
+
+  servers.sort(
+    (a,b) => {
+
+      const av =
+        getServerValue(a);
+
+      const bv =
+        getServerValue(b);
+
+      const ar =
+        av >= THRESHOLD;
+
+      const br =
+        bv >= THRESHOLD;
+
+      if(ar !== br){
+        return br - ar;
       }
 
-      const id = String(server.id);
-
-      servers.push({
-        id,
-        serverId: id,
-        jobId: id,
-
-        placeId: String(placeId),
-
-        players: num(server.playing, 0),
-        playing: num(server.playing, 0),
-        playerCount: num(server.playing, 0),
-
-        maxPlayers: num(server.maxPlayers, 0),
-
-        ping:
-          server.ping == null
-            ? null
-            : num(server.ping, null),
-
-        fps:
-          server.fps == null
-            ? null
-            : num(server.fps, null),
-
-        /*
-          Roblox's public server API does NOT provide
-          Adopt Me inventory values.
-
-          Those values must come from /report.
-        */
-
-        adoptMeValue: 0,
-        inventoryValue: 0,
-        totalInventoryValue: 0,
-        adoptMeInventoryValue: 0,
-
-        reportedValue: 0,
-        value: 0,
-
-        isRich17K: false,
-        rich: false,
-        rich17K: false,
-
-        source: "roblox",
-        reported: false,
-
-        updatedAt: Date.now()
-      });
-    }
-
-    cursor = data.nextPageCursor || "";
-
-    if (!cursor) {
-      break;
-    }
-  }
-
-  return servers;
-}
-
-
-/* =========================================================
-   KV REPORTS
-========================================================= */
-
-async function getReports(env, placeId) {
-  if (!env.SERVERS) {
-    return [];
-  }
-
-  const reports = [];
-  const now = Date.now();
-
-  let cursor = undefined;
-
-  do {
-    const options = {
-      prefix: "server:",
-      limit: 1000
-    };
-
-    if (cursor) {
-      options.cursor = cursor;
-    }
-
-    const listed =
-      await env.SERVERS.list(options);
-
-    for (const key of listed.keys || []) {
-      try {
-        const report =
-          await env.SERVERS.get(
-            key.name,
-            "json"
-          );
-
-        if (!report) {
-          continue;
-        }
-
-        if (
-          String(report.placeId || "") !==
-          String(placeId)
-        ) {
-          continue;
-        }
-
-        const updatedAt =
-          num(report.updatedAt, 0);
-
-        // Delete stale reports
-        if (
-          !updatedAt ||
-          now - updatedAt > TTL
-        ) {
-          await env.SERVERS.delete(
-            key.name
-          );
-
-          continue;
-        }
-
-        reports.push(report);
-      } catch (error) {
-        console.error(
-          "[DONIE] KV read error:",
-          key?.name,
-          error?.message || error
-        );
-      }
-    }
-
-    cursor =
-      listed.list_complete
-        ? undefined
-        : listed.cursor;
-
-  } while (cursor);
-
-  return reports;
-}
-
-
-/* =========================================================
-   NORMALIZE REPORT
-========================================================= */
-
-function normalizeReport(body) {
-  if (!body || typeof body !== "object") {
-    throw new Error(
-      "Report body must be an object"
-    );
-  }
-
-  const id = String(
-    body.serverId ||
-    body.jobId ||
-    body.id ||
-    body.instanceId ||
-    ""
-  ).trim();
-
-  if (!id) {
-    throw new Error(
-      "serverId is required"
-    );
-  }
-
-  const placeId = String(
-    body.placeId || PLACE_ID
-  );
-
-  if (
-    placeId !== String(PLACE_ID)
-  ) {
-    throw new Error(
-      `Invalid placeId: ${placeId}`
-    );
-  }
-
-  const value =
-    getAdoptMeValue(body);
-
-  const players =
-    num(
-      body.players ??
-      body.playing ??
-      body.playerCount ??
-      0,
-      0
-    );
-
-  const maxPlayers =
-    num(
-      body.maxPlayers ??
-      body.max ??
-      0,
-      0
-    );
-
-  const rap =
-    parseValue(
-      body.rap ??
-      body.totalRap ??
-      body.RAP ??
-      0,
-      0
-    );
-
-  const updatedAt =
-    num(
-      body.updatedAt,
-      Date.now()
-    );
-
-  return {
-    id,
-    serverId: id,
-    jobId: id,
-
-    placeId,
-
-    players,
-    playing: players,
-    playerCount: players,
-
-    maxPlayers,
-
-    ping:
-      body.ping == null
-        ? null
-        : num(body.ping, null),
-
-    fps:
-      body.fps == null
-        ? null
-        : num(body.fps, null),
-
-    adoptMeValue: value,
-    inventoryValue: value,
-    totalInventoryValue: value,
-    adoptMeInventoryValue: value,
-
-    reportedValue: value,
-    value,
-
-    rap,
-
-    isRich17K:
-      value >= MIN_RICH_VALUE,
-
-    rich:
-      value >= MIN_RICH_VALUE,
-
-    rich17K:
-      value >= MIN_RICH_VALUE,
-
-    source: "reported",
-    reported: true,
-
-    updatedAt
-  };
-}
-
-
-/* =========================================================
-   MERGE LIVE + REPORTS
-========================================================= */
-
-function mergeServers(live, reports) {
-  const map = new Map();
-
-  /*
-    Add live Roblox servers first
-  */
-
-  for (const server of live) {
-    const id = String(
-      server.id ||
-      server.serverId ||
-      server.jobId ||
-      ""
-    ).trim();
-
-    if (!id) {
-      continue;
-    }
-
-    map.set(id, {
-      ...server,
-
-      id,
-      serverId: id,
-      jobId: id
-    });
-  }
-
-  /*
-    Add reports.
-
-    Reports contain inventory information.
-    A report is allowed to update the live
-    server information.
-  */
-
-  for (const raw of reports) {
-    let report;
-
-    try {
-      report =
-        normalizeReport(raw);
-    } catch {
-      continue;
-    }
-
-    const id = report.id;
-
-    const existing =
-      map.get(id) || {};
-
-    const reportTime =
-      num(report.updatedAt, 0);
-
-    const existingTime =
-      num(existing.updatedAt, 0);
-
-    const reportIsNewer =
-      !existingTime ||
-      reportTime >= existingTime;
-
-    const value =
-      getAdoptMeValue(report);
-
-    const merged = {
-      ...existing,
-
-      ...(reportIsNewer
-        ? report
-        : {}),
-
-      id,
-      serverId: id,
-      jobId: id,
-
-      placeId: String(
-        report.placeId ||
-        existing.placeId ||
-        PLACE_ID
-      ),
-
-      players:
-        num(
-          report.players ??
-          report.playing ??
-          existing.players ??
-          existing.playing ??
-          0
-        ),
-
-      playing:
-        num(
-          report.playing ??
-          report.players ??
-          existing.playing ??
-          existing.players ??
-          0
-        ),
-
-      playerCount:
-        num(
-          report.players ??
-          report.playing ??
-          existing.players ??
-          existing.playing ??
-          0
-        ),
-
-      maxPlayers:
-        num(
-          report.maxPlayers ??
-          existing.maxPlayers ??
-          0
-        ),
-
-      ping:
-        report.ping == null
-          ? existing.ping ?? null
-          : num(report.ping, null),
-
-      fps:
-        report.fps == null
-          ? existing.fps ?? null
-          : num(report.fps, null),
-
-      adoptMeValue: value,
-      inventoryValue: value,
-      totalInventoryValue: value,
-      adoptMeInventoryValue: value,
-
-      reportedValue: value,
-      value,
-
-      rap:
-        parseValue(
-          report.rap ??
-          existing.rap ??
-          0,
-          0
-        ),
-
-      isRich17K:
-        value >= MIN_RICH_VALUE,
-
-      rich:
-        value >= MIN_RICH_VALUE,
-
-      rich17K:
-        value >= MIN_RICH_VALUE,
-
-      source: "reported",
-      reported: true,
-
-      updatedAt:
-        reportTime ||
-        existingTime ||
-        Date.now()
-    };
-
-    map.set(id, merged);
-  }
-
-  /*
-    Sort:
-
-    1. Rich servers first
-    2. Highest inventory value
-    3. Most players
-  */
-
-  return [...map.values()].sort(
-    (a, b) => {
-      const aValue =
-        parseValue(
-          a.adoptMeValue,
-          0
-        );
-
-      const bValue =
-        parseValue(
-          b.adoptMeValue,
-          0
-        );
-
-      const aRich =
-        aValue >= MIN_RICH_VALUE;
-
-      const bRich =
-        bValue >= MIN_RICH_VALUE;
-
-      if (aRich !== bRich) {
-        return bRich - aRich;
-      }
-
-      if (bValue !== aValue) {
-        return bValue - aValue;
+      if(av !== bv){
+        return bv - av;
       }
 
       return (
-        num(b.players, 0) -
-        num(a.players, 0)
+        Number(b.players || 0) -
+        Number(a.players || 0)
       );
     }
   );
-}
 
+  if(!servers.length){
 
-/* =========================================================
-   SAVE REPORT
-========================================================= */
+    body.innerHTML = `
+      <tr>
+        <td colspan="7">
+          <div class="empty">
+            <strong>No servers found</strong>
+            No reported servers currently meet your filters.
+          </div>
+        </td>
+      </tr>
+    `;
 
-async function saveReport(env, body) {
-  if (!env.SERVERS) {
-    throw new Error(
-      "SERVERS KV binding is missing"
-    );
+    return;
   }
 
-  const report =
-    normalizeReport(body);
+  body.innerHTML =
+    servers.map(
+      server => {
 
-  await env.SERVERS.put(
-    `server:${report.id}`,
-    JSON.stringify(report),
-    {
-      expirationTtl:
-        Math.ceil(TTL / 1000)
-    }
-  );
+        const value =
+          getServerValue(server);
 
-  console.log(
-    "[DONIE] REPORT SAVED",
-    JSON.stringify({
-      serverId: report.id,
-      players: report.players,
+        const rich =
+          value >= THRESHOLD;
 
-      adoptMeValue:
-        report.adoptMeValue,
+        const id =
+          server.serverId ||
+          server.jobId ||
+          server.id ||
+          "";
 
-      formatted:
-        formatMoney(
-          report.adoptMeValue
-        ),
-
-      rich17K:
-        report.isRich17K,
-
-      updatedAt:
-        report.updatedAt
-    })
-  );
-
-  return report;
-}
-
-
-/* =========================================================
-   DEBUG
-========================================================= */
-
-async function getDebug(env, placeId) {
-  let live = [];
-  let reports = [];
-
-  let robloxError = null;
-  let kvError = null;
-
-  const started = Date.now();
-
-  try {
-    live =
-      await getLiveServers(placeId);
-  } catch (error) {
-    robloxError =
-      error?.message ||
-      String(error);
-  }
-
-  try {
-    reports =
-      await getReports(
-        env,
-        placeId
-      );
-  } catch (error) {
-    kvError =
-      error?.message ||
-      String(error);
-  }
-
-  const merged =
-    mergeServers(
-      live,
-      reports
-    );
-
-  const rich =
-    merged.filter(
-      server =>
-        parseValue(
-          server.adoptMeValue,
-          0
-        ) >= MIN_RICH_VALUE
-    );
-
-  return {
-    success: true,
-    debug: true,
-
-    timestamp:
-      new Date().toISOString(),
-
-    durationMs:
-      Date.now() - started,
-
-    placeId:
-      String(placeId),
-
-    threshold:
-      MIN_RICH_VALUE,
-
-    thresholdFormatted:
-      formatMoney(
-        MIN_RICH_VALUE
-      ),
-
-    kvConfigured:
-      !!env.SERVERS,
-
-    reporterConfigured:
-      !!env.REPORTER_TOKEN,
-
-    roblox: {
-      count: live.length,
-      error: robloxError
-    },
-
-    reports: {
-      count: reports.length,
-      error: kvError
-    },
-
-    merged: {
-      count: merged.length,
-      rich17KCount: rich.length
-    },
-
-    rich17KServers:
-      rich.map(server => ({
-        id: server.id,
-
-        players:
-          server.players,
-
-        adoptMeValue:
-          server.adoptMeValue,
-
-        formattedValue:
-          formatMoney(
-            server.adoptMeValue
-          ),
-
-        isRich17K:
-          server.isRich17K,
-
-        source:
-          server.source,
-
-        updatedAt:
-          server.updatedAt
-      }))
-  };
-}
-
-
-/* =========================================================
-   WORKER
-========================================================= */
-
-export default {
-
-  async fetch(request, env) {
-    const url =
-      new URL(request.url);
-
-    /*
-      CORS
-    */
-
-    if (
-      request.method ===
-      "OPTIONS"
-    ) {
-      return new Response(
-        null,
-        {
-          status: 204,
-          headers: CORS
-        }
-      );
-    }
-
-    try {
-
-      /* =====================================================
-         HEALTH
-      ===================================================== */
-
-      if (
-        url.pathname === "/" ||
-        url.pathname === "/health"
-      ) {
-        return json({
-          success: true,
-
-          status: "online",
-
-          service:
-            "DONIE Adopt Me Rich Finder",
-
-          placeId:
-            PLACE_ID,
-
-          kvConfigured:
-            !!env.SERVERS,
-
-          reporterConfigured:
-            !!env.REPORTER_TOKEN,
-
-          threshold:
-            MIN_RICH_VALUE,
-
-          thresholdFormatted:
-            formatMoney(
-              MIN_RICH_VALUE
-            ),
-
-          ttlMs:
-            TTL,
-
-          ttlSeconds:
-            TTL / 1000
-        });
-      }
-
-
-      /* =====================================================
-         DEBUG
-      ===================================================== */
-
-      if (
-        request.method === "GET" &&
-        url.pathname === "/debug"
-      ) {
-        const placeId =
-          url.searchParams.get(
-            "placeId"
-          ) || PLACE_ID;
-
-        return json(
-          await getDebug(
-            env,
-            placeId
-          )
-        );
-      }
-
-
-      /* =====================================================
-         TEST VALUE
-
-         /test-value?value=17K
-         /test-value?value=$17,000
-         /test-value?value=17.5K
-      ===================================================== */
-
-      if (
-        request.method === "GET" &&
-        url.pathname === "/test-value"
-      ) {
-        const input =
-          url.searchParams.get(
-            "value"
-          );
-
-        if (input === null) {
-          return errorJson(
-            "Use /test-value?value=17K",
-            400
-          );
-        }
-
-        const parsed =
-          parseValue(
-            input,
+        const players =
+          Number(
+            server.players ??
+            server.playing ??
+            server.playerCount ??
             0
           );
 
-        return json({
-          success: true,
+        const maxPlayers =
+          Number(
+            server.maxPlayers ||
+            0
+          );
 
-          input,
+        const ping =
+          server.ping == null
+            ? "—"
+            : Math.round(
+                Number(server.ping)
+              ) + " ms";
 
-          parsed,
+        const fps =
+          server.fps == null
+            ? "—"
+            : Math.round(
+                Number(server.fps)
+              );
 
-          formatted:
-            formatMoney(
-              parsed
-            ),
+        return `
+          <tr>
 
-          isRich17K:
-            parsed >=
-            MIN_RICH_VALUE,
+            <td>
+              <div class="serverId"
+                   title="${escapeHTML(id)}">
+                ${escapeHTML(id)}
+              </div>
+            </td>
 
-          threshold:
-            MIN_RICH_VALUE
-        });
+            <td>
+              ${players}
+              ${
+                maxPlayers
+                  ? "/" + maxPlayers
+                  : ""
+              }
+            </td>
+
+            <td>
+              <span class="value">
+                ${formatMoney(value)}
+              </span>
+            </td>
+
+            <td>
+              ${
+                rich
+                  ? `
+                    <span class="richBadge">
+                      ★ 17K+ RICH
+                    </span>
+                  `
+                  : `
+                    <span class="normalBadge">
+                      Normal
+                    </span>
+                  `
+              }
+            </td>
+
+            <td>
+              ${ping}
+            </td>
+
+            <td>
+              ${fps}
+            </td>
+
+            <td>
+              ${
+                id
+                  ? `
+                    <button
+                      class="joinBtn"
+                      onclick="joinServer('${escapeHTML(id)}')"
+                    >
+                      JOIN
+                    </button>
+                  `
+                  : "—"
+              }
+            </td>
+
+          </tr>
+        `;
       }
+    ).join("");
+}
 
 
-      /* =====================================================
-         SERVERS
-      ===================================================== */
+/* =========================================================
+   JOIN SERVER
+========================================================= */
 
-      if (
-        request.method === "GET" &&
-        (
-          url.pathname === "/servers" ||
-          url.pathname === "/roblox-servers"
-        )
-      ) {
+function joinServer(serverId){
 
-        const placeId =
-          url.searchParams.get(
-            "placeId"
-          ) || PLACE_ID;
-
-        const minPlayers =
-          Math.max(
-            0,
-            num(
-              url.searchParams.get(
-                "minPlayers"
-              ),
-              0
-            )
-          );
-
-        const minValue =
-          Math.max(
-            0,
-            parseValue(
-              url.searchParams.get(
-                "minValue"
-              ),
-              0
-            )
-          );
-
-        let live = [];
-        let reports = [];
-
-        let robloxError = null;
-        let reportError = null;
-
-
-        /*
-          Roblox live servers
-        */
-
-        try {
-          live =
-            await getLiveServers(
-              placeId
-            );
-        } catch (error) {
-          robloxError =
-            error?.message ||
-            "Roblox API error";
-
-          console.error(
-            "[DONIE] Roblox error:",
-            robloxError
-          );
-        }
-
-
-        /*
-          KV reports
-        */
-
-        try {
-          reports =
-            await getReports(
-              env,
-              placeId
-            );
-        } catch (error) {
-          reportError =
-            error?.message ||
-            "KV report error";
-
-          console.error(
-            "[DONIE] KV error:",
-            reportError
-          );
-        }
-
-
-        /*
-          Merge
-        */
-
-        let servers =
-          mergeServers(
-            live,
-            reports
-          );
-
-
-        /*
-          Player filter
-        */
-
-        if (minPlayers > 0) {
-          servers =
-            servers.filter(
-              server =>
-                num(
-                  server.players ??
-                  server.playing ??
-                  0,
-                  0
-                ) >= minPlayers
-            );
-        }
-
-
-        /*
-          Value filter
-        */
-
-        if (minValue > 0) {
-          servers =
-            servers.filter(
-              server =>
-                parseValue(
-                  server.adoptMeValue,
-                  0
-                ) >= minValue
-            );
-        }
-
-
-        /*
-          Rich servers
-        */
-
-        const richServers =
-          servers.filter(
-            server =>
-              parseValue(
-                server.adoptMeValue,
-                0
-              ) >= MIN_RICH_VALUE
-          );
-
-
-        console.log(
-          "[DONIE] /servers",
-          JSON.stringify({
-            placeId,
-
-            live:
-              live.length,
-
-            reports:
-              reports.length,
-
-            merged:
-              servers.length,
-
-            rich17K:
-              richServers.length,
-
-            minPlayers,
-
-            minValue
-          })
-        );
-
-
-        return json({
-          success: true,
-
-          placeId:
-            String(placeId),
-
-          count:
-            servers.length,
-
-          liveCount:
-            live.length,
-
-          reportedCount:
-            reports.length,
-
-          rich17KCount:
-            richServers.length,
-
-          richCount:
-            richServers.length,
-
-          threshold:
-            MIN_RICH_VALUE,
-
-          thresholdFormatted:
-            formatMoney(
-              MIN_RICH_VALUE
-            ),
-
-          minPlayers,
-
-          minValue,
-
-          robloxError,
-
-          reportError,
-
-          kvConfigured:
-            !!env.SERVERS,
-
-          reporterConfigured:
-            !!env.REPORTER_TOKEN,
-
-          servers
-        });
-      }
-
-
-      /* =====================================================
-         REPORT
-      ===================================================== */
-
-      if (
-        request.method === "POST" &&
-        url.pathname === "/report"
-      ) {
-
-        const token =
-          request.headers.get(
-            "X-Reporter-Token"
-          );
-
-
-        /*
-          If REPORTER_TOKEN is configured,
-          the request must provide it.
-        */
-
-        if (
-          env.REPORTER_TOKEN &&
-          token !==
-          env.REPORTER_TOKEN
-        ) {
-          console.warn(
-            "[DONIE] Unauthorized report"
-          );
-
-          return errorJson(
-            "Unauthorized",
-            401
-          );
-        }
-
-
-        let body;
-
-        try {
-          body =
-            await request.json();
-        } catch {
-          return errorJson(
-            "Invalid JSON body",
-            400
-          );
-        }
-
-
-        try {
-
-          const report =
-            await saveReport(
-              env,
-              body
-            );
-
-          return json({
-            success: true,
-
-            message:
-              "Report saved",
-
-            server:
-              report,
-
-            rich17K:
-              report.isRich17K,
-
-            rich:
-              report.isRich17K,
-
-            threshold:
-              MIN_RICH_VALUE,
-
-            formattedValue:
-              formatMoney(
-                report.adoptMeValue
-              )
-          });
-
-        } catch (error) {
-
-          console.error(
-            "[DONIE] Report error:",
-            error?.message ||
-            error
-          );
-
-          return errorJson(
-            error?.message ||
-            "Failed to save report",
-            400
-          );
-        }
-      }
-
-
-      /* =====================================================
-         NOT FOUND
-      ===================================================== */
-
-      return errorJson(
-        "Not found",
-        404,
-        {
-          path:
-            url.pathname
-        }
-      );
-
-    } catch (error) {
-
-      console.error(
-        "[DONIE] Worker error:",
-        error?.stack ||
-        error?.message ||
-        error
-      );
-
-      return errorJson(
-        error?.message ||
-        "Worker error",
-        500,
-        {
-          servers: []
-        }
-      );
-    }
+  if(!serverId){
+    return;
   }
-};
+
+  const url =
+    "https://www.roblox.com/games/start" +
+    "?placeId=" +
+    encodeURIComponent(PLACE_ID) +
+    "&gameInstanceId=" +
+    encodeURIComponent(serverId);
+
+  window.open(
+    url,
+    "_blank"
+  );
+}
+
+
+/* =========================================================
+   FILTER EVENTS
+========================================================= */
+
+$("showFilter")
+  .addEventListener(
+    "change",
+    renderServers
+  );
+
+$("minPlayers")
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if(event.key === "Enter"){
+        loadServers();
+      }
+
+    }
+  );
+
+$("minValue")
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if(event.key === "Enter"){
+        loadServers();
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   START
+========================================================= */
+
+(async function(){
+
+  await checkWorker();
+
+  await loadServers();
+
+})();
+</script>
+
+</body>
+</html>
